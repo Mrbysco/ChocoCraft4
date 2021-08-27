@@ -1,8 +1,9 @@
 MIT License
 
-Copyright (c) 2017 Xalcon
-Copyright (c) 2018 Slayer5934
-Copyright (c) 2021 balika011
+ - Copyright (c) 2017 Xalcon
+ - Copyright (c) 2018 Slayer5934
+ - Copyright (c) 2019-2021 balika011
+ - Copyright (c) 2021 Mrbysco
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
