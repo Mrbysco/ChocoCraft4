@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "egg=false": {
+      "model": "chococraft:block/straw_nest"
+    },
+    "egg=true": {
+      "model": "chococraft:block/egg_in_nest"
+    }
+  }
+}

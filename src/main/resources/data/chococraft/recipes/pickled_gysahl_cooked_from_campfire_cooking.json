@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "ingredient": {
+    "item": "chococraft:pickled_gysahl_raw"
+  },
+  "result": "chococraft:pickled_gysahl_cooked",
+  "experience": 0.35,
+  "cookingtime": 600
+}

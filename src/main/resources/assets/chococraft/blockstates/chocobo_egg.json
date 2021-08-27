@@ -1,0 +1,9 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "chococraft:block/chocobo_egg"
+      }
+    ]
+  }
+}
