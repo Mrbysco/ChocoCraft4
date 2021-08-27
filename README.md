@@ -20,6 +20,7 @@ To comply with the [**CC-BY-SA 4.0**](https://creativecommons.org/licenses/by-sa
 - Generate the run configurations by running the following gradle task, depending on your IDE:
   - Eclipse: `gradlew genEclipseRuns`
   - IntelliJ IDEA: `gradlew genIntellijRuns`
+  - VSCode: `gradlew genVSCodeRuns`
 
 # Credits
 * EddieV for creating the first version of [Chococraft for Minecraft 1.1](http://www.minecraftforum.net/forums/search?by-author=EddieV&page=5&search-thread-id=1280466)
