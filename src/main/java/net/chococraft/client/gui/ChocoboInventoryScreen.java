@@ -6,6 +6,7 @@ import net.chococraft.Chococraft;
 import net.chococraft.common.entities.ChocoboEntity;
 import net.chococraft.common.init.ModRegistry;
 import net.chococraft.common.inventory.SaddleBagContainer;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -28,6 +29,13 @@ public class ChocoboInventoryScreen extends ContainerScreen<SaddleBagContainer> 
         this.ySize = 204;
         this.chocobo = chocobo;
         this.player = playerInventory.player;
+    }
+
+    public static void openInventory(int windowId, ChocoboEntity chocobo) {
+        PlayerEntity player = Minecraft.getInstance().player;
+        SaddleBagContainer saddleContainer = new SaddleBagContainer(windowId, player.inventory, chocobo);
+        player.openContainer = saddleContainer;
+        Minecraft.getInstance().displayGuiScreen(new ChocoboInventoryScreen(saddleContainer, player.inventory, chocobo));
     }
 
     @Override

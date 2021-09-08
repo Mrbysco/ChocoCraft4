@@ -31,6 +31,7 @@ public class RenderChocoboOverlay {
         final int height = event.getWindow().getScaledHeight();
         int left_align = width / 2 + 91;
         int top = height - 39; //right_height = 39
+        top -= (chocobo.getHealth() / 20) * 10; //Offset it based on the amount of health rendered
         float staminaPercentage = chocobo.getStaminaPercentage() * 10;
 
         for (int i = 0; i < 10; ++i) {

@@ -1,6 +1,5 @@
 package net.chococraft.common.items;
 
-import net.chococraft.client.gui.ChocoboBookScreen;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -24,7 +23,7 @@ public class ChocopediaItem extends Item {
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
         if(worldIn.isRemote) {
-            ChocoboBookScreen.openScreen(playerIn);
+            net.chococraft.client.gui.ChocoboBookScreen.openScreen(playerIn);
         }
 
         return new ActionResult<>(ActionResultType.SUCCESS, playerIn.getHeldItem(handIn));
