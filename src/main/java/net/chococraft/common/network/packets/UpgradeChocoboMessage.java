@@ -3,13 +3,13 @@ package net.chococraft.common.network.packets;
 import net.chococraft.common.ChocoConfig;
 import net.chococraft.common.entities.ChocoboEntity;
 import net.chococraft.common.handler.ExperienceHandler;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.world.World;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.network.NetworkEvent;
-import net.minecraftforge.fml.network.NetworkEvent.Context;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
+import net.minecraftforge.fmllegacy.network.NetworkEvent.Context;
 
 import java.util.function.Supplier;
 
@@ -18,7 +18,7 @@ public class UpgradeChocoboMessage {
     public int skillID;
 
     public UpgradeChocoboMessage(ChocoboEntity chocobo, int skillID) {
-        this.entityID = chocobo.getEntityId();
+        this.entityID = chocobo.getId();
         this.skillID = skillID;
     }
 
@@ -27,12 +27,12 @@ public class UpgradeChocoboMessage {
         this.skillID = skillID;
     }
 
-    public void encode(PacketBuffer buf) {
+    public void encode(FriendlyByteBuf buf) {
         buf.writeInt(this.entityID);
         buf.writeInt(this.skillID);
     }
 
-    public static UpgradeChocoboMessage decode(final PacketBuffer buffer) {
+    public static UpgradeChocoboMessage decode(final FriendlyByteBuf buffer) {
         return new UpgradeChocoboMessage(buffer.readInt(), buffer.readInt());
     }
 
@@ -40,10 +40,10 @@ public class UpgradeChocoboMessage {
         NetworkEvent.Context ctx = context.get();
         ctx.enqueueWork(() -> {
             if(ctx.getDirection().getReceptionSide() == LogicalSide.SERVER) {
-                PlayerEntity player = ctx.getSender();
+                Player player = ctx.getSender();
                 if (player != null) {
-                    World world = player.world;
-                    Entity entity = world.getEntityByID(entityID);
+                    Level world = player.level;
+                    Entity entity = world.getEntity(entityID);
 
                     if (entity != null && entity instanceof ChocoboEntity) {
                         if (skillID == 1 && ExperienceHandler.removeExperience(player, ChocoConfig.COMMON.ExpCostSprint.get())) {

@@ -3,7 +3,7 @@ package net.chococraft;
 import net.chococraft.client.ClientHandler;
 import net.chococraft.common.ChocoConfig;
 import net.chococraft.common.commands.ChocoboCommand;
-import net.chococraft.common.entities.properties.EntityDataSerializers;
+import net.chococraft.common.entities.properties.ModDataSerializers;
 import net.chococraft.common.init.ModAttributes;
 import net.chococraft.common.init.ModContainers;
 import net.chococraft.common.init.ModEntities;
@@ -12,8 +12,8 @@ import net.chococraft.common.init.ModSounds;
 import net.chococraft.common.network.PacketManager;
 import net.chococraft.common.world.worldgen.ModWorldgen;
 import net.chococraft.utils.Log4jFilter;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -33,9 +33,9 @@ public class Chococraft {
 
     public final static Logger log = LogManager.getLogger(MODID);
 
-    public static final ItemGroup creativeTab = new ItemGroup(MODID) {
+    public static final CreativeModeTab creativeTab = new CreativeModeTab(MODID) {
           @Override
-        public ItemStack createIcon() {
+        public ItemStack makeIcon() {
             return new ItemStack(ModRegistry.GYSAHL_GREEN.get());
         }
     };
@@ -49,7 +49,7 @@ public class Chococraft {
 
         ModRegistry.BLOCKS.register(eventBus);
         ModRegistry.ITEMS.register(eventBus);
-        ModRegistry.TILES.register(eventBus);
+        ModRegistry.BLOCK_ENTITIES.register(eventBus);
         ModEntities.ENTITIES.register(eventBus);
         ModSounds.SOUND_EVENTS.register(eventBus);
         ModContainers.CONTAINERS.register(eventBus);
@@ -62,11 +62,13 @@ public class Chococraft {
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
             eventBus.addListener(ClientHandler::onClientSetup);
+            eventBus.addListener(ClientHandler::registerEntityRenders);
+            eventBus.addListener(ClientHandler::registerLayerDefinitions);
         });
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-        EntityDataSerializers.init();
+        ModDataSerializers.init();
         PacketManager.init();
         Log4jFilter.init();
     }

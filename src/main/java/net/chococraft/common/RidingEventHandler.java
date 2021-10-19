@@ -2,8 +2,8 @@ package net.chococraft.common;
 
 import net.chococraft.Chococraft;
 import net.chococraft.common.entities.ChocoboEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.EntityMountEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -28,11 +28,11 @@ public class RidingEventHandler {
 
     @SubscribeEvent
     public static void onPlayerDisconnect(PlayerLoggedOutEvent event) {
-        PlayerEntity player = event.getPlayer();
-        if (player.getRidingEntity() != null) {
-            Entity entityRide = player.getRidingEntity();
+        Player player = event.getPlayer();
+        if (player.getVehicle() != null) {
+            Entity entityRide = player.getVehicle();
             if (entityRide instanceof ChocoboEntity) {
-                player.dismount();
+                player.removeVehicle();
             }
         }
     }

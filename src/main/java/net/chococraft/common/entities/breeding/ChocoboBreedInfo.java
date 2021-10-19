@@ -1,6 +1,6 @@
 package net.chococraft.common.entities.breeding;
 
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 
 import javax.annotation.Nullable;
 
@@ -24,21 +24,21 @@ public class ChocoboBreedInfo {
         this.father = father;
     }
 
-    public ChocoboBreedInfo(CompoundNBT nbt) {
+    public ChocoboBreedInfo(CompoundTag nbt) {
         if (nbt.contains(NBTKEY_MOTHER_STATSNAPSHOT))
             this.mother = new ChocoboStatSnapshot(nbt.getCompound(NBTKEY_MOTHER_STATSNAPSHOT));
         if (nbt.contains(NBTKEY_FATHER_STATSNAPSHOT))
             this.father = new ChocoboStatSnapshot(nbt.getCompound(NBTKEY_FATHER_STATSNAPSHOT));
     }
 
-    public CompoundNBT serialize() {
-        CompoundNBT nbt = new CompoundNBT();
+    public CompoundTag serialize() {
+        CompoundTag nbt = new CompoundTag();
         nbt.put(NBTKEY_MOTHER_STATSNAPSHOT, this.mother.serialize());
         nbt.put(NBTKEY_FATHER_STATSNAPSHOT, this.father.serialize());
         return nbt;
     }
 
-    public static ChocoboBreedInfo getFromNbtOrDefault(@Nullable CompoundNBT nbt) {
+    public static ChocoboBreedInfo getFromNbtOrDefault(@Nullable CompoundTag nbt) {
         return nbt != null ? new ChocoboBreedInfo(nbt) : new ChocoboBreedInfo(ChocoboStatSnapshot.DEFAULT, ChocoboStatSnapshot.DEFAULT);
     }
 }

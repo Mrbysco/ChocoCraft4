@@ -1,12 +1,15 @@
 package net.chococraft.client.gui;
 
-import net.minecraft.client.gui.widget.button.ImageButton;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.client.gui.components.ImageButton;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
+
+import net.minecraft.client.gui.components.Button.OnPress;
+import net.minecraft.client.gui.components.Button.OnTooltip;
 
 public class TexturedButton extends ImageButton {
 
-    public TexturedButton(int x, int y, int width, int height, int textureX, int textureY, int yDiff, ResourceLocation location, int textureWidth, int textureHeight, IPressable onPress, ITooltip onTooltip, ITextComponent text) {
+    public TexturedButton(int x, int y, int width, int height, int textureX, int textureY, int yDiff, ResourceLocation location, int textureWidth, int textureHeight, OnPress onPress, OnTooltip onTooltip, Component text) {
         super(x, y, width, height, textureX, textureY, yDiff, location, textureWidth, textureHeight, onPress, onTooltip, text);
     }
 

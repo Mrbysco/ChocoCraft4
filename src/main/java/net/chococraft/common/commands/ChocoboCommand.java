@@ -8,23 +8,23 @@ import com.mojang.brigadier.context.CommandContext;
 import net.chococraft.Chococraft;
 import net.chococraft.common.entities.ChocoboEntity;
 import net.chococraft.common.init.ModAttributes;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.Commands;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.ai.attributes.Attribute;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.network.chat.TranslatableComponent;
 import org.apache.logging.log4j.util.BiConsumer;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ChocoboCommand {
-    public static void initializeCommands(CommandDispatcher<CommandSource> dispatcher) {
-        final LiteralArgumentBuilder<CommandSource> root = Commands.literal("chocobo");
-        root.requires((commandSource) -> commandSource.hasPermissionLevel(2))
+    public static void initializeCommands(CommandDispatcher<CommandSourceStack> dispatcher) {
+        final LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("chocobo");
+        root.requires((commandSource) -> commandSource.hasPermission(2))
                 .then(Commands.literal("list").executes((ctx) -> sendList(ctx)))
                 .then(Commands.literal("set")
                     .then(Commands.literal("health").then(Commands.argument("value", FloatArgumentType.floatArg(0))).executes((ctx) ->
@@ -64,46 +64,46 @@ public class ChocoboCommand {
     }
 
 
-    private static int sendList(CommandContext<CommandSource> commandContext) {
-        CommandSource source = commandContext.getSource();
+    private static int sendList(CommandContext<CommandSourceStack> commandContext) {
+        CommandSourceStack source = commandContext.getSource();
         Entity commandEntity = source.getEntity();
-        if(commandEntity instanceof PlayerEntity) {
-            PlayerEntity player = (PlayerEntity) commandEntity;
-            Entity mount = player.getRidingEntity();
+        if(commandEntity instanceof Player) {
+            Player player = (Player) commandEntity;
+            Entity mount = player.getVehicle();
             if (!(mount instanceof ChocoboEntity)) {
-                source.sendFeedback(new TranslationTextComponent("command." + MODID + ".chocobo.not_riding_chocobo"), false);
+                source.sendSuccess(new TranslatableComponent("command." + MODID + ".chocobo.not_riding_chocobo"), false);
                 return 0;
             } else {
                 ChocoboEntity chocobo = (ChocoboEntity) mount;
-                source.sendFeedback(getText("get_health", chocobo, Attributes.MAX_HEALTH), false);
-                source.sendFeedback(getText("get_resistance", chocobo, Attributes.ARMOR), false);
-                source.sendFeedback(getText("get_speed", chocobo, Attributes.MOVEMENT_SPEED), false);
-                source.sendFeedback(getText("get_stamina", chocobo, ModAttributes.MAX_STAMINA.get()), false);
+                source.sendSuccess(getText("get_health", chocobo, Attributes.MAX_HEALTH), false);
+                source.sendSuccess(getText("get_resistance", chocobo, Attributes.ARMOR), false);
+                source.sendSuccess(getText("get_speed", chocobo, Attributes.MOVEMENT_SPEED), false);
+                source.sendSuccess(getText("get_stamina", chocobo, ModAttributes.MAX_STAMINA.get()), false);
 
-                source.sendFeedback(getText("sprint", chocobo.canSprint()), false);
-                source.sendFeedback(getText("dive", chocobo.canDive()), false);
-                source.sendFeedback(getText("glide", chocobo.canGlide()), false);
-                source.sendFeedback(getText("fly", chocobo.canFly()), false);
+                source.sendSuccess(getText("sprint", chocobo.canSprint()), false);
+                source.sendSuccess(getText("dive", chocobo.canDive()), false);
+                source.sendSuccess(getText("glide", chocobo.canGlide()), false);
+                source.sendSuccess(getText("fly", chocobo.canFly()), false);
             }
         }
 
         return 0;
     }
 
-    private static int setAttribute(CommandContext<CommandSource> commandContext, String trait, String value) {
-        CommandSource source = commandContext.getSource();
+    private static int setAttribute(CommandContext<CommandSourceStack> commandContext, String trait, String value) {
+        CommandSourceStack source = commandContext.getSource();
         Entity commandEntity = source.getEntity();
-        if(commandEntity instanceof PlayerEntity) {
-            PlayerEntity player = (PlayerEntity) commandEntity;
-            Entity mount = player.getRidingEntity();
+        if(commandEntity instanceof Player) {
+            Player player = (Player) commandEntity;
+            Entity mount = player.getVehicle();
             if (!(mount instanceof ChocoboEntity)) {
-                source.sendFeedback(new TranslationTextComponent("command." + MODID + ".chocobo.not_riding_chocobo"), false);
+                source.sendSuccess(new TranslatableComponent("command." + MODID + ".chocobo.not_riding_chocobo"), false);
                 return 0;
             } else {
                 ChocoboEntity chocobo = (ChocoboEntity) mount;
                 if (setMap.containsKey(trait)) {
                     setMap.get(trait).accept(chocobo, value);
-                    source.sendFeedback(new TranslationTextComponent("command." + MODID + ".chocobo.successfuly_set_parameters", trait, value), false);
+                    source.sendSuccess(new TranslatableComponent("command." + MODID + ".chocobo.successfuly_set_parameters", trait, value), false);
                 }
             }
         }
@@ -111,11 +111,11 @@ public class ChocoboCommand {
         return 0;
     }
 
-    private static TranslationTextComponent getText(String key, ChocoboEntity chocobo, Attribute attribute) {
-        return new TranslationTextComponent("command." + MODID + ".chocobo." + key, chocobo.getAttribute(attribute).getBaseValue());
+    private static TranslatableComponent getText(String key, ChocoboEntity chocobo, Attribute attribute) {
+        return new TranslatableComponent("command." + MODID + ".chocobo." + key, chocobo.getAttribute(attribute).getBaseValue());
     }
 
-    private static TranslationTextComponent getText(String key, boolean state) {
-        return new TranslationTextComponent("command." + MODID + ".chocobo." + key, I18n.format(state ? "command.chococraft.chocobo.true" : "command.chococraft.chocobo.false"));
+    private static TranslatableComponent getText(String key, boolean state) {
+        return new TranslatableComponent("command." + MODID + ".chocobo." + key, I18n.get(state ? "command.chococraft.chocobo.true" : "command.chococraft.chocobo.false"));
     }
 }

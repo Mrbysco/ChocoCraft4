@@ -1,11 +1,11 @@
 package net.chococraft.common.items;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.BlockNamedItem;
+import net.minecraft.world.item.ItemNameBlockItem;
+import net.minecraft.world.level.block.Block;
 
 import java.util.function.Supplier;
 
-public class CustomBlockNamedItem extends BlockNamedItem {
+public class CustomBlockNamedItem extends ItemNameBlockItem {
 	private final Supplier<Block> blockSupplier;
 	public CustomBlockNamedItem(Supplier<Block> blockSupplier, Properties properties) {
 		super(null, properties);

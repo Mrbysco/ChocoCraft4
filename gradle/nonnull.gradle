@@ -51,6 +51,6 @@ static def getFileContentHeader() {
 }
 
 static def getFileContentFooter() {
-    return  "import mcp.MethodsReturnNonnullByDefault;\n" +
+    return  "import net.minecraft.MethodsReturnNonnullByDefault;\n" +
             "import javax.annotation.ParametersAreNonnullByDefault;\n"
 }

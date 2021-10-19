@@ -2,11 +2,11 @@ package net.chococraft.common.items;
 
 import net.chococraft.common.ChocoConfig;
 import net.chococraft.common.blocks.ChocoboEggBlock;
-import net.minecraft.block.Block;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 
 public class ChocoboEggBlockItem extends BlockItem {
     public ChocoboEggBlockItem(Block block, Item.Properties builder) {
@@ -21,7 +21,7 @@ public class ChocoboEggBlockItem extends BlockItem {
         if (!stack.hasTag())
             return false;
 
-        CompoundNBT nbtHatchIngstate = stack.getChildTag(ChocoboEggBlock.NBTKEY_HATCHINGSTATE);
+        CompoundTag nbtHatchIngstate = stack.getTagElement(ChocoboEggBlock.NBTKEY_HATCHINGSTATE);
         if (nbtHatchIngstate == null)
             return false;
 
@@ -37,7 +37,7 @@ public class ChocoboEggBlockItem extends BlockItem {
             return 0.0;
 
         int time = 0;
-        CompoundNBT nbtHatchIngstate = stack.getChildTag(ChocoboEggBlock.NBTKEY_HATCHINGSTATE);
+        CompoundTag nbtHatchIngstate = stack.getTagElement(ChocoboEggBlock.NBTKEY_HATCHINGSTATE);
         if (nbtHatchIngstate != null)
             time = nbtHatchIngstate.getInt(ChocoboEggBlock.NBTKEY_HATCHINGSTATE_TIME);
 

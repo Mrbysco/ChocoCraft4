@@ -1,7 +1,7 @@
 package net.chococraft.common.inventory;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
@@ -9,7 +9,7 @@ import net.minecraftforge.items.ItemHandlerHelper;
 
 import javax.annotation.Nonnull;
 
-public abstract class SaddleItemStackHandler implements IItemHandler, IItemHandlerModifiable, INBTSerializable<CompoundNBT> {
+public abstract class SaddleItemStackHandler implements IItemHandler, IItemHandlerModifiable, INBTSerializable<CompoundTag> {
     protected ItemStack itemStack = ItemStack.EMPTY;
 
     @Override
@@ -67,13 +67,13 @@ public abstract class SaddleItemStackHandler implements IItemHandler, IItemHandl
     }
 
     @Override
-    public CompoundNBT serializeNBT() {
-        return this.itemStack.write(new CompoundNBT());
+    public CompoundTag serializeNBT() {
+        return this.itemStack.save(new CompoundTag());
     }
 
     @Override
-    public void deserializeNBT(CompoundNBT nbt) {
-        this.itemStack = ItemStack.read(nbt);
+    public void deserializeNBT(CompoundTag nbt) {
+        this.itemStack = ItemStack.of(nbt);
         this.onStackChanged();
     }
 

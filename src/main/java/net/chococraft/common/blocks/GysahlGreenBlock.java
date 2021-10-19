@@ -1,44 +1,46 @@
 package net.chococraft.common.blocks;
 
 import net.chococraft.common.init.ModRegistry;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.CropsBlock;
-import net.minecraft.state.IntegerProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelReader;
 
-public class GysahlGreenBlock extends CropsBlock {
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+
+public class GysahlGreenBlock extends CropBlock {
     public static final int MAX_AGE = 4;
     public static final IntegerProperty AGE = IntegerProperty.create("age", 0, MAX_AGE);
 
     @SuppressWarnings("unused") // used by class factory
     public GysahlGreenBlock(Properties properties) {
         super(properties);
-        this.setDefaultState(this.stateContainer.getBaseState().with(this.getAgeProperty(), Integer.valueOf(0)));
+        this.registerDefaultState(this.stateDefinition.any().setValue(this.getAgeProperty(), Integer.valueOf(0)));
     }
 
     @Override
-    protected IItemProvider getSeedsItem() {
+    protected ItemLike getBaseSeedId() {
         return () -> ModRegistry.GYSAHL_GREEN_SEEDS.get();
     }
 
     @Override
-    public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
-        return (worldIn.getLightSubtracted(pos, 0) >= 8 || worldIn.canSeeSky(pos)) && ((state.getBlock() == this && state.get(AGE) == MAX_AGE) && super.isValidPosition(state, worldIn, pos));
+    public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos) {
+        return (worldIn.getRawBrightness(pos, 0) >= 8 || worldIn.canSeeSky(pos)) && ((state.getBlock() == this && state.getValue(AGE) == MAX_AGE) && super.canSurvive(state, worldIn, pos));
     }
 
     @Override
-    protected boolean isValidGround(BlockState state, IBlockReader worldIn, BlockPos pos) {
-        return super.isValidGround(state, worldIn, pos) || state.matchesBlock(Blocks.GRASS_BLOCK);
+    protected boolean mayPlaceOn(BlockState state, BlockGetter worldIn, BlockPos pos) {
+        return super.mayPlaceOn(state, worldIn, pos) || state.is(Blocks.GRASS_BLOCK);
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(AGE);
     }
 

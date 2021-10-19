@@ -1,41 +1,41 @@
 package net.chococraft.common.inventory;
 
 import net.chococraft.common.init.ModContainers;
-import net.chococraft.common.tileentities.ChocoboNestTile;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.tileentity.TileEntity;
+import net.chococraft.common.blockentities.ChocoboNestBlockEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
 
-public class NestContainer extends Container {
-    private ChocoboNestTile tile;
-    private PlayerEntity player;
+public class NestContainer extends AbstractContainerMenu {
+    private ChocoboNestBlockEntity tile;
+    private Player player;
 
-    public NestContainer(final int windowId, final PlayerInventory playerInventory, final PacketBuffer data) {
+    public NestContainer(final int windowId, final Inventory playerInventory, final FriendlyByteBuf data) {
         this(windowId, playerInventory, getTileEntity(playerInventory, data));
     }
 
-    private static ChocoboNestTile getTileEntity(final PlayerInventory playerInventory, final PacketBuffer data) {
+    private static ChocoboNestBlockEntity getTileEntity(final Inventory playerInventory, final FriendlyByteBuf data) {
         Objects.requireNonNull(playerInventory, "playerInventory cannot be null!");
         Objects.requireNonNull(data, "data cannot be null!");
-        final TileEntity tileAtPos = playerInventory.player.world.getTileEntity(data.readBlockPos());
+        final BlockEntity tileAtPos = playerInventory.player.level.getBlockEntity(data.readBlockPos());
 
-        if (tileAtPos instanceof ChocoboNestTile) {
-            return (ChocoboNestTile) tileAtPos;
+        if (tileAtPos instanceof ChocoboNestBlockEntity) {
+            return (ChocoboNestBlockEntity) tileAtPos;
         }
 
         throw new IllegalStateException("Tile entity is not correct! " + tileAtPos);
     }
 
-    public NestContainer(int id, PlayerInventory playerInventoryIn, ChocoboNestTile chocoboNest) {
+    public NestContainer(int id, Inventory playerInventoryIn, ChocoboNestBlockEntity chocoboNest) {
         super(ModContainers.NEST.get(), id);
 
         this.tile = chocoboNest;
@@ -46,51 +46,51 @@ public class NestContainer extends Container {
         this.bindPlayerInventory(player);
     }
 
-    private void bindPlayerInventory(PlayerEntity player) {
+    private void bindPlayerInventory(Player player) {
         for (int row = 0; row < 3; ++row) {
             for (int col = 0; col < 9; ++col) {
-                this.addSlot(new Slot(player.inventory, col + row * 9 + 9, 8 + col * 18, 84 + row * 18));
+                this.addSlot(new Slot(player.getInventory(), col + row * 9 + 9, 8 + col * 18, 84 + row * 18));
             }
         }
 
         for (int i = 0; i < 9; ++i) {
-            this.addSlot(new Slot(player.inventory, i, 8 + i * 18, 142));
+            this.addSlot(new Slot(player.getInventory(), i, 8 + i * 18, 142));
         }
     }
 
-    public ChocoboNestTile getTile() {
+    public ChocoboNestBlockEntity getTile() {
         return tile;
     }
 
     @Override
-    public boolean canInteractWith(PlayerEntity playerIn) {
+    public boolean stillValid(Player playerIn) {
         return true;
     }
 
     @Override
-    public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
+    public ItemStack quickMoveStack(Player playerIn, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
-        Slot slot = this.inventorySlots.get(index);
+        Slot slot = this.slots.get(index);
 
-        if (slot != null && slot.getHasStack()) {
-            ItemStack itemstack1 = slot.getStack();
+        if (slot != null && slot.hasItem()) {
+            ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
             final int tileSize = 1;
 
             if (index < tileSize) {
-                if (!this.mergeItemStack(itemstack1, tileSize, inventorySlots.size(), true)) {
+                if (!this.moveItemStackTo(itemstack1, tileSize, slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.mergeItemStack(itemstack1, 0, tileSize, false)) {
+            } else if (!this.moveItemStackTo(itemstack1, 0, tileSize, false)) {
                 return ItemStack.EMPTY;
             }
 
             this.tile.onInventoryChanged();
 
             if (itemstack1.isEmpty()) {
-                slot.putStack(ItemStack.EMPTY);
+                slot.set(ItemStack.EMPTY);
             } else {
-                slot.onSlotChanged();
+                slot.setChanged();
             }
 
             if (itemstack1.getCount() == itemstack.getCount()) {
@@ -107,18 +107,18 @@ public class NestContainer extends Container {
         }
 
         @Override
-        public void onSlotChanged() {
-            super.onSlotChanged();
+        public void setChanged() {
+            super.setChanged();
         }
 
         @Override
-        public boolean canTakeStack(PlayerEntity playerIn) {
+        public boolean mayPickup(Player playerIn) {
             return true;
         }
 
         @Override
-        public boolean isItemValid(@Nonnull ItemStack stack) {
-            return super.isItemValid(stack);
+        public boolean mayPlace(@Nonnull ItemStack stack) {
+            return super.mayPlace(stack);
         }
     }
 }

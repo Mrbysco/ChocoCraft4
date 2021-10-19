@@ -1,7 +1,7 @@
 package net.chococraft.common.entities.properties;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.Tags.IOptionalNamedTag;
 import net.minecraftforge.common.Tags.Items;
 
@@ -33,7 +33,7 @@ public enum ChocoboColor {
 
     public static Optional<ChocoboColor> getColorForItemstack(ItemStack stack) {
         for (ChocoboColor color : values()) {
-            if(color.colorTag != null && stack.getItem().isIn(color.colorTag))
+            if(color.colorTag != null && stack.is(color.colorTag))
                 return Optional.of(color);
         }
         return Optional.empty();

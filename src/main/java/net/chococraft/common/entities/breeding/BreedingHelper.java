@@ -5,15 +5,15 @@ import net.chococraft.common.entities.ChocoboEntity;
 import net.chococraft.common.entities.properties.ChocoboColor;
 import net.chococraft.common.init.ModAttributes;
 import net.chococraft.common.init.ModEntities;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.level.Level;
 
 public class BreedingHelper {
     public static ChocoboBreedInfo getBreedInfo(ChocoboEntity mother, ChocoboEntity father) {
         return new ChocoboBreedInfo(new ChocoboStatSnapshot(mother), new ChocoboStatSnapshot(father));
     }
 
-    public static ChocoboEntity createChild(ChocoboBreedInfo breedInfo, World world) {
+    public static ChocoboEntity createChild(ChocoboBreedInfo breedInfo, Level world) {
         ChocoboEntity chocobo = ModEntities.CHOCOBO.get().create(world);
 
         ChocoboStatSnapshot mother = breedInfo.getMother();
@@ -65,7 +65,7 @@ public class BreedingHelper {
 
         chocobo.setChocoboColor(color);
 
-        chocobo.setGrowingAge(-24000);
+        chocobo.setAge(-24000);
 
         return chocobo;
     }

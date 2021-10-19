@@ -1,6 +1,8 @@
 package net.chococraft.common.init;
 
 import net.chococraft.Chococraft;
+import net.chococraft.common.blockentities.ChocoboEggBlockEntity;
+import net.chococraft.common.blockentities.ChocoboNestBlockEntity;
 import net.chococraft.common.blocks.ChocoboEggBlock;
 import net.chococraft.common.blocks.GysahlGreenBlock;
 import net.chococraft.common.blocks.StrawNestBlock;
@@ -12,39 +14,37 @@ import net.chococraft.common.items.ChocoboSpawnEggItem;
 import net.chococraft.common.items.ChocopediaItem;
 import net.chococraft.common.items.CustomBlockNamedItem;
 import net.chococraft.common.items.enums.AbilityFruitType;
-import net.chococraft.common.tileentities.ChocoboEggTile;
-import net.chococraft.common.tileentities.ChocoboNestTile;
-import net.minecraft.block.AbstractBlock.Properties;
-import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+import net.minecraft.world.level.material.Material;
+import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class ModRegistry {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Chococraft.MODID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Chococraft.MODID);
-    public static final DeferredRegister<TileEntityType<?>> TILES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, Chococraft.MODID);
+    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, Chococraft.MODID);
 
     public static final RegistryObject<Block> GYSAHL_GREEN = BLOCKS.register("gysahl_green", () ->
-            new GysahlGreenBlock(Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().zeroHardnessAndResistance().sound(SoundType.CROP)));
+            new GysahlGreenBlock(Properties.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP)));
 
     public static final RegistryObject<Block> STRAW_NEST = BLOCKS.register("straw_nest", () ->
-            new StrawNestBlock(Properties.create(Material.ROCK).sound(SoundType.PLANT)));
+            new StrawNestBlock(Properties.of(Material.STONE).sound(SoundType.GRASS)));
 
     public static final RegistryObject<Block> CHOCOBO_EGG = BLOCKS.register("chocobo_egg", () ->
-            new ChocoboEggBlock(Properties.create(Material.DRAGON_EGG).hardnessAndResistance(0.5F).notSolid().sound(SoundType.PLANT)));
+            new ChocoboEggBlock(Properties.of(Material.EGG).strength(0.5F).noOcclusion().sound(SoundType.GRASS)));
 
 
-    public static final RegistryObject<TileEntityType<ChocoboNestTile>> STRAW_NEST_TILE = TILES.register("chocobo_nest", () -> TileEntityType.Builder.create(() ->
-            new ChocoboNestTile(), ModRegistry.STRAW_NEST.get()).build(null));
+    public static final RegistryObject<BlockEntityType<ChocoboNestBlockEntity>> STRAW_NEST_TILE = BLOCK_ENTITIES.register("chocobo_nest", () -> BlockEntityType.Builder.of(
+            ChocoboNestBlockEntity::new, ModRegistry.STRAW_NEST.get()).build(null));
 
-    public static final RegistryObject<TileEntityType<ChocoboEggTile>> CHOCOBO_EGG_TILE = TILES.register("chocobo_egg", () -> TileEntityType.Builder.create(() ->
-            new ChocoboEggTile(), ModRegistry.CHOCOBO_EGG.get()).build(null));
+    public static final RegistryObject<BlockEntityType<ChocoboEggBlockEntity>> CHOCOBO_EGG_TILE = BLOCK_ENTITIES.register("chocobo_egg", () -> BlockEntityType.Builder.of(
+            ChocoboEggBlockEntity::new, ModRegistry.CHOCOBO_EGG.get()).build(null));
 
 
     public static final RegistryObject<Item> CHOCOBO_SADDLE = ITEMS.register("chocobo_saddle", () -> new ChocoboSaddleItem(itemBuilder(), 0));
@@ -87,6 +87,6 @@ public class ModRegistry {
 
 
     private static Item.Properties itemBuilder() {
-        return new Item.Properties().group(Chococraft.creativeTab);
+        return new Item.Properties().tab(Chococraft.creativeTab);
     }
 }

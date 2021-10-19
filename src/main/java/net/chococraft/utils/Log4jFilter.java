@@ -8,6 +8,9 @@ import org.apache.logging.log4j.core.LogEvent;
 import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.message.Message;
 
+import org.apache.logging.log4j.core.Filter.Result;
+import org.apache.logging.log4j.core.LifeCycle.State;
+
 public class Log4jFilter implements Filter {
 
     @Override

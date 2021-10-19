@@ -4,8 +4,8 @@ import net.chococraft.common.ChocoConfig;
 import net.chococraft.common.entities.ChocoboEntity;
 import net.chococraft.common.entities.properties.ChocoboColor;
 import net.chococraft.common.init.ModAttributes;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.nbt.CompoundTag;
 
 public class ChocoboStatSnapshot {
     public static final ChocoboStatSnapshot DEFAULT;
@@ -59,7 +59,7 @@ public class ChocoboStatSnapshot {
         this.color = chocobo.getChocoboColor();
     }
 
-    public ChocoboStatSnapshot(CompoundNBT nbt) {
+    public ChocoboStatSnapshot(CompoundTag nbt) {
         this.generation = nbt.getInt(NBTKEY_GENERATION);
         this.health = nbt.getFloat(NBTKEY_HEALTH);
         this.speed = nbt.getFloat(NBTKEY_SPEED);
@@ -72,8 +72,8 @@ public class ChocoboStatSnapshot {
         this.color = ChocoboColor.values()[nbt.getByte(NBTKEY_COLOR)];
     }
 
-    public CompoundNBT serialize() {
-        CompoundNBT nbt = new CompoundNBT();
+    public CompoundTag serialize() {
+        CompoundTag nbt = new CompoundTag();
         nbt.putInt(NBTKEY_GENERATION, this.generation);
         nbt.putFloat(NBTKEY_HEALTH, this.health);
         nbt.putFloat(NBTKEY_SPEED, this.speed);

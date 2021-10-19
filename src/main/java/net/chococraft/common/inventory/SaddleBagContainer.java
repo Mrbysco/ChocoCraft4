@@ -2,25 +2,25 @@ package net.chococraft.common.inventory;
 
 import net.chococraft.common.entities.ChocoboEntity;
 import net.chococraft.common.items.ChocoboSaddleItem;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class SaddleBagContainer extends Container {
+public class SaddleBagContainer extends AbstractContainerMenu {
     private ChocoboEntity chocobo;
-    public SaddleBagContainer(int id, PlayerInventory player, ChocoboEntity chocobo) {
-        super((ContainerType<?>)null, id);
+    public SaddleBagContainer(int id, Inventory player, ChocoboEntity chocobo) {
+        super((MenuType<?>)null, id);
         this.chocobo = chocobo;
         this.refreshSlots(chocobo, player);
     }
 
-    public void refreshSlots(ChocoboEntity chocobo, PlayerInventory player) {
-        this.inventorySlots.clear();
+    public void refreshSlots(ChocoboEntity chocobo, Inventory player) {
+        this.slots.clear();
         bindPlayerInventory(player.player);
 
         ItemStack saddleStack = chocobo.getSaddle();
@@ -52,25 +52,25 @@ public class SaddleBagContainer extends Container {
         }
     }
 
-    private void bindPlayerInventory(PlayerEntity player) {
+    private void bindPlayerInventory(Player player) {
         for (int row = 0; row < 3; ++row) {
             for (int col = 0; col < 9; ++col) {
-                this.addSlot(new Slot(player.inventory, col + row * 9 + 9, 8 + col * 18, 122 + row * 18));
+                this.addSlot(new Slot(player.getInventory(), col + row * 9 + 9, 8 + col * 18, 122 + row * 18));
             }
         }
 
         for (int i = 0; i < 9; ++i) {
-            this.addSlot(new Slot(player.inventory, i, 8 + i * 18, 180));
+            this.addSlot(new Slot(player.getInventory(), i, 8 + i * 18, 180));
         }
     }
 
     @Override
-    public boolean canInteractWith(PlayerEntity playerIn) {
-        return this.chocobo.isAlive() && this.chocobo.getDistance(playerIn) < 8.0F;
+    public boolean stillValid(Player playerIn) {
+        return this.chocobo.isAlive() && this.chocobo.distanceTo(playerIn) < 8.0F;
     }
 
     @Override
-    public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
+    public ItemStack quickMoveStack(Player playerIn, int index) {
         return ItemStack.EMPTY;
     }
 }

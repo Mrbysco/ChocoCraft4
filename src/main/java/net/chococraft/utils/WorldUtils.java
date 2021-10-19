@@ -1,14 +1,14 @@
 package net.chococraft.utils;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 public class WorldUtils {
-    public static int getDistanceToSurface(BlockPos startPos, World world) {
+    public static int getDistanceToSurface(BlockPos startPos, Level world) {
         BlockPos lastLiquidPos = null;
 
-        for (BlockPos pos = startPos; pos.getY() < world.getHeight(); pos = pos.up()) {
+        for (BlockPos pos = startPos; pos.getY() < world.getMaxBuildHeight(); pos = pos.above()) {
             BlockState state = world.getBlockState(pos);
             if (!state.getMaterial().isLiquid())
                 break;

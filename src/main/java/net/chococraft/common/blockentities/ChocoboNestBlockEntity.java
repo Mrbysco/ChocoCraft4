@@ -1,4 +1,4 @@
-package net.chococraft.common.tileentities;
+package net.chococraft.common.blockentities;
 
 import net.chococraft.Chococraft;
 import net.chococraft.common.ChocoConfig;
@@ -10,22 +10,23 @@ import net.chococraft.common.entities.breeding.ChocoboBreedInfo;
 import net.chococraft.common.init.ModRegistry;
 import net.chococraft.common.inventory.NestContainer;
 import net.chococraft.common.items.ChocoboEggBlockItem;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.vector.Vector3i;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Vec3i;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -36,20 +37,20 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class ChocoboNestTile extends TileEntity implements ITickableTileEntity, INamedContainerProvider {
+public class ChocoboNestBlockEntity extends BlockEntity implements MenuProvider {
     private final static CheckOffset[] SHELTER_CHECK_OFFSETS = new CheckOffset[]
             {
-                    new CheckOffset(new Vector3i(0, 1, 0), true),
-                    new CheckOffset(new Vector3i(0, 2, 0), true),
-                    new CheckOffset(new Vector3i(-1, 3, -1), false),
-                    new CheckOffset(new Vector3i(-1, 3, 0), false),
-                    new CheckOffset(new Vector3i(-1, 3, 1), false),
-                    new CheckOffset(new Vector3i(0, 3, -1), false),
-                    new CheckOffset(new Vector3i(0, 3, 0), false),
-                    new CheckOffset(new Vector3i(0, 3, 1), false),
-                    new CheckOffset(new Vector3i(1, 3, -1), false),
-                    new CheckOffset(new Vector3i(1, 3, 0), false),
-                    new CheckOffset(new Vector3i(1, 3, 1), false),
+                    new CheckOffset(new Vec3i(0, 1, 0), true),
+                    new CheckOffset(new Vec3i(0, 2, 0), true),
+                    new CheckOffset(new Vec3i(-1, 3, -1), false),
+                    new CheckOffset(new Vec3i(-1, 3, 0), false),
+                    new CheckOffset(new Vec3i(-1, 3, 1), false),
+                    new CheckOffset(new Vec3i(0, 3, -1), false),
+                    new CheckOffset(new Vec3i(0, 3, 0), false),
+                    new CheckOffset(new Vec3i(0, 3, 1), false),
+                    new CheckOffset(new Vec3i(1, 3, -1), false),
+                    new CheckOffset(new Vec3i(1, 3, 0), false),
+                    new CheckOffset(new Vec3i(1, 3, 1), false),
             };
 
     @SuppressWarnings("WeakerAccess")
@@ -77,7 +78,7 @@ public class ChocoboNestTile extends TileEntity implements ITickableTileEntity, 
 
         @Override
         protected void onContentsChanged(int slot) {
-            ChocoboNestTile.this.onInventoryChanged();
+            ChocoboNestBlockEntity.this.onInventoryChanged();
         }
     };
     private LazyOptional<IItemHandler> inventoryHolder = LazyOptional.of(() -> inventory);
@@ -85,31 +86,27 @@ public class ChocoboNestTile extends TileEntity implements ITickableTileEntity, 
     private boolean isSheltered;
     private int ticks = 0;
 
-    public ChocoboNestTile() {
-        super(ModRegistry.STRAW_NEST_TILE.get());
+    public ChocoboNestBlockEntity(BlockPos pos, BlockState state) {
+        super(ModRegistry.STRAW_NEST_TILE.get(), pos, state);
     }
 
-    @Override
-    public void tick() {
-        if (this.world.isRemote)
-            return;
-
-        this.ticks++;
-        if (ticks > 1_000_000)
-            ticks = 0;
+    public static void serverTick(Level level, BlockPos pos, BlockState state, ChocoboNestBlockEntity nestBlockEntity) {
+        nestBlockEntity.ticks++;
+        if (nestBlockEntity.ticks > 1_000_000)
+            nestBlockEntity.ticks = 0;
 
         boolean changed = false;
 
-        if (this.ticks % 5 == 0 && !this.getEggItemStack().isEmpty()) {
-            changed = this.updateEgg();
+        if (nestBlockEntity.ticks % 5 == 0 && !nestBlockEntity.getEggItemStack().isEmpty()) {
+            changed = nestBlockEntity.updateEgg();
         }
 
-        if (this.ticks % 200 == 100) {
-            changed |= this.updateSheltered();
+        if (nestBlockEntity.ticks % 200 == 100) {
+            changed |= nestBlockEntity.updateSheltered();
         }
 
         if (changed)
-            this.world.setBlockState(this.pos, this.world.getBlockState(this.pos));
+            nestBlockEntity.level.setBlockAndUpdate(pos, state);
     }
 
     private boolean updateEgg() {
@@ -121,7 +118,7 @@ public class ChocoboNestTile extends TileEntity implements ITickableTileEntity, 
         if (!egg.hasTag())
             return false;
 
-        CompoundNBT nbt = egg.getOrCreateChildTag(ChocoboEggBlock.NBTKEY_HATCHINGSTATE);
+        CompoundTag nbt = egg.getOrCreateTagElement(ChocoboEggBlock.NBTKEY_HATCHINGSTATE);
         int time = nbt.getInt(ChocoboEggBlock.NBTKEY_HATCHINGSTATE_TIME);
         time += this.isSheltered ? 2 : 1;
         nbt.putInt(ChocoboEggBlock.NBTKEY_HATCHINGSTATE_TIME, time);
@@ -130,20 +127,20 @@ public class ChocoboNestTile extends TileEntity implements ITickableTileEntity, 
             return false;
 
         // egg is ready to hatch
-        ChocoboBreedInfo breedInfo = ChocoboBreedInfo.getFromNbtOrDefault(egg.getChildTag(ChocoboEggBlock.NBTKEY_BREEDINFO));
-        ChocoboEntity baby = BreedingHelper.createChild(breedInfo, this.world);
-        baby.setLocationAndAngles(this.pos.getX() + 0.5, this.pos.getY() + 0.2, this.pos.getZ() + 0.5, 0.0F, 0.0F);
-        this.world.addEntity(baby);
+        ChocoboBreedInfo breedInfo = ChocoboBreedInfo.getFromNbtOrDefault(egg.getTagElement(ChocoboEggBlock.NBTKEY_BREEDINFO));
+        ChocoboEntity baby = BreedingHelper.createChild(breedInfo, this.level);
+        baby.moveTo(this.worldPosition.getX() + 0.5, this.worldPosition.getY() + 0.2, this.worldPosition.getZ() + 0.5, 0.0F, 0.0F);
+        this.level.addFreshEntity(baby);
 
-        Random random = baby.getRNG();
+        Random random = baby.getRandom();
         for (int i = 0; i < 7; ++i) {
             double d0 = random.nextGaussian() * 0.02D;
             double d1 = random.nextGaussian() * 0.02D;
             double d2 = random.nextGaussian() * 0.02D;
-            double d3 = random.nextDouble() * baby.getWidth() * 2.0D - baby.getWidth();
-            double d4 = 0.5D + random.nextDouble() * baby.getHeight();
-            double d5 = random.nextDouble() * baby.getWidth() * 2.0D - baby.getWidth();
-            this.world.addParticle(ParticleTypes.HEART, baby.getPosX() + d3, baby.getPosY() + d4, baby.getPosZ() + d5, d0, d1, d2);
+            double d3 = random.nextDouble() * baby.getBbWidth() * 2.0D - baby.getBbWidth();
+            double d4 = 0.5D + random.nextDouble() * baby.getBbHeight();
+            double d5 = random.nextDouble() * baby.getBbWidth() * 2.0D - baby.getBbWidth();
+            this.level.addParticle(ParticleTypes.HEART, baby.getX() + d3, baby.getY() + d4, baby.getZ() + d5, d0, d1, d2);
         }
 
         this.setEggItemStack(ItemStack.EMPTY);
@@ -172,7 +169,7 @@ public class ChocoboNestTile extends TileEntity implements ITickableTileEntity, 
         else if (ChocoboEggBlock.isChocoboEgg(itemStack)) {
             this.inventory.setStackInSlot(0, itemStack);
             if (itemStack.hasTag()) {
-                CompoundNBT nbt = itemStack.getOrCreateChildTag(ChocoboEggBlock.NBTKEY_HATCHINGSTATE);
+                CompoundTag nbt = itemStack.getOrCreateTagElement(ChocoboEggBlock.NBTKEY_HATCHINGSTATE);
                 int time = nbt.getInt(ChocoboEggBlock.NBTKEY_HATCHINGSTATE_TIME);
                 nbt.putInt(ChocoboEggBlock.NBTKEY_HATCHINGSTATE_TIME, time);
             }
@@ -186,58 +183,58 @@ public class ChocoboNestTile extends TileEntity implements ITickableTileEntity, 
     //region Data Synchronization/Persistence
 
     @Override
-    public void read(BlockState state, CompoundNBT nbt) {
-        super.read(state, nbt);
+    public void load(CompoundTag nbt) {
+        super.load(nbt);
         this.isSheltered = nbt.getBoolean(NBTKEY_IS_SHELTERED);
         this.ticks = nbt.getInt(NBTKEY_TICKS);
         this.inventory.deserializeNBT(nbt.getCompound(NBTKEY_NEST_INVENTORY));
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT nbt) {
+    public CompoundTag save(CompoundTag nbt) {
         nbt.putBoolean(NBTKEY_IS_SHELTERED, this.isSheltered);
         nbt.putInt(NBTKEY_TICKS, this.ticks);
         nbt.put(NBTKEY_NEST_INVENTORY, this.inventory.serializeNBT());
-        return super.write(nbt);
+        return super.save(nbt);
     }
 
     @Nullable
     @Override
-    public SUpdateTileEntityPacket getUpdatePacket() {
-        CompoundNBT nbt = new CompoundNBT();
-        write(nbt);
-        return new SUpdateTileEntityPacket(this.getPos(), 0, nbt);
+    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+        CompoundTag nbt = new CompoundTag();
+        save(nbt);
+        return new ClientboundBlockEntityDataPacket(this.getBlockPos(), 0, nbt);
     }
 
     @Override
-    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-        this.inventory.deserializeNBT(pkt.getNbtCompound().getCompound(NBTKEY_NEST_INVENTORY));
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
+        this.inventory.deserializeNBT(pkt.getTag().getCompound(NBTKEY_NEST_INVENTORY));
     }
 
     @Override
-    public CompoundNBT getUpdateTag() {
-        CompoundNBT nbt = super.getUpdateTag();
+    public CompoundTag getUpdateTag() {
+        CompoundTag nbt = super.getUpdateTag();
         nbt.put(NBTKEY_NEST_INVENTORY, this.inventory.serializeNBT());
         return nbt;
     }
 
     @Override
-    public void handleUpdateTag(BlockState state, CompoundNBT tag) {
-        super.handleUpdateTag(state, tag);
+    public void handleUpdateTag(CompoundTag tag) {
+        super.handleUpdateTag(tag);
     }
 
     @Nullable
     @Override
-    public Container createMenu(int id, PlayerInventory playerInventory, PlayerEntity player) {
+    public AbstractContainerMenu createMenu(int id, Inventory playerInventory, Player player) {
         return new NestContainer(id, playerInventory, this);
     }
     //endregion
 
     private static class CheckOffset {
-        Vector3i offset;
+        Vec3i offset;
         boolean shouldBeAir;
 
-        CheckOffset(Vector3i offset, boolean shouldBeAir) {
+        CheckOffset(Vec3i offset, boolean shouldBeAir) {
             this.offset = offset;
             this.shouldBeAir = shouldBeAir;
         }
@@ -245,20 +242,20 @@ public class ChocoboNestTile extends TileEntity implements ITickableTileEntity, 
 
     @Nonnull
     @Override
-    public ITextComponent getDisplayName() {
-        return new TranslationTextComponent(Chococraft.MODID + ".container.nest");
+    public Component getDisplayName() {
+        return new TranslatableComponent(Chococraft.MODID + ".container.nest");
     }
 
     public void onInventoryChanged() {
-        this.markDirty();
-        BlockState newState = ModRegistry.STRAW_NEST.get().getDefaultState().with(StrawNestBlock.HAS_EGG, !this.getEggItemStack().isEmpty());
-        this.getWorld().setBlockState(this.getPos(), newState);
+        this.setChanged();
+        BlockState newState = ModRegistry.STRAW_NEST.get().defaultBlockState().setValue(StrawNestBlock.HAS_EGG, !this.getEggItemStack().isEmpty());
+        this.getLevel().setBlockAndUpdate(this.getBlockPos(), newState);
     }
 
     public boolean isSheltered() {
         boolean sheltered = true;
         for (CheckOffset checkOffset : SHELTER_CHECK_OFFSETS) {
-            if (world.isAirBlock(this.getPos().add(checkOffset.offset)) != checkOffset.shouldBeAir) {
+            if (level.isEmptyBlock(this.getBlockPos().offset(checkOffset.offset)) != checkOffset.shouldBeAir) {
                 sheltered = false;
                 break;
             }
@@ -276,7 +273,7 @@ public class ChocoboNestTile extends TileEntity implements ITickableTileEntity, 
     }
 
     @Override
-    protected void invalidateCaps() {
+    public void invalidateCaps() {
         super.invalidateCaps();
         this.inventoryHolder.invalidate();
     }

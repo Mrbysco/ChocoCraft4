@@ -1,28 +1,28 @@
 package net.chococraft.client.renderer.layers;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.chococraft.Chococraft;
 import net.chococraft.client.models.entities.AdultChocoboModel;
 import net.chococraft.common.entities.ChocoboEntity;
 import net.chococraft.common.init.ModRegistry;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.entity.IEntityRenderer;
-import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceLocation;
 
-public class LayerSaddle extends LayerRenderer<ChocoboEntity, AdultChocoboModel<ChocoboEntity>> {
+public class LayerSaddle extends RenderLayer<ChocoboEntity, AdultChocoboModel<ChocoboEntity>> {
 	private ResourceLocation SADDLE = new ResourceLocation(Chococraft.MODID,"textures/entities/chocobos/saddle.png");
 	private ResourceLocation SADDLE_BAG = new ResourceLocation(Chococraft.MODID,"textures/entities/chocobos/saddle_bag.png");
 	private ResourceLocation PACK_BAG = new ResourceLocation(Chococraft.MODID,"textures/entities/chocobos/pack_bag.png");
 	
-	public LayerSaddle(IEntityRenderer<ChocoboEntity, AdultChocoboModel<ChocoboEntity>> rendererIn) {
+	public LayerSaddle(RenderLayerParent<ChocoboEntity, AdultChocoboModel<ChocoboEntity>> rendererIn) {
 		super(rendererIn);
 	}
 
 	@Override
-	public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, ChocoboEntity chocoboEntity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, ChocoboEntity chocoboEntity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		if(!chocoboEntity.isInvisible() && chocoboEntity.isSaddled()) {
 			ResourceLocation saddleTexture = null;
 
@@ -38,7 +38,7 @@ public class LayerSaddle extends LayerRenderer<ChocoboEntity, AdultChocoboModel<
 				}
 			}
 
-			renderCutoutModel(this.getEntityModel(), saddleTexture, matrixStackIn, bufferIn, packedLightIn, chocoboEntity, 1.0F, 1.0F, 1.0F);
+			renderColoredCutoutModel(this.getParentModel(), saddleTexture, matrixStackIn, bufferIn, packedLightIn, chocoboEntity, 1.0F, 1.0F, 1.0F);
 		}
 	}
 }

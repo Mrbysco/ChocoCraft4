@@ -1,12 +1,12 @@
 package net.chococraft.common.network.packets;
 
 import net.chococraft.common.entities.ChocoboEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.network.NetworkEvent;
-import net.minecraftforge.fml.network.NetworkEvent.Context;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
+import net.minecraftforge.fmllegacy.network.NetworkEvent.Context;
 
 import java.util.function.Supplier;
 
@@ -17,11 +17,11 @@ public class ChocoboSprintingMessage {
         this.sprinting = sprinting;
     }
 
-    public void encode(PacketBuffer buf) {
+    public void encode(FriendlyByteBuf buf) {
         buf.writeBoolean(sprinting);
     }
 
-    public static ChocoboSprintingMessage decode(final PacketBuffer buffer) {
+    public static ChocoboSprintingMessage decode(final FriendlyByteBuf buffer) {
         return new ChocoboSprintingMessage(buffer.readBoolean());
     }
 
@@ -29,11 +29,11 @@ public class ChocoboSprintingMessage {
         NetworkEvent.Context ctx = context.get();
         ctx.enqueueWork(() -> {
             if(ctx.getDirection().getReceptionSide() == LogicalSide.SERVER) {
-                PlayerEntity player = ctx.getSender();
+                Player player = ctx.getSender();
                 if (player != null) {
-                    if (player.getRidingEntity() == null) return;
+                    if (player.getVehicle() == null) return;
 
-                    Entity mount = player.getRidingEntity();
+                    Entity mount = player.getVehicle();
                     if (!(mount instanceof ChocoboEntity)) return;
 
                     mount.setSprinting(sprinting);

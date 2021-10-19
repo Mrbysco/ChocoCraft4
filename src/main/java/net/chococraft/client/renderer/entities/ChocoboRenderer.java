@@ -1,20 +1,22 @@
 package net.chococraft.client.renderer.entities;
 
 import com.google.common.collect.Maps;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.chococraft.Chococraft;
+import net.chococraft.client.ClientHandler;
 import net.chococraft.client.models.entities.AdultChocoboModel;
 import net.chococraft.client.renderer.layers.LayerCollar;
 import net.chococraft.client.renderer.layers.LayerPlumage;
 import net.chococraft.client.renderer.layers.LayerSaddle;
 import net.chococraft.common.entities.ChocoboEntity;
 import net.chococraft.common.entities.properties.ChocoboColor;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Util;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.Util;
+import net.minecraft.network.chat.Component;
 
 import java.util.Map;
 
@@ -44,8 +46,8 @@ public class ChocoboRenderer extends MobRenderer<ChocoboEntity, AdultChocoboMode
         map.put(ChocoboColor.FLAME, new ResourceLocation(Chococraft.MODID, "textures/entities/chicobos/flamechocobo.png"));
     });
 
-    public ChocoboRenderer(EntityRendererManager renderManager) {
-        super(renderManager, new AdultChocoboModel(), 1.0f);
+    public ChocoboRenderer(EntityRendererProvider.Context context) {
+        super(context, new AdultChocoboModel(context.bakeLayer(ClientHandler.CHOCOBO)), 1.0f);
         
         this.addLayer(new LayerCollar(this));
         this.addLayer(new LayerPlumage(this));
@@ -53,22 +55,22 @@ public class ChocoboRenderer extends MobRenderer<ChocoboEntity, AdultChocoboMode
     }
 
     @Override
-    protected void renderName(ChocoboEntity entityIn, ITextComponent displayNameIn, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+    protected void renderNameTag(ChocoboEntity entityIn, Component displayNameIn, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
         matrixStackIn.translate(0, 0.2D, 0);
-        super.renderName(entityIn, displayNameIn, matrixStackIn, bufferIn, packedLightIn);
+        super.renderNameTag(entityIn, displayNameIn, matrixStackIn, bufferIn, packedLightIn);
     }
 
     @Override
-    protected void preRenderCallback(ChocoboEntity chocoboEntity, MatrixStack matrixStackIn, float partialTickTime) {
-        super.preRenderCallback(chocoboEntity, matrixStackIn, partialTickTime);
+    protected void scale(ChocoboEntity chocoboEntity, PoseStack matrixStackIn, float partialTickTime) {
+        super.scale(chocoboEntity, matrixStackIn, partialTickTime);
         //TODO big hack because the model is positioned wrong
-        if(!chocoboEntity.isChild())
+        if(!chocoboEntity.isBaby())
             matrixStackIn.translate(-0.075, 0, -0.45);
     }
 
     @Override
-    public ResourceLocation getEntityTexture(ChocoboEntity chocoboEntity) {
+    public ResourceLocation getTextureLocation(ChocoboEntity chocoboEntity) {
         ChocoboColor color = chocoboEntity.getChocoboColor();
-        return chocoboEntity.isChild() ? CHICOBO_PER_COLOR.get(color) : CHOCOBO_PER_COLOR.get(color);
+        return chocoboEntity.isBaby() ? CHICOBO_PER_COLOR.get(color) : CHOCOBO_PER_COLOR.get(color);
     }
 }

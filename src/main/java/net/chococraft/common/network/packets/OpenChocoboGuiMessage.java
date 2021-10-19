@@ -4,13 +4,13 @@ import net.chococraft.Chococraft;
 import net.chococraft.common.entities.ChocoboEntity;
 import net.chococraft.common.items.ChocoboSaddleItem;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.network.NetworkEvent;
-import net.minecraftforge.fml.network.NetworkEvent.Context;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
+import net.minecraftforge.fmllegacy.network.NetworkEvent.Context;
 
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
@@ -18,12 +18,12 @@ import java.util.function.Supplier;
 public class OpenChocoboGuiMessage {
 	public int entityId;
 	public int windowId;
-	public CompoundNBT saddle;
+	public CompoundTag saddle;
 	@Nullable
-	public CompoundNBT inventory;
+	public CompoundTag inventory;
 
 	public OpenChocoboGuiMessage(ChocoboEntity chocobo, int windowId) {
-		this.entityId = chocobo.getEntityId();
+		this.entityId = chocobo.getId();
 		this.windowId = windowId;
 
 		this.saddle = chocobo.saddleItemStackHandler.serializeNBT();
@@ -36,7 +36,7 @@ public class OpenChocoboGuiMessage {
 		}
 	}
 
-	public OpenChocoboGuiMessage(int entityID, int windowId, CompoundNBT saddle, CompoundNBT inventory) {
+	public OpenChocoboGuiMessage(int entityID, int windowId, CompoundTag saddle, CompoundTag inventory) {
 		this.entityId = entityID;
 		this.windowId = windowId;
 
@@ -44,17 +44,17 @@ public class OpenChocoboGuiMessage {
 		this.inventory = inventory;
 	}
 
-	public void encode(PacketBuffer buf) {
+	public void encode(FriendlyByteBuf buf) {
 		buf.writeInt(this.entityId);
 		buf.writeInt(this.windowId);
-		buf.writeCompoundTag(saddle);
+		buf.writeNbt(saddle);
 		buf.writeBoolean(this.inventory != null);
 		if (this.inventory != null)
-			buf.writeCompoundTag(inventory);
+			buf.writeNbt(inventory);
 	}
 
-	public static OpenChocoboGuiMessage decode(final PacketBuffer buffer) {
-		return new OpenChocoboGuiMessage(buffer.readInt(), buffer.readInt(), buffer.readCompoundTag(), buffer.readBoolean() ? buffer.readCompoundTag() : null);
+	public static OpenChocoboGuiMessage decode(final FriendlyByteBuf buffer) {
+		return new OpenChocoboGuiMessage(buffer.readInt(), buffer.readInt(), buffer.readNbt(), buffer.readBoolean() ? buffer.readNbt() : null);
 	}
 
 	public void handle(Supplier<Context> context) {
@@ -62,7 +62,7 @@ public class OpenChocoboGuiMessage {
 		ctx.enqueueWork(() -> {
 			if(ctx.getDirection().getReceptionSide() == LogicalSide.CLIENT) {
 				Minecraft mc = Minecraft.getInstance();
-				Entity entity = mc.world.getEntityByID(entityId);
+				Entity entity = mc.level.getEntity(entityId);
 				if (!(entity instanceof ChocoboEntity)) {
 					Chococraft.log.warn("Server send OpenGUI for chocobo with id {}, but this entity does not exist on my side", entityId);
 					return;

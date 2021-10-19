@@ -4,31 +4,31 @@ import net.chococraft.Chococraft;
 import net.chococraft.common.ChocoConfig;
 import net.chococraft.common.blocks.GysahlGreenBlock;
 import net.chococraft.common.init.ModRegistry;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.WorldGenRegistries;
-import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
-import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
-import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.Features;
-import net.minecraft.world.gen.feature.IFeatureConfig;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.Registry;
+import net.minecraft.data.BuiltinRegistries;
+import net.minecraft.world.level.levelgen.feature.blockplacers.SimpleBlockPlacer;
+import net.minecraft.world.level.levelgen.feature.stateproviders.SimpleStateProvider;
+import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.data.worldgen.Features;
+import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 
 public class ModFeatureConfigs {
-	protected static final BlockState GYSAHL_GREEN = ModRegistry.GYSAHL_GREEN.get().getDefaultState().with(GysahlGreenBlock.AGE, GysahlGreenBlock.MAX_AGE);
+	protected static final BlockState GYSAHL_GREEN = ModRegistry.GYSAHL_GREEN.get().defaultBlockState().setValue(GysahlGreenBlock.AGE, GysahlGreenBlock.MAX_AGE);
 
-	public static final BlockClusterFeatureConfig GYSAHL_GREEN_PATCH_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(ModFeatureConfigs.GYSAHL_GREEN),
-			SimpleBlockPlacer.PLACER)).tries(ChocoConfig.COMMON.gysahlGreenPatchSize.get()).build();
+	public static final RandomPatchConfiguration GYSAHL_GREEN_PATCH_CONFIG = (new RandomPatchConfiguration.GrassConfigurationBuilder(new SimpleStateProvider(ModFeatureConfigs.GYSAHL_GREEN),
+			SimpleBlockPlacer.INSTANCE)).tries(ChocoConfig.COMMON.gysahlGreenPatchSize.get()).build();
 
 	public static final ConfiguredFeature<?, ?> PATCH_GYSAHL_GREEN = register("patch_gysahl_green", Feature.FLOWER
-			.withConfiguration(GYSAHL_GREEN_PATCH_CONFIG)
-			.withPlacement(Features.Placements.VEGETATION_PLACEMENT)
-			.withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT)
-			.chance((int)ChocoConfig.COMMON.gysahlGreenSpawnChance.get().doubleValue() * 10));
+			.configured(GYSAHL_GREEN_PATCH_CONFIG)
+			.decorated(Features.Decorators.ADD_32)
+			.decorated(Features.Decorators.HEIGHTMAP_SQUARE)
+			.rarity((int)ChocoConfig.COMMON.gysahlGreenSpawnChance.get().doubleValue() * 10));
 
-	private static <FC extends IFeatureConfig> ConfiguredFeature<FC, ?> register(String key, ConfiguredFeature<FC, ?> feature) {
-		return Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation(Chococraft.MODID, key), feature);
+	private static <FC extends FeatureConfiguration> ConfiguredFeature<FC, ?> register(String key, ConfiguredFeature<FC, ?> feature) {
+		return Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new ResourceLocation(Chococraft.MODID, key), feature);
 	}
 }

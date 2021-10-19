@@ -4,10 +4,10 @@ import net.chococraft.Chococraft;
 import net.chococraft.common.network.packets.ChocoboSprintingMessage;
 import net.chococraft.common.network.packets.OpenChocoboGuiMessage;
 import net.chococraft.common.network.packets.UpgradeChocoboMessage;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.network.NetworkDirection;
-import net.minecraftforge.fml.network.NetworkRegistry;
-import net.minecraftforge.fml.network.simple.SimpleChannel;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.fmllegacy.network.NetworkDirection;
+import net.minecraftforge.fmllegacy.network.NetworkRegistry;
+import net.minecraftforge.fmllegacy.network.simple.SimpleChannel;
 
 import java.util.Optional;
 

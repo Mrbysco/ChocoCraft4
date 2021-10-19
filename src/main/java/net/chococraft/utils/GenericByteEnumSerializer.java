@@ -1,10 +1,10 @@
 package net.chococraft.utils;
 
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.IDataSerializer;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializer;
 
-public class GenericByteEnumSerializer<E extends Enum<E>> implements IDataSerializer<E> {
+public class GenericByteEnumSerializer<E extends Enum<E>> implements EntityDataSerializer<E> {
     private E[] values;
 
     public GenericByteEnumSerializer(E[] values) {
@@ -12,22 +12,22 @@ public class GenericByteEnumSerializer<E extends Enum<E>> implements IDataSerial
     }
 
     @Override
-    public void write(PacketBuffer buf, E value) {
+    public void write(FriendlyByteBuf buf, E value) {
         buf.writeByte(value.ordinal());
     }
 
     @Override
-    public E read(PacketBuffer buf) {
+    public E read(FriendlyByteBuf buf) {
         return values[buf.readByte()];
     }
 
     @Override
-    public DataParameter<E> createKey(int id) {
-        return new DataParameter<>(id, this);
+    public EntityDataAccessor<E> createAccessor(int id) {
+        return new EntityDataAccessor<>(id, this);
     }
 
     @Override
-    public E copyValue(E value) {
+    public E copy(E value) {
         return value;
     }
 }

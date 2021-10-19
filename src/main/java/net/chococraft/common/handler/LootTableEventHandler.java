@@ -3,13 +3,13 @@ package net.chococraft.common.handler;
 import net.chococraft.Chococraft;
 import net.chococraft.common.ChocoConfig;
 import net.chococraft.common.init.ModRegistry;
-import net.minecraft.item.Item;
-import net.minecraft.loot.ItemLootEntry;
-import net.minecraft.loot.LootEntry;
-import net.minecraft.loot.LootPool;
-import net.minecraft.loot.RandomValueRange;
-import net.minecraft.loot.functions.SetCount;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -27,12 +27,12 @@ public class LootTableEventHandler {
     }
 
     public static LootPool getInjectPool() {
-        LootPool.Builder builder = LootPool.builder();
+        LootPool.Builder builder = LootPool.lootPool();
 
-        builder.addEntry(injectFruit(ModRegistry.SPIKE_FRUIT.get()));
-        builder.addEntry(injectFruit(ModRegistry.AEROSHROOM.get()));
-        builder.addEntry(injectFruit(ModRegistry.AQUA_BERRY.get()));
-        builder.addEntry(injectFruit(ModRegistry.DEAD_PEPPER.get()));
+        builder.add(injectFruit(ModRegistry.SPIKE_FRUIT.get()));
+        builder.add(injectFruit(ModRegistry.AEROSHROOM.get()));
+        builder.add(injectFruit(ModRegistry.AQUA_BERRY.get()));
+        builder.add(injectFruit(ModRegistry.DEAD_PEPPER.get()));
 
         builder.bonusRolls(0, 1)
                 .name("ability_fruits");
@@ -40,11 +40,11 @@ public class LootTableEventHandler {
         return builder.build();
     }
 
-    private static LootEntry.Builder injectFruit(Item item) {
-        LootEntry.Builder<?> entry = ItemLootEntry.builder(item)
-                .acceptFunction(SetCount.builder(new RandomValueRange(1, 1)))
-                .quality(1)
-                .weight(ChocoConfig.COMMON.abilityFruitDungeonLootWeight.get());
+    private static LootPoolEntryContainer.Builder injectFruit(Item item) {
+        LootPoolEntryContainer.Builder<?> entry = LootItem.lootTableItem(item)
+                .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1)))
+                .setQuality(1)
+                .setWeight(ChocoConfig.COMMON.abilityFruitDungeonLootWeight.get());
 
         return entry;
     }

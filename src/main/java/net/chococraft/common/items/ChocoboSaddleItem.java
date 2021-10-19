@@ -1,12 +1,12 @@
 package net.chococraft.common.items;
 
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 
 public class ChocoboSaddleItem extends Item {
     private final int inventorySize;
 
     public ChocoboSaddleItem(Properties properties, int inventorySize) {
-        super(properties.maxStackSize(4));
+        super(properties.stacksTo(4));
         this.inventorySize = inventorySize;
     }
 
