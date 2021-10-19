@@ -18,7 +18,7 @@ apply from: 'gradle/nonnull.gradle'
 
 version = "${mod_version_major}.${mod_version_minor}.${mod_version_patch}"
 group = "net.${mod_id}"
-archivesBaseName = "${mod_id}_${mc_version}"
+archivesBaseName = "${mod_id}-${mc_version}"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
 

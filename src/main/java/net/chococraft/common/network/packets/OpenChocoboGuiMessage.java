@@ -5,7 +5,6 @@ import net.chococraft.common.entities.ChocoboEntity;
 import net.chococraft.common.items.ChocoboSaddleItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
