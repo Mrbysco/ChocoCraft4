@@ -14,7 +14,6 @@ plugins {
 
 apply plugin: 'net.minecraftforge.gradle'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
-apply from: 'gradle/nonnull.gradle'
 
 version = "${mod_version_major}.${mod_version_minor}.${mod_version_patch}"
 group = "net.${mod_id}"
