@@ -21,14 +21,14 @@ public class RenderChocoboOverlay {
         if (event.getType() != RenderGameOverlayEvent.ElementType.HEALTHMOUNT) return;
         Minecraft minecraft = Minecraft.getInstance();
         MatrixStack matrixStack = event.getMatrixStack();
-        Entity mountedEntity = minecraft.player.getRidingEntity();
+        Entity mountedEntity = minecraft.player.getVehicle();
         if (!(mountedEntity instanceof ChocoboEntity)) return;
         ChocoboEntity chocobo = (ChocoboEntity) mountedEntity;
 
-        minecraft.getTextureManager().bindTexture(ICONS);
+        minecraft.getTextureManager().bind(ICONS);
 
-        final int width = event.getWindow().getScaledWidth();
-        final int height = event.getWindow().getScaledHeight();
+        final int width = event.getWindow().getGuiScaledWidth();
+        final int height = event.getWindow().getGuiScaledHeight();
         int left_align = width / 2 + 91;
         int top = height - 39; //right_height = 39
         top -= Math.ceil(chocobo.getHealth() / 20) * 10; //Offset it based on the amount of health rendered

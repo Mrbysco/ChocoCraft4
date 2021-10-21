@@ -26,23 +26,23 @@ public class ChocoboSpawnEggItem extends Item {
     }
 
     @Override
-    public ActionResultType onItemUse(ItemUseContext context) {
-        World worldIn = context.getWorld();
-        if (worldIn.isRemote) return ActionResultType.SUCCESS;
+    public ActionResultType useOn(ItemUseContext context) {
+        World worldIn = context.getLevel();
+        if (worldIn.isClientSide) return ActionResultType.SUCCESS;
 
         Entity entity = ForgeRegistries.ENTITIES.getValue(new ResourceLocation(Chococraft.MODID, "chocobo")).create(worldIn);
         if (entity instanceof ChocoboEntity) {
             ChocoboEntity chocobo = (ChocoboEntity) entity;
             PlayerEntity player = context.getPlayer();
-            BlockPos pos = context.getPos();
-            if (player.isSneaking())
-                chocobo.setGrowingAge(-24000);
-            entity.setLocationAndAngles(pos.getX() + .5, pos.getY() + 0.5F, pos.getZ() + .5, MathHelper.wrapDegrees(worldIn.rand.nextFloat() * 360.0F), 0.0F);
-            chocobo.rotationYawHead = chocobo.rotationYaw;
-            chocobo.renderYawOffset = chocobo.rotationYaw;
-            chocobo.onInitialSpawn((ServerWorld)worldIn, worldIn.getDifficultyForLocation(chocobo.getPosition()), SpawnReason.SPAWN_EGG, (ILivingEntityData)null, (CompoundNBT)null);
+            BlockPos pos = context.getClickedPos();
+            if (player.isShiftKeyDown())
+                chocobo.setAge(-24000);
+            entity.moveTo(pos.getX() + .5, pos.getY() + 0.5F, pos.getZ() + .5, MathHelper.wrapDegrees(worldIn.random.nextFloat() * 360.0F), 0.0F);
+            chocobo.yHeadRot = chocobo.yRot;
+            chocobo.yBodyRot = chocobo.yRot;
+            chocobo.finalizeSpawn((ServerWorld)worldIn, worldIn.getCurrentDifficultyAt(chocobo.blockPosition()), SpawnReason.SPAWN_EGG, (ILivingEntityData)null, (CompoundNBT)null);
             chocobo.setChocoboColor(color);
-            worldIn.addEntity(entity);
+            worldIn.addFreshEntity(entity);
             chocobo.playAmbientSound();
         }
 

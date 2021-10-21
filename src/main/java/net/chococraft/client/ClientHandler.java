@@ -16,9 +16,9 @@ public class ClientHandler {
     public static void onClientSetup(final FMLClientSetupEvent event) {
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.CHOCOBO.get(), ChocoboRenderer::new);
 
-        RenderTypeLookup.setRenderLayer(ModRegistry.GYSAHL_GREEN.get(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(ModRegistry.GYSAHL_GREEN.get(), RenderType.cutout());
 
-        ScreenManager.registerFactory(ModContainers.NEST.get(), NestScreen::new);
+        ScreenManager.register(ModContainers.NEST.get(), NestScreen::new);
     }
 
 

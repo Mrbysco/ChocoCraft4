@@ -35,48 +35,48 @@ public class ChocoboMateGoal extends Goal {
 
     public ChocoboMateGoal(ChocoboEntity chocobo, double moveSpeed) {
         this.chocobo = chocobo;
-        this.world = chocobo.world;
+        this.world = chocobo.level;
         this.moveSpeed = moveSpeed;
-        this.setMutexFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
+        this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
     }
 
     @Override
-    public boolean shouldExecute() {
+    public boolean canUse() {
         return this.chocobo.isInLove() && (this.targetMate = this.getNearbyMate()) != null;
     }
 
     @Override
-    public boolean shouldContinueExecuting() {
+    public boolean canContinueToUse() {
         return this.targetMate.isAlive() && this.targetMate.isInLove() && this.spawnBabyDelay < 60;
     }
 
     @Override
-    public void resetTask() {
+    public void stop() {
         this.targetMate = null;
         this.spawnBabyDelay = 0;
     }
 
     @Override
     public void tick() {
-        this.chocobo.getLookController().setLookPositionWithEntity(this.targetMate, 10.0F, (float) this.chocobo.getVerticalFaceSpeed());
-        this.chocobo.getNavigator().tryMoveToEntityLiving(this.targetMate, this.moveSpeed);
+        this.chocobo.getLookControl().setLookAt(this.targetMate, 10.0F, (float) this.chocobo.getMaxHeadXRot());
+        this.chocobo.getNavigation().moveTo(this.targetMate, this.moveSpeed);
         ++this.spawnBabyDelay;
 
-        if (this.spawnBabyDelay >= 60 && this.chocobo.getDistanceSq(this.targetMate) < 9.0D) {
+        if (this.spawnBabyDelay >= 60 && this.chocobo.distanceToSqr(this.targetMate) < 9.0D) {
             this.spawnEgg();
         }
     }
 
     @Nullable
     private ChocoboEntity getNearbyMate() {
-        List<ChocoboEntity> list = this.world.getEntitiesWithinAABB(ChocoboEntity.class, this.chocobo.getBoundingBox().grow(8.0D));
+        List<ChocoboEntity> list = this.world.getEntitiesOfClass(ChocoboEntity.class, this.chocobo.getBoundingBox().inflate(8.0D));
         double dist = Double.MAX_VALUE;
         ChocoboEntity closestMate = null;
 
         for (ChocoboEntity entry : list) {
-            if (this.chocobo.canMateWith(entry) && this.chocobo.getDistanceSq(entry) < dist) {
+            if (this.chocobo.canMate(entry) && this.chocobo.distanceToSqr(entry) < dist) {
                 closestMate = entry;
-                dist = this.chocobo.getDistanceSq(entry);
+                dist = this.chocobo.distanceToSqr(entry);
             }
         }
 
@@ -86,22 +86,22 @@ public class ChocoboMateGoal extends Goal {
     private void spawnEgg() {
         if (this.chocobo.isMale()) return;
 
-        this.chocobo.setGrowingAge(6000);
-        this.targetMate.setGrowingAge(6000);
-        this.chocobo.resetInLove();
-        this.targetMate.resetInLove();
+        this.chocobo.setAge(6000);
+        this.targetMate.setAge(6000);
+        this.chocobo.resetLove();
+        this.targetMate.resetLove();
 
-        BlockPos pos = this.chocobo.getPosition();
+        BlockPos pos = this.chocobo.blockPosition();
         for (Vector3i offset : LAY_EGG_CHECK_OFFSETS) {
-            BlockPos offsetPos = pos.add(offset);
+            BlockPos offsetPos = pos.offset(offset);
             BlockState state = this.world.getBlockState(offsetPos);
-            if (state.getMaterial().isReplaceable() && !state.getMaterial().isLiquid() && ModRegistry.CHOCOBO_EGG.get().isValidPosition(state, this.world, offsetPos)) {
-                if (!this.world.setBlockState(offsetPos, ModRegistry.CHOCOBO_EGG.get().getDefaultState())) {
+            if (state.getMaterial().isReplaceable() && !state.getMaterial().isLiquid() && ModRegistry.CHOCOBO_EGG.get().canSurvive(state, this.world, offsetPos)) {
+                if (!this.world.setBlockAndUpdate(offsetPos, ModRegistry.CHOCOBO_EGG.get().defaultBlockState())) {
                     Chococraft.log.error("Unable to place egg @ {}, setBlockState() returned false!", offsetPos);
                     return;
                 }
 
-                TileEntity tile = this.world.getTileEntity(offsetPos);
+                TileEntity tile = this.world.getBlockEntity(offsetPos);
                 if(tile instanceof ChocoboEggTile) {
                     ChocoboEggTile eggTile = (ChocoboEggTile)tile;
                     eggTile.setBreedInfo(new ChocoboBreedInfo(new ChocoboStatSnapshot(this.chocobo), new ChocoboStatSnapshot(this.targetMate)));

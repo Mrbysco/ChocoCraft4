@@ -19,26 +19,26 @@ public class GysahlGreenBlock extends CropsBlock {
     @SuppressWarnings("unused") // used by class factory
     public GysahlGreenBlock(Properties properties) {
         super(properties);
-        this.setDefaultState(this.stateContainer.getBaseState().with(this.getAgeProperty(), Integer.valueOf(0)));
+        this.registerDefaultState(this.stateDefinition.any().setValue(this.getAgeProperty(), Integer.valueOf(0)));
     }
 
     @Override
-    protected IItemProvider getSeedsItem() {
+    protected IItemProvider getBaseSeedId() {
         return () -> ModRegistry.GYSAHL_GREEN_SEEDS.get();
     }
 
     @Override
-    public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
-        return (worldIn.getLightSubtracted(pos, 0) >= 8 || worldIn.canSeeSky(pos)) && ((state.getBlock() == this && state.get(AGE) == MAX_AGE) && super.isValidPosition(state, worldIn, pos));
+    public boolean canSurvive(BlockState state, IWorldReader worldIn, BlockPos pos) {
+        return (worldIn.getRawBrightness(pos, 0) >= 8 || worldIn.canSeeSky(pos)) && ((state.getBlock() == this && state.getValue(AGE) == MAX_AGE) && super.canSurvive(state, worldIn, pos));
     }
 
     @Override
-    protected boolean isValidGround(BlockState state, IBlockReader worldIn, BlockPos pos) {
-        return super.isValidGround(state, worldIn, pos) || state.matchesBlock(Blocks.GRASS_BLOCK);
+    protected boolean mayPlaceOn(BlockState state, IBlockReader worldIn, BlockPos pos) {
+        return super.mayPlaceOn(state, worldIn, pos) || state.is(Blocks.GRASS_BLOCK);
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(AGE);
     }
 

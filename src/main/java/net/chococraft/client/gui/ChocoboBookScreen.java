@@ -31,7 +31,7 @@ public class ChocoboBookScreen extends Screen {
     }
 
     public static void openScreen(PlayerEntity player) {
-        Minecraft.getInstance().displayGuiScreen(new ChocoboBookScreen(player));
+        Minecraft.getInstance().setScreen(new ChocoboBookScreen(player));
     }
 
     @Override
@@ -51,7 +51,7 @@ public class ChocoboBookScreen extends Screen {
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
-        this.minecraft.getTextureManager().bindTexture(TEXTURE);
+        this.minecraft.getTextureManager().bind(TEXTURE);
 
         RenderSystem.pushMatrix();
         RenderSystem.translatef(this.guiLeft, this.guiTop, 0);
@@ -59,17 +59,17 @@ public class ChocoboBookScreen extends Screen {
         this.blit(matrixStack, 0, 0, 0, 0, this.xSize, this.ySize);
 
         ITextComponent name = new TranslationTextComponent("gui.chocobook.title", currentpage);
-        int nameLength = this.font.getStringPropertyWidth(name);
-        this.font.drawTextWithShadow(matrixStack, name, (this.xSize / 2) - (nameLength / 2), 4, -1);
+        int nameLength = this.font.width(name);
+        this.font.drawShadow(matrixStack, name, (this.xSize / 2) - (nameLength / 2), 4, -1);
 
-        this.minecraft.getTextureManager().bindTexture(TEXTURE);
+        this.minecraft.getTextureManager().bind(TEXTURE);
         this.renderpage();
 
         RenderSystem.popMatrix();
     }
 
     private void renderpage() {
-        this.font.func_238418_a_(new TranslationTextComponent("gui.chocobook.page" + (currentpage)), 5, 20, 120, 0);
+        this.font.drawWordWrap(new TranslationTextComponent("gui.chocobook.page" + (currentpage)), 5, 20, 120, 0);
     }
 
 }

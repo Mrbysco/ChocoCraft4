@@ -68,12 +68,12 @@ public abstract class SaddleItemStackHandler implements IItemHandler, IItemHandl
 
     @Override
     public CompoundNBT serializeNBT() {
-        return this.itemStack.write(new CompoundNBT());
+        return this.itemStack.save(new CompoundNBT());
     }
 
     @Override
     public void deserializeNBT(CompoundNBT nbt) {
-        this.itemStack = ItemStack.read(nbt);
+        this.itemStack = ItemStack.of(nbt);
         this.onStackChanged();
     }
 

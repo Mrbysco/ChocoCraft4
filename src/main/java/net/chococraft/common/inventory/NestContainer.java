@@ -26,7 +26,7 @@ public class NestContainer extends Container {
     private static ChocoboNestTile getTileEntity(final PlayerInventory playerInventory, final PacketBuffer data) {
         Objects.requireNonNull(playerInventory, "playerInventory cannot be null!");
         Objects.requireNonNull(data, "data cannot be null!");
-        final TileEntity tileAtPos = playerInventory.player.world.getTileEntity(data.readBlockPos());
+        final TileEntity tileAtPos = playerInventory.player.level.getBlockEntity(data.readBlockPos());
 
         if (tileAtPos instanceof ChocoboNestTile) {
             return (ChocoboNestTile) tileAtPos;
@@ -63,34 +63,34 @@ public class NestContainer extends Container {
     }
 
     @Override
-    public boolean canInteractWith(PlayerEntity playerIn) {
+    public boolean stillValid(PlayerEntity playerIn) {
         return true;
     }
 
     @Override
-    public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
+    public ItemStack quickMoveStack(PlayerEntity playerIn, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
-        Slot slot = this.inventorySlots.get(index);
+        Slot slot = this.slots.get(index);
 
-        if (slot != null && slot.getHasStack()) {
-            ItemStack itemstack1 = slot.getStack();
+        if (slot != null && slot.hasItem()) {
+            ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
             final int tileSize = 1;
 
             if (index < tileSize) {
-                if (!this.mergeItemStack(itemstack1, tileSize, inventorySlots.size(), true)) {
+                if (!this.moveItemStackTo(itemstack1, tileSize, slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.mergeItemStack(itemstack1, 0, tileSize, false)) {
+            } else if (!this.moveItemStackTo(itemstack1, 0, tileSize, false)) {
                 return ItemStack.EMPTY;
             }
 
             this.tile.onInventoryChanged();
 
             if (itemstack1.isEmpty()) {
-                slot.putStack(ItemStack.EMPTY);
+                slot.set(ItemStack.EMPTY);
             } else {
-                slot.onSlotChanged();
+                slot.setChanged();
             }
 
             if (itemstack1.getCount() == itemstack.getCount()) {
@@ -107,18 +107,18 @@ public class NestContainer extends Container {
         }
 
         @Override
-        public void onSlotChanged() {
-            super.onSlotChanged();
+        public void setChanged() {
+            super.setChanged();
         }
 
         @Override
-        public boolean canTakeStack(PlayerEntity playerIn) {
+        public boolean mayPickup(PlayerEntity playerIn) {
             return true;
         }
 
         @Override
-        public boolean isItemValid(@Nonnull ItemStack stack) {
-            return super.isItemValid(stack);
+        public boolean mayPlace(@Nonnull ItemStack stack) {
+            return super.mayPlace(stack);
         }
     }
 }

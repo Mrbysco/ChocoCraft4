@@ -23,7 +23,7 @@ public class OpenChocoboGuiMessage {
 	public CompoundNBT inventory;
 
 	public OpenChocoboGuiMessage(ChocoboEntity chocobo, int windowId) {
-		this.entityId = chocobo.getEntityId();
+		this.entityId = chocobo.getId();
 		this.windowId = windowId;
 
 		this.saddle = chocobo.saddleItemStackHandler.serializeNBT();
@@ -47,14 +47,14 @@ public class OpenChocoboGuiMessage {
 	public void encode(PacketBuffer buf) {
 		buf.writeInt(this.entityId);
 		buf.writeInt(this.windowId);
-		buf.writeCompoundTag(saddle);
+		buf.writeNbt(saddle);
 		buf.writeBoolean(this.inventory != null);
 		if (this.inventory != null)
-			buf.writeCompoundTag(inventory);
+			buf.writeNbt(inventory);
 	}
 
 	public static OpenChocoboGuiMessage decode(final PacketBuffer buffer) {
-		return new OpenChocoboGuiMessage(buffer.readInt(), buffer.readInt(), buffer.readCompoundTag(), buffer.readBoolean() ? buffer.readCompoundTag() : null);
+		return new OpenChocoboGuiMessage(buffer.readInt(), buffer.readInt(), buffer.readNbt(), buffer.readBoolean() ? buffer.readNbt() : null);
 	}
 
 	public void handle(Supplier<Context> context) {
@@ -62,7 +62,7 @@ public class OpenChocoboGuiMessage {
 		ctx.enqueueWork(() -> {
 			if(ctx.getDirection().getReceptionSide() == LogicalSide.CLIENT) {
 				Minecraft mc = Minecraft.getInstance();
-				Entity entity = mc.world.getEntityByID(entityId);
+				Entity entity = mc.level.getEntity(entityId);
 				if (!(entity instanceof ChocoboEntity)) {
 					Chococraft.log.warn("Server send OpenGUI for chocobo with id {}, but this entity does not exist on my side", entityId);
 					return;

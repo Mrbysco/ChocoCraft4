@@ -11,6 +11,6 @@ public class ModAttributes {
 	public static final DeferredRegister<Attribute> ATTRIBUTES = DeferredRegister.create(ForgeRegistries.ATTRIBUTES, Chococraft.MODID);
 
 	public static final RegistryObject<Attribute> MAX_STAMINA = ATTRIBUTES.register("chocobo_max_stamina", () ->
-			new RangedAttribute("chocobo.maxStamina", 10.0D, 10D, 1024.0D).setShouldWatch(true));
+			new RangedAttribute("chocobo.maxStamina", 10.0D, 10D, 1024.0D).setSyncable(true));
 
 }

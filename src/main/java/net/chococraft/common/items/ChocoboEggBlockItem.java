@@ -21,7 +21,7 @@ public class ChocoboEggBlockItem extends BlockItem {
         if (!stack.hasTag())
             return false;
 
-        CompoundNBT nbtHatchIngstate = stack.getChildTag(ChocoboEggBlock.NBTKEY_HATCHINGSTATE);
+        CompoundNBT nbtHatchIngstate = stack.getTagElement(ChocoboEggBlock.NBTKEY_HATCHINGSTATE);
         if (nbtHatchIngstate == null)
             return false;
 
@@ -37,7 +37,7 @@ public class ChocoboEggBlockItem extends BlockItem {
             return 0.0;
 
         int time = 0;
-        CompoundNBT nbtHatchIngstate = stack.getChildTag(ChocoboEggBlock.NBTKEY_HATCHINGSTATE);
+        CompoundNBT nbtHatchIngstate = stack.getTagElement(ChocoboEggBlock.NBTKEY_HATCHINGSTATE);
         if (nbtHatchIngstate != null)
             time = nbtHatchIngstate.getInt(ChocoboEggBlock.NBTKEY_HATCHINGSTATE_TIME);
 

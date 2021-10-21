@@ -29,10 +29,10 @@ public class RidingEventHandler {
     @SubscribeEvent
     public static void onPlayerDisconnect(PlayerLoggedOutEvent event) {
         PlayerEntity player = event.getPlayer();
-        if (player.getRidingEntity() != null) {
-            Entity entityRide = player.getRidingEntity();
+        if (player.getVehicle() != null) {
+            Entity entityRide = player.getVehicle();
             if (entityRide instanceof ChocoboEntity) {
-                player.dismount();
+                player.removeVehicle();
             }
         }
     }

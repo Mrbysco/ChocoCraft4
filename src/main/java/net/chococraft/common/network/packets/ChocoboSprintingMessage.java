@@ -31,9 +31,9 @@ public class ChocoboSprintingMessage {
             if(ctx.getDirection().getReceptionSide() == LogicalSide.SERVER) {
                 PlayerEntity player = ctx.getSender();
                 if (player != null) {
-                    if (player.getRidingEntity() == null) return;
+                    if (player.getVehicle() == null) return;
 
-                    Entity mount = player.getRidingEntity();
+                    Entity mount = player.getVehicle();
                     if (!(mount instanceof ChocoboEntity)) return;
 
                     mount.setSprinting(sprinting);

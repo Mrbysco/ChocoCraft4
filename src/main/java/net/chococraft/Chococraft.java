@@ -34,8 +34,8 @@ public class Chococraft {
     public final static Logger log = LogManager.getLogger(MODID);
 
     public static final ItemGroup creativeTab = new ItemGroup(MODID) {
-          @Override
-        public ItemStack createIcon() {
+        @Override
+        public ItemStack makeIcon() {
             return new ItemStack(ModRegistry.GYSAHL_GREEN.get());
         }
     };

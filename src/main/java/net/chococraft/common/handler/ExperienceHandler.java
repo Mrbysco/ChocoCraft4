@@ -6,7 +6,7 @@ public final class ExperienceHandler {
     // The following code was ripped from EPlus https://github.com/Epoxide-Software/Enchanting-Plus/ which adapted it from OpenModsLib https://github.com/OpenMods/OpenModsLib
     public static int getExperience(PlayerEntity player) {
 
-        return (int) (getExperienceForLevels(player.experienceLevel) + player.experience * player.xpBarCap());
+        return (int) (getExperienceForLevels(player.experienceLevel) + player.experienceProgress * player.getXpNeededForNextLevel());
     }
 
     public static boolean removeExperience(PlayerEntity player, int amount) {
@@ -20,10 +20,10 @@ public final class ExperienceHandler {
     public static void addExperience(PlayerEntity player, int amount) {
 
         final int experience = getExperience(player) + amount;
-        player.experienceTotal = experience;
+        player.totalExperience = experience;
         player.experienceLevel = getLevelForExperience(experience);
         final int expForLevel = getExperienceForLevels(player.experienceLevel);
-        player.experience = (float) (experience - expForLevel) / (float) player.xpBarCap();
+        player.experienceProgress = (float) (experience - expForLevel) / (float) player.getXpNeededForNextLevel();
     }
 
     public static int getExperienceForLevels(int level) {

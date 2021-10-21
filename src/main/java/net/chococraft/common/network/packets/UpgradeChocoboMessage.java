@@ -18,7 +18,7 @@ public class UpgradeChocoboMessage {
     public int skillID;
 
     public UpgradeChocoboMessage(ChocoboEntity chocobo, int skillID) {
-        this.entityID = chocobo.getEntityId();
+        this.entityID = chocobo.getId();
         this.skillID = skillID;
     }
 
@@ -42,8 +42,8 @@ public class UpgradeChocoboMessage {
             if(ctx.getDirection().getReceptionSide() == LogicalSide.SERVER) {
                 PlayerEntity player = ctx.getSender();
                 if (player != null) {
-                    World world = player.world;
-                    Entity entity = world.getEntityByID(entityID);
+                    World world = player.level;
+                    Entity entity = world.getEntity(entityID);
 
                     if (entity != null && entity instanceof ChocoboEntity) {
                         if (skillID == 1 && ExperienceHandler.removeExperience(player, ChocoConfig.COMMON.ExpCostSprint.get())) {

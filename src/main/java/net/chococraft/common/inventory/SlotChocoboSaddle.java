@@ -13,12 +13,12 @@ public class SlotChocoboSaddle extends SlotItemHandler {
     }
 
     @Override
-    public boolean isItemValid(@Nonnull ItemStack stack) {
+    public boolean mayPlace(@Nonnull ItemStack stack) {
         return stack.getItem() instanceof ChocoboSaddleItem;
     }
 
     @Override
-    public int getItemStackLimit(@Nonnull ItemStack stack) {
+    public int getMaxStackSize(@Nonnull ItemStack stack) {
         return this.getItemHandler().getSlotLimit(0);
     }
 }

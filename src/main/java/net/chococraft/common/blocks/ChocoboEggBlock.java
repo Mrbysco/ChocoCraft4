@@ -38,11 +38,11 @@ public class ChocoboEggBlock extends Block {
     public final static String NBTKEY_BREEDINFO = "BreedInfo";
 
     protected static final VoxelShape SHAPE = Stream.of(
-            Block.makeCuboidShape(5, 0, 5, 11, 1, 11),
-            Block.makeCuboidShape(4, 1, 4, 12, 6, 12),
-            Block.makeCuboidShape(5, 6, 5, 11, 8, 11),
-            Block.makeCuboidShape(6, 8, 6, 10, 10, 10)
-    ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR)).get();
+            Block.box(5, 0, 5, 11, 1, 11),
+            Block.box(4, 1, 4, 12, 6, 12),
+            Block.box(5, 6, 5, 11, 8, 11),
+            Block.box(6, 8, 6, 10, 10, 10)
+    ).reduce((v1, v2) -> VoxelShapes.join(v1, v2, IBooleanFunction.OR)).get();
 
     public ChocoboEggBlock(Properties properties) {
         super(properties.harvestTool(ToolType.PICKAXE).harvestLevel(0));
@@ -70,25 +70,25 @@ public class ChocoboEggBlock extends Block {
     }
 
     @Override
-    public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
-        if (!worldIn.isRemote) {
-            TileEntity tile = worldIn.getTileEntity(pos);
+    public void setPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+        if (!worldIn.isClientSide) {
+            TileEntity tile = worldIn.getBlockEntity(pos);
             if (!(tile instanceof ChocoboEggTile)) return;
 
-            ChocoboBreedInfo breedInfo = ChocoboBreedInfo.getFromNbtOrDefault(stack.getChildTag(NBTKEY_BREEDINFO));
+            ChocoboBreedInfo breedInfo = ChocoboBreedInfo.getFromNbtOrDefault(stack.getTagElement(NBTKEY_BREEDINFO));
 
             ((ChocoboEggTile) tile).setBreedInfo(breedInfo);
         }
-        super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
+        super.setPlacedBy(worldIn, pos, state, placer, stack);
     }
 
     @Override
-    public void harvestBlock(World worldIn, PlayerEntity player, BlockPos pos, BlockState state, @Nullable TileEntity te, ItemStack stack) {
+    public void playerDestroy(World worldIn, PlayerEntity player, BlockPos pos, BlockState state, @Nullable TileEntity te, ItemStack stack) {
         if (te instanceof ChocoboEggTile) {
-            if (worldIn.isRemote) return;
+            if (worldIn.isClientSide) return;
             //noinspection ConstantConditions | this will never be null when we are getting called - otherwise, its a MC bug
-            player.addStat(Stats.BLOCK_MINED.get(this));
-            player.addExhaustion(0.005F);
+            player.awardStat(Stats.BLOCK_MINED.get(this));
+            player.causeFoodExhaustion(0.005F);
 
             ItemStack itemStack = new ItemStack(ModRegistry.CHOCOBO_EGG.get());
             ChocoboBreedInfo breedInfo = ((ChocoboEggTile) te).getBreedInfo();
@@ -97,12 +97,12 @@ public class ChocoboEggBlock extends Block {
                 return;
             }
             if (breedInfo != null) {
-                itemStack.setTagInfo(NBTKEY_BREEDINFO, breedInfo.serialize());
+                itemStack.addTagElement(NBTKEY_BREEDINFO, breedInfo.serialize());
             }
-            spawnAsEntity(worldIn, pos, itemStack);
+            popResource(worldIn, pos, itemStack);
             return;
         }
-        super.harvestBlock(worldIn, player, pos, state, te, stack);
+        super.playerDestroy(worldIn, player, pos, state, te, stack);
     }
 
     public ITextComponent getColorText(ChocoboColor color) {
@@ -123,9 +123,9 @@ public class ChocoboEggBlock extends Block {
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        super.addInformation(stack, worldIn, tooltip, flagIn);
-        CompoundNBT nbtBreedInfo = stack.getChildTag(NBTKEY_BREEDINFO);
+    public void appendHoverText(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        super.appendHoverText(stack, worldIn, tooltip, flagIn);
+        CompoundNBT nbtBreedInfo = stack.getTagElement(NBTKEY_BREEDINFO);
         if (nbtBreedInfo != null) {
             ChocoboBreedInfo info = new ChocoboBreedInfo(nbtBreedInfo);
             ChocoboStatSnapshot mother = info.getMother();

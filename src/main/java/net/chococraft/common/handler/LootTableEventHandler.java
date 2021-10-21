@@ -27,12 +27,12 @@ public class LootTableEventHandler {
     }
 
     public static LootPool getInjectPool() {
-        LootPool.Builder builder = LootPool.builder();
+        LootPool.Builder builder = LootPool.lootPool();
 
-        builder.addEntry(injectFruit(ModRegistry.SPIKE_FRUIT.get()));
-        builder.addEntry(injectFruit(ModRegistry.AEROSHROOM.get()));
-        builder.addEntry(injectFruit(ModRegistry.AQUA_BERRY.get()));
-        builder.addEntry(injectFruit(ModRegistry.DEAD_PEPPER.get()));
+        builder.add(injectFruit(ModRegistry.SPIKE_FRUIT.get()));
+        builder.add(injectFruit(ModRegistry.AEROSHROOM.get()));
+        builder.add(injectFruit(ModRegistry.AQUA_BERRY.get()));
+        builder.add(injectFruit(ModRegistry.DEAD_PEPPER.get()));
 
         builder.bonusRolls(0, 1)
                 .name("ability_fruits");
@@ -41,10 +41,10 @@ public class LootTableEventHandler {
     }
 
     private static LootEntry.Builder injectFruit(Item item) {
-        LootEntry.Builder<?> entry = ItemLootEntry.builder(item)
-                .acceptFunction(SetCount.builder(new RandomValueRange(1, 1)))
-                .quality(1)
-                .weight(ChocoConfig.COMMON.abilityFruitDungeonLootWeight.get());
+        LootEntry.Builder<?> entry = ItemLootEntry.lootTableItem(item)
+                .apply(SetCount.setCount(new RandomValueRange(1, 1)))
+                .setQuality(1)
+                .setWeight(ChocoConfig.COMMON.abilityFruitDungeonLootWeight.get());
 
         return entry;
     }

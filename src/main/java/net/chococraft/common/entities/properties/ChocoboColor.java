@@ -33,7 +33,7 @@ public enum ChocoboColor {
 
     public static Optional<ChocoboColor> getColorForItemstack(ItemStack stack) {
         for (ChocoboColor color : values()) {
-            if(color.colorTag != null && stack.getItem().isIn(color.colorTag))
+            if(color.colorTag != null && stack.getItem().is(color.colorTag))
                 return Optional.of(color);
         }
         return Optional.empty();

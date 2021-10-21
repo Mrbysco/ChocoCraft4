@@ -31,19 +31,19 @@ public class ModRegistry {
     public static final DeferredRegister<TileEntityType<?>> TILES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, Chococraft.MODID);
 
     public static final RegistryObject<Block> GYSAHL_GREEN = BLOCKS.register("gysahl_green", () ->
-            new GysahlGreenBlock(Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().zeroHardnessAndResistance().sound(SoundType.CROP)));
+            new GysahlGreenBlock(Properties.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP)));
 
     public static final RegistryObject<Block> STRAW_NEST = BLOCKS.register("straw_nest", () ->
-            new StrawNestBlock(Properties.create(Material.ROCK).sound(SoundType.PLANT)));
+            new StrawNestBlock(Properties.of(Material.STONE).sound(SoundType.GRASS)));
 
     public static final RegistryObject<Block> CHOCOBO_EGG = BLOCKS.register("chocobo_egg", () ->
-            new ChocoboEggBlock(Properties.create(Material.DRAGON_EGG).hardnessAndResistance(0.5F).notSolid().sound(SoundType.PLANT)));
+            new ChocoboEggBlock(Properties.of(Material.EGG).strength(0.5F).noOcclusion().sound(SoundType.GRASS)));
 
 
-    public static final RegistryObject<TileEntityType<ChocoboNestTile>> STRAW_NEST_TILE = TILES.register("chocobo_nest", () -> TileEntityType.Builder.create(() ->
+    public static final RegistryObject<TileEntityType<ChocoboNestTile>> STRAW_NEST_TILE = TILES.register("chocobo_nest", () -> TileEntityType.Builder.of(() ->
             new ChocoboNestTile(), ModRegistry.STRAW_NEST.get()).build(null));
 
-    public static final RegistryObject<TileEntityType<ChocoboEggTile>> CHOCOBO_EGG_TILE = TILES.register("chocobo_egg", () -> TileEntityType.Builder.create(() ->
+    public static final RegistryObject<TileEntityType<ChocoboEggTile>> CHOCOBO_EGG_TILE = TILES.register("chocobo_egg", () -> TileEntityType.Builder.of(() ->
             new ChocoboEggTile(), ModRegistry.CHOCOBO_EGG.get()).build(null));
 
 
@@ -87,6 +87,6 @@ public class ModRegistry {
 
 
     private static Item.Properties itemBuilder() {
-        return new Item.Properties().group(Chococraft.creativeTab);
+        return new Item.Properties().tab(Chococraft.creativeTab);
     }
 }

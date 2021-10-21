@@ -53,22 +53,22 @@ public class ChocoboRenderer extends MobRenderer<ChocoboEntity, AdultChocoboMode
     }
 
     @Override
-    protected void renderName(ChocoboEntity entityIn, ITextComponent displayNameIn, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+    protected void renderNameTag(ChocoboEntity entityIn, ITextComponent displayNameIn, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
         matrixStackIn.translate(0, 0.2D, 0);
-        super.renderName(entityIn, displayNameIn, matrixStackIn, bufferIn, packedLightIn);
+        super.renderNameTag(entityIn, displayNameIn, matrixStackIn, bufferIn, packedLightIn);
     }
 
     @Override
-    protected void preRenderCallback(ChocoboEntity chocoboEntity, MatrixStack matrixStackIn, float partialTickTime) {
-        super.preRenderCallback(chocoboEntity, matrixStackIn, partialTickTime);
+    protected void scale(ChocoboEntity chocoboEntity, MatrixStack matrixStackIn, float partialTickTime) {
+        super.scale(chocoboEntity, matrixStackIn, partialTickTime);
         //TODO big hack because the model is positioned wrong
-        if(!chocoboEntity.isChild())
+        if(!chocoboEntity.isBaby())
             matrixStackIn.translate(-0.075, 0, -0.45);
     }
 
     @Override
-    public ResourceLocation getEntityTexture(ChocoboEntity chocoboEntity) {
+    public ResourceLocation getTextureLocation(ChocoboEntity chocoboEntity) {
         ChocoboColor color = chocoboEntity.getChocoboColor();
-        return chocoboEntity.isChild() ? CHICOBO_PER_COLOR.get(color) : CHOCOBO_PER_COLOR.get(color);
+        return chocoboEntity.isBaby() ? CHICOBO_PER_COLOR.get(color) : CHOCOBO_PER_COLOR.get(color);
     }
 }

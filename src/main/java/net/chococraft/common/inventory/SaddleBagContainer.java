@@ -20,7 +20,7 @@ public class SaddleBagContainer extends Container {
     }
 
     public void refreshSlots(ChocoboEntity chocobo, PlayerInventory player) {
-        this.inventorySlots.clear();
+        this.slots.clear();
         bindPlayerInventory(player.player);
 
         ItemStack saddleStack = chocobo.getSaddle();
@@ -65,12 +65,12 @@ public class SaddleBagContainer extends Container {
     }
 
     @Override
-    public boolean canInteractWith(PlayerEntity playerIn) {
-        return this.chocobo.isAlive() && this.chocobo.getDistance(playerIn) < 8.0F;
+    public boolean stillValid(PlayerEntity playerIn) {
+        return this.chocobo.isAlive() && this.chocobo.distanceTo(playerIn) < 8.0F;
     }
 
     @Override
-    public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
+    public ItemStack quickMoveStack(PlayerEntity playerIn, int index) {
         return ItemStack.EMPTY;
     }
 }

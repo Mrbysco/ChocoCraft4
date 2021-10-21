@@ -67,14 +67,14 @@ public class ModDatagenerator {
 
 			@Override
 			protected void addTables() {
-				this.registerLootTable(ModRegistry.CHOCOBO_EGG.get(), blockNoDrop());
-				this.registerDropSelfLootTable(ModRegistry.STRAW_NEST.get());
-				ILootCondition.IBuilder condition = BlockStateProperty.builder(ModRegistry.GYSAHL_GREEN.get()).fromProperties(StatePropertiesPredicate.Builder.newBuilder().withIntProp(GysahlGreenBlock.AGE, GysahlGreenBlock.MAX_AGE));
-				this.registerLootTable(ModRegistry.GYSAHL_GREEN.get(), withExplosionDecay(ModRegistry.GYSAHL_GREEN.get(), LootTable.builder().addLootPool(LootPool.builder()
-						.addEntry(ItemLootEntry.builder(ModRegistry.GYSAHL_GREEN.get()))).addLootPool(LootPool.builder().acceptCondition(condition)
-						.addEntry(ItemLootEntry.builder(ModRegistry.GYSAHL_GREEN.get())
-								.acceptFunction(ApplyBonus.binomialWithBonusCount(Enchantments.FORTUNE, 0.5714286F, 3)))).addLootPool(LootPool.builder().acceptCondition(condition)
-						.addEntry(ItemLootEntry.builder(ModRegistry.LOVELY_GYSAHL_GREEN.get()).acceptCondition(RandomChance.builder(0.02F))))));
+				this.add(ModRegistry.CHOCOBO_EGG.get(), noDrop());
+				this.dropSelf(ModRegistry.STRAW_NEST.get());
+				ILootCondition.IBuilder condition = BlockStateProperty.hasBlockStateProperties(ModRegistry.GYSAHL_GREEN.get()).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(GysahlGreenBlock.AGE, GysahlGreenBlock.MAX_AGE));
+				this.add(ModRegistry.GYSAHL_GREEN.get(), applyExplosionDecay(ModRegistry.GYSAHL_GREEN.get(), LootTable.lootTable().withPool(LootPool.lootPool()
+						.add(ItemLootEntry.lootTableItem(ModRegistry.GYSAHL_GREEN.get()))).withPool(LootPool.lootPool().when(condition)
+						.add(ItemLootEntry.lootTableItem(ModRegistry.GYSAHL_GREEN.get())
+								.apply(ApplyBonus.addBonusBinomialDistributionCount(Enchantments.BLOCK_FORTUNE, 0.5714286F, 3)))).withPool(LootPool.lootPool().when(condition)
+						.add(ItemLootEntry.lootTableItem(ModRegistry.LOVELY_GYSAHL_GREEN.get()).when(RandomChance.randomChance(0.02F))))));
 			}
 
 			@Override
@@ -85,7 +85,7 @@ public class ModDatagenerator {
 
 		@Override
 		protected void validate(Map<ResourceLocation, LootTable> map, @Nonnull ValidationTracker validationtracker) {
-			map.forEach((name, table) -> LootTableManager.validateLootTable(validationtracker, name, table));
+			map.forEach((name, table) -> LootTableManager.validate(validationtracker, name, table));
 		}
 	}
 

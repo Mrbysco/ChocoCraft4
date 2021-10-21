@@ -22,12 +22,12 @@ public class GenericByteEnumSerializer<E extends Enum<E>> implements IDataSerial
     }
 
     @Override
-    public DataParameter<E> createKey(int id) {
+    public DataParameter<E> createAccessor(int id) {
         return new DataParameter<>(id, this);
     }
 
     @Override
-    public E copyValue(E value) {
+    public E copy(E value) {
         return value;
     }
 }

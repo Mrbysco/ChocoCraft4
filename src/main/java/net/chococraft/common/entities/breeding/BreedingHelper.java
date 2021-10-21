@@ -65,7 +65,7 @@ public class BreedingHelper {
 
         chocobo.setChocoboColor(color);
 
-        chocobo.setGrowingAge(-24000);
+        chocobo.setAge(-24000);
 
         return chocobo;
     }

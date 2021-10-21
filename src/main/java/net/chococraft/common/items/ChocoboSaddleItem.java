@@ -6,7 +6,7 @@ public class ChocoboSaddleItem extends Item {
     private final int inventorySize;
 
     public ChocoboSaddleItem(Properties properties, int inventorySize) {
-        super(properties.maxStackSize(4));
+        super(properties.stacksTo(4));
         this.inventorySize = inventorySize;
     }
 

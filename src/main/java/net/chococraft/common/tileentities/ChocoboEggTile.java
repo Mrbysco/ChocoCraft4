@@ -17,29 +17,29 @@ public class ChocoboEggTile extends TileEntity {
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT compound) {
-        super.read(state, compound);
+    public void load(BlockState state, CompoundNBT compound) {
+        super.load(state, compound);
         this.breedInfo = new ChocoboBreedInfo(compound.getCompound(NBTKEY_BREEDINFO));
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT compound) {
+    public CompoundNBT save(CompoundNBT compound) {
         if (this.breedInfo != null) {
             compound.put(NBTKEY_BREEDINFO, this.breedInfo.serialize());
         }
-        return super.write(compound);
+        return super.save(compound);
     }
 
     @Override
     public CompoundNBT getUpdateTag() {
         CompoundNBT nbt = super.getUpdateTag();
-        this.write(nbt);
+        this.save(nbt);
         return nbt;
     }
 
     @Override
     public void handleUpdateTag(BlockState state, CompoundNBT compound) {
-        super.read(state, compound);
+        super.load(state, compound);
     }
 
     @Nullable

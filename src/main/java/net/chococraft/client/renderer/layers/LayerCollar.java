@@ -19,8 +19,8 @@ public class LayerCollar extends LayerRenderer<ChocoboEntity, AdultChocoboModel<
 
 	@Override
 	public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, ChocoboEntity chocoboEntity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-		if (chocoboEntity.isTamed() && !chocoboEntity.isInvisible()) {
-			renderCutoutModel(this.getEntityModel(), chocoboEntity.isChild()? COLLAR_CHICOBO : COLLAR_CHOCOBO, matrixStackIn, bufferIn, packedLightIn, chocoboEntity, 1.0F, 1.0F, 1.0F);
+		if (chocoboEntity.isTame() && !chocoboEntity.isInvisible()) {
+			renderColoredCutoutModel(this.getParentModel(), chocoboEntity.isBaby()? COLLAR_CHICOBO : COLLAR_CHOCOBO, matrixStackIn, bufferIn, packedLightIn, chocoboEntity, 1.0F, 1.0F, 1.0F);
 		}
 	}
 }

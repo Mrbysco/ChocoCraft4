@@ -17,15 +17,15 @@ import net.minecraft.world.gen.feature.Features;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 
 public class ModFeatureConfigs {
-	protected static final BlockState GYSAHL_GREEN = ModRegistry.GYSAHL_GREEN.get().getDefaultState().with(GysahlGreenBlock.AGE, GysahlGreenBlock.MAX_AGE);
+	protected static final BlockState GYSAHL_GREEN = ModRegistry.GYSAHL_GREEN.get().defaultBlockState().setValue(GysahlGreenBlock.AGE, GysahlGreenBlock.MAX_AGE);
 
 	public static final BlockClusterFeatureConfig GYSAHL_GREEN_PATCH_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(ModFeatureConfigs.GYSAHL_GREEN),
-			SimpleBlockPlacer.PLACER)).tries(ChocoConfig.COMMON.gysahlGreenPatchSize.get()).build();
+			SimpleBlockPlacer.INSTANCE)).tries(ChocoConfig.COMMON.gysahlGreenPatchSize.get()).build();
 
 	public static final ConfiguredFeature<?, ?> PATCH_GYSAHL_GREEN = register("patch_gysahl_green", Feature.FLOWER
-			.withConfiguration(GYSAHL_GREEN_PATCH_CONFIG)
-			.withPlacement(Features.Placements.VEGETATION_PLACEMENT)
-			.withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT)
+			.configured(GYSAHL_GREEN_PATCH_CONFIG)
+			.decorated(Features.Placements.ADD_32)
+			.decorated(Features.Placements.HEIGHTMAP_SQUARE)
 			.chance((int)ChocoConfig.COMMON.gysahlGreenSpawnChance.get().doubleValue() * 10));
 
 	private static <FC extends IFeatureConfig> ConfiguredFeature<FC, ?> register(String key, ConfiguredFeature<FC, ?> feature) {

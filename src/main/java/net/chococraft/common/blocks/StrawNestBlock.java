@@ -27,59 +27,59 @@ import java.util.stream.Stream;
 public class StrawNestBlock extends Block{
     public final static BooleanProperty HAS_EGG = BooleanProperty.create("egg");
     protected static final VoxelShape EMPTY_SHAPE = Stream.of(
-            Block.makeCuboidShape(1, 0, 1, 15, 1, 15),
-            Block.makeCuboidShape(0, 1, 0, 16, 3, 2),
-            Block.makeCuboidShape(0, 1, 14, 16, 3, 16),
-            Block.makeCuboidShape(0, 1, 2, 2, 3, 14),
-            Block.makeCuboidShape(14, 1, 2, 16, 3, 14)
-    ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR)).get();
+            Block.box(1, 0, 1, 15, 1, 15),
+            Block.box(0, 1, 0, 16, 3, 2),
+            Block.box(0, 1, 14, 16, 3, 16),
+            Block.box(0, 1, 2, 2, 3, 14),
+            Block.box(14, 1, 2, 16, 3, 14)
+    ).reduce((v1, v2) -> VoxelShapes.join(v1, v2, IBooleanFunction.OR)).get();
 
     protected static final VoxelShape SHAPE = Stream.of(
-            Block.makeCuboidShape(5, 0, 5, 11, 1, 11),
-            Block.makeCuboidShape(4, 1, 4, 12, 6, 12),
-            Block.makeCuboidShape(5, 6, 5, 11, 8, 11),
-            Block.makeCuboidShape(6, 8, 6, 10, 10, 10),
-            Block.makeCuboidShape(14, 1, 2, 16, 3, 14),
-            Block.makeCuboidShape(1, 0, 1, 15, 1, 15),
-            Block.makeCuboidShape(0, 1, 0, 16, 3, 2),
-            Block.makeCuboidShape(0, 1, 14, 16, 3, 16),
-            Block.makeCuboidShape(0, 1, 2, 2, 3, 14)
-    ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR)).get();
+            Block.box(5, 0, 5, 11, 1, 11),
+            Block.box(4, 1, 4, 12, 6, 12),
+            Block.box(5, 6, 5, 11, 8, 11),
+            Block.box(6, 8, 6, 10, 10, 10),
+            Block.box(14, 1, 2, 16, 3, 14),
+            Block.box(1, 0, 1, 15, 1, 15),
+            Block.box(0, 1, 0, 16, 3, 2),
+            Block.box(0, 1, 14, 16, 3, 16),
+            Block.box(0, 1, 2, 2, 3, 14)
+    ).reduce((v1, v2) -> VoxelShapes.join(v1, v2, IBooleanFunction.OR)).get();
 
     public StrawNestBlock(Properties properties) {
         super(properties);
-        this.setDefaultState(this.stateContainer.getBaseState().with(HAS_EGG, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(HAS_EGG, false));
     }
 
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        if(state.get(HAS_EGG)) {
+        if(state.getValue(HAS_EGG)) {
             return SHAPE;
         }
         return EMPTY_SHAPE;
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(HAS_EGG);
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity playerIn, Hand handIn, BlockRayTraceResult hit) {
-        TileEntity tile = worldIn.getTileEntity(pos);
+    public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity playerIn, Hand handIn, BlockRayTraceResult hit) {
+        TileEntity tile = worldIn.getBlockEntity(pos);
         if(!(tile instanceof ChocoboNestTile))
             return ActionResultType.FAIL;
 
         ChocoboNestTile nest = (ChocoboNestTile)tile;
-        ItemStack heldItem = playerIn.getHeldItem(handIn);
+        ItemStack heldItem = playerIn.getItemInHand(handIn);
         if (ChocoboEggBlock.isChocoboEgg(heldItem)) {
             if (!nest.getEggItemStack().isEmpty()) return ActionResultType.FAIL;
-            if (worldIn.isRemote) return ActionResultType.SUCCESS;
-            nest.setEggItemStack(playerIn.getHeldItem(handIn).copy());
-            playerIn.getHeldItem(handIn).shrink(1);
+            if (worldIn.isClientSide) return ActionResultType.SUCCESS;
+            nest.setEggItemStack(playerIn.getItemInHand(handIn).copy());
+            playerIn.getItemInHand(handIn).shrink(1);
             return ActionResultType.SUCCESS;
         } else {
-            if(!worldIn.isRemote) {
+            if(!worldIn.isClientSide) {
                 NetworkHooks.openGui((ServerPlayerEntity) playerIn, nest, pos);
             }
         }
@@ -98,7 +98,7 @@ public class StrawNestBlock extends Block{
     }
 
     @Override
-    public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-        super.onReplaced(state, worldIn, pos, newState, isMoving);
+    public void onRemove(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+        super.onRemove(state, worldIn, pos, newState, isMoving);
     }
 }

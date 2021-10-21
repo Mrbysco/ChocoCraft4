@@ -38,7 +38,7 @@ public class LayerSaddle extends LayerRenderer<ChocoboEntity, AdultChocoboModel<
 				}
 			}
 
-			renderCutoutModel(this.getEntityModel(), saddleTexture, matrixStackIn, bufferIn, packedLightIn, chocoboEntity, 1.0F, 1.0F, 1.0F);
+			renderColoredCutoutModel(this.getParentModel(), saddleTexture, matrixStackIn, bufferIn, packedLightIn, chocoboEntity, 1.0F, 1.0F, 1.0F);
 		}
 	}
 }

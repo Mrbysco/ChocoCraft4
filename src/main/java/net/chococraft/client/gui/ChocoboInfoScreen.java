@@ -44,7 +44,7 @@ public class ChocoboInfoScreen extends Screen {
     }
 
     public static void openScreen(ChocoboEntity chocobo, PlayerEntity player) {
-        Minecraft.getInstance().displayGuiScreen(new ChocoboInfoScreen(chocobo, player));
+        Minecraft.getInstance().setScreen(new ChocoboInfoScreen(chocobo, player));
     }
 
     /*
@@ -64,16 +64,16 @@ public class ChocoboInfoScreen extends Screen {
             PacketManager.CHANNEL.sendToServer(packet);
         }, (button, matrixStack, mouseX, mouseY) -> {
             boolean flag = chocobo.canSprint();
-            String abilityText = I18n.format(getAbilityFromButton(0));
+            String abilityText = I18n.get(getAbilityFromButton(0));
             int centerX = width / 2;
             String tooltip;
             if (flag) {
-                tooltip = I18n.format("gui.chocoinfo.button.already_unlocked_ability", abilityText);
+                tooltip = I18n.get("gui.chocoinfo.button.already_unlocked_ability", abilityText);
             } else {
-                tooltip = I18n.format("gui.chocoinfo.button.ability", ExperienceHandler.getExperience(player), getAbilityXPCost(0), abilityText);
+                tooltip = I18n.get("gui.chocoinfo.button.ability", ExperienceHandler.getExperience(player), getAbilityXPCost(0), abilityText);
             }
-            int width = this.font.getStringWidth(tooltip);
-            this.font.drawString(matrixStack, tooltip, 90 - centerX, 93, -1);
+            int width = this.font.width(tooltip);
+            this.font.draw(matrixStack, tooltip, 90 - centerX, 93, -1);
             List<ITextComponent> text = new ArrayList<>();
             text.add(new TranslationTextComponent("gui.chocoinfo.button.button_format", new TranslationTextComponent(getAbilityFromButton(0))));
             GuiUtils.drawHoveringText(matrixStack, text, mouseX, mouseY, width, height, -1, font);
@@ -83,16 +83,16 @@ public class ChocoboInfoScreen extends Screen {
             PacketManager.CHANNEL.sendToServer(packet);
         }, (button, matrixStack, mouseX, mouseY) -> {
             boolean flag = chocobo.canGlide();
-            String abilityText = I18n.format(getAbilityFromButton(1));
+            String abilityText = I18n.get(getAbilityFromButton(1));
             int centerX = width / 2;
             String tooltip;
             if (flag) {
-                tooltip = I18n.format("gui.chocoinfo.button.already_unlocked_ability", abilityText);
+                tooltip = I18n.get("gui.chocoinfo.button.already_unlocked_ability", abilityText);
             } else {
-                tooltip = I18n.format("gui.chocoinfo.button.ability", ExperienceHandler.getExperience(player), getAbilityXPCost(1), abilityText);
+                tooltip = I18n.get("gui.chocoinfo.button.ability", ExperienceHandler.getExperience(player), getAbilityXPCost(1), abilityText);
             }
-            int width = this.font.getStringWidth(tooltip);
-            this.font.drawString(matrixStack, tooltip, 90 - centerX, 93, -1);
+            int width = this.font.width(tooltip);
+            this.font.draw(matrixStack, tooltip, 90 - centerX, 93, -1);
             List<ITextComponent> text = new ArrayList<>();
             text.add(new TranslationTextComponent("gui.chocoinfo.button.button_format", new TranslationTextComponent(getAbilityFromButton(1))));
             GuiUtils.drawHoveringText(matrixStack, text, mouseX, mouseY, width, height, -1, font);
@@ -102,16 +102,16 @@ public class ChocoboInfoScreen extends Screen {
             PacketManager.CHANNEL.sendToServer(packet);
         }, (button, matrixStack, mouseX, mouseY) -> {
             boolean flag = chocobo.canDive();
-            String abilityText = I18n.format(getAbilityFromButton(2));
+            String abilityText = I18n.get(getAbilityFromButton(2));
             int centerX = width / 2;
             String tooltip;
             if (flag) {
-                tooltip = I18n.format("gui.chocoinfo.button.already_unlocked_ability", abilityText);
+                tooltip = I18n.get("gui.chocoinfo.button.already_unlocked_ability", abilityText);
             } else {
-                tooltip = I18n.format("gui.chocoinfo.button.ability", ExperienceHandler.getExperience(player), getAbilityXPCost(2), abilityText);
+                tooltip = I18n.get("gui.chocoinfo.button.ability", ExperienceHandler.getExperience(player), getAbilityXPCost(2), abilityText);
             }
-            int width = this.font.getStringWidth(tooltip);
-            this.font.drawString(matrixStack, tooltip, 90 - centerX, 93, -1);
+            int width = this.font.width(tooltip);
+            this.font.draw(matrixStack, tooltip, 90 - centerX, 93, -1);
             List<ITextComponent> text = new ArrayList<>();
             text.add(new TranslationTextComponent("gui.chocoinfo.button.button_format", new TranslationTextComponent(getAbilityFromButton(2))));
             GuiUtils.drawHoveringText(matrixStack, text, mouseX, mouseY, width, height, -1, font);
@@ -121,16 +121,16 @@ public class ChocoboInfoScreen extends Screen {
             PacketManager.CHANNEL.sendToServer(packet);
         }, (button, matrixStack, mouseX, mouseY) -> {
             boolean flag = chocobo.canFly();
-            String abilityText = I18n.format(getAbilityFromButton(3));
+            String abilityText = I18n.get(getAbilityFromButton(3));
             int centerX = width / 2;
             String tooltip;
             if (flag) {
-                tooltip = I18n.format("gui.chocoinfo.button.already_unlocked_ability", abilityText);
+                tooltip = I18n.get("gui.chocoinfo.button.already_unlocked_ability", abilityText);
             } else {
-                tooltip = I18n.format("gui.chocoinfo.button.ability", ExperienceHandler.getExperience(player), getAbilityXPCost(3), abilityText);
+                tooltip = I18n.get("gui.chocoinfo.button.ability", ExperienceHandler.getExperience(player), getAbilityXPCost(3), abilityText);
             }
-            int width = this.font.getStringWidth(tooltip);
-            this.font.drawString(matrixStack, tooltip, 90 - centerX, 93, -1);
+            int width = this.font.width(tooltip);
+            this.font.draw(matrixStack, tooltip, 90 - centerX, 93, -1);
             List<ITextComponent> text = new ArrayList<>();
             text.add(new TranslationTextComponent("gui.chocoinfo.button.button_format", new TranslationTextComponent(getAbilityFromButton(3))));
             GuiUtils.drawHoveringText(matrixStack, text, mouseX, mouseY, width, height, -1, font);
@@ -143,7 +143,7 @@ public class ChocoboInfoScreen extends Screen {
         mouseY -= this.guiTop;
 
         this.renderBackground(matrixStack);
-        this.minecraft.getTextureManager().bindTexture(TEXTURE);
+        this.minecraft.getTextureManager().bind(TEXTURE);
 
         RenderSystem.pushMatrix();
         RenderSystem.translatef(this.guiLeft, this.guiTop, 0);
@@ -151,21 +151,21 @@ public class ChocoboInfoScreen extends Screen {
         this.blit(matrixStack, 0, 0, 0, 0, this.xSize, this.ySize);
 
         String name = this.chocobo.getDisplayName().getString();
-        int nameLength = this.font.getStringWidth(name);
-        this.font.drawStringWithShadow(matrixStack, name, (this.xSize / 2) - (nameLength / 2), 4, -1);
+        int nameLength = this.font.width(name);
+        this.font.drawShadow(matrixStack, name, (this.xSize / 2) - (nameLength / 2), 4, -1);
 
-        String ownerText = I18n.format("gui.chocoinfo.text.not_tamed");
-        if (chocobo.isTamed()) {
+        String ownerText = I18n.get("gui.chocoinfo.text.not_tamed");
+        if (chocobo.isTame()) {
             LivingEntity owner = chocobo.getOwner();
             if (owner == null)
-                ownerText = I18n.format("gui.chocoinfo.text.unknown_owner");
+                ownerText = I18n.get("gui.chocoinfo.text.unknown_owner");
             else
-                ownerText = I18n.format("gui.chocoinfo.text.owner_format", owner.getDisplayName().getString());
+                ownerText = I18n.get("gui.chocoinfo.text.owner_format", owner.getDisplayName().getString());
         }
-        int ownerTextLength = this.font.getStringWidth(ownerText);
-        this.font.drawStringWithShadow(matrixStack, ownerText, (this.xSize / 2) - (ownerTextLength / 2), 74, -1);
+        int ownerTextLength = this.font.width(ownerText);
+        this.font.drawShadow(matrixStack, ownerText, (this.xSize / 2) - (ownerTextLength / 2), 74, -1);
 
-        this.minecraft.getTextureManager().bindTexture(TEXTURE);
+        this.minecraft.getTextureManager().bind(TEXTURE);
         this.drawGenderInfo(matrixStack);
         this.drawHealthInfo(matrixStack);
         this.drawSpeedInfo(matrixStack);
@@ -196,27 +196,27 @@ public class ChocoboInfoScreen extends Screen {
     private void drawGenderInfo(MatrixStack matrixStack) {
         this.blit(matrixStack, 26, 18, 176, this.chocobo.isMale() ? 16 : 0, 16, 16);
 
-        String value = I18n.format(this.chocobo.isMale() ? "gui.chocoinfo.texture.male" : "gui.chocoinfo.texture.female");
-        int width = this.font.getStringWidth(value);
-        this.font.drawStringWithShadow(matrixStack, value, 35 - (width / 2), 36, -1);
+        String value = I18n.get(this.chocobo.isMale() ? "gui.chocoinfo.texture.male" : "gui.chocoinfo.texture.female");
+        int width = this.font.width(value);
+        this.font.drawShadow(matrixStack, value, 35 - (width / 2), 36, -1);
     }
 
     private void drawHealthInfo(MatrixStack matrixStack) {
         String value = String.valueOf((int) this.chocobo.getAttribute(Attributes.MAX_HEALTH).getBaseValue());
-        int width = this.font.getStringWidth(value);
-        this.font.drawStringWithShadow(matrixStack, value, 70 - (width / 2), 36, -1);
+        int width = this.font.width(value);
+        this.font.drawShadow(matrixStack, value, 70 - (width / 2), 36, -1);
     }
 
     private void drawSpeedInfo(MatrixStack matrixStack) {
         String value = String.valueOf((int) Math.round(this.chocobo.getAttribute(Attributes.MOVEMENT_SPEED).getBaseValue() * 100));
-        int width = this.font.getStringWidth(value);
-        this.font.drawStringWithShadow(matrixStack, value, 106 - (width / 2), 36, -1);
+        int width = this.font.width(value);
+        this.font.drawShadow(matrixStack, value, 106 - (width / 2), 36, -1);
     }
 
     private void drawStaminaInfo(MatrixStack matrixStack) {
         String value = String.valueOf((int) this.chocobo.getAttribute(ModAttributes.MAX_STAMINA.get()).getBaseValue());
-        int width = this.font.getStringWidth(value);
-        this.font.drawStringWithShadow(matrixStack, value, 142 - (width / 2), 36, -1);
+        int width = this.font.width(value);
+        this.font.drawShadow(matrixStack, value, 142 - (width / 2), 36, -1);
     }
 
     private void drawHover(MatrixStack matrixStack, int mouseX, int mouseY) {

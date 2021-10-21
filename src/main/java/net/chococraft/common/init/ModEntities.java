@@ -22,15 +22,15 @@ public class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, Chococraft.MODID);
 
     public static final RegistryObject<EntityType<ChocoboEntity>> CHOCOBO = ENTITIES.register("chocobo", () ->
-            register("chocobo", EntityType.Builder.<ChocoboEntity>create(ChocoboEntity::new, EntityClassification.CREATURE)
-                    .size(1.2f, 2.8f).trackingRange(64)));
+            register("chocobo", EntityType.Builder.<ChocoboEntity>of(ChocoboEntity::new, EntityClassification.CREATURE)
+                    .sized(1.2f, 2.8f).clientTrackingRange(64)));
 
     public static <T extends Entity> EntityType<T> register(String id, EntityType.Builder<T> builder) {
         return builder.build(id);
     }
 
     public static void addSpawns(BiomeLoadingEvent event) {
-        RegistryKey<Biome> biomeKey = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, event.getName());
+        RegistryKey<Biome> biomeKey = RegistryKey.create(Registry.BIOME_REGISTRY, event.getName());
         if(BiomeDictionary.hasType(biomeKey, Type.PLAINS) || BiomeDictionary.hasType(biomeKey, Type.HILLS) || BiomeDictionary.hasType(biomeKey, Type.NETHER)) {
 
             event.getSpawns().getSpawner(EntityClassification.CREATURE).add(new Spawners(ModEntities.CHOCOBO.get(),
@@ -39,6 +39,6 @@ public class ModEntities {
     }
 
     public static void registerEntityAttributes(EntityAttributeCreationEvent event) {
-        event.put(ModEntities.CHOCOBO.get(), ChocoboEntity.createAttributes().create());
+        event.put(ModEntities.CHOCOBO.get(), ChocoboEntity.createAttributes().build());
     }
 }

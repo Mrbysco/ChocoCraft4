@@ -25,8 +25,8 @@ public class ChocoboInventoryScreen extends ContainerScreen<SaddleBagContainer> 
     public ChocoboInventoryScreen(SaddleBagContainer container, PlayerInventory playerInventory, ChocoboEntity chocobo) {
         super(container, playerInventory, chocobo.getDisplayName());
 
-        this.xSize = 176;
-        this.ySize = 204;
+        this.imageWidth = 176;
+        this.imageHeight = 204;
         this.chocobo = chocobo;
         this.player = playerInventory.player;
     }
@@ -34,44 +34,44 @@ public class ChocoboInventoryScreen extends ContainerScreen<SaddleBagContainer> 
     public static void openInventory(int windowId, ChocoboEntity chocobo) {
         PlayerEntity player = Minecraft.getInstance().player;
         SaddleBagContainer saddleContainer = new SaddleBagContainer(windowId, player.inventory, chocobo);
-        player.openContainer = saddleContainer;
-        Minecraft.getInstance().displayGuiScreen(new ChocoboInventoryScreen(saddleContainer, player.inventory, chocobo));
+        player.containerMenu = saddleContainer;
+        Minecraft.getInstance().setScreen(new ChocoboInventoryScreen(saddleContainer, player.inventory, chocobo));
     }
 
     @Override
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
-        renderHoveredTooltip(matrixStack, mouseX, mouseY);
+        renderTooltip(matrixStack, mouseX, mouseY);
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int x, int y) {
+    protected void renderBg(MatrixStack matrixStack, float partialTicks, int x, int y) {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
         ItemStack saddleStack = chocobo.getSaddle();
         if(!saddleStack.isEmpty()){
             Item item = saddleStack.getItem();
             if(item == ModRegistry.CHOCOBO_SADDLE.get()) {
-                this.minecraft.getTextureManager().bindTexture(INV_TEXTURE_NULL);
+                this.minecraft.getTextureManager().bind(INV_TEXTURE_NULL);
             } else if(item == ModRegistry.CHOCOBO_SADDLE_BAGS.get()) {
-                this.minecraft.getTextureManager().bindTexture(INV_TEXTURE_SMALL);
+                this.minecraft.getTextureManager().bind(INV_TEXTURE_SMALL);
             } else if(item == ModRegistry.CHOCOBO_SADDLE_PACK.get()) {
-                this.minecraft.getTextureManager().bindTexture(INV_TEXTURE_LARGE);
+                this.minecraft.getTextureManager().bind(INV_TEXTURE_LARGE);
             }
         } else {
-            this.minecraft.getTextureManager().bindTexture(INV_TEXTURE_NULL);
+            this.minecraft.getTextureManager().bind(INV_TEXTURE_NULL);
         }
 
-        int i = (this.width - this.xSize) / 2;
-        int j = (this.height - this.ySize) / 2;
-        this.blit(matrixStack, i, j, 0, 0, this.xSize, this.ySize);
+        int i = (this.width - this.imageWidth) / 2;
+        int j = (this.height - this.imageHeight) / 2;
+        this.blit(matrixStack, i, j, 0, 0, this.imageWidth, this.imageHeight);
         this.blit(matrixStack, i - 24, j + 10, 0, 204, 27, 33);
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int x, int y) {
-        this.font.drawString(matrixStack, this.chocobo.getDisplayName().getString(), 8, 6, 0x888888);
-        this.font.drawString(matrixStack, this.player.getDisplayName().getString(), 8, this.ySize - 96 + 2, 0x888888);
+    protected void renderLabels(MatrixStack matrixStack, int x, int y) {
+        this.font.draw(matrixStack, this.chocobo.getDisplayName().getString(), 8, 6, 0x888888);
+        this.font.draw(matrixStack, this.player.getDisplayName().getString(), 8, this.imageHeight - 96 + 2, 0x888888);
     }
 }

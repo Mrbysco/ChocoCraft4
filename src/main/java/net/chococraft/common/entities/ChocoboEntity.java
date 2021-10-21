@@ -89,14 +89,14 @@ public class ChocoboEntity extends TameableEntity {
     private static final byte CAN_GLIDE_BIT = 0b0100;
     private static final byte CAN_FLY_BIT = 0b1000;
 
-    private static final DataParameter<ChocoboColor> PARAM_COLOR = EntityDataManager.createKey(ChocoboEntity.class, EntityDataSerializers.CHOCOBO_COLOR);
-    private static final DataParameter<Boolean> PARAM_IS_MALE = EntityDataManager.createKey(ChocoboEntity.class, DataSerializers.BOOLEAN);
-    private static final DataParameter<MovementType> PARAM_MOVEMENT_TYPE = EntityDataManager.createKey(ChocoboEntity.class, EntityDataSerializers.MOVEMENT_TYPE);
-    private static final DataParameter<ItemStack> PARAM_SADDLE_ITEM = EntityDataManager.createKey(ChocoboEntity.class, DataSerializers.ITEMSTACK);
+    private static final DataParameter<ChocoboColor> PARAM_COLOR = EntityDataManager.defineId(ChocoboEntity.class, EntityDataSerializers.CHOCOBO_COLOR);
+    private static final DataParameter<Boolean> PARAM_IS_MALE = EntityDataManager.defineId(ChocoboEntity.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<MovementType> PARAM_MOVEMENT_TYPE = EntityDataManager.defineId(ChocoboEntity.class, EntityDataSerializers.MOVEMENT_TYPE);
+    private static final DataParameter<ItemStack> PARAM_SADDLE_ITEM = EntityDataManager.defineId(ChocoboEntity.class, DataSerializers.ITEM_STACK);
 
-    private final static DataParameter<Integer> PARAM_GENERATION = EntityDataManager.createKey(ChocoboEntity.class, DataSerializers.VARINT);
-    private final static DataParameter<Float> PARAM_STAMINA = EntityDataManager.createKey(ChocoboEntity.class, DataSerializers.FLOAT);
-    private final static DataParameter<Byte> PARAM_ABILITY_MASK = EntityDataManager.createKey(ChocoboEntity.class, DataSerializers.BYTE);
+    private final static DataParameter<Integer> PARAM_GENERATION = EntityDataManager.defineId(ChocoboEntity.class, DataSerializers.INT);
+    private final static DataParameter<Float> PARAM_STAMINA = EntityDataManager.defineId(ChocoboEntity.class, DataSerializers.FLOAT);
+    private final static DataParameter<Byte> PARAM_ABILITY_MASK = EntityDataManager.defineId(ChocoboEntity.class, DataSerializers.BYTE);
 
     private static final UUID CHOCOBO_SPRINTING_BOOST_ID = UUID.fromString("03ba3167-393e-4362-92b8-909841047640");
     private static final AttributeModifier CHOCOBO_SPRINTING_SPEED_BOOST = (new AttributeModifier(CHOCOBO_SPRINTING_BOOST_ID, "Chocobo sprinting speed boost", 1, Operation.MULTIPLY_BASE));
@@ -130,7 +130,7 @@ public class ChocoboEntity extends TameableEntity {
     protected void registerGoals() {
         this.goalSelector.addGoal(2, new ChocoboMateGoal(this, 1.0D));
         this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 0.6D));
-        this.goalSelector.addGoal(4, new TemptGoal(this, 1.2D, false, Ingredient.fromItems(ModRegistry.GYSAHL_GREEN.get())));
+        this.goalSelector.addGoal(4, new TemptGoal(this, 1.2D, false, Ingredient.of(ModRegistry.GYSAHL_GREEN.get())));
         this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
         this.goalSelector.addGoal(1, new SwimGoal(this));
@@ -140,41 +140,41 @@ public class ChocoboEntity extends TameableEntity {
     public float followingmrhuman = 2;
 
     public static AttributeModifierMap.MutableAttribute createAttributes() {
-        return MobEntity.func_233666_p_()
-                .createMutableAttribute(ModAttributes.MAX_STAMINA.get(), ChocoConfig.COMMON.defaultStamina.get())
-                .createMutableAttribute(Attributes.MOVEMENT_SPEED, ChocoConfig.COMMON.defaultSpeed.get() / 100f)
-                .createMutableAttribute(Attributes.MAX_HEALTH, ChocoConfig.COMMON.defaultHealth.get());
+        return MobEntity.createMobAttributes()
+                .add(ModAttributes.MAX_STAMINA.get(), ChocoConfig.COMMON.defaultStamina.get())
+                .add(Attributes.MOVEMENT_SPEED, ChocoConfig.COMMON.defaultSpeed.get() / 100f)
+                .add(Attributes.MAX_HEALTH, ChocoConfig.COMMON.defaultHealth.get());
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(PARAM_COLOR, ChocoboColor.YELLOW);
-        this.dataManager.register(PARAM_IS_MALE, false);
-        this.dataManager.register(PARAM_MOVEMENT_TYPE, MovementType.WANDER);
-        this.dataManager.register(PARAM_SADDLE_ITEM, ItemStack.EMPTY);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(PARAM_COLOR, ChocoboColor.YELLOW);
+        this.entityData.define(PARAM_IS_MALE, false);
+        this.entityData.define(PARAM_MOVEMENT_TYPE, MovementType.WANDER);
+        this.entityData.define(PARAM_SADDLE_ITEM, ItemStack.EMPTY);
 
-        this.dataManager.register(PARAM_STAMINA, (float) ChocoConfig.COMMON.defaultStamina.get());
-        this.dataManager.register(PARAM_GENERATION, 0);
-        this.dataManager.register(PARAM_ABILITY_MASK, (byte) 0);
+        this.entityData.define(PARAM_STAMINA, (float) ChocoConfig.COMMON.defaultStamina.get());
+        this.entityData.define(PARAM_GENERATION, 0);
+        this.entityData.define(PARAM_ABILITY_MASK, (byte) 0);
     }
 
     @Override
-    public ILivingEntityData onInitialSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
-        this.setMale(this.world.rand.nextBoolean());
-        if (BiomeDictionary.getBiomes(BiomeDictionary.Type.NETHER).contains(this.world.getBiome((new BlockPos(getPosition())).down())))
+    public ILivingEntityData finalizeSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
+        this.setMale(this.level.random.nextBoolean());
+        if (BiomeDictionary.getBiomes(BiomeDictionary.Type.NETHER).contains(this.level.getBiome((new BlockPos(blockPosition())).below())))
             this.setChocoboColor(ChocoboColor.FLAME);
-        return super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+        return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
     }
 
     @Override
-    public boolean canBeSteered() {
-        return this.isTamed();
+    public boolean canBeControlledByRider() {
+        return this.isTame();
     }
 
     @Override
-    public void readAdditional(CompoundNBT compound) {
-        super.readAdditional(compound);
+    public void readAdditionalSaveData(CompoundNBT compound) {
+        super.readAdditionalSaveData(compound);
         this.setChocoboColor(ChocoboColor.values()[compound.getByte(NBTKEY_CHOCOBO_COLOR)]);
         this.setMale(compound.getBoolean(NBTKEY_CHOCOBO_IS_MALE));
         this.setMovementType(MovementType.values()[compound.getByte(NBTKEY_MOVEMENTTYPE)]);
@@ -196,8 +196,8 @@ public class ChocoboEntity extends TameableEntity {
     }
 
     @Override
-    public void writeAdditional(CompoundNBT compound) {
-        super.writeAdditional(compound);
+    public void addAdditionalSaveData(CompoundNBT compound) {
+        super.addAdditionalSaveData(compound);
         compound.putByte(NBTKEY_CHOCOBO_COLOR, (byte) this.getChocoboColor().ordinal());
         compound.putBoolean(NBTKEY_CHOCOBO_IS_MALE, this.isMale());
         compound.putByte(NBTKEY_MOVEMENTTYPE, (byte) this.getMovementType().ordinal());
@@ -219,32 +219,32 @@ public class ChocoboEntity extends TameableEntity {
     }
 
     public ChocoboColor getChocoboColor() {
-        return this.dataManager.get(PARAM_COLOR);
+        return this.entityData.get(PARAM_COLOR);
     }
 
     public void setChocoboColor(ChocoboColor color) {
-        this.dataManager.set(PARAM_COLOR, color);
+        this.entityData.set(PARAM_COLOR, color);
     }
 
     @Override
-    public boolean isImmuneToFire() {
+    public boolean fireImmune() {
         return getChocoboColor() == ChocoboColor.FLAME;
     }
 
     public boolean isMale() {
-        return this.dataManager.get(PARAM_IS_MALE);
+        return this.entityData.get(PARAM_IS_MALE);
     }
 
     public void setMale(boolean isMale) {
-        this.dataManager.set(PARAM_IS_MALE, isMale);
+        this.entityData.set(PARAM_IS_MALE, isMale);
     }
 
     public MovementType getMovementType() {
-        return this.dataManager.get(PARAM_MOVEMENT_TYPE);
+        return this.entityData.get(PARAM_MOVEMENT_TYPE);
     }
 
     public void setMovementType(MovementType type) {
-        this.dataManager.set(PARAM_MOVEMENT_TYPE, type);
+        this.entityData.set(PARAM_MOVEMENT_TYPE, type);
     }
 
     public boolean isSaddled() {
@@ -252,14 +252,14 @@ public class ChocoboEntity extends TameableEntity {
     }
 
     public ItemStack getSaddle() {
-        return this.dataManager.get(PARAM_SADDLE_ITEM);
+        return this.entityData.get(PARAM_SADDLE_ITEM);
     }
 
     private void setSaddleType(ItemStack saddleStack) {
         ItemStack oldStack = getSaddle();
         ItemStack newStack = saddleStack.copy();
         if (getSaddle().isEmpty() || getSaddle().getItem() != newStack.getItem()) {
-            this.dataManager.set(PARAM_SADDLE_ITEM, newStack);
+            this.entityData.set(PARAM_SADDLE_ITEM, newStack);
             this.reconfigureInventory(oldStack, newStack);
         }
     }
@@ -275,11 +275,11 @@ public class ChocoboEntity extends TameableEntity {
 
     //region Chocobo statistics getter/setter
     public float getStamina() {
-        return this.dataManager.get(PARAM_STAMINA);
+        return this.entityData.get(PARAM_STAMINA);
     }
 
     public void setStamina(float value) {
-        this.dataManager.set(PARAM_STAMINA, value);
+        this.entityData.set(PARAM_STAMINA, value);
     }
 
     public float getStaminaPercentage() {
@@ -287,26 +287,26 @@ public class ChocoboEntity extends TameableEntity {
     }
 
     public int getGeneration() {
-        return this.dataManager.get(PARAM_GENERATION);
+        return this.entityData.get(PARAM_GENERATION);
     }
 
     public void setGeneration(int value) {
-        this.dataManager.set(PARAM_GENERATION, value);
+        this.entityData.set(PARAM_GENERATION, value);
     }
 
     private boolean useStamina(float value) {
         if (value == 0) return true;
-        float curStamina = this.dataManager.get(PARAM_STAMINA);
+        float curStamina = this.entityData.get(PARAM_STAMINA);
         if (curStamina < value) return false;
 
         float maxStamina = (float) this.getAttribute(ModAttributes.MAX_STAMINA.get()).getValue();
         float newStamina = MathHelper.clamp(curStamina - value, 0, maxStamina);
-        this.dataManager.set(PARAM_STAMINA, newStamina);
+        this.entityData.set(PARAM_STAMINA, newStamina);
         return true;
     }
 
     public boolean canFly() {
-        return (this.dataManager.get(PARAM_ABILITY_MASK) & CAN_FLY_BIT) > 0;
+        return (this.entityData.get(PARAM_ABILITY_MASK) & CAN_FLY_BIT) > 0;
     }
 
     public void setCanFly(boolean state) {
@@ -314,7 +314,7 @@ public class ChocoboEntity extends TameableEntity {
     }
 
     public boolean canGlide() {
-        return (this.dataManager.get(PARAM_ABILITY_MASK) & CAN_GLIDE_BIT) > 0;
+        return (this.entityData.get(PARAM_ABILITY_MASK) & CAN_GLIDE_BIT) > 0;
     }
 
     public void setCanGlide(boolean state) {
@@ -322,7 +322,7 @@ public class ChocoboEntity extends TameableEntity {
     }
 
     public boolean canSprint() {
-        return (this.dataManager.get(PARAM_ABILITY_MASK) & CAN_SPRINT_BIT) > 0;
+        return (this.entityData.get(PARAM_ABILITY_MASK) & CAN_SPRINT_BIT) > 0;
     }
 
     public void setCanSprint(boolean state) {
@@ -330,7 +330,7 @@ public class ChocoboEntity extends TameableEntity {
     }
 
     public boolean canDive() {
-        return (this.dataManager.get(PARAM_ABILITY_MASK) & CAN_DIVE_BIT) > 0;
+        return (this.entityData.get(PARAM_ABILITY_MASK) & CAN_DIVE_BIT) > 0;
     }
 
     public void setCanDive(boolean state) {
@@ -338,13 +338,13 @@ public class ChocoboEntity extends TameableEntity {
     }
 
     private void setAbilityMaskBit(int bit, boolean state) {
-        int value = this.dataManager.get(PARAM_ABILITY_MASK);
-        this.dataManager.set(PARAM_ABILITY_MASK, (byte) (state ? value | bit : value & ~bit));
+        int value = this.entityData.get(PARAM_ABILITY_MASK);
+        this.entityData.set(PARAM_ABILITY_MASK, (byte) (state ? value | bit : value & ~bit));
     }
     //endregion
 
     @Override
-    public double getMountedYOffset() {
+    public double getPassengersRidingOffset() {
         return 1.65D;
     }
 
@@ -379,82 +379,82 @@ public class ChocoboEntity extends TameableEntity {
         if (this.getControllingPassenger() instanceof PlayerEntity) {
             PlayerEntity rider = (PlayerEntity) this.getControllingPassenger();
 
-            this.prevRotationYaw = rider.rotationYaw;
-            this.prevRotationPitch = rider.rotationPitch;
-            this.rotationYaw = rider.rotationYaw;
-            this.rotationPitch = rider.rotationPitch;
-            this.setRotation(this.rotationYaw, this.rotationPitch);
-            this.rotationYawHead = this.rotationYaw;
-            this.renderYawOffset = this.rotationYaw;
+            this.yRotO = rider.yRot;
+            this.xRotO = rider.xRot;
+            this.yRot = rider.yRot;
+            this.xRot = rider.xRot;
+            this.setRot(this.yRot, this.xRot);
+            this.yHeadRot = this.yRot;
+            this.yBodyRot = this.yRot;
 
-            newVector = new Vector3d(rider.moveStrafing * 0.5F, newVector.y, rider.moveForward); //Strafe - Vertical - Forward
+            newVector = new Vector3d(rider.xxa * 0.5F, newVector.y, rider.zza); //Strafe - Vertical - Forward
 
             // reduce movement speed by 75% if moving backwards
-            if (newVector.getZ() <= 0.0D)
+            if (newVector.z() <= 0.0D)
                 newVector = new Vector3d(newVector.x, newVector.y, newVector.z * 0.25F);
 
             if (this.onGround)
                 this.isChocoboJumping = false;
 
             if ((this.canGlide() || this.canFly()) && (!rider.isInWater())) {
-                this.jumpMovementFactor = .07f;
+                this.flyingSpeed = .07f;
             } else {
                 if ((rider.isInWater()) || (!this.canGlide() && !this.canFly())) {
-                    this.jumpMovementFactor = .05f;
+                    this.flyingSpeed = .05f;
                 }
             }
 
-            if (this.canPassengerSteer()) {
-                if (rider.isJumping) {
+            if (this.isControlledByLocalInstance()) {
+                if (rider.jumping) {
                     if (rider.isSprinting() && this.canFly() && !rider.isInWater() && this.useStamina(ChocoConfig.COMMON.flyStaminaCost.get().floatValue())) {
                         // flight logic
-                        Vector3d motion = getMotion();
+                        Vector3d motion = getDeltaMovement();
                         double groundValue = this.onGround ? .5F : .1F;
-                        setMotion(new Vector3d(motion.x, motion.y + groundValue, motion.z));
-                        if (getMotion().y > 0.5f)
-                            setMotion(new Vector3d(motion.x, 0.5f, motion.z));
+                        setDeltaMovement(new Vector3d(motion.x, motion.y + groundValue, motion.z));
+                        if (getDeltaMovement().y > 0.5f)
+                            setDeltaMovement(new Vector3d(motion.x, 0.5f, motion.z));
 
                         this.setSprinting(false);
                     } else {
                         // jump logic
                         if (!this.isChocoboJumping && this.onGround && this.useStamina(ChocoConfig.COMMON.jumpStaminaCost.get().floatValue())) {
-                            Vector3d motion = getMotion();
-                            setMotion(new Vector3d(motion.x, .6f, motion.z));
+                            Vector3d motion = getDeltaMovement();
+                            setDeltaMovement(new Vector3d(motion.x, .6f, motion.z));
                             this.isChocoboJumping = true;
                         }
                     }
                 }
 
                 if (rider.isInWater()) {
-                    Vector3d motion = getMotion();
+                    Vector3d motion = getDeltaMovement();
                     if (this.canDive()) {
-                        if (rider.isSneaking()) {
-                            setMotion(new Vector3d(motion.x, motion.y - 0.05f, motion.z));
-                            if (this.getMotion().y < -0.7f)
-                                setMotion(new Vector3d(motion.x, 0.7f, motion.z));
+                        if (rider.isShiftKeyDown()) {
+                            setDeltaMovement(new Vector3d(motion.x, motion.y - 0.05f, motion.z));
+                            if (this.getDeltaMovement().y < -0.7f)
+                                setDeltaMovement(new Vector3d(motion.x, 0.7f, motion.z));
                         }
 
-                        if (rider.isJumping) {
-                            setMotion(new Vector3d(motion.x, .5f, motion.z));
+                        if (rider.jumping) {
+                            setDeltaMovement(new Vector3d(motion.x, .5f, motion.z));
                         }
 
-                        this.inWater = false;
+                        this.wasTouchingWater = false;
                         this.setSprinting(false);
                     } else {
-                        if (rider.isJumping) {
-                            setMotion(new Vector3d(motion.x, .5f, motion.z));
-                        } else if (this.getMotion().y < 0) {
-                            int distance = WorldUtils.getDistanceToSurface(this.getPosition(), this.getEntityWorld());
+                        if (rider.jumping) {
+                            setDeltaMovement(new Vector3d(motion.x, .5f, motion.z));
+                        } else if (this.getDeltaMovement().y < 0) {
+                            int distance = WorldUtils.getDistanceToSurface(this.blockPosition(), this.getCommandSenderWorld());
                             if (distance > 0)
-                                setMotion(new Vector3d(motion.x, .01f + Math.min(0.05f * distance, 0.7), motion.z));
+                                setDeltaMovement(new Vector3d(motion.x, .01f + Math.min(0.05f * distance, 0.7), motion.z));
                         }
                     }
                 }
 
-                if (!this.onGround && !this.isInWater() && !rider.isSneaking() && this.getMotion().y < 0 && this.canGlide() &&
+                if (!this.onGround && !this.isInWater() && !rider.isShiftKeyDown() && this.getDeltaMovement().y < 0 && this.canGlide() &&
                         this.useStamina(ChocoConfig.COMMON.glideStaminaCost.get().floatValue())) {
-                    Vector3d motion = getMotion();
-                    setMotion(new Vector3d(motion.x, motion.y * 0.65F, motion.z));
+                    Vector3d motion = getDeltaMovement();
+                    setDeltaMovement(new Vector3d(motion.x, motion.y * 0.65F, motion.z));
                 }
 
                 if ((this.isSprinting() && !this.useStamina(ChocoConfig.COMMON.sprintStaminaCost.get().floatValue())) || (this.isSprinting() &&
@@ -463,7 +463,7 @@ public class ChocoboEntity extends TameableEntity {
                     this.setSprinting(false);
                 }
 
-                this.setAIMoveSpeed((float) this.getAttribute(Attributes.MOVEMENT_SPEED).getValue());
+                this.setSpeed((float) this.getAttribute(Attributes.MOVEMENT_SPEED).getValue());
                 super.travel(newVector);
             }
         } else {
@@ -472,21 +472,21 @@ public class ChocoboEntity extends TameableEntity {
     }
 
     @Override
-    public void updatePassenger(Entity passenger) {
-        super.updatePassenger(passenger);
+    public void positionRider(Entity passenger) {
+        super.positionRider(passenger);
         if (passenger instanceof MobEntity && this.getControllingPassenger() == passenger) {
-            this.renderYawOffset = ((LivingEntity) passenger).renderYawOffset;
+            this.yBodyRot = ((LivingEntity) passenger).yBodyRot;
         }
     }
 
     @Nullable
     @Override
-    public AgeableEntity createChild(ServerWorld world, AgeableEntity mate) {
+    public AgeableEntity getBreedOffspring(ServerWorld world, AgeableEntity mate) {
         return null;
     }
 
     @Override
-    public boolean canMateWith(AnimalEntity otherAnimal) {
+    public boolean canMate(AnimalEntity otherAnimal) {
         if (otherAnimal == this || !(otherAnimal instanceof ChocoboEntity)) return false;
         if (!this.isInLove() || !otherAnimal.isInLove()) return false;
         ChocoboEntity otherChocobo = (ChocoboEntity) otherAnimal;
@@ -495,7 +495,7 @@ public class ChocoboEntity extends TameableEntity {
 
     @Override
     public void setSprinting(boolean sprinting) {
-        this.setFlag(3, sprinting);
+        this.setSharedFlag(3, sprinting);
         ModifiableAttributeInstance attributeInstance = this.getAttribute(Attributes.MOVEMENT_SPEED);
 
         if (attributeInstance.getModifier(CHOCOBO_SPRINTING_BOOST_ID) != null) {
@@ -503,36 +503,36 @@ public class ChocoboEntity extends TameableEntity {
         }
 
         if (sprinting && this.canSprint()) {
-            attributeInstance.applyNonPersistentModifier(CHOCOBO_SPRINTING_SPEED_BOOST);
+            attributeInstance.addTransientModifier(CHOCOBO_SPRINTING_SPEED_BOOST);
         }
     }
 
     public void dropFeather() {
-        if (this.getEntityWorld().isRemote)
+        if (this.getCommandSenderWorld().isClientSide)
             return;
 
-        if (this.isChild())
+        if (this.isBaby())
             return;
 
-        this.entityDropItem(new ItemStack(ModRegistry.CHOCOBO_FEATHER.get(), 1), 0.0F);
+        this.spawnAtLocation(new ItemStack(ModRegistry.CHOCOBO_FEATHER.get(), 1), 0.0F);
     }
 
     public int TimeSinceFeatherChance = 0;
 
     @Override
-    protected boolean canBeRidden(Entity entityIn) {
-        return !this.getSaddle().isEmpty() && super.canBeRidden(entityIn);
+    protected boolean canRide(Entity entityIn) {
+        return !this.getSaddle().isEmpty() && super.canRide(entityIn);
     }
 
     @Override
-    public void livingTick() {
-        super.livingTick();
+    public void aiStep() {
+        super.aiStep();
 
-        this.setRotation(this.rotationYaw, this.rotationPitch);
+        this.setRot(this.yRot, this.xRot);
 
         this.regenerateStamina();
 
-        this.stepHeight = 1f;
+        this.maxUpStep = 1f;
         this.fallDistance = 0f;
 
         if (this.TimeSinceFeatherChance == 3000) {
@@ -545,24 +545,24 @@ public class ChocoboEntity extends TameableEntity {
             this.TimeSinceFeatherChance++;
         }
 
-        if (!this.getEntityWorld().isRemote) {
-            if (this.ticksExisted % 60 == 0)
+        if (!this.getCommandSenderWorld().isClientSide) {
+            if (this.tickCount % 60 == 0)
             {
                 if (this.canDive()) {
-                    this.addPotionEffect(new EffectInstance(Effects.WATER_BREATHING, 100, 0, true, false));
-                    if (this.isBeingRidden()) {
+                    this.addEffect(new EffectInstance(Effects.WATER_BREATHING, 100, 0, true, false));
+                    if (this.isVehicle()) {
                         Entity controller = this.getControllingPassenger();
                         if (controller instanceof PlayerEntity) {
-                            ((PlayerEntity) controller).addPotionEffect(new EffectInstance(Effects.WATER_BREATHING, 100, 0, true, false));
+                            ((PlayerEntity) controller).addEffect(new EffectInstance(Effects.WATER_BREATHING, 100, 0, true, false));
                         }
                     }
                 }
                 if (this.getChocoboColor() == ChocoboColor.FLAME) {
-                    this.addPotionEffect(new EffectInstance(Effects.FIRE_RESISTANCE, 100, 0, true, false));
-                    if (this.isBeingRidden()) {
+                    this.addEffect(new EffectInstance(Effects.FIRE_RESISTANCE, 100, 0, true, false));
+                    if (this.isVehicle()) {
                         Entity controller = this.getControllingPassenger();
                         if (controller instanceof PlayerEntity) {
-                            ((PlayerEntity) controller).addPotionEffect(new EffectInstance(Effects.FIRE_RESISTANCE, 100, 0, true, false));
+                            ((PlayerEntity) controller).addEffect(new EffectInstance(Effects.FIRE_RESISTANCE, 100, 0, true, false));
                         }
                     }
                 }
@@ -579,21 +579,21 @@ public class ChocoboEntity extends TameableEntity {
             this.wingRotation += this.wingRotDelta * 2.0F;
 
             if (this.onGround) {
-                this.prevLimbSwingAmount = this.limbSwingAmount;
-                double d1 = this.getPosX() - this.prevPosX;
-                double d0 = this.getPosZ() - this.prevPosZ;
+                this.animationSpeedOld = this.animationSpeed;
+                double d1 = this.getX() - this.xo;
+                double d0 = this.getZ() - this.zo;
                 float f4 = MathHelper.sqrt(d1 * d1 + d0 * d0) * 4.0F;
 
                 if (f4 > 1.0F) {
                     f4 = 1.0F;
                 }
 
-                this.limbSwingAmount += (f4 - this.limbSwingAmount) * 0.4F;
-                this.limbSwing += this.limbSwingAmount;
+                this.animationSpeed += (f4 - this.animationSpeed) * 0.4F;
+                this.animationPosition += this.animationSpeed;
             } else {
-                this.limbSwing = 0;
-                this.limbSwingAmount = 0;
-                this.prevLimbSwingAmount = 0;
+                this.animationPosition = 0;
+                this.animationSpeed = 0;
+                this.animationSpeedOld = 0;
             }
         }
     }
@@ -607,7 +607,7 @@ public class ChocoboEntity extends TameableEntity {
         float regen = ChocoConfig.COMMON.staminaRegenRate.get().floatValue();
 
         // half the amount of regeneration while moving
-        Vector3d motion = getMotion();
+        Vector3d motion = getDeltaMovement();
         if (motion.x != 0 || motion.z != 0)
             regen *= 0.85;
 
@@ -616,136 +616,136 @@ public class ChocoboEntity extends TameableEntity {
     }
 
     @Override
-    public boolean isBreedingItem(ItemStack stack) {
+    public boolean isFood(ItemStack stack) {
         return false;
     }
 
     @Override
-    public ActionResultType applyPlayerInteraction(PlayerEntity player, Vector3d vec, Hand hand) {
-        ItemStack heldItemStack = player.getHeldItem(hand);
+    public ActionResultType interactAt(PlayerEntity player, Vector3d vec, Hand hand) {
+        ItemStack heldItemStack = player.getItemInHand(hand);
 
         if (heldItemStack.getItem() == ModRegistry.CHOCOPEDIA.get()) {
-            if(world.isRemote) {
+            if(level.isClientSide) {
                 net.chococraft.client.gui.ChocoboInfoScreen.openScreen(this, player);
             }
             return ActionResultType.SUCCESS;
         }
 
-        if (this.isTamed() && player.isSneaking() && !this.isChild()) {
+        if (this.isTame() && player.isShiftKeyDown() && !this.isBaby()) {
             if (player instanceof ServerPlayerEntity)
                 this.displayChocoboInventory((ServerPlayerEntity) player);
             return ActionResultType.SUCCESS;
         }
 
-        if (this.getEntityWorld().isRemote)
+        if (this.getCommandSenderWorld().isClientSide)
             return ActionResultType.SUCCESS;
 
-        if (this.isSaddled() && heldItemStack.isEmpty() && !player.isSneaking() && !this.isChild()) {
+        if (this.isSaddled() && heldItemStack.isEmpty() && !player.isShiftKeyDown() && !this.isBaby()) {
             player.startRiding(this);
             return ActionResultType.SUCCESS;
         }
 
-        if (!this.isTamed() && heldItemStack.getItem() == ModRegistry.GYSAHL_GREEN_ITEM.get()) {
-            this.consumeItemFromStack(player, player.inventory.getCurrentItem());
+        if (!this.isTame() && heldItemStack.getItem() == ModRegistry.GYSAHL_GREEN_ITEM.get()) {
+            this.usePlayerItem(player, player.inventory.getSelected());
             if ((float) Math.random() < ChocoConfig.COMMON.tameChance.get().floatValue()) {
-                this.setOwnerId(player.getUniqueID());
-                this.setTamed(true);
-                player.sendStatusMessage(new TranslationTextComponent(Chococraft.MODID + ".entity_chocobo.tame_success"), true);
+                this.setOwnerUUID(player.getUUID());
+                this.setTame(true);
+                player.displayClientMessage(new TranslationTextComponent(Chococraft.MODID + ".entity_chocobo.tame_success"), true);
             } else {
-                player.sendStatusMessage(new TranslationTextComponent(Chococraft.MODID + ".entity_chocobo.tame_fail"), true);
+                player.displayClientMessage(new TranslationTextComponent(Chococraft.MODID + ".entity_chocobo.tame_fail"), true);
             }
             return ActionResultType.SUCCESS;
         }
 
-        if (this.isTamed() && heldItemStack.getItem() == ModRegistry.GYSAHL_GREEN_ITEM.get()) {
+        if (this.isTame() && heldItemStack.getItem() == ModRegistry.GYSAHL_GREEN_ITEM.get()) {
             if (getHealth() != getMaxHealth()) {
-                this.consumeItemFromStack(player, player.inventory.getCurrentItem());
+                this.usePlayerItem(player, player.inventory.getSelected());
                 heal(5);
             } else {
-                player.sendStatusMessage(new TranslationTextComponent(Chococraft.MODID + ".entity_chocobo.heal_fail"), true);
+                player.displayClientMessage(new TranslationTextComponent(Chococraft.MODID + ".entity_chocobo.heal_fail"), true);
             }
         }
 
-        if (this.isTamed() && heldItemStack.getItem() == ModRegistry.CHOCOBO_WHISTLE.get() && !this.isChild()) {
-            if (isOwner(player)) {
+        if (this.isTame() && heldItemStack.getItem() == ModRegistry.CHOCOBO_WHISTLE.get() && !this.isBaby()) {
+            if (isOwnedBy(player)) {
                 if (this.followingmrhuman == 3) {
                     this.playSound(ModSounds.WHISTLE_SOUND_FOLLOW.get(), 1.0F, 1.0F);
-                    this.setNoAI(false);
+                    this.setNoAi(false);
                     this.goalSelector.addGoal(0, this.follow);
                     followingmrhuman = 1;
-                    player.sendStatusMessage(new TranslationTextComponent(Chococraft.MODID + ".entity_chocobo.chocobo_followcmd"), true);
+                    player.displayClientMessage(new TranslationTextComponent(Chococraft.MODID + ".entity_chocobo.chocobo_followcmd"), true);
                 } else if (this.followingmrhuman == 1) {
                     this.playSound(ModSounds.WHISTLE_SOUND_WANDER.get(), 1.0F, 1.0F);
                     this.goalSelector.removeGoal(this.follow);
                     followingmrhuman = 2;
-                    player.sendStatusMessage(new TranslationTextComponent(Chococraft.MODID + ".entity_chocobo.chocobo_wandercmd"), true);
+                    player.displayClientMessage(new TranslationTextComponent(Chococraft.MODID + ".entity_chocobo.chocobo_wandercmd"), true);
                 } else if (this.followingmrhuman == 2) {
                     this.playSound(ModSounds.WHISTLE_SOUND_STAY.get(), 1.0F, 1.0F);
-                    this.setNoAI(true);
+                    this.setNoAi(true);
                     followingmrhuman = 3;
-                    player.sendStatusMessage(new TranslationTextComponent(Chococraft.MODID + ".entity_chocobo.chocobo_staycmd"), true);
+                    player.displayClientMessage(new TranslationTextComponent(Chococraft.MODID + ".entity_chocobo.chocobo_staycmd"), true);
                 }
             } else {
-                player.sendStatusMessage(new TranslationTextComponent(Chococraft.MODID + ".entity_chocobo.not_owner"), true);
+                player.displayClientMessage(new TranslationTextComponent(Chococraft.MODID + ".entity_chocobo.not_owner"), true);
             }
             return ActionResultType.SUCCESS;
         }
 
-        if (this.isTamed() && !this.isInLove() && heldItemStack.getItem() == ModRegistry.LOVELY_GYSAHL_GREEN.get() && !this.isChild()) {
-            this.consumeItemFromStack(player, player.inventory.getCurrentItem());
+        if (this.isTame() && !this.isInLove() && heldItemStack.getItem() == ModRegistry.LOVELY_GYSAHL_GREEN.get() && !this.isBaby()) {
+            this.usePlayerItem(player, player.inventory.getSelected());
             this.setInLove(player);
             return ActionResultType.SUCCESS;
         }
 
-        if (heldItemStack.getItem() instanceof ChocoboSaddleItem && this.isTamed() && !this.isSaddled() && !this.isChild()) {
+        if (heldItemStack.getItem() instanceof ChocoboSaddleItem && this.isTame() && !this.isSaddled() && !this.isBaby()) {
             this.saddleItemStackHandler.setStackInSlot(0, heldItemStack.copy().split(1));
             this.setSaddleType(heldItemStack);
-            this.consumeItemFromStack(player, heldItemStack);
+            this.usePlayerItem(player, heldItemStack);
             return ActionResultType.SUCCESS;
         }
 
-        if (this.isTamed() && !heldItemStack.isEmpty()) {
+        if (this.isTame() && !heldItemStack.isEmpty()) {
             Optional<ChocoboColor> color = ChocoboColor.getColorForItemstack(heldItemStack);
             if (color.isPresent()) {
-                if (isOwner(player)) {
-                    this.consumeItemFromStack(player, heldItemStack);
+                if (isOwnedBy(player)) {
+                    this.usePlayerItem(player, heldItemStack);
                     this.setChocoboColor(color.get());
                 } else {
-                    player.sendStatusMessage(new TranslationTextComponent(Chococraft.MODID + ".entity_chocobo.not_owner"), true);
+                    player.displayClientMessage(new TranslationTextComponent(Chococraft.MODID + ".entity_chocobo.not_owner"), true);
                 }
                 return ActionResultType.SUCCESS;
             }
         }
 
-        if (this.isTamed() && heldItemStack.getItem() == Items.NAME_TAG && !isOwner(player)) {
-            player.sendStatusMessage(new TranslationTextComponent(Chococraft.MODID + ".entity_chocobo.not_owner"), true);
+        if (this.isTame() && heldItemStack.getItem() == Items.NAME_TAG && !isOwnedBy(player)) {
+            player.displayClientMessage(new TranslationTextComponent(Chococraft.MODID + ".entity_chocobo.not_owner"), true);
             return ActionResultType.SUCCESS;
         }
 
-        return super.applyPlayerInteraction(player, vec, hand);
+        return super.interactAt(player, vec, hand);
     }
 
     private void displayChocoboInventory(ServerPlayerEntity player) {
-        if (player.openContainer != player.container) {
-            player.closeScreen();
+        if (player.containerMenu != player.inventoryMenu) {
+            player.closeContainer();
         }
 
-        player.getNextWindowId();
-        PacketManager.CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new OpenChocoboGuiMessage(this, player.currentWindowId));
+        player.nextContainerCounter();
+        PacketManager.CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new OpenChocoboGuiMessage(this, player.containerCounter));
 
-        player.openContainer = new SaddleBagContainer(player.currentWindowId, player.inventory, this);
-        player.openContainer.addListener(player);
-        net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.entity.player.PlayerContainerEvent.Open(player, player.openContainer));
+        player.containerMenu = new SaddleBagContainer(player.containerCounter, player.inventory, this);
+        player.containerMenu.addSlotListener(player);
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.entity.player.PlayerContainerEvent.Open(player, player.containerMenu));
     }
 
     private void reconfigureInventory(ItemStack oldSaddle, ItemStack newSaddle) {
 
-        if (!this.getEntityWorld().isRemote) {
+        if (!this.getCommandSenderWorld().isClientSide) {
             // TODO: Handle resizing. ItemStackHandler#setSize() clears the internal inventory!
             for (int i = 0; i < this.chocoboInventory.getSlots(); i++) {
                 if (this.isAlive()) {
                     ItemStack stack = this.chocoboInventory.extractItem(i, Integer.MAX_VALUE, false);
-                    InventoryHelper.spawnItemStack(this.getEntityWorld(), this.getPosX(), this.getPosY() + .5, this.getPosZ(), stack);
+                    InventoryHelper.dropItemStack(this.getCommandSenderWorld(), this.getX(), this.getY() + .5, this.getZ(), stack);
                 }
             }
         }
@@ -754,20 +754,20 @@ public class ChocoboEntity extends TameableEntity {
             this.chocoboInventory.setSize(((ChocoboSaddleItem)newSaddle.getItem()).getInventorySize());
         }
 
-        for (PlayerEntity player : world.getPlayers()) {
-            if (player.openContainer instanceof SaddleBagContainer)
-                ((SaddleBagContainer) player.openContainer).refreshSlots(this, player.inventory);
+        for (PlayerEntity player : level.players()) {
+            if (player.containerMenu instanceof SaddleBagContainer)
+                ((SaddleBagContainer) player.containerMenu).refreshSlots(this, player.inventory);
         }
     }
 
     @Override
-    protected void dropLoot(DamageSource damageSourceIn, boolean attackedRecently) {
-        super.dropLoot(damageSourceIn, attackedRecently);
+    protected void dropFromLootTable(DamageSource damageSourceIn, boolean attackedRecently) {
+        super.dropFromLootTable(damageSourceIn, attackedRecently);
 
         if (this.chocoboInventory != null && this.isSaddled()) {
             for (int i = 0; i < this.chocoboInventory.getSlots(); i++) {
                 if (!this.chocoboInventory.getStackInSlot(i).isEmpty())
-                    this.entityDropItem(this.chocoboInventory.getStackInSlot(i), 0.0f);
+                    this.spawnAtLocation(this.chocoboInventory.getStackInSlot(i), 0.0f);
             }
         }
     }
@@ -790,15 +790,15 @@ public class ChocoboEntity extends TameableEntity {
     }
 
     @Override
-    public int getTalkInterval() {
+    public int getAmbientSoundInterval() {
         return (24 * (int) (Math.random() * 100));
     }
 
     @Override
-    public boolean canSpawn(IWorld worldIn, SpawnReason spawnReasonIn) {
-        if (BiomeDictionary.getBiomes(BiomeDictionary.Type.NETHER).contains(this.world.getBiome((new BlockPos(getPosition())).down())))
+    public boolean checkSpawnRules(IWorld worldIn, SpawnReason spawnReasonIn) {
+        if (BiomeDictionary.getBiomes(BiomeDictionary.Type.NETHER).contains(this.level.getBiome((new BlockPos(blockPosition())).below())))
             return true;
 
-        return super.canSpawn(worldIn, spawnReasonIn);
+        return super.checkSpawnRules(worldIn, spawnReasonIn);
     }
 }
