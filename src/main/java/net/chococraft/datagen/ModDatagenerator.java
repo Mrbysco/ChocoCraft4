@@ -51,7 +51,7 @@ public class ModDatagenerator {
 			generator.addProvider(new ModLoot(generator));
 		}
 		if (event.includeClient()) {
-			generator.addProvider(new FarmingItemModels(generator, helper));
+//			generator.addProvider(new FarmingItemModels(generator, helper));
 		}
 	}
 
@@ -74,7 +74,7 @@ public class ModDatagenerator {
 				LootItemCondition.Builder condition = LootItemBlockStatePropertyCondition.hasBlockStateProperties(GYSAHL_GREEN.get()).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(GysahlGreenBlock.AGE, GysahlGreenBlock.MAX_AGE));
 				this.add(GYSAHL_GREEN.get(), applyExplosionDecay(GYSAHL_GREEN.get(), LootTable.lootTable().withPool(LootPool.lootPool()
 						.add(LootItem.lootTableItem(GYSAHL_GREEN.get()))).withPool(LootPool.lootPool().when(condition)
-						.add(LootItem.lootTableItem(GYSAHL_GREEN.get())
+						.add(LootItem.lootTableItem(GYSAHL_GREEN_ITEM.get())
 								.apply(ApplyBonusCount.addBonusBinomialDistributionCount(Enchantments.BLOCK_FORTUNE, 0.5714286F, 3)))).withPool(LootPool.lootPool().when(condition)
 						.add(LootItem.lootTableItem(LOVELY_GYSAHL_GREEN.get()).when(LootItemRandomChanceCondition.randomChance(0.02F))))));
 			}

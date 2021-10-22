@@ -3,6 +3,7 @@
   "pools": [
     {
       "rolls": 1.0,
+      "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",
@@ -12,6 +13,7 @@
     },
     {
       "rolls": 1.0,
+      "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",
@@ -26,7 +28,7 @@
               }
             }
           ],
-          "name": "chococraft:gysahl_green_seeds"
+          "name": "chococraft:gysahl_green"
         }
       ],
       "conditions": [
@@ -37,10 +39,12 @@
             "age": "4"
           }
         }
-      ]
+      ],
+      "functions": []
     },
     {
       "rolls": 1.0,
+      "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",
@@ -61,7 +65,8 @@
             "age": "4"
           }
         }
-      ]
+      ],
+      "functions": []
     }
   ],
   "functions": [
