@@ -7,10 +7,13 @@ import net.chococraft.common.blocks.GysahlGreenBlock;
 import net.chococraft.common.init.ModRegistry;
 import net.minecraft.advancements.criterion.StatePropertiesPredicate;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.CropsBlock;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.LootTableProvider;
 import net.minecraft.data.loot.BlockLootTables;
 import net.minecraft.enchantment.Enchantments;
+import net.minecraft.item.Items;
 import net.minecraft.loot.ItemLootEntry;
 import net.minecraft.loot.LootParameterSet;
 import net.minecraft.loot.LootParameterSets;
@@ -49,7 +52,7 @@ public class ModDatagenerator {
 			generator.addProvider(new ModLoot(generator));
 		}
 		if (event.includeClient()) {
-			generator.addProvider(new FarmingItemModels(generator, helper));
+//			generator.addProvider(new FarmingItemModels(generator, helper));
 		}
 	}
 
@@ -72,7 +75,7 @@ public class ModDatagenerator {
 				ILootCondition.IBuilder condition = BlockStateProperty.hasBlockStateProperties(ModRegistry.GYSAHL_GREEN.get()).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(GysahlGreenBlock.AGE, GysahlGreenBlock.MAX_AGE));
 				this.add(ModRegistry.GYSAHL_GREEN.get(), applyExplosionDecay(ModRegistry.GYSAHL_GREEN.get(), LootTable.lootTable().withPool(LootPool.lootPool()
 						.add(ItemLootEntry.lootTableItem(ModRegistry.GYSAHL_GREEN.get()))).withPool(LootPool.lootPool().when(condition)
-						.add(ItemLootEntry.lootTableItem(ModRegistry.GYSAHL_GREEN.get())
+						.add(ItemLootEntry.lootTableItem(ModRegistry.GYSAHL_GREEN_ITEM.get())
 								.apply(ApplyBonus.addBonusBinomialDistributionCount(Enchantments.BLOCK_FORTUNE, 0.5714286F, 3)))).withPool(LootPool.lootPool().when(condition)
 						.add(ItemLootEntry.lootTableItem(ModRegistry.LOVELY_GYSAHL_GREEN.get()).when(RandomChance.randomChance(0.02F))))));
 			}

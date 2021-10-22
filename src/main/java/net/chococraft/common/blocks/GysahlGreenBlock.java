@@ -29,7 +29,8 @@ public class GysahlGreenBlock extends CropsBlock {
 
     @Override
     public boolean canSurvive(BlockState state, IWorldReader worldIn, BlockPos pos) {
-        return (worldIn.getRawBrightness(pos, 0) >= 8 || worldIn.canSeeSky(pos)) && ((state.getBlock() == this && state.getValue(AGE) == MAX_AGE) && super.canSurvive(state, worldIn, pos));
+        return (worldIn.getRawBrightness(pos, 0) >= 8 || worldIn.canSeeSky(pos)) && ((state.getBlock() == this || state.getValue(AGE) == MAX_AGE) &&
+                super.canSurvive(state, worldIn, pos));
     }
 
     @Override
