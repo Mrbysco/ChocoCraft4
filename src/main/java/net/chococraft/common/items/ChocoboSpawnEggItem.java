@@ -34,8 +34,7 @@ public class ChocoboSpawnEggItem extends Item {
             final BlockPos pos = context.getClickedPos();
             final Player player = context.getPlayer();
             if (player != null) {
-                player.isCrouching();
-                if (player.isShiftKeyDown()) {
+                if (player.isCrouching()) {
                     chocobo.setAge(-24000);
                 }
             }
