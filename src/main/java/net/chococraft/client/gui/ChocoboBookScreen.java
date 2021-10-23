@@ -1,23 +1,18 @@
 package net.chococraft.client.gui;
 
-
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.chococraft.Chococraft;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 
-
 public class ChocoboBookScreen extends Screen {
-    public final static ResourceLocation TEXTURE = new ResourceLocation(Chococraft.MODID, "textures/gui/chocobo_book.png");
-
-    private final PlayerEntity player;
+    private final static ResourceLocation TEXTURE = new ResourceLocation(Chococraft.MODID, "textures/gui/chocobo_book.png");
 
     private int xSize = 130;
     private int ySize = 185;
@@ -25,13 +20,12 @@ public class ChocoboBookScreen extends Screen {
     private int guiLeft;
     private int guiTop;
 
-    public ChocoboBookScreen(PlayerEntity player) {
+    public ChocoboBookScreen() {
         super(StringTextComponent.EMPTY);
-        this.player = player;
     }
 
-    public static void openScreen(PlayerEntity player) {
-        Minecraft.getInstance().setScreen(new ChocoboBookScreen(player));
+    public static void openScreen() {
+        Minecraft.getInstance().setScreen(new ChocoboBookScreen());
     }
 
     @Override
@@ -39,12 +33,8 @@ public class ChocoboBookScreen extends Screen {
         this.guiLeft = (this.width - this.xSize) / 2;
         this.guiTop = (this.height - this.ySize) / 2;
 
-        this.addButton(new Button(this.guiLeft, this.guiTop + 165, 20, 20, StringTextComponent.EMPTY, (button) -> {
-            this.currentpage = (this.currentpage <= 1 ? 7 : this.currentpage - 1);
-        }));
-        this.addButton(new Button( (this.guiLeft + xSize) - 20, this.guiTop + 165, 20, 20, StringTextComponent.EMPTY, (button) -> {
-            this.currentpage = (this.currentpage >= 7 ? 1 : this.currentpage + 1);
-        }));
+        this.addButton(new Button(this.guiLeft, this.guiTop + 165, 20, 20, StringTextComponent.EMPTY, (button) -> this.currentpage = (this.currentpage <= 1 ? 7 : this.currentpage - 1)));
+        this.addButton(new Button( (this.guiLeft + xSize) - 20, this.guiTop + 165, 20, 20, StringTextComponent.EMPTY, (button) -> this.currentpage = (this.currentpage >= 7 ? 1 : this.currentpage + 1)));
     }
 
     @Override

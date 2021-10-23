@@ -7,13 +7,10 @@ import net.chococraft.common.blocks.GysahlGreenBlock;
 import net.chococraft.common.init.ModRegistry;
 import net.minecraft.advancements.criterion.StatePropertiesPredicate;
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.CropsBlock;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.LootTableProvider;
 import net.minecraft.data.loot.BlockLootTables;
 import net.minecraft.enchantment.Enchantments;
-import net.minecraft.item.Items;
 import net.minecraft.loot.ItemLootEntry;
 import net.minecraft.loot.LootParameterSet;
 import net.minecraft.loot.LootParameterSets;
@@ -82,7 +79,7 @@ public class ModDatagenerator {
 
 			@Override
 			protected Iterable<Block> getKnownBlocks() {
-				return (Iterable<Block>) ModRegistry.BLOCKS.getEntries().stream().map(RegistryObject::get)::iterator;
+				return ModRegistry.BLOCKS.getEntries().stream().map(RegistryObject::get)::iterator;
 			}
 		}
 

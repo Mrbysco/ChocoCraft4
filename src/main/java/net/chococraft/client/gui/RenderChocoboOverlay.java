@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = Chococraft.MODID, value = Dist.CLIENT)
 public class RenderChocoboOverlay {
-    public static final ResourceLocation ICONS = new ResourceLocation(Chococraft.MODID, "textures/gui/icons.png");
+    private static final ResourceLocation ICONS = new ResourceLocation(Chococraft.MODID, "textures/gui/icons.png");
 
     @SubscribeEvent
     public static void onGuiIngameOverlayRender(RenderGameOverlayEvent.Post event) {

@@ -9,44 +9,48 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.world.World;
 
 public class BreedingHelper {
+
     public static ChocoboBreedInfo getBreedInfo(ChocoboEntity mother, ChocoboEntity father) {
         return new ChocoboBreedInfo(new ChocoboStatSnapshot(mother), new ChocoboStatSnapshot(father));
     }
 
     public static ChocoboEntity createChild(ChocoboBreedInfo breedInfo, World world) {
-        ChocoboEntity chocobo = ModEntities.CHOCOBO.get().create(world);
+        final ChocoboEntity baby = ModEntities.CHOCOBO.get().create(world);
+        if (baby == null) {
+            return null;
+        }
 
-        ChocoboStatSnapshot mother = breedInfo.getMother();
-        ChocoboStatSnapshot father = breedInfo.getFather();
+        final ChocoboStatSnapshot mother = breedInfo.getMother();
+        final ChocoboStatSnapshot father = breedInfo.getFather();
 
-        chocobo.setGeneration(((mother.generation + father.generation) / 2) + 1);
+        baby.setGeneration(((mother.generation + father.generation) / 2) + 1);
 
         float health = Math.round(((mother.health + father.health) / 2) * (ChocoConfig.COMMON.poslossHealth.get().floatValue() + ((float) Math.random() * ChocoConfig.COMMON.posgainHealth.get().floatValue())));
-        chocobo.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.min(health, ChocoConfig.COMMON.maxHealth.get().floatValue()));
+        baby.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.min(health, ChocoConfig.COMMON.maxHealth.get().floatValue()));
 
         float speed = ((mother.speed + father.speed) / 2f) * (ChocoConfig.COMMON.poslossSpeed.get().floatValue() + ((float) Math.random() * ChocoConfig.COMMON.posgainSpeed.get().floatValue()));
-        chocobo.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(Math.min(speed, (ChocoConfig.COMMON.maxSpeed.get().floatValue() / 100f)));
+        baby.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(Math.min(speed, (ChocoConfig.COMMON.maxSpeed.get().floatValue() / 100f)));
 
         float stamina = Math.round((mother.stamina + father.stamina) / 2) * (ChocoConfig.COMMON.poslossStamina.get().floatValue() + ((float) Math.random() * ChocoConfig.COMMON.posgainStamina.get().floatValue()));
-        chocobo.getAttribute(ModAttributes.MAX_STAMINA.get()).setBaseValue(Math.min(stamina, ChocoConfig.COMMON.maxStamina.get().floatValue()));
+        baby.getAttribute(ModAttributes.MAX_STAMINA.get()).setBaseValue(Math.min(stamina, ChocoConfig.COMMON.maxStamina.get().floatValue()));
 
         float canFlyChance = calculateChance(0.005f, 0.15f, 0.35f, mother.canFly, father.canFly);
         float canflychancerandom = (float) Math.random();
-        chocobo.setCanFly(canFlyChance > canflychancerandom);
+        baby.setCanFly(canFlyChance > canflychancerandom);
 
         float canDiveChance = calculateChance(0.01f, 0.20f, 0.40f, mother.canDive, father.canDive);
         float candivechancerandom = (float) Math.random();
-        chocobo.setCanDive(canDiveChance > candivechancerandom);
+        baby.setCanDive(canDiveChance > candivechancerandom);
 
         float canGlideChance = calculateChance(0.01f, 0.20f, 0.45f, mother.canGlide, father.canGlide);
         float canglidechancerandom = (float) Math.random();
-        chocobo.setCanGlide(canGlideChance > canglidechancerandom);
+        baby.setCanGlide(canGlideChance > canglidechancerandom);
 
         float canSprintChance = calculateChance(0.03f, 0.25f, 0.5f, mother.canSprint, father.canSprint);
         float cansprintchancerandom = (float) Math.random();
-        chocobo.setCanSprint(canSprintChance > cansprintchancerandom);
+        baby.setCanSprint(canSprintChance > cansprintchancerandom);
 
-        chocobo.setMale(.50f > (float) Math.random());
+        baby.setMale(.50f > (float) Math.random());
 
         ChocoboColor color = ChocoboColor.YELLOW;
 
@@ -63,11 +67,11 @@ public class BreedingHelper {
         }
         // BLACK PINK RED PURPLE ?
 
-        chocobo.setChocoboColor(color);
+        baby.setChocoboColor(color);
 
-        chocobo.setAge(-24000);
+        baby.setAge(-24000);
 
-        return chocobo;
+        return baby;
     }
 
     private static float calculateChance(float baseChance, float perParentChance, float bothParentsChance, boolean motherHasAbility, boolean fatherHasAbility) {

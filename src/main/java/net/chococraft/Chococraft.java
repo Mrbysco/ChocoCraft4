@@ -27,6 +27,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+@SuppressWarnings("unused")
 @Mod(Chococraft.MODID)
 public class Chococraft {
     public static final String MODID = "chococraft";
@@ -60,9 +61,7 @@ public class Chococraft {
         MinecraftForge.EVENT_BUS.addListener(ModEntities::addSpawns);
         eventBus.addListener(ModEntities::registerEntityAttributes);
 
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-            eventBus.addListener(ClientHandler::onClientSetup);
-        });
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> eventBus.addListener(ClientHandler::onClientSetup));
     }
 
     private void setup(final FMLCommonSetupEvent event) {

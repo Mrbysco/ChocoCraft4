@@ -4,20 +4,18 @@ import net.chococraft.common.init.ModContainers;
 import net.chococraft.common.tileentities.ChocoboNestTile;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
-import javax.annotation.Nonnull;
 import java.util.Objects;
 
 public class NestContainer extends Container {
     private ChocoboNestTile tile;
-    private PlayerEntity player;
 
     public NestContainer(final int windowId, final PlayerInventory playerInventory, final PacketBuffer data) {
         this(windowId, playerInventory, getTileEntity(playerInventory, data));
@@ -39,22 +37,21 @@ public class NestContainer extends Container {
         super(ModContainers.NEST.get(), id);
 
         this.tile = chocoboNest;
-        this.player = playerInventoryIn.player;
 
         this.addSlot(new SlotItemHandler(tile.getInventory(), 0, 80, 35));
 
-        this.bindPlayerInventory(player);
+        this.bindPlayerInventory(playerInventoryIn);
     }
 
-    private void bindPlayerInventory(PlayerEntity player) {
+    private void bindPlayerInventory(IInventory inventory) {
         for (int row = 0; row < 3; ++row) {
             for (int col = 0; col < 9; ++col) {
-                this.addSlot(new Slot(player.inventory, col + row * 9 + 9, 8 + col * 18, 84 + row * 18));
+                this.addSlot(new Slot(inventory, col + row * 9 + 9, 8 + col * 18, 84 + row * 18));
             }
         }
 
         for (int i = 0; i < 9; ++i) {
-            this.addSlot(new Slot(player.inventory, i, 8 + i * 18, 142));
+            this.addSlot(new Slot(inventory, i, 8 + i * 18, 142));
         }
     }
 
@@ -101,24 +98,4 @@ public class NestContainer extends Container {
         return itemstack;
     }
 
-    private static class SlotEgg extends SlotItemHandler {
-        public SlotEgg(IItemHandler itemHandler, int index, int xPosition, int yPosition) {
-            super(itemHandler, index, xPosition, yPosition);
-        }
-
-        @Override
-        public void setChanged() {
-            super.setChanged();
-        }
-
-        @Override
-        public boolean mayPickup(PlayerEntity playerIn) {
-            return true;
-        }
-
-        @Override
-        public boolean mayPlace(@Nonnull ItemStack stack) {
-            return super.mayPlace(stack);
-        }
-    }
 }

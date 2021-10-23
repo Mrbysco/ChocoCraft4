@@ -9,11 +9,11 @@ import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.util.ResourceLocation;
 
-public class LayerCollar extends LayerRenderer<ChocoboEntity, AdultChocoboModel<ChocoboEntity>> {
+public class LayerCollar extends LayerRenderer<ChocoboEntity, AdultChocoboModel> {
 	private ResourceLocation COLLAR_CHOCOBO = new ResourceLocation(Chococraft.MODID,"textures/entities/chocobos/collar.png");
 	private ResourceLocation COLLAR_CHICOBO = new ResourceLocation(Chococraft.MODID,"textures/entities/chicobos/collar.png");
 	
-	public LayerCollar(IEntityRenderer<ChocoboEntity, AdultChocoboModel<ChocoboEntity>> rendererIn) {
+	public LayerCollar(IEntityRenderer<ChocoboEntity, AdultChocoboModel> rendererIn) {
 		super(rendererIn);
 	}
 

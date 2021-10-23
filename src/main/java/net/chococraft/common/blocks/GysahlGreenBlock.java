@@ -19,12 +19,12 @@ public class GysahlGreenBlock extends CropsBlock {
     @SuppressWarnings("unused") // used by class factory
     public GysahlGreenBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(this.getAgeProperty(), Integer.valueOf(0)));
+        this.registerDefaultState(this.stateDefinition.any().setValue(this.getAgeProperty(), 0));
     }
 
     @Override
     protected IItemProvider getBaseSeedId() {
-        return () -> ModRegistry.GYSAHL_GREEN_SEEDS.get();
+        return ModRegistry.GYSAHL_GREEN_SEEDS::get;
     }
 
     @Override

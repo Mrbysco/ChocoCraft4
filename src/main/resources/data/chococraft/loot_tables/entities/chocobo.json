@@ -23,7 +23,7 @@
                   "condition": "entity_properties",
                   "entity": "this",
                   "properties": {
-                    "on_fire": true
+                    "is_on_fire": true
                   }
                 }
               ]

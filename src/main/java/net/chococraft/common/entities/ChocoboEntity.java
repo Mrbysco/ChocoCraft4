@@ -48,10 +48,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
@@ -60,29 +57,32 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 public class ChocoboEntity extends TameableEntity {
-    public static final String NBTKEY_CHOCOBO_COLOR = "Color";
-    public static final String NBTKEY_CHOCOBO_IS_MALE = "Male";
-    public static final String NBTKEY_MOVEMENTTYPE = "MovementType";
-    public static final String NBTKEY_SADDLE_ITEM = "Saddle";
-    public static final String NBTKEY_INVENTORY = "Inventory";
-    public static final String NBTKEY_NEST_POSITION = "NestPos";
-    public static final String NBTKEY_CHOCOBO_GENERATION = "Generation";
-    public static final String NBTKEY_CHOCOBO_STAMINA = "Stamina";
-    public static final String NBTKEY_CHOCOBO_CAN_FLY = "CanFly";
-    public static final String NBTKEY_CHOCOBO_CAN_GLIDE = "CanGlide";
-    public static final String NBTKEY_CHOCOBO_CAN_SPRINT = "CanSprint";
-    public static final String NBTKEY_CHOCOBO_CAN_DIVE = "CanDive";
+    private static final String NBTKEY_CHOCOBO_COLOR = "Color";
+    private static final String NBTKEY_CHOCOBO_IS_MALE = "Male";
+    private static final String NBTKEY_MOVEMENTTYPE = "MovementType";
+    private static final String NBTKEY_SADDLE_ITEM = "Saddle";
+    private static final String NBTKEY_INVENTORY = "Inventory";
+    private static final String NBTKEY_NEST_POSITION = "NestPos";
+    private static final String NBTKEY_CHOCOBO_GENERATION = "Generation";
+    private static final String NBTKEY_CHOCOBO_STAMINA = "Stamina";
+    private static final String NBTKEY_CHOCOBO_CAN_FLY = "CanFly";
+    private static final String NBTKEY_CHOCOBO_CAN_GLIDE = "CanGlide";
+    private static final String NBTKEY_CHOCOBO_CAN_SPRINT = "CanSprint";
+    private static final String NBTKEY_CHOCOBO_CAN_DIVE = "CanDive";
 
     private static final byte CAN_SPRINT_BIT = 0b0001;
     private static final byte CAN_DIVE_BIT = 0b0010;
@@ -116,8 +116,8 @@ public class ChocoboEntity extends TameableEntity {
         }
     };
 
-    public float wingRotation;
-    public float destPos;
+    private float wingRotation;
+    private float destPos;
     private boolean isChocoboJumping;
     private float wingRotDelta;
     private BlockPos nestPos;
@@ -162,8 +162,12 @@ public class ChocoboEntity extends TameableEntity {
     @Override
     public ILivingEntityData finalizeSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
         this.setMale(this.level.random.nextBoolean());
-        if (BiomeDictionary.getBiomes(BiomeDictionary.Type.NETHER).contains(this.level.getBiome((new BlockPos(blockPosition())).below())))
+
+        final Biome currentBiome = this.level.getBiome(blockPosition().below());
+        if (currentBiome.getBiomeCategory() == Biome.Category.NETHER) {
             this.setChocoboColor(ChocoboColor.FLAME);
+        }
+
         return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
     }
 

@@ -12,42 +12,42 @@ import net.minecraft.util.math.vector.Vector3d;
  * ModelAdultChocobo - Kraeheart
  * Created using Tabula 7.0.0
  */
-public class AdultChocoboModel<T extends ChocoboEntity> extends EntityModel<ChocoboEntity> {
-    public ModelRenderer BodyMain;
-    public ModelRenderer JOINTChesttoBody;
-    public ModelRenderer llegJOINThip;
-    public ModelRenderer rlegJOINThip;
-    public ModelRenderer WingLeft;
-    public ModelRenderer WingRight;
-    public ModelRenderer TailFeathersLeft;
-    public ModelRenderer TailFeathersRight;
-    public ModelRenderer TailFeathersTop;
-    public ModelRenderer TailFeathersBottom;
-    public ModelRenderer PackBag;
-    public ModelRenderer SaddleBagLeft;
-    public ModelRenderer SaddleBagRight;
-    public ModelRenderer BodyChest;
-    public ModelRenderer Neck;
-    public ModelRenderer JOINTNecktoHead;
-    public ModelRenderer Head;
-    public ModelRenderer HeadCrestLeft;
-    public ModelRenderer HeadCrestRight;
-    public ModelRenderer HeadCrestMiddle;
-    public ModelRenderer llegThigh;
-    public ModelRenderer llegShin;
-    public ModelRenderer llegHeel;
-    public ModelRenderer llegToeOuter;
-    public ModelRenderer llegToeInner;
-    public ModelRenderer rlegThigh;
-    public ModelRenderer rlegShin;
-    public ModelRenderer rlegHeel;
-    public ModelRenderer rlegToeInner;
-    public ModelRenderer rlegToeOuter;
+public class AdultChocoboModel extends EntityModel<ChocoboEntity> {
+    final private ModelRenderer BodyMain;
+    final private ModelRenderer JOINTChesttoBody;
+    final private ModelRenderer llegJOINThip;
+    final private ModelRenderer rlegJOINThip;
+    final private ModelRenderer WingLeft;
+    final private ModelRenderer WingRight;
+    final private ModelRenderer TailFeathersLeft;
+    final private ModelRenderer TailFeathersRight;
+    final private ModelRenderer TailFeathersTop;
+    final private ModelRenderer TailFeathersBottom;
+    final private ModelRenderer PackBag;
+    final private ModelRenderer SaddleBagLeft;
+    final private ModelRenderer SaddleBagRight;
+    final private ModelRenderer BodyChest;
+    final private ModelRenderer Neck;
+    final private ModelRenderer JOINTNecktoHead;
+    final private ModelRenderer Head;
+    final private ModelRenderer HeadCrestLeft;
+    final private ModelRenderer HeadCrestRight;
+    final private ModelRenderer HeadCrestMiddle;
+    final private ModelRenderer llegThigh;
+    final private ModelRenderer llegShin;
+    final private ModelRenderer llegHeel;
+    final private ModelRenderer llegToeOuter;
+    final private ModelRenderer llegToeInner;
+    final private ModelRenderer rlegThigh;
+    final private ModelRenderer rlegShin;
+    final private ModelRenderer rlegHeel;
+    final private ModelRenderer rlegToeInner;
+    final private ModelRenderer rlegToeOuter;
 
-    public ModelRenderer child_head;
-    public ModelRenderer child_body;
-    public ModelRenderer child_rightleg;
-    public ModelRenderer child_leftleg;
+    final private ModelRenderer child_head;
+    final private ModelRenderer child_body;
+    final private ModelRenderer child_rightleg;
+    final private ModelRenderer child_leftleg;
 
     public AdultChocoboModel() {
         this.texWidth = 128;
@@ -229,14 +229,15 @@ public class AdultChocoboModel<T extends ChocoboEntity> extends EntityModel<Choc
             child_body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
             child_rightleg.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
             child_leftleg.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        } else
+        } else {
             this.BodyMain.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        }
     }
 
     /**
      * This is a helper function from Tabula to set the rotation of model parts
      */
-    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+    private void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
         modelRenderer.xRot = x;
         modelRenderer.yRot = y;
         modelRenderer.zRot = z;
@@ -244,9 +245,8 @@ public class AdultChocoboModel<T extends ChocoboEntity> extends EntityModel<Choc
 
     @Override
     public void setupAnim(ChocoboEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        if (!(entityIn instanceof ChocoboEntity)) return;
 
-        if (((ChocoboEntity) entityIn).isBaby()) {
+        if (entityIn.isBaby()) {
             child_head.xRot = -(headPitch / 57.29578F);
             child_head.yRot = netHeadYaw / 57.29578F;
             child_rightleg.xRot = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
