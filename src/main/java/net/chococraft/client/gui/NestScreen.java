@@ -27,7 +27,7 @@ public class NestScreen extends ContainerScreen<NestContainer> {
 
     @Override
     protected void renderBg(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
-        this.minecraft.getTextureManager().bind(this.getMenu().getTile().isSheltered() ? TEXTURE_SHELTERED : TEXTURE);
+        this.getMinecraft().getTextureManager().bind(this.getMenu().getTile().isSheltered() ? TEXTURE_SHELTERED : TEXTURE);
         blit(matrixStack, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
     }
 

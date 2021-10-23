@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 
 public class ChocoboEggBlockItem extends BlockItem {
+
     public ChocoboEggBlockItem(Block block, Item.Properties builder) {
         super(block, builder);
     }
@@ -22,10 +23,7 @@ public class ChocoboEggBlockItem extends BlockItem {
             return false;
 
         CompoundNBT nbtHatchIngstate = stack.getTagElement(ChocoboEggBlock.NBTKEY_HATCHINGSTATE);
-        if (nbtHatchIngstate == null)
-            return false;
-
-        return true;
+        return nbtHatchIngstate != null;
     }
 
     @Override

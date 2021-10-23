@@ -12,12 +12,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-public class LayerSaddle extends LayerRenderer<ChocoboEntity, AdultChocoboModel<ChocoboEntity>> {
+public class LayerSaddle extends LayerRenderer<ChocoboEntity, AdultChocoboModel> {
 	private ResourceLocation SADDLE = new ResourceLocation(Chococraft.MODID,"textures/entities/chocobos/saddle.png");
 	private ResourceLocation SADDLE_BAG = new ResourceLocation(Chococraft.MODID,"textures/entities/chocobos/saddle_bag.png");
 	private ResourceLocation PACK_BAG = new ResourceLocation(Chococraft.MODID,"textures/entities/chocobos/pack_bag.png");
 	
-	public LayerSaddle(IEntityRenderer<ChocoboEntity, AdultChocoboModel<ChocoboEntity>> rendererIn) {
+	public LayerSaddle(IEntityRenderer<ChocoboEntity, AdultChocoboModel> rendererIn) {
 		super(rendererIn);
 	}
 

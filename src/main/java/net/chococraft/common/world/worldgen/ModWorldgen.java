@@ -14,7 +14,7 @@ public class ModWorldgen {
 		BiomeGenerationSettingsBuilder builder = event.getGeneration();
 		Biome.Category category = event.getCategory();
 		boolean overworldOnly = ChocoConfig.COMMON.gysahlGreensSpawnOnlyInOverworld.get();
-		if(!overworldOnly || (overworldOnly && !category.equals(Biome.Category.NETHER) && !category.equals(Biome.Category.THEEND))) {
+		if(!overworldOnly || !category.equals(Biome.Category.NETHER) && !category.equals(Biome.Category.THEEND)) {
 			builder.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, ModFeatureConfigs.PATCH_GYSAHL_GREEN);
 		}
 	}

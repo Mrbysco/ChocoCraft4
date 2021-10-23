@@ -22,14 +22,17 @@ public class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, Chococraft.MODID);
 
     public static final RegistryObject<EntityType<ChocoboEntity>> CHOCOBO = ENTITIES.register("chocobo", () ->
-            register("chocobo", EntityType.Builder.<ChocoboEntity>of(ChocoboEntity::new, EntityClassification.CREATURE)
-                    .sized(1.2f, 2.8f).clientTrackingRange(64)));
+            register("chocobo", EntityType.Builder.of(ChocoboEntity::new, EntityClassification.CREATURE).sized(1.2f, 2.8f).clientTrackingRange(64)));
 
     public static <T extends Entity> EntityType<T> register(String id, EntityType.Builder<T> builder) {
         return builder.build(id);
     }
 
     public static void addSpawns(BiomeLoadingEvent event) {
+        if (event.getName() == null) {
+            return;
+        }
+
         RegistryKey<Biome> biomeKey = RegistryKey.create(Registry.BIOME_REGISTRY, event.getName());
         if(BiomeDictionary.hasType(biomeKey, Type.PLAINS) || BiomeDictionary.hasType(biomeKey, Type.HILLS) || BiomeDictionary.hasType(biomeKey, Type.NETHER)) {
 

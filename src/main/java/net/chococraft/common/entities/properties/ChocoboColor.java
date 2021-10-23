@@ -1,7 +1,10 @@
 package net.chococraft.common.entities.properties;
 
+import net.chococraft.Chococraft;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.Tags.IOptionalNamedTag;
 import net.minecraftforge.common.Tags.Items;
 
@@ -23,8 +26,11 @@ public enum ChocoboColor {
     private static Random rand = new Random();
     private IOptionalNamedTag<Item> colorTag;
 
+    private final TranslationTextComponent eggText;
+
     ChocoboColor(IOptionalNamedTag<Item> colorIngredient) {
         this.colorTag = colorIngredient;
+        this.eggText = new TranslationTextComponent("item." + Chococraft.MODID + ".chocobo_egg.tooltip."+this.name().toLowerCase());
     }
 
     public static ChocoboColor getRandomColor() {
@@ -38,4 +44,9 @@ public enum ChocoboColor {
         }
         return Optional.empty();
     }
+
+    public TranslationTextComponent getEggText() {
+        return eggText;
+    }
+
 }

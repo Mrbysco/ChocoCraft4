@@ -132,6 +132,10 @@ public class ChocoboNestTile extends TileEntity implements ITickableTileEntity, 
         // egg is ready to hatch
         ChocoboBreedInfo breedInfo = ChocoboBreedInfo.getFromNbtOrDefault(egg.getTagElement(ChocoboEggBlock.NBTKEY_BREEDINFO));
         ChocoboEntity baby = BreedingHelper.createChild(breedInfo, this.level);
+        if (baby == null) {
+            return false;
+        }
+
         baby.moveTo(this.worldPosition.getX() + 0.5, this.worldPosition.getY() + 0.2, this.worldPosition.getZ() + 0.5, 0.0F, 0.0F);
         this.level.addFreshEntity(baby);
 

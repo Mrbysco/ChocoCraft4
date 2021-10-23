@@ -16,6 +16,7 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = Chococraft.MODID)
 public class LootTableEventHandler {
+
     @SubscribeEvent
     public static void onLootTableLoad(LootTableLoadEvent event) {
         if (!ChocoConfig.COMMON.addAbilityFruitsToDungeonLoot.get()) return;
@@ -41,11 +42,9 @@ public class LootTableEventHandler {
     }
 
     private static LootEntry.Builder injectFruit(Item item) {
-        LootEntry.Builder<?> entry = ItemLootEntry.lootTableItem(item)
+        return ItemLootEntry.lootTableItem(item)
                 .apply(SetCount.setCount(new RandomValueRange(1, 1)))
                 .setQuality(1)
                 .setWeight(ChocoConfig.COMMON.abilityFruitDungeonLootWeight.get());
-
-        return entry;
     }
 }

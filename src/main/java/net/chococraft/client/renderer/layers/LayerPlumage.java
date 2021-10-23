@@ -9,11 +9,11 @@ import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.util.ResourceLocation;
 
-public class LayerPlumage extends LayerRenderer<ChocoboEntity, AdultChocoboModel<ChocoboEntity>> {
+public class LayerPlumage extends LayerRenderer<ChocoboEntity, AdultChocoboModel> {
 
 	private ResourceLocation PLUMAGE = new ResourceLocation(Chococraft.MODID,"textures/entities/chocobos/plumage.png");
 	
-	public LayerPlumage(IEntityRenderer<ChocoboEntity, AdultChocoboModel<ChocoboEntity>> rendererIn) {
+	public LayerPlumage(IEntityRenderer<ChocoboEntity, AdultChocoboModel> rendererIn) {
 		super(rendererIn);
 	}
 

@@ -25,7 +25,7 @@ public class ChocoboCommand {
     public static void initializeCommands(CommandDispatcher<CommandSource> dispatcher) {
         final LiteralArgumentBuilder<CommandSource> root = Commands.literal("chocobo");
         root.requires((commandSource) -> commandSource.hasPermission(2))
-                .then(Commands.literal("list").executes((ctx) -> sendList(ctx)))
+                .then(Commands.literal("list").executes(ChocoboCommand::sendList))
                 .then(Commands.literal("set")
                     .then(Commands.literal("health").then(Commands.argument("value", FloatArgumentType.floatArg(0))).executes((ctx) ->
                         setAttribute(ctx, "health", String.valueOf(FloatArgumentType.getFloat(ctx, "value")))))
