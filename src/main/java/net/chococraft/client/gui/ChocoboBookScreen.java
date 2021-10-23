@@ -16,9 +16,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 
 
 public class ChocoboBookScreen extends Screen {
-    public final static ResourceLocation TEXTURE = new ResourceLocation(Chococraft.MODID, "textures/gui/chocobo_book.png");
-
-    private final Player player;
+    private final static ResourceLocation TEXTURE = new ResourceLocation(Chococraft.MODID, "textures/gui/chocobo_book.png");
 
     private int xSize = 130;
     private int ySize = 185;
@@ -26,13 +24,12 @@ public class ChocoboBookScreen extends Screen {
     private int guiLeft;
     private int guiTop;
 
-    public ChocoboBookScreen(Player player) {
+    public ChocoboBookScreen() {
         super(TextComponent.EMPTY);
-        this.player = player;
     }
 
-    public static void openScreen(Player player) {
-        Minecraft.getInstance().setScreen(new ChocoboBookScreen(player));
+    public static void openScreen() {
+        Minecraft.getInstance().setScreen(new ChocoboBookScreen());
     }
 
     @Override
@@ -40,12 +37,10 @@ public class ChocoboBookScreen extends Screen {
         this.guiLeft = (this.width - this.xSize) / 2;
         this.guiTop = (this.height - this.ySize) / 2;
 
-        this.addRenderableWidget(new Button(this.guiLeft, this.guiTop + 165, 20, 20, TextComponent.EMPTY, (button) -> {
-            this.currentpage = (this.currentpage <= 1 ? 7 : this.currentpage - 1);
-        }));
-        this.addRenderableWidget(new Button( (this.guiLeft + xSize) - 20, this.guiTop + 165, 20, 20, TextComponent.EMPTY, (button) -> {
-            this.currentpage = (this.currentpage >= 7 ? 1 : this.currentpage + 1);
-        }));
+        this.addRenderableWidget(new Button(this.guiLeft, this.guiTop + 165, 20, 20, TextComponent.EMPTY, (button) ->
+                this.currentpage = (this.currentpage <= 1 ? 7 : this.currentpage - 1)));
+        this.addRenderableWidget(new Button( (this.guiLeft + xSize) - 20, this.guiTop + 165, 20, 20, TextComponent.EMPTY, (button) ->
+                this.currentpage = (this.currentpage >= 7 ? 1 : this.currentpage + 1)));
     }
 
     @Override

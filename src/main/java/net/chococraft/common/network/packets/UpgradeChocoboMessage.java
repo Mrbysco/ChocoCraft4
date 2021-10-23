@@ -45,7 +45,7 @@ public class UpgradeChocoboMessage {
                     Level world = player.level;
                     Entity entity = world.getEntity(entityID);
 
-                    if (entity != null && entity instanceof ChocoboEntity) {
+                    if (entity instanceof ChocoboEntity) {
                         if (skillID == 1 && ExperienceHandler.removeExperience(player, ChocoConfig.COMMON.ExpCostSprint.get())) {
                             ((ChocoboEntity) entity).setCanSprint(true);
                         } else if (skillID == 2 && ExperienceHandler.removeExperience(player, ChocoConfig.COMMON.ExpCostGlide.get())) {

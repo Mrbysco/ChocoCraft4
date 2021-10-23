@@ -23,7 +23,7 @@ public class ChocopediaItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
         if(worldIn.isClientSide) {
-            net.chococraft.client.gui.ChocoboBookScreen.openScreen(playerIn);
+            net.chococraft.client.gui.ChocoboBookScreen.openScreen();
         }
 
         return new InteractionResultHolder<>(InteractionResult.SUCCESS, playerIn.getItemInHand(handIn));

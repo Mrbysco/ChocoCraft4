@@ -1,23 +1,20 @@
 package net.chococraft.common.inventory;
 
-import net.chococraft.common.init.ModContainers;
 import net.chococraft.common.blockentities.ChocoboNestBlockEntity;
-import net.minecraft.world.entity.player.Player;
+import net.chococraft.common.init.ModContainers;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
-import javax.annotation.Nonnull;
 import java.util.Objects;
 
 public class NestContainer extends AbstractContainerMenu {
     private ChocoboNestBlockEntity tile;
-    private Player player;
 
     public NestContainer(final int windowId, final Inventory playerInventory, final FriendlyByteBuf data) {
         this(windowId, playerInventory, getTileEntity(playerInventory, data));
@@ -39,22 +36,21 @@ public class NestContainer extends AbstractContainerMenu {
         super(ModContainers.NEST.get(), id);
 
         this.tile = chocoboNest;
-        this.player = playerInventoryIn.player;
 
         this.addSlot(new SlotItemHandler(tile.getInventory(), 0, 80, 35));
 
-        this.bindPlayerInventory(player);
+        this.bindPlayerInventory(playerInventoryIn);
     }
 
-    private void bindPlayerInventory(Player player) {
+    private void bindPlayerInventory(Inventory inventory) {
         for (int row = 0; row < 3; ++row) {
             for (int col = 0; col < 9; ++col) {
-                this.addSlot(new Slot(player.getInventory(), col + row * 9 + 9, 8 + col * 18, 84 + row * 18));
+                this.addSlot(new Slot(inventory, col + row * 9 + 9, 8 + col * 18, 84 + row * 18));
             }
         }
 
         for (int i = 0; i < 9; ++i) {
-            this.addSlot(new Slot(player.getInventory(), i, 8 + i * 18, 142));
+            this.addSlot(new Slot(inventory, i, 8 + i * 18, 142));
         }
     }
 
@@ -99,26 +95,5 @@ public class NestContainer extends AbstractContainerMenu {
         }
 
         return itemstack;
-    }
-
-    private static class SlotEgg extends SlotItemHandler {
-        public SlotEgg(IItemHandler itemHandler, int index, int xPosition, int yPosition) {
-            super(itemHandler, index, xPosition, yPosition);
-        }
-
-        @Override
-        public void setChanged() {
-            super.setChanged();
-        }
-
-        @Override
-        public boolean mayPickup(Player playerIn) {
-            return true;
-        }
-
-        @Override
-        public boolean mayPlace(@Nonnull ItemStack stack) {
-            return super.mayPlace(stack);
-        }
     }
 }

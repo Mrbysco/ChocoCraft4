@@ -25,6 +25,7 @@ import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
+@SuppressWarnings("unused")
 public class ModRegistry {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Chococraft.MODID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Chococraft.MODID);
@@ -67,7 +68,7 @@ public class ModRegistry {
     public static final RegistryObject<Item> AQUA_BERRY = ITEMS.register("aqua_berry", () -> new AbilityFruitItem(itemBuilder(), AbilityFruitType.DIVE));
     public static final RegistryObject<Item> DEAD_PEPPER = ITEMS.register("dead_pepper", () -> new AbilityFruitItem(itemBuilder(), AbilityFruitType.FLY));
 
-    public static final RegistryObject<Item> GYSAHL_GREEN_SEEDS = ITEMS.register("gysahl_green_seeds", () -> new CustomBlockNamedItem(() -> ModRegistry.GYSAHL_GREEN.get(), itemBuilder()));
+    public static final RegistryObject<Item> GYSAHL_GREEN_SEEDS = ITEMS.register("gysahl_green_seeds", () -> new CustomBlockNamedItem(ModRegistry.GYSAHL_GREEN, itemBuilder()));
 
     public static final RegistryObject<Item> GYSAHL_GREEN_ITEM = ITEMS.register("gysahl_green", () -> new Item(itemBuilder().food(ModFoods.GYSAHL_GREEN)));
     public static final RegistryObject<Item> CHOCOBO_WHISTLE = ITEMS.register("chocobo_whistle", () -> new Item(itemBuilder()));

@@ -18,31 +18,31 @@ import net.minecraft.world.phys.Vec3;
  * Created using Tabula 7.0.0
  */
 public class AdultChocoboModel<T extends ChocoboEntity> extends EntityModel<ChocoboEntity> {
-    public ModelPart body;
-    public ModelPart wing_left;
-    public ModelPart wing_right;
-    public ModelPart neck;
-    public ModelPart head;
-    public ModelPart head_crest_left;
-    public ModelPart head_crest_right;
-    public ModelPart head_crest_middle;
-    
-    public ModelPart left_leg_thigh;
-    public ModelPart left_leg_shin;
-    public ModelPart left_leg_heel;
-    public ModelPart left_leg_toe_inner;
-    public ModelPart left_leg_toe_outer;
-    
-    public ModelPart right_leg_thigh;
-    public ModelPart right_leg_shin;
-    public ModelPart right_leg_heel;
-    public ModelPart right_leg_toe_inner;
-    public ModelPart right_leg_toe_outer;
+    private final ModelPart body;
+    private final ModelPart wing_left;
+    private final ModelPart wing_right;
+    private final ModelPart neck;
+    private final ModelPart head;
+    private final ModelPart head_crest_left;
+    private final ModelPart head_crest_right;
+    private final ModelPart head_crest_middle;
 
-    public final ModelPart child_head;
-    public final ModelPart child_body;
-    public final ModelPart child_left_leg;
-    public final ModelPart child_right_leg;
+    private final ModelPart left_leg_thigh;
+    private final ModelPart left_leg_shin;
+    private final ModelPart left_leg_heel;
+    private final ModelPart left_leg_toe_inner;
+    private final ModelPart left_leg_toe_outer;
+    
+    private final ModelPart right_leg_thigh;
+    private final ModelPart right_leg_shin;
+    private final ModelPart right_leg_heel;
+    private final ModelPart right_leg_toe_inner;
+    private final ModelPart right_leg_toe_outer;
+
+    private final ModelPart child_head;
+    private final ModelPart child_body;
+    private final ModelPart child_left_leg;
+    private final ModelPart child_right_leg;
 
     public AdultChocoboModel(ModelPart root) {
         this.body = root.getChild("body");
@@ -229,14 +229,15 @@ public class AdultChocoboModel<T extends ChocoboEntity> extends EntityModel<Choc
             child_body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
             child_right_leg.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
             child_left_leg.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        } else
+        } else {
             this.body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        }
     }
 
     /**
      * This is a helper function from Tabula to set the rotation of model parts
      */
-    public void setRotateAngle(ModelPart modelRenderer, float x, float y, float z) {
+    private void setRotateAngle(ModelPart modelRenderer, float x, float y, float z) {
         modelRenderer.xRot = x;
         modelRenderer.yRot = y;
         modelRenderer.zRot = z;
@@ -244,9 +245,7 @@ public class AdultChocoboModel<T extends ChocoboEntity> extends EntityModel<Choc
 
     @Override
     public void setupAnim(ChocoboEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        if (!(entityIn instanceof ChocoboEntity)) return;
-
-        if (((ChocoboEntity) entityIn).isBaby()) {
+        if (entityIn.isBaby()) {
             child_head.xRot = -(headPitch / 57.29578F);
             child_head.yRot = netHeadYaw / 57.29578F;
             child_right_leg.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;

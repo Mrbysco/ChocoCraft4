@@ -184,7 +184,7 @@ public class ChocoboInfoScreen extends Screen {
 
     private void updateButtonTextures() {
         for(int i = 0; i < abilityButton.length; i++) {
-//            abilityButton[i].setTexture(TEXTURE, i * 18 - 1, canUseAbility(i) ? 89 : 107, 256, 256);
+            abilityButton[i].setTexture(TEXTURE, i * 18 - 1, canUseAbility(i) ? 89 : 107, 256, 256);
         }
     }
 

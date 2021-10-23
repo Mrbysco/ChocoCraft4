@@ -60,6 +60,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fmllegacy.network.PacketDistributor;
@@ -71,18 +72,18 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class ChocoboEntity extends TamableAnimal {
-    public static final String NBTKEY_CHOCOBO_COLOR = "Color";
-    public static final String NBTKEY_CHOCOBO_IS_MALE = "Male";
-    public static final String NBTKEY_MOVEMENTTYPE = "MovementType";
-    public static final String NBTKEY_SADDLE_ITEM = "Saddle";
-    public static final String NBTKEY_INVENTORY = "Inventory";
-    public static final String NBTKEY_NEST_POSITION = "NestPos";
-    public static final String NBTKEY_CHOCOBO_GENERATION = "Generation";
-    public static final String NBTKEY_CHOCOBO_STAMINA = "Stamina";
-    public static final String NBTKEY_CHOCOBO_CAN_FLY = "CanFly";
-    public static final String NBTKEY_CHOCOBO_CAN_GLIDE = "CanGlide";
-    public static final String NBTKEY_CHOCOBO_CAN_SPRINT = "CanSprint";
-    public static final String NBTKEY_CHOCOBO_CAN_DIVE = "CanDive";
+    private static final String NBTKEY_CHOCOBO_COLOR = "Color";
+    private static final String NBTKEY_CHOCOBO_IS_MALE = "Male";
+    private static final String NBTKEY_MOVEMENTTYPE = "MovementType";
+    private static final String NBTKEY_SADDLE_ITEM = "Saddle";
+    private static final String NBTKEY_INVENTORY = "Inventory";
+    private static final String NBTKEY_NEST_POSITION = "NestPos";
+    private static final String NBTKEY_CHOCOBO_GENERATION = "Generation";
+    private static final String NBTKEY_CHOCOBO_STAMINA = "Stamina";
+    private static final String NBTKEY_CHOCOBO_CAN_FLY = "CanFly";
+    private static final String NBTKEY_CHOCOBO_CAN_GLIDE = "CanGlide";
+    private static final String NBTKEY_CHOCOBO_CAN_SPRINT = "CanSprint";
+    private static final String NBTKEY_CHOCOBO_CAN_DIVE = "CanDive";
 
     private static final byte CAN_SPRINT_BIT = 0b0001;
     private static final byte CAN_DIVE_BIT = 0b0010;
@@ -116,8 +117,8 @@ public class ChocoboEntity extends TamableAnimal {
         }
     };
 
-    public float wingRotation;
-    public float destPos;
+    private float wingRotation;
+    private float destPos;
     private boolean isChocoboJumping;
     private float wingRotDelta;
     private BlockPos nestPos;
@@ -162,8 +163,10 @@ public class ChocoboEntity extends TamableAnimal {
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
         this.setMale(this.level.random.nextBoolean());
-        if (BiomeDictionary.getBiomes(BiomeDictionary.Type.NETHER).contains(this.level.getBiome((new BlockPos(blockPosition())).below())))
+        final Biome currentBiome = this.level.getBiome(blockPosition().below());
+        if (currentBiome.getBiomeCategory() == Biome.BiomeCategory.NETHER) {
             this.setChocoboColor(ChocoboColor.FLAME);
+        }
         return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
     }
 

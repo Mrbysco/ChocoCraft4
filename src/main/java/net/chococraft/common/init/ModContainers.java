@@ -11,6 +11,5 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class ModContainers {
 	public static final DeferredRegister<MenuType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, Chococraft.MODID);
 
-	public static final RegistryObject<MenuType<NestContainer>> NEST = CONTAINERS.register("nest", () ->
-			IForgeContainerType.create((windowId, inv, data) -> new NestContainer(windowId, inv, data)));
+	public static final RegistryObject<MenuType<NestContainer>> NEST = CONTAINERS.register("nest", () -> IForgeContainerType.create(NestContainer::new));
 }

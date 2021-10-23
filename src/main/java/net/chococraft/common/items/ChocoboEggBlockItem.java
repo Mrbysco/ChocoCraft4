@@ -22,10 +22,7 @@ public class ChocoboEggBlockItem extends BlockItem {
             return false;
 
         CompoundTag nbtHatchIngstate = stack.getTagElement(ChocoboEggBlock.NBTKEY_HATCHINGSTATE);
-        if (nbtHatchIngstate == null)
-            return false;
-
-        return true;
+        return nbtHatchIngstate != null;
     }
 
     @Override

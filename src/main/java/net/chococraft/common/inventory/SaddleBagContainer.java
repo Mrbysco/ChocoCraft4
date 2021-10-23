@@ -14,7 +14,7 @@ import net.minecraftforge.items.SlotItemHandler;
 public class SaddleBagContainer extends AbstractContainerMenu {
     private ChocoboEntity chocobo;
     public SaddleBagContainer(int id, Inventory player, ChocoboEntity chocobo) {
-        super((MenuType<?>)null, id);
+        super(null, id);
         this.chocobo = chocobo;
         this.refreshSlots(chocobo, player);
     }
