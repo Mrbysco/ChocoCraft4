@@ -11,9 +11,11 @@ import net.chococraft.common.init.ModRegistry;
 import net.chococraft.common.init.ModSounds;
 import net.chococraft.common.inventory.SaddleBagContainer;
 import net.chococraft.common.inventory.SaddleItemStackHandler;
+import net.chococraft.common.items.ChocoDisguiseItem;
 import net.chococraft.common.items.ChocoboSaddleItem;
 import net.chococraft.common.network.PacketManager;
 import net.chococraft.common.network.packets.OpenChocoboGuiMessage;
+import net.chococraft.utils.RandomHelper;
 import net.chococraft.utils.WorldUtils;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
@@ -27,6 +29,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
+import net.minecraft.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.entity.ai.goal.FollowOwnerGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
@@ -48,7 +51,11 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityPredicates;
+import net.minecraft.util.Hand;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
@@ -62,13 +69,12 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
+import java.util.function.Predicate;
 
 public class ChocoboEntity extends TameableEntity {
     private static final String NBTKEY_CHOCOBO_COLOR = "Color";
@@ -101,6 +107,24 @@ public class ChocoboEntity extends TameableEntity {
     private static final UUID CHOCOBO_SPRINTING_BOOST_ID = UUID.fromString("03ba3167-393e-4362-92b8-909841047640");
     private static final AttributeModifier CHOCOBO_SPRINTING_SPEED_BOOST = (new AttributeModifier(CHOCOBO_SPRINTING_BOOST_ID, "Chocobo sprinting speed boost", 1, Operation.MULTIPLY_BASE));
 
+    public final Predicate<LivingEntity> playerSuitSelector = livingEntity -> {
+        if(livingEntity instanceof PlayerEntity) {
+            PlayerEntity player = (PlayerEntity) livingEntity;
+            int chance = 0;
+            for (ItemStack stack : player.inventory.armor) {
+                if (stack != null) {
+                    if (stack.getItem() instanceof ChocoDisguiseItem)
+                        chance += 25;
+                }
+            }
+
+            return !RandomHelper.getChanceResult(chance);
+        }
+        return false;
+    };
+    private final AvoidEntityGoal chocoboAvoidPlayerGoal = new AvoidEntityGoal<>(this, PlayerEntity.class, playerSuitSelector, 10.0F, 1.0D, 1.2D, EntityPredicates.NO_CREATIVE_OR_SPECTATOR::test);
+
+
     public final ItemStackHandler chocoboInventory = new ItemStackHandler() {
         //Todo make it handle resizes
     };
@@ -131,6 +155,7 @@ public class ChocoboEntity extends TameableEntity {
         this.goalSelector.addGoal(2, new ChocoboMateGoal(this, 1.0D));
         this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 0.6D));
         this.goalSelector.addGoal(4, new TemptGoal(this, 1.2D, false, Ingredient.of(ModRegistry.GYSAHL_GREEN.get())));
+        this.goalSelector.addGoal(5, chocoboAvoidPlayerGoal);
         this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
         this.goalSelector.addGoal(1, new SwimGoal(this));
@@ -804,5 +829,11 @@ public class ChocoboEntity extends TameableEntity {
             return true;
 
         return super.checkSpawnRules(worldIn, spawnReasonIn);
+    }
+
+    @Override
+    protected void reassessTameGoals() {
+        super.reassessTameGoals();
+        goalSelector.removeGoal(chocoboAvoidPlayerGoal);
     }
 }
