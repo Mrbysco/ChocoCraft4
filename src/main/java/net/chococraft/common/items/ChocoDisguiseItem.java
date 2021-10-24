@@ -34,7 +34,7 @@ public class ChocoDisguiseItem extends ArmorItem {
 	@Nullable
 	@Override
 	public <A extends BipedModel<?>> A getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlotType armorSlot, A _default) {
-		return (A) provideArmorModelForSlot(slot);
+		return (A) model.get();
 	}
 
 	@OnlyIn(Dist.CLIENT)
