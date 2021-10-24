@@ -137,11 +137,11 @@ public class ChocoDisguiseModel extends BipedModel<LivingEntity> {
 		chocobo_claw_left.addChild(chocobo_claw_left_1);
 
 
-		ModelRenderer cube_r3 = new ModelRenderer(this);
-		cube_r3.setPos(1.0F, 5.0F, -0.5F);
-		chocobo_claw_left_1.addChild(cube_r3);
-		setRotation(cube_r3, 0.0F, -0.3054F, 0.0F);
-		cube_r3.texOffs(40, 37).addBox(-1.0F, -1.25F, -6.5F, 2.0F, 2.0F, 7.0F, 0.0F, false);
+		ModelRenderer chocobo_claw_left_1_cube = new ModelRenderer(this);
+		chocobo_claw_left_1_cube.setPos(1.0F, 5.0F, -0.5F);
+		chocobo_claw_left_1.addChild(chocobo_claw_left_1_cube);
+		setRotation(chocobo_claw_left_1_cube, 0.0F, -0.3054F, 0.0F);
+		chocobo_claw_left_1_cube.texOffs(40, 37).addBox(-1.0F, -1.25F, -6.5F, 2.0F, 2.0F, 7.0F, 0.0F, false);
 
 		ModelRenderer chocobo_claw_left_2 = new ModelRenderer(this);
 		chocobo_claw_left_2.setPos(0.1F, 6.0F, -0.1F);
