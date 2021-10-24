@@ -652,6 +652,12 @@ public class ChocoboEntity extends TameableEntity {
     public ActionResultType interactAt(PlayerEntity player, Vector3d vec, Hand hand) {
         ItemStack heldItemStack = player.getItemInHand(hand);
 
+        if (heldItemStack.getItem() == ModRegistry.GYSAHL_CAKE.get()) {
+            this.usePlayerItem(player, heldItemStack);
+            ageBoundaryReached();
+            return ActionResultType.SUCCESS;
+        }
+
         if (heldItemStack.getItem() == ModRegistry.CHOCOPEDIA.get()) {
             if(level.isClientSide) {
                 net.chococraft.client.gui.ChocoboInfoScreen.openScreen(this, player);
