@@ -6,6 +6,7 @@ import net.chococraft.common.blocks.GysahlGreenBlock;
 import net.chococraft.common.blocks.StrawNestBlock;
 import net.chococraft.common.entities.properties.ChocoboColor;
 import net.chococraft.common.items.AbilityFruitItem;
+import net.chococraft.common.items.ChocoDisguiseItem;
 import net.chococraft.common.items.ChocoboEggBlockItem;
 import net.chococraft.common.items.ChocoboSaddleItem;
 import net.chococraft.common.items.ChocoboSpawnEggItem;
@@ -18,6 +19,7 @@ import net.minecraft.block.AbstractBlock.Properties;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
@@ -80,11 +82,15 @@ public class ModRegistry {
 
     public static final RegistryObject<Item> CHOCOPEDIA = ITEMS.register("chocopedia", () -> new ChocopediaItem(itemBuilder()));
 
+    public static final RegistryObject<Item> CHOCO_DISGUISE_HELMET = ITEMS.register("choco_disguise_helmet", () -> new ChocoDisguiseItem(ModArmorMaterial.CHOCO_DISGUISE, EquipmentSlotType.HEAD, itemBuilder()));
+    public static final RegistryObject<Item> CHOCO_DISGUISE_CHESTPLATE = ITEMS.register("choco_disguise_chestplate", () -> new ChocoDisguiseItem(ModArmorMaterial.CHOCO_DISGUISE, EquipmentSlotType.CHEST, itemBuilder()));
+    public static final RegistryObject<Item> CHOCO_DISGUISE_LEGGINGS = ITEMS.register("choco_disguise_leggings", () -> new ChocoDisguiseItem(ModArmorMaterial.CHOCO_DISGUISE, EquipmentSlotType.LEGS, itemBuilder()));
+    public static final RegistryObject<Item> CHOCO_DISGUISE_BOOTS = ITEMS.register("choco_disguise_boots", () -> new ChocoDisguiseItem(ModArmorMaterial.CHOCO_DISGUISE, EquipmentSlotType.FEET, itemBuilder()));
+
+
     //Regular block items
     public static final RegistryObject<Item> STRAW_NEST_ITEM = ITEMS.register("straw_nest", () -> new BlockItem(STRAW_NEST.get(), itemBuilder()));
     public static final RegistryObject<Item> CHOCOBO_EGG_ITEM = ITEMS.register("chocobo_egg", () -> new ChocoboEggBlockItem(CHOCOBO_EGG.get(), itemBuilder()));
-
-
     private static Item.Properties itemBuilder() {
         return new Item.Properties().tab(Chococraft.creativeTab);
     }

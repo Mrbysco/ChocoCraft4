@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "chococraft:item/choco_disguise_helmet"
+  }
+}
