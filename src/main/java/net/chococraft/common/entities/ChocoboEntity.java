@@ -835,7 +835,7 @@ public class ChocoboEntity extends TamableAnimal {
                     return !RandomHelper.getChanceResult(chance);
                 }
                 return false;
-            }, 10.0F, 1.0D, 1.2D, EntitySelector.NO_CREATIVE_OR_SPECTATOR);;
+            }, 10.0F, 1.0D, 1.2D, EntitySelector.NO_CREATIVE_OR_SPECTATOR);
         }
         if(isTame()) {
             goalSelector.removeGoal(chocoboAvoidPlayerGoal);
