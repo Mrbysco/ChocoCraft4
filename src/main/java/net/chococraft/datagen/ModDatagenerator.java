@@ -4,24 +4,34 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.util.Pair;
 import net.chococraft.Chococraft;
 import net.chococraft.common.blocks.GysahlGreenBlock;
+import net.chococraft.common.init.ModEntities;
 import net.chococraft.common.init.ModRegistry;
 import net.minecraft.advancements.criterion.StatePropertiesPredicate;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.LootTableProvider;
 import net.minecraft.data.loot.BlockLootTables;
+import net.minecraft.data.loot.EntityLootTables;
 import net.minecraft.enchantment.Enchantments;
+import net.minecraft.entity.EntityType;
+import net.minecraft.loot.ConstantRange;
 import net.minecraft.loot.ItemLootEntry;
+import net.minecraft.loot.LootContext;
 import net.minecraft.loot.LootParameterSet;
 import net.minecraft.loot.LootParameterSets;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.LootTableManager;
+import net.minecraft.loot.RandomValueRange;
 import net.minecraft.loot.ValidationTracker;
 import net.minecraft.loot.conditions.BlockStateProperty;
+import net.minecraft.loot.conditions.EntityHasProperty;
 import net.minecraft.loot.conditions.ILootCondition;
 import net.minecraft.loot.conditions.RandomChance;
 import net.minecraft.loot.functions.ApplyBonus;
+import net.minecraft.loot.functions.LootingEnchantBonus;
+import net.minecraft.loot.functions.SetCount;
+import net.minecraft.loot.functions.Smelt;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -37,6 +47,10 @@ import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
+
+import static net.chococraft.common.init.ModRegistry.*;
+import static net.chococraft.common.init.ModEntities.*;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModDatagenerator {
@@ -60,7 +74,7 @@ public class ModDatagenerator {
 
 		@Override
 		protected List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootParameterSet>> getTables() {
-			return ImmutableList.of(Pair.of(ModBlockTables::new, LootParameterSets.BLOCK));
+			return ImmutableList.of(Pair.of(ModBlockTables::new, LootParameterSets.BLOCK), Pair.of(ModEntityTables::new, LootParameterSets.ENTITY));
 		}
 
 		private static class ModBlockTables extends BlockLootTables {
@@ -80,6 +94,22 @@ public class ModDatagenerator {
 			@Override
 			protected Iterable<Block> getKnownBlocks() {
 				return ModRegistry.BLOCKS.getEntries().stream().map(RegistryObject::get)::iterator;
+			}
+		}
+
+		private static class ModEntityTables extends EntityLootTables {
+
+			@Override
+			protected void addTables() {
+				this.add(CHOCOBO.get(), LootTable.lootTable()
+						.withPool(LootPool.lootPool().setRolls(ConstantRange.exactly(1)).add(ItemLootEntry.lootTableItem(CHOCOBO_FEATHER.get()).apply(SetCount.setCount(RandomValueRange.between(0.0F, 2.0F))).apply(LootingEnchantBonus.lootingMultiplier(RandomValueRange.between(0.0F, 1.0F)))))
+						.withPool(LootPool.lootPool().setRolls(ConstantRange.exactly(1)).add(ItemLootEntry.lootTableItem(CHOCOBO_DRUMSTICK_RAW.get()).apply(Smelt.smelted().when(EntityHasProperty.hasProperties(LootContext.EntityTarget.THIS, ENTITY_ON_FIRE))).apply(LootingEnchantBonus.lootingMultiplier(RandomValueRange.between(0.0F, 1.0F))))));
+			}
+
+			@Override
+			protected Iterable<EntityType<?>> getKnownEntities() {
+				Stream<EntityType<?>> entityTypeStream = ModEntities.ENTITIES.getEntries().stream().map(RegistryObject::get);
+				return entityTypeStream::iterator;
 			}
 		}
 
