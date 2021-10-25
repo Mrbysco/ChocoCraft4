@@ -27,6 +27,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Containers;
 import net.minecraft.world.DifficultyInstance;
@@ -367,20 +368,30 @@ public class ChocoboEntity extends TamableAnimal {
         return this.getPassengers().isEmpty() ? null : this.getPassengers().get(0);
     }
 
-//    @Override
-//    public boolean handleWaterMovement() { TODO: Is this still needed?
-//        if (this.getRidingEntity() instanceof ChocoboEntity) {
-//            this.inWater = false;
-//        } else if (this.world.handleMaterialAcceleration(this.getBoundingBox().grow(0.0D, -0.4000000059604645D, 0.0D).shrink(0.001D), Material.WATER, this)) {
-//            this.fallDistance = 0.0F;
-//            this.inWater = true;
-//            this.extinguish();
-//        } else {
-//            this.inWater = false;
-//        }
-//
-//        return this.inWater;
-//    }
+    @Override
+    protected boolean updateInWaterStateAndDoFluidPushing() {
+        this.fluidHeight.clear();
+        this.updateInWaterStateAndDoWaterCurrentPushing();
+        double d0 = this.level.dimensionType().ultraWarm() ? 0.007D : 0.0023333333333333335D;
+        boolean flag = this.updateFluidHeightAndDoFluidPushing(FluidTags.LAVA, d0);
+        return this.isInWater() || flag;
+    }
+
+    private void updateInWaterStateAndDoWaterCurrentPushing() {
+        if (this.getVehicle() instanceof ChocoboEntity) {
+            this.wasTouchingWater = false;
+        } else if (this.updateFluidHeightAndDoFluidPushing(FluidTags.WATER, 0.014D)) {
+            if (!this.wasTouchingWater && !this.firstTick) {
+                this.doWaterSplashEffect();
+            }
+
+            this.fallDistance = 0.0F;
+            this.wasTouchingWater = true;
+            this.clearFire();
+        } else {
+            this.wasTouchingWater = false;
+        }
+    }
 
     @Override
     public void travel(Vec3 travelVector) {
