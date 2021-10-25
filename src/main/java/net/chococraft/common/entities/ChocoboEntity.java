@@ -74,7 +74,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.function.Predicate;
 
 public class ChocoboEntity extends TameableEntity {
     private static final String NBTKEY_CHOCOBO_COLOR = "Color";
@@ -107,23 +106,7 @@ public class ChocoboEntity extends TameableEntity {
     private static final UUID CHOCOBO_SPRINTING_BOOST_ID = UUID.fromString("03ba3167-393e-4362-92b8-909841047640");
     private static final AttributeModifier CHOCOBO_SPRINTING_SPEED_BOOST = (new AttributeModifier(CHOCOBO_SPRINTING_BOOST_ID, "Chocobo sprinting speed boost", 1, Operation.MULTIPLY_BASE));
 
-    public final Predicate<LivingEntity> playerSuitSelector = livingEntity -> {
-        if(livingEntity instanceof PlayerEntity) {
-            PlayerEntity player = (PlayerEntity) livingEntity;
-            int chance = 0;
-            for (ItemStack stack : player.inventory.armor) {
-                if (stack != null) {
-                    if (stack.getItem() instanceof ChocoDisguiseItem)
-                        chance += 25;
-                }
-            }
-
-            return !RandomHelper.getChanceResult(chance);
-        }
-        return false;
-    };
-    private final AvoidEntityGoal chocoboAvoidPlayerGoal = new AvoidEntityGoal<>(this, PlayerEntity.class, playerSuitSelector, 10.0F, 1.0D, 1.2D, EntityPredicates.NO_CREATIVE_OR_SPECTATOR::test);
-
+    private AvoidEntityGoal chocoboAvoidPlayerGoal;
 
     public final ItemStackHandler chocoboInventory = new ItemStackHandler() {
         //Todo make it handle resizes
@@ -839,6 +822,23 @@ public class ChocoboEntity extends TameableEntity {
     @Override
     protected void reassessTameGoals() {
         super.reassessTameGoals();
+        if(chocoboAvoidPlayerGoal == null) {
+            chocoboAvoidPlayerGoal = new AvoidEntityGoal(this, PlayerEntity.class, livingEntity -> {
+                if(livingEntity instanceof PlayerEntity) {
+                    PlayerEntity player = (PlayerEntity) livingEntity;
+                    int chance = 0;
+                    for (ItemStack stack : player.inventory.armor) {
+                        if (stack != null) {
+                            if (stack.getItem() instanceof ChocoDisguiseItem)
+                                chance += 25;
+                        }
+                    }
+
+                    return !RandomHelper.getChanceResult(chance);
+                }
+                return false;
+            }, 10.0F, 1.0D, 1.2D, EntityPredicates.NO_CREATIVE_OR_SPECTATOR);
+        }
         if(isTame()) {
             goalSelector.removeGoal(chocoboAvoidPlayerGoal);
         } else {
