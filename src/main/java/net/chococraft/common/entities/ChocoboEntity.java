@@ -11,9 +11,11 @@ import net.chococraft.common.init.ModRegistry;
 import net.chococraft.common.init.ModSounds;
 import net.chococraft.common.inventory.SaddleBagContainer;
 import net.chococraft.common.inventory.SaddleItemStackHandler;
+import net.chococraft.common.items.ChocoDisguiseItem;
 import net.chococraft.common.items.ChocoboSaddleItem;
 import net.chococraft.common.network.PacketManager;
 import net.chococraft.common.network.packets.OpenChocoboGuiMessage;
+import net.chococraft.utils.RandomHelper;
 import net.chococraft.utils.WorldUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -35,6 +37,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -46,6 +49,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.FollowOwnerGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
@@ -70,6 +74,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Predicate;
 
 public class ChocoboEntity extends TamableAnimal {
     private static final String NBTKEY_CHOCOBO_COLOR = "Color";
@@ -102,6 +107,7 @@ public class ChocoboEntity extends TamableAnimal {
     private static final UUID CHOCOBO_SPRINTING_BOOST_ID = UUID.fromString("03ba3167-393e-4362-92b8-909841047640");
     private static final AttributeModifier CHOCOBO_SPRINTING_SPEED_BOOST = (new AttributeModifier(CHOCOBO_SPRINTING_BOOST_ID, "Chocobo sprinting speed boost", 1, Operation.MULTIPLY_BASE));
 
+    private AvoidEntityGoal chocoboAvoidPlayerGoal;
     public final ItemStackHandler chocoboInventory = new ItemStackHandler() {
         //Todo make it handle resizes
     };
@@ -627,6 +633,12 @@ public class ChocoboEntity extends TamableAnimal {
     public InteractionResult interactAt(Player player, Vec3 vec, InteractionHand hand) {
         ItemStack heldItemStack = player.getItemInHand(hand);
 
+        if (heldItemStack.getItem() == ModRegistry.GYSAHL_CAKE.get()) {
+            this.usePlayerItem(player, hand, heldItemStack);
+            ageBoundaryReached();
+            return InteractionResult.SUCCESS;
+        }
+
         if (heldItemStack.getItem() == ModRegistry.CHOCOPEDIA.get()) {
             if(level.isClientSide) {
                 net.chococraft.client.gui.ChocoboInfoScreen.openScreen(this, player);
@@ -803,5 +815,32 @@ public class ChocoboEntity extends TamableAnimal {
             return true;
 
         return super.checkSpawnRules(worldIn, spawnReasonIn);
+    }
+
+    @Override
+    protected void reassessTameGoals() {
+        super.reassessTameGoals();
+        if(chocoboAvoidPlayerGoal == null) {
+            chocoboAvoidPlayerGoal = new AvoidEntityGoal(this, Player.class, livingEntity -> {
+                if(livingEntity instanceof Player) {
+                    Player player = (Player) livingEntity;
+                    int chance = 0;
+                    for (ItemStack stack : player.getInventory().armor) {
+                        if (stack != null) {
+                            if (stack.getItem() instanceof ChocoDisguiseItem)
+                                chance += 25;
+                        }
+                    }
+
+                    return !RandomHelper.getChanceResult(chance);
+                }
+                return false;
+            }, 10.0F, 1.0D, 1.2D, EntitySelector.NO_CREATIVE_OR_SPECTATOR);;
+        }
+        if(isTame()) {
+            goalSelector.removeGoal(chocoboAvoidPlayerGoal);
+        } else {
+            goalSelector.addGoal(5, chocoboAvoidPlayerGoal);
+        }
     }
 }

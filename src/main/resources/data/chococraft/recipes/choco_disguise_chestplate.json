@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "F F",
+    "FFF",
+    "FFF"
+  ],
+  "key": {
+    "F": {
+      "item": "chococraft:chocobo_feather"
+    }
+  },
+  "result": {
+    "item": "chococraft:choco_disguise_chestplate",
+    "count": 1
+  }
+}
