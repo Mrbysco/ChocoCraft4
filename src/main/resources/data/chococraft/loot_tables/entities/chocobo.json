@@ -2,7 +2,7 @@
   "type": "minecraft:entity",
   "pools": [
     {
-      "name": "chocobo_meat",
+      "name": "chocobo_feather",
       "rolls": 1.0,
       "bonus_rolls": 0.0,
       "entries": [
@@ -32,7 +32,7 @@
       ]
     },
     {
-      "name": "chocobo_feather",
+      "name": "chocobo_meat",
       "rolls": 1.0,
       "bonus_rolls": 0.0,
       "entries": [
