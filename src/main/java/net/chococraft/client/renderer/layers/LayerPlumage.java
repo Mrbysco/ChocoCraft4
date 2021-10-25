@@ -17,7 +17,6 @@ public class LayerPlumage extends RenderLayer<ChocoboEntity, AdultChocoboModel<C
 		super(rendererIn);
 	}
 
-
 	@Override
 	public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, ChocoboEntity chocoboEntity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		if (chocoboEntity.isTame() && !chocoboEntity.isInvisible()) {
