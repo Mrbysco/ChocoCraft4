@@ -1,6 +1,6 @@
 modLoader="javafml"
-loaderVersion="[37,)"
-issueTrackerURL="https://github.com/Mrbysco/ChocoCraft4"
+loaderVersion="[39,)"
+issueTrackerURL="https://github.com/Mrbysco/ChocoCraft4/issues"
 license="MIT"
 
 [[mods]]
@@ -16,6 +16,6 @@ Chocobos in Minecraft
 [[dependencies.chococraft]]
 modId="minecraft"
 mandatory=true
-versionRange="[1.17.1,1.18)"
+versionRange="[1.18.1,1.19)"
 ordering="NONE"
 side="BOTH"

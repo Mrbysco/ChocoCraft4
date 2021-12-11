@@ -16,7 +16,7 @@ group = "net.${mod_id}"
 archivesBaseName = "${mod_id}-${mc_version}"
 
 // Mojang ships Java 16 to end users in 1.17+ instead of Java 8 in 1.16 or lower, so your mod should target Java 16.
-java.toolchain.languageVersion = JavaLanguageVersion.of(16)
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 compileJava.options.setEncoding('UTF-8')
 
@@ -97,8 +97,8 @@ dependencies {
     minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
 
     //Add JEI locally to be able to check recipes and such
-    compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
-    runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
+    compileOnly fg.deobf("mezz.jei:jei-1.18:${jei_version}")
+    runtimeOnly fg.deobf("mezz.jei:jei-1.18:${jei_version}")
 }
 
 jar {

@@ -16,7 +16,7 @@ public class ChocoboEggBlockItem extends BlockItem {
     @Override
     public boolean isBarVisible(ItemStack stack) {
         if (!ChocoboEggBlock.isChocoboEgg(stack))
-            return super.showDurabilityBar(stack);
+            return super.isBarVisible(stack);
 
         if (!stack.hasTag())
             return false;

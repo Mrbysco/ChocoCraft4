@@ -24,17 +24,24 @@ public class ChocoboEggBlockEntity extends BlockEntity {
     }
 
     @Override
-    public CompoundTag save(CompoundTag compound) {
+    public CompoundTag save(CompoundTag tag) {
+        saveAdditional(tag);
+        return super.save(tag);
+    }
+
+
+    @Override
+    public void saveAdditional(CompoundTag compound) {
+        super.saveAdditional(compound);
         if (this.breedInfo != null) {
             compound.put(NBTKEY_BREEDINFO, this.breedInfo.serialize());
         }
-        return super.save(compound);
     }
 
     @Override
     public CompoundTag getUpdateTag() {
         CompoundTag nbt = super.getUpdateTag();
-        this.save(nbt);
+        this.saveAdditional(nbt);
         return nbt;
     }
 

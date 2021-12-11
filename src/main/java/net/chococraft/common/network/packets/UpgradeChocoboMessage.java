@@ -8,8 +8,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fmllegacy.network.NetworkEvent;
-import net.minecraftforge.fmllegacy.network.NetworkEvent.Context;
+import net.minecraftforge.network.NetworkEvent.Context;
 
 import java.util.function.Supplier;
 
@@ -37,7 +36,7 @@ public class UpgradeChocoboMessage {
     }
 
     public void handle(Supplier<Context> context) {
-        NetworkEvent.Context ctx = context.get();
+        net.minecraftforge.network.NetworkEvent.Context ctx = context.get();
         ctx.enqueueWork(() -> {
             if(ctx.getDirection().getReceptionSide() == LogicalSide.SERVER) {
                 Player player = ctx.getSender();

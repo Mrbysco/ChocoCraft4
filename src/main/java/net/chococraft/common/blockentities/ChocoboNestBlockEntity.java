@@ -195,11 +195,17 @@ public class ChocoboNestBlockEntity extends BlockEntity implements MenuProvider 
     }
 
     @Override
-    public CompoundTag save(CompoundTag nbt) {
+    public CompoundTag save(CompoundTag tag) {
+        saveAdditional(tag);
+        return super.save(tag);
+    }
+
+    @Override
+    public void saveAdditional(CompoundTag nbt) {
+        super.saveAdditional(nbt);
         nbt.putBoolean(NBTKEY_IS_SHELTERED, this.isSheltered);
         nbt.putInt(NBTKEY_TICKS, this.ticks);
         nbt.put(NBTKEY_NEST_INVENTORY, this.inventory.serializeNBT());
-        return super.save(nbt);
     }
 
     @Nullable
@@ -207,7 +213,7 @@ public class ChocoboNestBlockEntity extends BlockEntity implements MenuProvider 
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
         CompoundTag nbt = new CompoundTag();
         save(nbt);
-        return new ClientboundBlockEntityDataPacket(this.getBlockPos(), 0, nbt);
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 
     @Override
@@ -218,7 +224,7 @@ public class ChocoboNestBlockEntity extends BlockEntity implements MenuProvider 
     @Override
     public CompoundTag getUpdateTag() {
         CompoundTag nbt = super.getUpdateTag();
-        nbt.put(NBTKEY_NEST_INVENTORY, this.inventory.serializeNBT());
+        this.saveAdditional(nbt);
         return nbt;
     }
 

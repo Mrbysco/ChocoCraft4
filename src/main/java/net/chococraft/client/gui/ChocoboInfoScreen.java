@@ -20,7 +20,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.fmlclient.gui.GuiUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +63,7 @@ public class ChocoboInfoScreen extends Screen {
         abilityButton[0] = this.addRenderableWidget(new TexturedButton(25, 52, 18, 18, 0, 107, 0, TEXTURE, 256, 256, (button) -> {
             UpgradeChocoboMessage packet = new UpgradeChocoboMessage(chocobo, 1);
             PacketManager.CHANNEL.sendToServer(packet);
-        }, (button, matrixStack, mouseX, mouseY) -> {
+        }, (button, poseStack, mouseX, mouseY) -> {
             boolean flag = chocobo.canSprint();
             String abilityText = I18n.get(getAbilityFromButton(0));
             int centerX = width / 2;
@@ -75,15 +74,15 @@ public class ChocoboInfoScreen extends Screen {
                 tooltip = I18n.get("gui.chocoinfo.button.ability", ExperienceHandler.getExperience(player), getAbilityXPCost(0), abilityText);
             }
             int width = this.font.width(tooltip);
-            this.font.draw(matrixStack, tooltip, 90 - centerX, 93, -1);
+            this.font.draw(poseStack, tooltip, 90 - centerX, 93, -1);
             List<Component> text = new ArrayList<>();
             text.add(new TranslatableComponent("gui.chocoinfo.button.button_format", new TranslatableComponent(getAbilityFromButton(0))));
-            GuiUtils.drawHoveringText(matrixStack, text, mouseX, mouseY, width, height, -1, font);
+            renderComponentTooltip(poseStack, text, mouseX, mouseY);
         }, new TextComponent("Sprint")));
         abilityButton[1] = this.addRenderableWidget(new TexturedButton(61, 52, 18, 18, 18, 107, 0, TEXTURE, 256, 256, (button) -> {
             UpgradeChocoboMessage packet = new UpgradeChocoboMessage(chocobo, 2);
             PacketManager.CHANNEL.sendToServer(packet);
-        }, (button, matrixStack, mouseX, mouseY) -> {
+        }, (button, poseStack, mouseX, mouseY) -> {
             boolean flag = chocobo.canGlide();
             String abilityText = I18n.get(getAbilityFromButton(1));
             int centerX = width / 2;
@@ -94,15 +93,15 @@ public class ChocoboInfoScreen extends Screen {
                 tooltip = I18n.get("gui.chocoinfo.button.ability", ExperienceHandler.getExperience(player), getAbilityXPCost(1), abilityText);
             }
             int width = this.font.width(tooltip);
-            this.font.draw(matrixStack, tooltip, 90 - centerX, 93, -1);
+            this.font.draw(poseStack, tooltip, 90 - centerX, 93, -1);
             List<Component> text = new ArrayList<>();
             text.add(new TranslatableComponent("gui.chocoinfo.button.button_format", new TranslatableComponent(getAbilityFromButton(1))));
-            GuiUtils.drawHoveringText(matrixStack, text, mouseX, mouseY, width, height, -1, font);
+            renderComponentTooltip(poseStack, text, mouseX, mouseY);
         }, new TextComponent("Glide")));
         abilityButton[2] = this.addRenderableWidget(new TexturedButton(97, 52, 18, 18, 36, 107, 0, TEXTURE, 256, 256, (button) -> {
             UpgradeChocoboMessage packet = new UpgradeChocoboMessage(chocobo, 3);
             PacketManager.CHANNEL.sendToServer(packet);
-        }, (button, matrixStack, mouseX, mouseY) -> {
+        }, (button, poseStack, mouseX, mouseY) -> {
             boolean flag = chocobo.canDive();
             String abilityText = I18n.get(getAbilityFromButton(2));
             int centerX = width / 2;
@@ -113,15 +112,15 @@ public class ChocoboInfoScreen extends Screen {
                 tooltip = I18n.get("gui.chocoinfo.button.ability", ExperienceHandler.getExperience(player), getAbilityXPCost(2), abilityText);
             }
             int width = this.font.width(tooltip);
-            this.font.draw(matrixStack, tooltip, 90 - centerX, 93, -1);
+            this.font.draw(poseStack, tooltip, 90 - centerX, 93, -1);
             List<Component> text = new ArrayList<>();
             text.add(new TranslatableComponent("gui.chocoinfo.button.button_format", new TranslatableComponent(getAbilityFromButton(2))));
-            GuiUtils.drawHoveringText(matrixStack, text, mouseX, mouseY, width, height, -1, font);
+            renderComponentTooltip(poseStack, text, mouseX, mouseY);
         }, new TextComponent("Dive")));
         abilityButton[3] = this.addRenderableWidget(new TexturedButton(133, 52, 18, 18, 54, 107, 0, TEXTURE, 256, 256, (button) -> {
             UpgradeChocoboMessage packet = new UpgradeChocoboMessage(chocobo, 4);
             PacketManager.CHANNEL.sendToServer(packet);
-        }, (button, matrixStack, mouseX, mouseY) -> {
+        }, (button, poseStack, mouseX, mouseY) -> {
             boolean flag = chocobo.canFly();
             String abilityText = I18n.get(getAbilityFromButton(3));
             int centerX = width / 2;
@@ -132,10 +131,10 @@ public class ChocoboInfoScreen extends Screen {
                 tooltip = I18n.get("gui.chocoinfo.button.ability", ExperienceHandler.getExperience(player), getAbilityXPCost(3), abilityText);
             }
             int width = this.font.width(tooltip);
-            this.font.draw(matrixStack, tooltip, 90 - centerX, 93, -1);
+            this.font.draw(poseStack, tooltip, 90 - centerX, 93, -1);
             List<Component> text = new ArrayList<>();
             text.add(new TranslatableComponent("gui.chocoinfo.button.button_format", new TranslatableComponent(getAbilityFromButton(3))));
-            GuiUtils.drawHoveringText(matrixStack, text, mouseX, mouseY, width, height, -1, font);
+            renderComponentTooltip(poseStack, text, mouseX, mouseY);
         }, new TextComponent("Fly")));
     }
 
@@ -221,29 +220,29 @@ public class ChocoboInfoScreen extends Screen {
         this.font.drawShadow(matrixStack, value, 142 - (width / 2), 36, -1);
     }
 
-    private void drawHover(PoseStack matrixStack, int mouseX, int mouseY) {
+    private void drawHover(PoseStack poseStack, int mouseX, int mouseY) {
         if (mouseX >= 25 && mouseY >= 17 && mouseX < 25 + 18 && mouseY < 17 + 18) {
             List<Component> text = new ArrayList<>();
             text.add(new TranslatableComponent("gui.chocoinfo.texture.gender"));
-            GuiUtils.drawHoveringText(matrixStack, text, mouseX, mouseY, width, height, -1, font);
+            renderComponentTooltip(poseStack, text, mouseX, mouseY);
         }
 
         if (mouseX >= 61 && mouseY >= 17 && mouseX < 61 + 18 && mouseY < 17 + 18) {
             List<Component> text = new ArrayList<>();
             text.add(new TranslatableComponent("gui.chocoinfo.texture.health"));
-            GuiUtils.drawHoveringText(matrixStack, text, mouseX, mouseY, width, height, -1, font);
+            renderComponentTooltip(poseStack, text, mouseX, mouseY);
         }
 
         if (mouseX >= 97 && mouseY >= 17 && mouseX < 97 + 18 && mouseY < 17 + 18) {
             List<Component> text = new ArrayList<>();
             text.add(new TranslatableComponent("gui.chocoinfo.texture.speed"));
-            GuiUtils.drawHoveringText(matrixStack, text, mouseX, mouseY, width, height, -1, font);
+            renderComponentTooltip(poseStack, text, mouseX, mouseY);
         }
 
         if (mouseX >= 133 && mouseY >= 17 && mouseX < 133 + 18 && mouseY < 17 + 18) {
             List<Component> text = new ArrayList<>();
             text.add(new TranslatableComponent("gui.chocoinfo.texture.stamina"));
-            GuiUtils.drawHoveringText(matrixStack, text, mouseX, mouseY, width, height, -1, font);
+            renderComponentTooltip(poseStack, text, mouseX, mouseY);
         }
     }
 

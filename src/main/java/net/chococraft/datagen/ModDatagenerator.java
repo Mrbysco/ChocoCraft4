@@ -37,7 +37,7 @@ import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fmllegacy.RegistryObject;
+import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 
 import javax.annotation.Nonnull;
@@ -92,7 +92,7 @@ public class ModDatagenerator {
 
 			@Override
 			protected Iterable<Block> getKnownBlocks() {
-				return ModRegistry.BLOCKS.getEntries().stream().map(RegistryObject::get)::iterator;
+				return ModRegistry.BLOCKS.getEntries().stream().map(net.minecraftforge.registries.RegistryObject::get)::iterator;
 			}
 		}
 
@@ -106,7 +106,7 @@ public class ModDatagenerator {
 
 			@Override
 			protected Iterable<EntityType<?>> getKnownEntities() {
-				Stream<EntityType<?>> entityTypeStream = ModEntities.ENTITIES.getEntries().stream().map(RegistryObject::get);
+				Stream<EntityType<?>> entityTypeStream = ModEntities.ENTITIES.getEntries().stream().map(net.minecraftforge.registries.RegistryObject::get);
 				return entityTypeStream::iterator;
 			}
 		}
