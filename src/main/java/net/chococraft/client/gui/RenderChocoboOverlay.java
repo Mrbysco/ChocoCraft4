@@ -25,8 +25,7 @@ public class RenderChocoboOverlay {
         Minecraft minecraft = Minecraft.getInstance();
         PoseStack matrixStack = event.getMatrixStack();
         Entity mountedEntity = minecraft.player.getVehicle();
-        if (!(mountedEntity instanceof ChocoboEntity)) return;
-        ChocoboEntity chocobo = (ChocoboEntity) mountedEntity;
+        if (!(mountedEntity instanceof ChocoboEntity chocobo)) return;
 
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, ICONS);

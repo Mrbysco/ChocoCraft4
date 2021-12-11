@@ -11,9 +11,9 @@ public enum AbilityFruitType {
 	DIVE("aqua_berry", c -> !c.canDive(), c -> c.setCanDive(true)),
 	FLY("dead_pepper", c -> !c.canFly(), c -> c.setCanFly(true));
 
-	private String name;
-	private Consumer<ChocoboEntity> abilityApplier;
-	private Predicate<ChocoboEntity> canLearnAbilityPredicate;
+	private final String name;
+	private final Consumer<ChocoboEntity> abilityApplier;
+	private final Predicate<ChocoboEntity> canLearnAbilityPredicate;
 
 	AbilityFruitType(String name, Predicate<ChocoboEntity> canLearnAbilityPredicate, Consumer<ChocoboEntity> abilityApplier) {
 		this.name = name;

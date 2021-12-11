@@ -14,7 +14,7 @@ public class ChocoboEggBlockItem extends BlockItem {
     }
 
     @Override
-    public boolean showDurabilityBar(ItemStack stack) {
+    public boolean isBarVisible(ItemStack stack) {
         if (!ChocoboEggBlock.isChocoboEgg(stack))
             return super.showDurabilityBar(stack);
 
@@ -26,27 +26,26 @@ public class ChocoboEggBlockItem extends BlockItem {
     }
 
     @Override
-    public double getDurabilityForDisplay(ItemStack stack) {
+    public int getBarWidth(ItemStack stack) {
         if (!ChocoboEggBlock.isChocoboEgg(stack))
-            return super.getDurabilityForDisplay(stack);
+            return super.getBarWidth(stack);
 
         if (!stack.hasTag())
-            return 0.0;
+            return 0;
 
-        int time = 0;
         CompoundTag nbtHatchIngstate = stack.getTagElement(ChocoboEggBlock.NBTKEY_HATCHINGSTATE);
-        if (nbtHatchIngstate != null)
-            time = nbtHatchIngstate.getInt(ChocoboEggBlock.NBTKEY_HATCHINGSTATE_TIME);
+        if (nbtHatchIngstate != null) {
+            int time = nbtHatchIngstate.getInt(ChocoboEggBlock.NBTKEY_HATCHINGSTATE_TIME);
+            return Math.round(time * 13.0F / (float)ChocoConfig.COMMON.eggHatchTimeTicks.get());
+        }
 
-        double percent = (double) time / (double) ChocoConfig.COMMON.eggHatchTimeTicks.get();
-
-        return 1.0 - percent;
+        return 1;
     }
 
     @Override
-    public int getRGBDurabilityForDisplay(ItemStack stack) {
+    public int getBarColor(ItemStack stack) {
         if (!ChocoboEggBlock.isChocoboEgg(stack))
-            return super.getRGBDurabilityForDisplay(stack);
+            return super.getBarColor(stack);
 
         return 0x0000FF00;
     }

@@ -75,7 +75,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.function.Predicate;
 
 public class ChocoboEntity extends TamableAnimal {
     private static final String NBTKEY_CHOCOBO_COLOR = "Color";
@@ -396,9 +395,7 @@ public class ChocoboEntity extends TamableAnimal {
     @Override
     public void travel(Vec3 travelVector) {
         Vec3 newVector = travelVector;
-        if (this.getControllingPassenger() instanceof Player) {
-            Player rider = (Player) this.getControllingPassenger();
-
+        if (this.getControllingPassenger() instanceof Player rider) {
             this.yRotO = rider.getYRot();
             this.xRotO = rider.getXRot();
             this.setYRot(rider.getYRot());
@@ -507,9 +504,8 @@ public class ChocoboEntity extends TamableAnimal {
 
     @Override
     public boolean canMate(Animal otherAnimal) {
-        if (otherAnimal == this || !(otherAnimal instanceof ChocoboEntity)) return false;
+        if (otherAnimal == this || !(otherAnimal instanceof ChocoboEntity otherChocobo)) return false;
         if (!this.isInLove() || !otherAnimal.isInLove()) return false;
-        ChocoboEntity otherChocobo = (ChocoboEntity) otherAnimal;
         return otherChocobo.isMale() != this.isMale();
     }
 
@@ -833,8 +829,7 @@ public class ChocoboEntity extends TamableAnimal {
         super.reassessTameGoals();
         if(chocoboAvoidPlayerGoal == null) {
             chocoboAvoidPlayerGoal = new AvoidEntityGoal(this, Player.class, livingEntity -> {
-                if(livingEntity instanceof Player) {
-                    Player player = (Player) livingEntity;
+                if(livingEntity instanceof Player player) {
                     int chance = 0;
                     for (ItemStack stack : player.getInventory().armor) {
                         if (stack != null) {

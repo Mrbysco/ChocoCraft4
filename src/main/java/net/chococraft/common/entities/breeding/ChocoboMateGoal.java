@@ -1,15 +1,15 @@
 package net.chococraft.common.entities.breeding;
 
 import net.chococraft.Chococraft;
+import net.chococraft.common.blockentities.ChocoboEggBlockEntity;
 import net.chococraft.common.entities.ChocoboEntity;
 import net.chococraft.common.init.ModRegistry;
-import net.chococraft.common.blockentities.ChocoboEggBlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
+import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
@@ -102,8 +102,7 @@ public class ChocoboMateGoal extends Goal {
                 }
 
                 BlockEntity tile = this.world.getBlockEntity(offsetPos);
-                if(tile instanceof ChocoboEggBlockEntity) {
-                    ChocoboEggBlockEntity eggTile = (ChocoboEggBlockEntity)tile;
+                if(tile instanceof ChocoboEggBlockEntity eggTile) {
                     eggTile.setBreedInfo(new ChocoboBreedInfo(new ChocoboStatSnapshot(this.chocobo), new ChocoboStatSnapshot(this.targetMate)));
                 } else {
                     Chococraft.log.error("Unable to place egg @ {}, no tile entity was found at the given position!", offsetPos);

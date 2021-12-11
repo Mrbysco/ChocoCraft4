@@ -248,48 +248,34 @@ public class ChocoboInfoScreen extends Screen {
     }
 
     private boolean canUseAbility(int i) {
-        switch (i) {
-            case 0:
-                return chocobo.canSprint();
-            case 1:
-                return chocobo.canGlide();
-            case 2:
-                return chocobo.canDive();
-            case 3:
-                return chocobo.canFly();
-        }
+        return switch (i) {
+            case 0 -> chocobo.canSprint();
+            case 1 -> chocobo.canGlide();
+            case 2 -> chocobo.canDive();
+            case 3 -> chocobo.canFly();
+            default -> false;
+        };
 
-        return false;
     }
 
     private String getAbilityFromButton(int i) {
         String key = "gui.chocoinfo.button.";
-        switch (i) {
-            case 0:
-                return key + "sprint";
-            case 1:
-                return key + "glide";
-            case 2:
-                return key + "dive";
-            case 3:
-                return key + "fly";
-            default:
-                return key + "";
-        }
+        return switch (i) {
+            case 0 -> key + "sprint";
+            case 1 -> key + "glide";
+            case 2 -> key + "dive";
+            case 3 -> key + "fly";
+            default -> key + "";
+        };
     }
 
     private int getAbilityXPCost(int i) {
-        switch (i) {
-            case 0:
-                return ChocoConfig.COMMON.ExpCostSprint.get();
-            case 1:
-                return ChocoConfig.COMMON.ExpCostGlide.get();
-            case 2:
-                return ChocoConfig.COMMON.ExpCostDive.get();
-            case 3:
-                return ChocoConfig.COMMON.ExpCostFly.get();
-            default:
-                return 0;
-        }
+        return switch (i) {
+            case 0 -> ChocoConfig.COMMON.ExpCostSprint.get();
+            case 1 -> ChocoConfig.COMMON.ExpCostGlide.get();
+            case 2 -> ChocoConfig.COMMON.ExpCostDive.get();
+            case 3 -> ChocoConfig.COMMON.ExpCostFly.get();
+            default -> 0;
+        };
     }
 }

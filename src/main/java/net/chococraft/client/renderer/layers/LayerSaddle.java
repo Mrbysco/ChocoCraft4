@@ -8,9 +8,9 @@ import net.chococraft.common.init.ModRegistry;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.resources.ResourceLocation;
 
 public class LayerSaddle extends RenderLayer<ChocoboEntity, AdultChocoboModel<ChocoboEntity>> {
 	private ResourceLocation SADDLE = new ResourceLocation(Chococraft.MODID,"textures/entities/chocobos/saddle.png");

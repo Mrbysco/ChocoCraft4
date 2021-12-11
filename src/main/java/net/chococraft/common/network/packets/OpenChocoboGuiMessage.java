@@ -28,8 +28,7 @@ public class OpenChocoboGuiMessage {
 
 		this.saddle = chocobo.saddleItemStackHandler.serializeNBT();
 		ItemStack saddleStack = chocobo.getSaddle();
-		if(!saddleStack.isEmpty() && saddleStack.getItem() instanceof ChocoboSaddleItem) {
-			ChocoboSaddleItem saddleItem = (ChocoboSaddleItem) saddleStack.getItem();
+		if(!saddleStack.isEmpty() && saddleStack.getItem() instanceof ChocoboSaddleItem saddleItem) {
 			if(saddleItem.getInventorySize() > 0) {
 				this.inventory = chocobo.chocoboInventory.serializeNBT();
 			}
@@ -63,11 +62,10 @@ public class OpenChocoboGuiMessage {
 			if(ctx.getDirection().getReceptionSide() == LogicalSide.CLIENT) {
 				Minecraft mc = Minecraft.getInstance();
 				Entity entity = mc.level.getEntity(entityId);
-				if (!(entity instanceof ChocoboEntity)) {
+				if (!(entity instanceof ChocoboEntity chocobo)) {
 					Chococraft.log.warn("Server send OpenGUI for chocobo with id {}, but this entity does not exist on my side", entityId);
 					return;
 				}
-				ChocoboEntity chocobo = (ChocoboEntity) entity;
 
 				net.chococraft.client.gui.ChocoboInventoryScreen.openInventory(windowId, chocobo);
 

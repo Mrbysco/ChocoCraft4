@@ -4,8 +4,8 @@ import net.chococraft.common.ChocoConfig;
 import net.chococraft.common.entities.ChocoboEntity;
 import net.chococraft.common.entities.properties.ChocoboColor;
 import net.chococraft.common.init.ModAttributes;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 
 public class ChocoboStatSnapshot {
     public static final ChocoboStatSnapshot DEFAULT;

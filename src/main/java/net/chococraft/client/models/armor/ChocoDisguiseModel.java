@@ -152,8 +152,7 @@ public class ChocoDisguiseModel extends HumanoidModel<LivingEntity> {
 
 	@Override
 	public void setupAnim(LivingEntity livingEntity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		if (livingEntity instanceof ArmorStand) {
-			ArmorStand armorStand = (ArmorStand) livingEntity;
+		if (livingEntity instanceof ArmorStand armorStand) {
 			this.chocobo_head.xRot = ((float) Math.PI / 180F) * armorStand.getHeadPose().getX();
 			this.chocobo_head.yRot = ((float) Math.PI / 180F) * armorStand.getHeadPose().getY();
 			this.chocobo_head.zRot = ((float) Math.PI / 180F) * armorStand.getHeadPose().getZ();

@@ -22,8 +22,8 @@ public enum ChocoboColor {
     PURPLE(Items.DYES_PURPLE),
     FLAME(null);
 
-    private static Random rand = new Random();
-    private IOptionalNamedTag<Item> colorTag;
+    private final static Random rand = new Random();
+    private final IOptionalNamedTag<Item> colorTag;
     private final TranslatableComponent eggText;
 
     ChocoboColor(IOptionalNamedTag<Item> colorIngredient) {

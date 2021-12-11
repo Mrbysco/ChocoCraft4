@@ -71,10 +71,9 @@ public class StrawNestBlock extends BaseEntityBlock {
     @Override
     public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player playerIn, InteractionHand handIn, BlockHitResult hit) {
         BlockEntity tile = worldIn.getBlockEntity(pos);
-        if(!(tile instanceof ChocoboNestBlockEntity))
+        if(!(tile instanceof ChocoboNestBlockEntity nest))
             return InteractionResult.FAIL;
 
-        ChocoboNestBlockEntity nest = (ChocoboNestBlockEntity)tile;
         ItemStack heldItem = playerIn.getItemInHand(handIn);
         if (ChocoboEggBlock.isChocoboEgg(heldItem)) {
             if (!nest.getEggItemStack().isEmpty()) return InteractionResult.FAIL;

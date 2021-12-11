@@ -11,11 +11,11 @@ import net.chococraft.common.init.ModAttributes;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.network.chat.TranslatableComponent;
 import org.apache.logging.log4j.util.BiConsumer;
 
 import java.util.HashMap;
@@ -67,14 +67,12 @@ public class ChocoboCommand {
     private static int sendList(CommandContext<CommandSourceStack> commandContext) {
         CommandSourceStack source = commandContext.getSource();
         Entity commandEntity = source.getEntity();
-        if(commandEntity instanceof Player) {
-            Player player = (Player) commandEntity;
+        if(commandEntity instanceof Player player) {
             Entity mount = player.getVehicle();
-            if (!(mount instanceof ChocoboEntity)) {
+            if (!(mount instanceof ChocoboEntity chocobo)) {
                 source.sendSuccess(new TranslatableComponent("command." + MODID + ".chocobo.not_riding_chocobo"), false);
                 return 0;
             } else {
-                ChocoboEntity chocobo = (ChocoboEntity) mount;
                 source.sendSuccess(getText("get_health", chocobo, Attributes.MAX_HEALTH), false);
                 source.sendSuccess(getText("get_resistance", chocobo, Attributes.ARMOR), false);
                 source.sendSuccess(getText("get_speed", chocobo, Attributes.MOVEMENT_SPEED), false);
@@ -93,14 +91,12 @@ public class ChocoboCommand {
     private static int setAttribute(CommandContext<CommandSourceStack> commandContext, String trait, String value) {
         CommandSourceStack source = commandContext.getSource();
         Entity commandEntity = source.getEntity();
-        if(commandEntity instanceof Player) {
-            Player player = (Player) commandEntity;
+        if(commandEntity instanceof Player player) {
             Entity mount = player.getVehicle();
-            if (!(mount instanceof ChocoboEntity)) {
+            if (!(mount instanceof ChocoboEntity chocobo)) {
                 source.sendSuccess(new TranslatableComponent("command." + MODID + ".chocobo.not_riding_chocobo"), false);
                 return 0;
             } else {
-                ChocoboEntity chocobo = (ChocoboEntity) mount;
                 if (setMap.containsKey(trait)) {
                     setMap.get(trait).accept(chocobo, value);
                     source.sendSuccess(new TranslatableComponent("command." + MODID + ".chocobo.successfuly_set_parameters", trait, value), false);

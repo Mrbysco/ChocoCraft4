@@ -10,6 +10,7 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -35,7 +36,7 @@ public class LootTableEventHandler {
         builder.add(injectFruit(ModRegistry.AQUA_BERRY.get()));
         builder.add(injectFruit(ModRegistry.DEAD_PEPPER.get()));
 
-        builder.bonusRolls(0, 1)
+        builder.setBonusRolls(UniformGenerator.between(0, 1))
                 .name("ability_fruits");
 
         return builder.build();
