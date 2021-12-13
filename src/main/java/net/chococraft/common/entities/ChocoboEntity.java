@@ -780,10 +780,7 @@ public class ChocoboEntity extends TamableAnimal {
             }
         }
 
-        int size = getSaddleCount(newSaddle);
-        if(this.chocoboInventory.getSlots() != size) {
-            this.chocoboInventory.setSize(size);
-        }
+        this.chocoboInventory.setSize(getSaddleCount(newSaddle));
 
         for (Player player : level.players()) {
             if (player.containerMenu instanceof SaddleBagContainer bagContainer) {
