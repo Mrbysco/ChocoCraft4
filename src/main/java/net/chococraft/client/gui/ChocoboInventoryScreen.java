@@ -21,7 +21,6 @@ public class ChocoboInventoryScreen extends AbstractContainerScreen<SaddleBagCon
     private static final ResourceLocation INV_TEXTURE_LARGE = new ResourceLocation(Chococraft.MODID, "textures/gui/chocobo_inventory_large.png");
 
     private ChocoboEntity chocobo;
-    private Player player;
 
     public ChocoboInventoryScreen(SaddleBagContainer container, Inventory playerInventory, ChocoboEntity chocobo) {
         super(container, playerInventory, chocobo.getDisplayName());
@@ -29,7 +28,6 @@ public class ChocoboInventoryScreen extends AbstractContainerScreen<SaddleBagCon
         this.imageWidth = 176;
         this.imageHeight = 204;
         this.chocobo = chocobo;
-        this.player = playerInventory.player;
     }
 
     public static void openInventory(int windowId, ChocoboEntity chocobo) {
@@ -74,6 +72,6 @@ public class ChocoboInventoryScreen extends AbstractContainerScreen<SaddleBagCon
     @Override
     protected void renderLabels(PoseStack matrixStack, int x, int y) {
         this.font.draw(matrixStack, this.chocobo.getDisplayName().getString(), 8, 6, 0x888888);
-        this.font.draw(matrixStack, this.player.getDisplayName().getString(), 8, this.imageHeight - 96 + 2, 0x888888);
+        this.font.draw(matrixStack, this.playerInventoryTitle, 8, this.imageHeight - 96 + 2, 0x888888);
     }
 }

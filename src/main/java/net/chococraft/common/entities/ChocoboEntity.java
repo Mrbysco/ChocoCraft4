@@ -68,8 +68,10 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.network.PacketDistributor;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.network.PacketDistributor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -111,10 +113,11 @@ public class ChocoboEntity extends TamableAnimal {
     public final ItemStackHandler chocoboInventory = new ItemStackHandler() {
         //Todo make it handle resizes
     };
+
     public final SaddleItemStackHandler saddleItemStackHandler = new SaddleItemStackHandler() {
         @Override
         public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-            return stack.getItem() instanceof ChocoboSaddleItem;
+            return stack.isEmpty() || stack.getItem() instanceof ChocoboSaddleItem;
         }
 
         @Override
@@ -122,6 +125,7 @@ public class ChocoboEntity extends TamableAnimal {
             ChocoboEntity.this.setSaddleType(this.itemStack);
         }
     };
+    private LazyOptional<IItemHandler> saddleHolder = LazyOptional.of(() -> saddleItemStackHandler);
 
     private float wingRotation;
     private float destPos;
@@ -160,7 +164,6 @@ public class ChocoboEntity extends TamableAnimal {
         this.entityData.define(PARAM_IS_MALE, false);
         this.entityData.define(PARAM_MOVEMENT_TYPE, MovementType.WANDER);
         this.entityData.define(PARAM_SADDLE_ITEM, ItemStack.EMPTY);
-
         this.entityData.define(PARAM_STAMINA, (float) ChocoConfig.COMMON.defaultStamina.get());
         this.entityData.define(PARAM_GENERATION, 0);
         this.entityData.define(PARAM_ABILITY_MASK, (byte) 0);
@@ -265,12 +268,19 @@ public class ChocoboEntity extends TamableAnimal {
     }
 
     private void setSaddleType(ItemStack saddleStack) {
+        ItemStack newStack = saddleStack;
         ItemStack oldStack = getSaddle();
-        ItemStack newStack = saddleStack.copy();
-        if (getSaddle().isEmpty() || getSaddle().getItem() != newStack.getItem()) {
-            this.entityData.set(PARAM_SADDLE_ITEM, newStack);
+        if (oldStack.getItem() != newStack.getItem()) {
+            this.entityData.set(PARAM_SADDLE_ITEM, newStack.copy());
             this.reconfigureInventory(oldStack, newStack);
         }
+    }
+
+    private int getSaddleCount(ItemStack stack) {
+        if(stack.getItem() instanceof ChocoboSaddleItem saddle) {
+            return saddle.getInventorySize();
+        }
+        return 0;
     }
 
     @Nullable
@@ -754,14 +764,12 @@ public class ChocoboEntity extends TamableAnimal {
 
         player.nextContainerCounter();
         PacketManager.CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), new OpenChocoboGuiMessage(this, player.containerCounter));
-
         player.containerMenu = new SaddleBagContainer(player.containerCounter, player.getInventory(), this);
         player.initMenu(player.containerMenu);
         net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.entity.player.PlayerContainerEvent.Open(player, player.containerMenu));
     }
 
     private void reconfigureInventory(ItemStack oldSaddle, ItemStack newSaddle) {
-
         if (!this.getCommandSenderWorld().isClientSide) {
             // TODO: Handle resizing. ItemStackHandler#setSize() clears the internal inventory!
             for (int i = 0; i < this.chocoboInventory.getSlots(); i++) {
@@ -772,13 +780,15 @@ public class ChocoboEntity extends TamableAnimal {
             }
         }
 
-        if(!newSaddle.isEmpty() && newSaddle.getItem() instanceof ChocoboSaddleItem) {
-            this.chocoboInventory.setSize(((ChocoboSaddleItem)newSaddle.getItem()).getInventorySize());
+        int size = getSaddleCount(newSaddle);
+        if(this.chocoboInventory.getSlots() != size) {
+            this.chocoboInventory.setSize(size);
         }
 
         for (Player player : level.players()) {
-            if (player.containerMenu instanceof SaddleBagContainer)
-                ((SaddleBagContainer) player.containerMenu).refreshSlots(this, player.getInventory());
+            if (player.containerMenu instanceof SaddleBagContainer bagContainer) {
+                bagContainer.refreshSlots(bagContainer.getChocobo(), player.getInventory());
+            }
         }
     }
 
