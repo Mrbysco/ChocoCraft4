@@ -24,13 +24,6 @@ public class ChocoboEggBlockEntity extends BlockEntity {
     }
 
     @Override
-    public CompoundTag save(CompoundTag tag) {
-        saveAdditional(tag);
-        return super.save(tag);
-    }
-
-
-    @Override
     public void saveAdditional(CompoundTag compound) {
         super.saveAdditional(compound);
         if (this.breedInfo != null) {

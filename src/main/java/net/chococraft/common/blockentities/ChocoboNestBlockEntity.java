@@ -195,12 +195,6 @@ public class ChocoboNestBlockEntity extends BlockEntity implements MenuProvider 
     }
 
     @Override
-    public CompoundTag save(CompoundTag tag) {
-        saveAdditional(tag);
-        return super.save(tag);
-    }
-
-    @Override
     public void saveAdditional(CompoundTag nbt) {
         super.saveAdditional(nbt);
         nbt.putBoolean(NBTKEY_IS_SHELTERED, this.isSheltered);
@@ -212,7 +206,7 @@ public class ChocoboNestBlockEntity extends BlockEntity implements MenuProvider 
     @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
         CompoundTag nbt = new CompoundTag();
-        save(nbt);
+        saveAdditional(nbt);
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
