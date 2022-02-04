@@ -41,9 +41,10 @@ public class ChocoDisguiseItem extends ArmorItem {
 	@Override
 	public void initializeClient(Consumer<IItemRenderProperties> consumer) {
 		consumer.accept(new IItemRenderProperties() {
+
 			@Override
-			public <A extends HumanoidModel<?>> A getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, A _default) {
-				return (A) model.get();
+			public HumanoidModel<?> getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, HumanoidModel<?> _default) {
+				return model.get();
 			}
 		});
 	}

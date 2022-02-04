@@ -22,6 +22,6 @@ side="BOTH"
 [[dependencies.chococraft]]
 modId="forge"
 mandatory=true
-versionRange="[39.0.45,)"
+versionRange="[39.0.57,)"
 ordering="NONE"
 side="BOTH"
