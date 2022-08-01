@@ -21,7 +21,6 @@ import net.chococraft.common.network.packets.OpenChocoboGuiMessage;
 import net.chococraft.utils.RandomHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -65,9 +64,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
@@ -176,16 +173,16 @@ public class Chocobo extends TamableAnimal {
 	}
 
 	@Override
-	public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
-		this.setMale(this.level.random.nextBoolean());
-		if (Biome.getBiomeCategory(this.level.getBiome(blockPosition().below())) == Biome.BiomeCategory.NETHER) {
+	public SpawnGroupData finalizeSpawn(ServerLevelAccessor levelAccessor, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
+		this.setMale(random.nextBoolean());
+		if (levelAccessor.getBiome((new BlockPos(blockPosition().below()))).is(BiomeTags.IS_NETHER)) {
 			this.setChocoboColor(ChocoboColor.FLAME);
 		}
 		this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getChocoboColor().getAbilityInfo().getMaxHP());
 		this.setHealth(getMaxHealth());
 		this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(getChocoboColor().getAbilityInfo().getLandSpeed() / 100F);
 		this.getAttribute(Attributes.FLYING_SPEED).setBaseValue(getChocoboColor().getAbilityInfo().getAirbornSpeed() / 100F);
-		return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+		return super.finalizeSpawn(levelAccessor, difficultyIn, reason, spawnDataIn, dataTag);
 	}
 
 	@Override
