@@ -16,22 +16,22 @@ import java.util.List;
 
 public class ChocopediaItem extends Item {
 
-    public ChocopediaItem(Properties properties) {
-        super(properties);
-    }
+	public ChocopediaItem(Properties properties) {
+		super(properties);
+	}
 
-    @Override
-    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
-        if(worldIn.isClientSide) {
-            net.chococraft.client.gui.ChocoboBookScreen.openScreen();
-        }
+	@Override
+	public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
+		if (worldIn.isClientSide) {
+			net.chococraft.client.gui.ChocoboBookScreen.openScreen();
+		}
 
-        return new InteractionResultHolder<>(InteractionResult.SUCCESS, playerIn.getItemInHand(handIn));
-    }
+		return new InteractionResultHolder<>(InteractionResult.SUCCESS, playerIn.getItemInHand(handIn));
+	}
 
-    @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-        super.appendHoverText(stack, worldIn, tooltip, flagIn);
-        tooltip.add(new TranslatableComponent(this.getDescriptionId(stack) + ".tooltip"));
-    }
+	@Override
+	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+		super.appendHoverText(stack, worldIn, tooltip, flagIn);
+		tooltip.add(new TranslatableComponent(this.getDescriptionId(stack) + ".tooltip"));
+	}
 }

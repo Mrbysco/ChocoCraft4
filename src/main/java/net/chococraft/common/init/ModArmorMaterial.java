@@ -10,7 +10,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import java.util.function.Supplier;
 
 public enum ModArmorMaterial implements ArmorMaterial {
-	CHOCO_DISGUISE("chococraft:choco_disguise", 200, new int[] { 3, 7, 6, 3 }, 10, SoundEvents.ARMOR_EQUIP_LEATHER,
+	CHOCO_DISGUISE("chococraft:choco_disguise", 200, new int[]{3, 7, 6, 3}, 10, SoundEvents.ARMOR_EQUIP_LEATHER,
 			0.0F, 0.0F, () -> {
 		return Ingredient.of(ModRegistry.CHOCOBO_FEATHER.get());
 	});

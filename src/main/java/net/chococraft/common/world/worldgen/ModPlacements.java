@@ -1,6 +1,7 @@
 package net.chococraft.common.world.worldgen;
 
-import net.chococraft.common.ChocoConfig;
+import net.chococraft.common.config.ChocoConfig;
+import net.minecraft.core.Holder;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.levelgen.placement.BiomeFilter;
@@ -18,6 +19,6 @@ public class ModPlacements {
 					RarityFilter.onAverageOnceEvery((int) ChocoConfig.COMMON.gysahlGreenSpawnChance.get().doubleValue() * 10),
 					InSquarePlacement.spread(), PlacementUtils.RANGE_4_4, BiomeFilter.biome());
 
-	public static final PlacedFeature PATCH_GYSAHL_GREEN = PlacementUtils.register("patch_gysahl_green",
-			ModFeatureConfigs.PATCH_GYSAHL_GREEN.placed(GYSAHL_PLACEMENT));
+	public static final Holder<PlacedFeature> PATCH_GYSAHL_GREEN = PlacementUtils.register("patch_gysahl_green",
+			ModFeatureConfigs.PATCH_GYSAHL_GREEN, GYSAHL_PLACEMENT);
 }

@@ -27,7 +27,7 @@ public class ChocoDisguiseItem extends ArmorItem {
 		this.model = DistExecutor.unsafeRunForDist(() -> () -> new LazyLoadedValue<>(() -> this.provideArmorModelForSlot(this.slot)),
 				() -> () -> null);
 	}
-	
+
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
 		return Chococraft.MODID + ":textures/models/armor/chocodisguise.png";

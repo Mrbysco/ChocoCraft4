@@ -15,56 +15,56 @@ import net.minecraft.resources.ResourceLocation;
 
 
 public class ChocoboBookScreen extends Screen {
-    private final static ResourceLocation TEXTURE = new ResourceLocation(Chococraft.MODID, "textures/gui/chocobo_book.png");
+	private final static ResourceLocation TEXTURE = new ResourceLocation(Chococraft.MODID, "textures/gui/chocobo_book.png");
 
-    private int xSize = 130;
-    private int ySize = 185;
-    private int currentpage = 1;
-    private int guiLeft;
-    private int guiTop;
+	private int xSize = 130;
+	private int ySize = 185;
+	private int currentpage = 1;
+	private int guiLeft;
+	private int guiTop;
 
-    public ChocoboBookScreen() {
-        super(TextComponent.EMPTY);
-    }
+	public ChocoboBookScreen() {
+		super(TextComponent.EMPTY);
+	}
 
-    public static void openScreen() {
-        Minecraft.getInstance().setScreen(new ChocoboBookScreen());
-    }
+	public static void openScreen() {
+		Minecraft.getInstance().setScreen(new ChocoboBookScreen());
+	}
 
-    @Override
-    public void init() {
-        this.guiLeft = (this.width - this.xSize) / 2;
-        this.guiTop = (this.height - this.ySize) / 2;
+	@Override
+	public void init() {
+		this.guiLeft = (this.width - this.xSize) / 2;
+		this.guiTop = (this.height - this.ySize) / 2;
 
-        this.addRenderableWidget(new Button(this.guiLeft, this.guiTop + 165, 20, 20, TextComponent.EMPTY, (button) ->
-                this.currentpage = (this.currentpage <= 1 ? 7 : this.currentpage - 1)));
-        this.addRenderableWidget(new Button( (this.guiLeft + xSize) - 20, this.guiTop + 165, 20, 20, TextComponent.EMPTY, (button) ->
-                this.currentpage = (this.currentpage >= 7 ? 1 : this.currentpage + 1)));
-    }
+		this.addRenderableWidget(new Button(this.guiLeft, this.guiTop + 165, 20, 20, TextComponent.EMPTY, (button) ->
+				this.currentpage = (this.currentpage <= 1 ? 7 : this.currentpage - 1)));
+		this.addRenderableWidget(new Button((this.guiLeft + xSize) - 20, this.guiTop + 165, 20, 20, TextComponent.EMPTY, (button) ->
+				this.currentpage = (this.currentpage >= 7 ? 1 : this.currentpage + 1)));
+	}
 
-    @Override
-    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(matrixStack);
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderTexture(0, TEXTURE);
+	@Override
+	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+		this.renderBackground(matrixStack);
+		super.render(matrixStack, mouseX, mouseY, partialTicks);
+		RenderSystem.setShader(GameRenderer::getPositionTexShader);
+		RenderSystem.setShaderTexture(0, TEXTURE);
 
-        matrixStack.pushPose();
-        matrixStack.translate(this.guiLeft, this.guiTop, 0);
+		matrixStack.pushPose();
+		matrixStack.translate(this.guiLeft, this.guiTop, 0);
 
-        this.blit(matrixStack, 0, 0, 0, 0, this.xSize, this.ySize);
+		this.blit(matrixStack, 0, 0, 0, 0, this.xSize, this.ySize);
 
-        Component name = new TranslatableComponent("gui.chocobook.title", currentpage);
-        int nameLength = this.font.width(name);
-        this.font.drawShadow(matrixStack, name, (this.xSize / 2) - (nameLength / 2), 4, -1);
+		Component name = new TranslatableComponent("gui.chocobook.title", currentpage);
+		int nameLength = this.font.width(name);
+		this.font.drawShadow(matrixStack, name, (this.xSize / 2) - (nameLength / 2), 4, -1);
 
-        this.renderpage();
+		this.renderpage();
 
-        matrixStack.popPose();
-    }
+		matrixStack.popPose();
+	}
 
-    private void renderpage() {
-        this.font.drawWordWrap(new TranslatableComponent("gui.chocobook.page" + (currentpage)), 5, 20, 120, 0);
-    }
+	private void renderpage() {
+		this.font.drawWordWrap(new TranslatableComponent("gui.chocobook.page" + (currentpage)), 5, 20, 120, 0);
+	}
 
 }

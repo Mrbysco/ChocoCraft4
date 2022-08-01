@@ -1,7 +1,7 @@
 package net.chococraft.common.network.packets;
 
 import net.chococraft.Chococraft;
-import net.chococraft.common.entities.ChocoboEntity;
+import net.chococraft.common.entities.Chocobo;
 import net.chococraft.common.items.ChocoboSaddleItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
@@ -22,15 +22,15 @@ public class OpenChocoboGuiMessage {
 	@Nullable
 	public CompoundTag inventory;
 
-	public OpenChocoboGuiMessage(ChocoboEntity chocobo, int windowId) {
+	public OpenChocoboGuiMessage(Chocobo chocobo, int windowId) {
 		this.entityId = chocobo.getId();
 		this.windowId = windowId;
 
 		this.saddle = chocobo.saddleItemStackHandler.serializeNBT();
 		ItemStack saddleStack = chocobo.getSaddle();
-		if(!saddleStack.isEmpty() && saddleStack.getItem() instanceof ChocoboSaddleItem saddleItem) {
-			if(saddleItem.getInventorySize() > 0) {
-				this.inventory = chocobo.chocoboInventory.serializeNBT();
+		if (!saddleStack.isEmpty() && saddleStack.getItem() instanceof ChocoboSaddleItem saddleItem) {
+			if (saddleItem.getInventorySize() > 0) {
+				this.inventory = chocobo.inventory.serializeNBT();
 			}
 		}
 	}
@@ -59,10 +59,10 @@ public class OpenChocoboGuiMessage {
 	public void handle(Supplier<Context> context) {
 		NetworkEvent.Context ctx = context.get();
 		ctx.enqueueWork(() -> {
-			if(ctx.getDirection().getReceptionSide() == LogicalSide.CLIENT) {
+			if (ctx.getDirection().getReceptionSide() == LogicalSide.CLIENT) {
 				Minecraft mc = Minecraft.getInstance();
 				Entity entity = mc.level.getEntity(entityId);
-				if (!(entity instanceof ChocoboEntity chocobo)) {
+				if (!(entity instanceof Chocobo chocobo)) {
 					Chococraft.log.warn("Server send OpenGUI for chocobo with id {}, but this entity does not exist on my side", entityId);
 					return;
 				}
@@ -71,7 +71,7 @@ public class OpenChocoboGuiMessage {
 
 				chocobo.saddleItemStackHandler.deserializeNBT(saddle);
 				if (inventory != null)
-					chocobo.chocoboInventory.deserializeNBT(inventory);
+					chocobo.inventory.deserializeNBT(inventory);
 			}
 		});
 		ctx.setPacketHandled(true);

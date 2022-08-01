@@ -5,7 +5,7 @@
 
     "block.chococraft.gysahl_green": "Gisal Verde",
     "block.chococraft.chocobo_egg": "Huevo de Chocobo",
-    "block.chococraft.straw_nest": "Nido de Chocobo",
+    "block.chococraft.straw": "Straw",
 
     "entity.chococraft.chocobo": "Chocobo",
 
@@ -38,19 +38,6 @@
     "item.chococraft.purple_chocobo_spawn_egg": "Huevo de Prole de Chocobo Púrpura",
     "item.chococraft.flame_chocobo_spawn_egg": "Huevo de Prole de Chocobo de Llamas",
 
-    "item.chococraft.spike_fruit": "Fruta de Espiga",
-    "item.chococraft.spike_fruit.tooltip": "Enseña a un Chocobo la habilidad de carrera",
-    "item.chococraft.aeroshroom": "Aeroseta",
-    "item.chococraft.aeroshroom.tooltip": "Enseña a un Chocobo la habilidad de planeo",
-    "item.chococraft.aqua_berry": "Baya Acuática",
-    "item.chococraft.aqua_berry.tooltip": "Enseña a un Chocobo la habilidad de buceo",
-    "item.chococraft.dead_pepper": "Pimienta Muerta",
-    "item.chococraft.dead_pepper.tooltip": "Enseña a un Chocobo la habilidad de volar",
-
-    "item.chococraft.chocobo_egg.tooltip.invalid_egg": "§cHuevo Invalido",
-    "item.chococraft.chocobo_egg.tooltip.mother_info": "Madre: %s / %s / %s / %s",
-    "item.chococraft.chocobo_egg.tooltip.father_info": "Padre: %s / %s / %s / %s",
-
     "chococraft.entity_chocobo.heal_fail": "§cSalud completa",
     "chococraft.entity_chocobo.tame_fail": "§cDoma fallida",
     "chococraft.entity_chocobo.tame_success": "§aDoma exitosa",
@@ -61,29 +48,6 @@
     "chococraft.general.world": "Mundo",
     "chococraft.general.world.gysahlgreenspawnweight": "Fuerza de Generación de Gisal Verde",
     "chococraft.general.gysahlgreenpatchsize": "Tamaño de Parcela de Gisal Verde",
-
-    "command.chococraft.chocobo.invalid_set_parameters": "Parámetros inválidos",
-    "command.chococraft.chocobo.successfuly_set_parameters": "Fijar %s a %s",
-
-    "command.chococraft.chocobo.get_health": "Salud: %s",
-    "command.chococraft.chocobo.get_resistance": "Resitencia: %s",
-    "command.chococraft.chocobo.get_speed": "Velocidad: %s",
-    "command.chococraft.chocobo.get_stamina": "Aguante: %s",
-
-    "command.chococraft.chocobo.sprint": "Puede Correr: %s",
-    "command.chococraft.chocobo.dive": "Puede Bucear: %s",
-    "command.chococraft.chocobo.glide": "Puede Planear: %s",
-    "command.chococraft.chocobo.fly": "Puede Volar: %s",
-    "command.chococraft.chocobo.true": "§aSi",
-    "command.chococraft.chocobo.false": "§cNo",
-
-    "gui.chocoinfo.button.ability": "Actualmente tiene %s de %s de la experiencia necesaria para %s.",
-    "gui.chocoinfo.button.sprint": "Desbloquear Carrera",
-    "gui.chocoinfo.button.glide": "Desbloquear Planeo",
-    "gui.chocoinfo.button.dive": "Desbloquear Buceo",
-    "gui.chocoinfo.button.fly": "Desbloquear Vuelo",
-
-    "chococraft.container.nest": "Nido de Chocobo",
 
     "gui.chocobook.title": "Página de Chocopedia %s",
     "gui.chocobook.page1": "Los chocobos son enormes aves, como avestruces, que se encuentran en los biomas de llanuras y colinas. Su dieta consiste en Gisales Verdes y prácticamente nada más. Normalmente se encuentran de color amarillo, tienen dos patas con pies de tres dedos, alas grandes y cuellos largos.",

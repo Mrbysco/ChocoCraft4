@@ -1,7 +1,7 @@
 package net.chococraft.common;
 
 import net.chococraft.Chococraft;
-import net.chococraft.common.entities.ChocoboEntity;
+import net.chococraft.common.entities.Chocobo;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.EntityMountEvent;
@@ -11,29 +11,31 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = Chococraft.MODID)
 public class RidingEventHandler {
-    @SubscribeEvent
-    public static void onMountEntity(EntityMountEvent event) {
-        if (event.isMounting()) return;
-        if (!event.getEntityBeingMounted().isAlive()) return;
-        if (!(event.getEntityBeingMounted() instanceof ChocoboEntity)) return;
+	@SubscribeEvent
+	public static void onMountEntity(EntityMountEvent event) {
+		if (event.isMounting()) return;
+		if (!event.getEntityBeingMounted().isAlive()) return;
+		if (!(event.getEntityBeingMounted() instanceof Chocobo)) return;
 
-        if (!event.getEntityBeingMounted().isOnGround())
-            event.setCanceled(true);
-    }
+		if (event.getEntityBeingMounted().isInWater()) return;
 
-    /* This Foricbly dismounts players that log out
-     * when riding a chocobo to prevent them from
-     * maintaining control over it upon logging back in
-     */
+		if (!event.getEntityBeingMounted().isOnGround())
+			event.setCanceled(true);
+	}
 
-    @SubscribeEvent
-    public static void onPlayerDisconnect(PlayerLoggedOutEvent event) {
-        Player player = event.getPlayer();
-        if (player.getVehicle() != null) {
-            Entity entityRide = player.getVehicle();
-            if (entityRide instanceof ChocoboEntity) {
-                player.removeVehicle();
-            }
-        }
-    }
+	/* This Foricbly dismounts players that log out
+	 * when riding a chocobo to prevent them from
+	 * maintaining control over it upon logging back in
+	 */
+
+	@SubscribeEvent
+	public static void onPlayerDisconnect(PlayerLoggedOutEvent event) {
+		Player player = event.getPlayer();
+		if (player.getVehicle() != null) {
+			Entity entityRide = player.getVehicle();
+			if (entityRide instanceof Chocobo) {
+				player.removeVehicle();
+			}
+		}
+	}
 }

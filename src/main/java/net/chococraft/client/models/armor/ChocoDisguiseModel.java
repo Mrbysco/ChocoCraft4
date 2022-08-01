@@ -47,7 +47,7 @@ public class ChocoDisguiseModel extends HumanoidModel<LivingEntity> {
 		//Head
 		PartDefinition chocobo_head = partdefinition.addOrReplaceChild("chocobo_head",
 				CubeListBuilder.create()
-						.texOffs( 0, 18).addBox(-4.5F, -8.5F, -4.5F, 9.0F, 9.0F, 9.0F)
+						.texOffs(0, 18).addBox(-4.5F, -8.5F, -4.5F, 9.0F, 9.0F, 9.0F)
 				, PartPose.ZERO);
 
 		PartDefinition the_head = chocobo_head.addOrReplaceChild("the_head",
@@ -75,79 +75,79 @@ public class ChocoDisguiseModel extends HumanoidModel<LivingEntity> {
 		//Body
 		PartDefinition chocobo_body = partdefinition.addOrReplaceChild("chocobo_body",
 				CubeListBuilder.create()
-						.texOffs( 36, 18).addBox(-4.5F, -0.5F, -2.5F, 9.0F, 13.0F, 5.0F)
+						.texOffs(36, 18).addBox(-4.5F, -0.5F, -2.5F, 9.0F, 13.0F, 5.0F)
 				, PartPose.ZERO);
 
 		chocobo_body.addOrReplaceChild("feathers_middle",
 				CubeListBuilder.create()
-						.texOffs( 102, 93).addBox(-3.5F, 0.5F, -0.5F, 7.0F, 1.0F, 6.0F)
+						.texOffs(102, 93).addBox(-3.5F, 0.5F, -0.5F, 7.0F, 1.0F, 6.0F)
 				, PartPose.offsetAndRotation(-0.5F, 8.0F, 2.5F, 0.3491F, 0.0F, 0.0F));
 
 		chocobo_body.addOrReplaceChild("feathers_left",
 				CubeListBuilder.create()
-						.texOffs( 44, 92).addBox(1.5F, -8.5F, -0.5F, 1.0F, 14.0F, 9.0F)
+						.texOffs(44, 92).addBox(1.5F, -8.5F, -0.5F, 1.0F, 14.0F, 9.0F)
 				, PartPose.offsetAndRotation(-0.5F, 8.0F, 2.5F, -0.2094F, 0.384F, 0.3491F));
 
 		chocobo_body.addOrReplaceChild("feathers_right",
 				CubeListBuilder.create()
-						.texOffs( 44, 92).addBox(1.5F, -8.5F, -0.5F, 1.0F, 14.0F, 9.0F)
+						.texOffs(44, 92).addBox(1.5F, -8.5F, -0.5F, 1.0F, 14.0F, 9.0F)
 				, PartPose.offsetAndRotation(-0.5F, 8.0F, 2.5F, -0.2094F, -0.384F, -0.3491F));
 
 		//Right arm
 		partdefinition.addOrReplaceChild("chocobo_right_arm",
 				CubeListBuilder.create()
-						.texOffs( 0, 36).addBox(-3.5F, -3.0F, -2.5F, 5.0F, 15.0F, 5.0F, new CubeDeformation(-0.25F)).mirror()
+						.texOffs(0, 36).addBox(-3.5F, -3.0F, -2.5F, 5.0F, 15.0F, 5.0F, new CubeDeformation(-0.25F)).mirror()
 				, PartPose.ZERO);
 
 		//Left arm
 		partdefinition.addOrReplaceChild("chocobo_left_arm",
 				CubeListBuilder.create()
-						.texOffs( 20, 36).addBox(-1.5F, -2.5F, -2.5F, 5.0F, 15.0F, 5.0F, new CubeDeformation(-0.25F)).mirror()
+						.texOffs(20, 36).addBox(-1.5F, -2.5F, -2.5F, 5.0F, 15.0F, 5.0F, new CubeDeformation(-0.25F)).mirror()
 				, PartPose.ZERO);
 
 		//Right leg
 		partdefinition.addOrReplaceChild("chocobo_leg_right",
 				CubeListBuilder.create()
-						.texOffs( 0, 56).addBox(-2.6F, -0.5F, -2.6F, 5.0F, 7.0F, 5.0F, new CubeDeformation(0.125F)).mirror()
+						.texOffs(0, 56).addBox(-2.6F, -0.5F, -2.6F, 5.0F, 7.0F, 5.0F, new CubeDeformation(0.125F)).mirror()
 				, PartPose.ZERO);
 
 		//Left leg
 		partdefinition.addOrReplaceChild("chocobo_leg_left",
 				CubeListBuilder.create()
-						.texOffs( 0, 56).addBox(-2.5F, -0.5F, -2.5F, 5.0F, 7.0F, 5.0F, new CubeDeformation(0.125F)).mirror()
+						.texOffs(0, 56).addBox(-2.5F, -0.5F, -2.5F, 5.0F, 7.0F, 5.0F, new CubeDeformation(0.125F)).mirror()
 				, PartPose.ZERO);
 
 		//Right Claw
 		PartDefinition chocobo_claw_right = partdefinition.addOrReplaceChild("chocobo_claw_right",
 				CubeListBuilder.create()
-						.texOffs( 20, 56).addBox(-2.5F, 6.25F, -2.5F, 5.0F, 6.0F, 5.0F, new CubeDeformation(-0.25F)).mirror()
+						.texOffs(20, 56).addBox(-2.5F, 6.25F, -2.5F, 5.0F, 6.0F, 5.0F, new CubeDeformation(-0.25F)).mirror()
 				, PartPose.ZERO);
 
 		chocobo_claw_right.addOrReplaceChild("claw_right",
 				CubeListBuilder.create()
-						.texOffs( 40, 37).addBox(-1.0F, -1.25F, -6.5F, 2.0F, 2.0F, 7.0F)
+						.texOffs(40, 37).addBox(-1.0F, -1.25F, -6.5F, 2.0F, 2.0F, 7.0F)
 				, PartPose.offsetAndRotation(-1.0F, 11.0F, -0.5F, 0.0F, 0.3054F, 0.0F));
 		chocobo_claw_right.addOrReplaceChild("claw_left",
 				CubeListBuilder.create()
-						.texOffs( 40, 37).addBox(0.0F, -1.25F, -5.5F, 2.0F, 2.0F, 7.0F)
+						.texOffs(40, 37).addBox(0.0F, -1.25F, -5.5F, 2.0F, 2.0F, 7.0F)
 				, PartPose.offsetAndRotation(-1.0F, 11.0F, -0.5F, 0.0F, -0.1745F, 0.0F));
 
 		//Left Claw
 		PartDefinition chocobo_claw_left = partdefinition.addOrReplaceChild("chocobo_claw_left",
 				CubeListBuilder.create()
-						.texOffs( 20, 56).addBox(-2.4F, 6.25F, -2.6F, 5.0F, 6.0F, 5.0F, new CubeDeformation(-0.25F)).mirror()
+						.texOffs(20, 56).addBox(-2.4F, 6.25F, -2.6F, 5.0F, 6.0F, 5.0F, new CubeDeformation(-0.25F)).mirror()
 				, PartPose.ZERO);
 
 		chocobo_claw_left.addOrReplaceChild("claw_right",
 				CubeListBuilder.create()
-						.texOffs( 40, 37).addBox(-1.0F, -1.25F, -6.5F, 2.0F, 2.0F, 7.0F)
+						.texOffs(40, 37).addBox(-1.0F, -1.25F, -6.5F, 2.0F, 2.0F, 7.0F)
 				, PartPose.offsetAndRotation(1.0F, 11.0F, -0.5F, 0.0F, -0.3054F, 0.0F));
 		chocobo_claw_left.addOrReplaceChild("claw_left",
 				CubeListBuilder.create()
-						.texOffs( 40, 37).addBox(-2.0F, -1.25F, -5.5F, 2.0F, 2.0F, 7.0F)
+						.texOffs(40, 37).addBox(-2.0F, -1.25F, -5.5F, 2.0F, 2.0F, 7.0F)
 				, PartPose.offsetAndRotation(1.0F, 11.0F, -0.5F, 0.0F, 0.1745F, 0.0F));
 
-		return LayerDefinition.create(meshdefinition,  128,  128);
+		return LayerDefinition.create(meshdefinition, 128, 128);
 	}
 
 	@Override
@@ -181,7 +181,7 @@ public class ChocoDisguiseModel extends HumanoidModel<LivingEntity> {
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
+	public void renderToBuffer(PoseStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		matrixStack.pushPose();
 
 		this.setHeadRotation();
@@ -207,8 +207,7 @@ public class ChocoDisguiseModel extends HumanoidModel<LivingEntity> {
 			matrixStack.scale(1.0F / f, 1.0F / f, 1.0F / f);
 			matrixStack.translate(0.0F, 24.0F * 1, 0.0F);
 			chocobo_body.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-		}
-		else {
+		} else {
 			chocobo_head.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 			chocobo_body.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 			chocobo_right_arm.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);

@@ -1,6 +1,6 @@
 package net.chococraft.common.world.worldgen;
 
-import net.chococraft.common.ChocoConfig;
+import net.chococraft.common.config.ChocoConfig;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
@@ -14,7 +14,7 @@ public class ModWorldgen {
 		BiomeGenerationSettingsBuilder builder = event.getGeneration();
 		Biome.BiomeCategory category = event.getCategory();
 		boolean overworldOnly = ChocoConfig.COMMON.gysahlGreensSpawnOnlyInOverworld.get();
-		if(!overworldOnly || !category.equals(Biome.BiomeCategory.NETHER) && !category.equals(Biome.BiomeCategory.THEEND)) {
+		if (!overworldOnly || !category.equals(Biome.BiomeCategory.NETHER) && !category.equals(Biome.BiomeCategory.THEEND)) {
 			builder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, ModPlacements.PATCH_GYSAHL_GREEN);
 		}
 	}
