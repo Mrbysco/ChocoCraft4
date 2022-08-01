@@ -66,6 +66,7 @@ public class Chococraft {
 	}
 
 	private void setup(final FMLCommonSetupEvent event) {
+		ModEntities.initializeSpawnPlacements();
 		ModDataSerializers.init();
 		PacketManager.init();
 		Log4jFilter.init();

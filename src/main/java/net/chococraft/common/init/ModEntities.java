@@ -8,8 +8,11 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.MobSpawnSettings.SpawnerData;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
@@ -43,5 +46,9 @@ public class ModEntities {
 
 	public static void registerEntityAttributes(EntityAttributeCreationEvent event) {
 		event.put(ModEntities.CHOCOBO.get(), Chocobo.createAttributes().build());
+	}
+
+	public static void initializeSpawnPlacements() {
+		SpawnPlacements.register(ModEntities.CHOCOBO.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules);
 	}
 }

@@ -13,7 +13,8 @@ public class Log4jFilter implements Filter {
 	@Override
 	public Filter.Result filter(LogEvent event) {
 		Message m = event.getMessage();
-		if (m.toString().contains("Chocobo moved wrongly") || m.getFormattedMessage().contains("Chocobo moved wrongly")) {
+		if ((m.toString().contains("Chocobo") && m.toString().contains("moved wrongly")) || (m.getFormattedMessage().contains("Chocobo") &&
+				m.getFormattedMessage().contains("moved wrongly"))) {
 			return Filter.Result.DENY;
 		}
 		return null;

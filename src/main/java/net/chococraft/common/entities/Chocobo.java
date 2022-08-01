@@ -21,6 +21,7 @@ import net.chococraft.common.network.packets.OpenChocoboGuiMessage;
 import net.chococraft.utils.RandomHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -29,6 +30,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Containers;
@@ -686,11 +688,11 @@ public class Chocobo extends TamableAnimal {
 	}
 
 	@Override
-	public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-		if (BiomeDictionary.getBiomes(BiomeDictionary.Type.NETHER).contains(this.level.getBiome((new BlockPos(blockPosition())).below())))
+	public boolean checkSpawnRules(LevelAccessor levelAccessor, MobSpawnType spawnReasonIn) {
+		if (this.level.getBiome((new BlockPos(blockPosition()))).is(BiomeTags.IS_NETHER))
 			return true;
 
-		return super.checkSpawnRules(worldIn, spawnReasonIn);
+		return super.checkSpawnRules(levelAccessor, spawnReasonIn);
 	}
 
 	@Override
