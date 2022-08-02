@@ -2,6 +2,7 @@
   "name": "info.chocopedia.book.name",
   "landing_text": "info.chococraft.book.landing",
   "book_texture": "chococraft:textures/gui/patchouli_book.png",
+  "filler_texture": "chococraft:textures/gui/chocobo_page_filler.png",
   "model": "chococraft:chocopedia",
   "show_progress": false,
   "subtitle": "info.chococraft.book.subtitle",

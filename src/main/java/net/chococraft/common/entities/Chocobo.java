@@ -565,6 +565,16 @@ public class Chocobo extends TamableAnimal {
 			return InteractionResult.SUCCESS;
 		}
 
+		if (getChocoboColor() == ChocoboColor.GOLD) {
+			if (heldItemStack.getItem() == ModRegistry.RED_GYSAHL.get()) {
+				setChocoboColor(ChocoboColor.RED);
+				return InteractionResult.SUCCESS;
+			} else if (heldItemStack.getItem() == ModRegistry.PINK_GYSAHL.get()) {
+				setChocoboColor(ChocoboColor.PINK);
+				return InteractionResult.SUCCESS;
+			}
+		}
+
 		if (heldItemStack.getItem() == ModRegistry.GYSAHL_GREEN_ITEM.get()) {
 			if (!this.isTame()) {
 				this.usePlayerItem(player, hand, player.getInventory().getSelected());

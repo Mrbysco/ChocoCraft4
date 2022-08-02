@@ -40,6 +40,8 @@ public class ChocoItemModels extends ItemModelProvider {
 		generatedItem(ModRegistry.GYSAHL_GREEN_ITEM.get());
 		generatedItem(ModRegistry.LOVERLY_GYSAHL_GREEN.get());
 		generatedItem(ModRegistry.GOLD_GYSAHL.get());
+		generatedItem(ModRegistry.RED_GYSAHL.get());
+		generatedItem(ModRegistry.PINK_GYSAHL.get());
 		generatedItem(ModRegistry.PICKLED_GYSAHL_RAW.get());
 		generatedItem(ModRegistry.PICKLED_GYSAHL_COOKED.get());
 		generatedItem(ModRegistry.GYSAHL_CAKE.get());

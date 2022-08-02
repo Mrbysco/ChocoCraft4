@@ -31,6 +31,7 @@ public class PatchouliProvider extends PatchouliBookProvider {
 				.setShowProgress(false)
 				.setUseBlockyFont(true)
 				.setI18n(true)
+				.setFillerTexture("chococraft:textures/gui/chocobo_page_filler.png")
 				.addMacro("$(item)", "$(#c47567)");
 
 
@@ -78,7 +79,7 @@ public class PatchouliProvider extends PatchouliBookProvider {
 				.setName("Chocobo (Black)")
 				.setText("info.chococraft.book.chocobo.black.description").build()
 				.addTextPage("info.chococraft.book.chocobo.black.description2").build()
-				.addEntityPage(ModEntities.CHOCOBO.getId()).setEntityNbt(getChocoboData(ChocoboColor.GOLD))
+				.addEntityPage(ModEntities.CHOCOBO.getId()).setEntityNbt(getChocoboData(ChocoboColor.GOLD)).setAnchor("gold")
 				.setName("Chocobo (Gold)")
 				.setText("info.chococraft.book.chocobo.gold.description").build()
 				.addTextPage("info.chococraft.book.chocobo.gold.description2").build()
@@ -90,11 +91,11 @@ public class PatchouliProvider extends PatchouliBookProvider {
 				.setName("Chocobo (Flame)")
 				.setText("info.chococraft.book.chocobo.flame.description").build()
 				.addTextPage("info.chococraft.book.chocobo.flame.description2").build()
-				.addEntityPage(ModEntities.CHOCOBO.getId()).setEntityNbt(getChocoboData(ChocoboColor.PINK))
+				.addEntityPage(ModEntities.CHOCOBO.getId()).setEntityNbt(getChocoboData(ChocoboColor.PINK)).setAnchor("pink")
 				.setName("Chocobo (Pink)")
 				.setText("info.chococraft.book.chocobo.pink.description").build()
 				.addTextPage("info.chococraft.book.chocobo.pink.description2").build()
-				.addEntityPage(ModEntities.CHOCOBO.getId()).setEntityNbt(getChocoboData(ChocoboColor.RED))
+				.addEntityPage(ModEntities.CHOCOBO.getId()).setEntityNbt(getChocoboData(ChocoboColor.RED)).setAnchor("red")
 				.setName("Chocobo (Red)")
 				.setText("info.chococraft.book.chocobo.red.description").build()
 				.addTextPage("info.chococraft.book.chocobo.red.description2").build()
@@ -119,6 +120,18 @@ public class PatchouliProvider extends PatchouliBookProvider {
 				.addSpotlightPage(new ItemStack(ModRegistry.GOLD_GYSAHL.get())).build()
 				.build()
 
+				//Add Red Gysahl entry
+				.addEntry("info/red_gysahl", "info.chococraft.book.red_gysahl.entry.name", ModRegistry.RED_GYSAHL.getId().toString())
+				.addTextPage("info.chococraft.book.red_gysahl.text1").build()
+				.addCraftingPage(new ResourceLocation(Chococraft.MODID, "red_gysahl")).build()
+				.build()
+
+				//Add Pink Gysahl entry
+				.addEntry("info/pink_gysahl", "info.chococraft.book.pink_gysahl.entry.name", ModRegistry.PINK_GYSAHL.getId().toString())
+				.addTextPage("info.chococraft.book.pink_gysahl.text1").build()
+				.addCraftingPage(new ResourceLocation(Chococraft.MODID, "pink_gysahl")).build()
+				.build()
+
 				//Add Gysahl Green entry
 				.addEntry("info/gysahl_green", "info.chococraft.book.gysahl_green.entry.name", ModRegistry.GYSAHL_GREEN_ITEM.getId().toString())
 				.addTextPage("info.chococraft.book.gysahl_green.text1").build()
@@ -135,12 +148,16 @@ public class PatchouliProvider extends PatchouliBookProvider {
 				.addTextPage("info.chococraft.book.pickled_gysahl.text1").build()
 				.addCraftingPage(new ResourceLocation(Chococraft.MODID, "pickled_gysahl_raw")).build()
 				.addSmeltingPage(new ResourceLocation(Chococraft.MODID, "pickled_gysahl_cooked")).build()
+				.addSmokingPage(new ResourceLocation(Chococraft.MODID, "pickled_gysahl_cooked_from_smoking")).build()
+				.addCampfirePage(new ResourceLocation(Chococraft.MODID, "pickled_gysahl_cooked_from_campfire_cooking")).build()
 				.build()
 
 				//Add Raw Drumstick entry
 				.addEntry("info/raw_drumstick", "info.chococraft.book.raw_drumstick.entry.name", ModRegistry.CHOCOBO_DRUMSTICK_RAW.getId().toString())
 				.addTextPage("info.chococraft.book.raw_drumstick.text1").build()
 				.addSmeltingPage(new ResourceLocation(Chococraft.MODID, "chocobo_drumstick_cooked")).build()
+				.addSmokingPage(new ResourceLocation(Chococraft.MODID, "chocobo_drumstick_cooked_from_smoking")).build()
+				.addCampfirePage(new ResourceLocation(Chococraft.MODID, "chocobo_drumstick_cooked_from_campfire_cooking")).build()
 				.build()
 
 				//Add Gysahl Cake entry
@@ -173,6 +190,12 @@ public class PatchouliProvider extends PatchouliBookProvider {
 				.addEntry("info/straw", "info.chococraft.book.straw.entry.name", ModRegistry.STRAW_ITEM.getId().toString())
 				.addTextPage("info.chococraft.book.straw.text1").build()
 				.addCraftingPage(new ResourceLocation(Chococraft.MODID, "straw")).build()
+				.build()
+
+				//Add Feather entry
+				.addEntry("info/feather", "info.chococraft.book.feather.entry.name", ModRegistry.CHOCOBO_FEATHER.getId().toString())
+				.addTextPage("info.chococraft.book.feather.text1").build()
+				.addSpotlightPage(new ItemStack(ModRegistry.CHOCOBO_FEATHER.get())).build()
 				.build()
 
 				.build(); //Back to the bookbuilder

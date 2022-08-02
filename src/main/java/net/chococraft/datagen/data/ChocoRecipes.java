@@ -104,5 +104,16 @@ public class ChocoRecipes extends RecipeProvider {
 		ShapedRecipeBuilder.shaped(ModRegistry.STRAW.get())
 				.pattern("WW").define('W', Items.WHEAT)
 				.unlockedBy("has_wheat", has(Items.WHEAT)).save(recipeConsumer);
+
+
+		ShapelessRecipeBuilder.shapeless(ModRegistry.RED_GYSAHL.get())
+				.requires(ModRegistry.GYSAHL_GREEN_ITEM.get()).requires(Ingredient.of(Tags.Items.DYES_RED))
+				.unlockedBy("has_gysahl_green", has(ModRegistry.GYSAHL_GREEN_ITEM.get()))
+				.save(recipeConsumer);
+
+		ShapelessRecipeBuilder.shapeless(ModRegistry.PINK_GYSAHL.get())
+				.requires(ModRegistry.GYSAHL_GREEN_ITEM.get()).requires(Ingredient.of(Tags.Items.DYES_PINK))
+				.unlockedBy("has_gysahl_green", has(ModRegistry.GYSAHL_GREEN_ITEM.get()))
+				.save(recipeConsumer);
 	}
 }

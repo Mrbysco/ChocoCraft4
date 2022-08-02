@@ -67,6 +67,7 @@
     },
     {
       "type": "patchouli:entity",
+      "anchor": "gold",
       "entity": "chococraft:chocobo{Color:5b}",
       "name": "Chocobo (Gold)",
       "text": "info.chococraft.book.chocobo.gold.description"
@@ -97,6 +98,7 @@
     },
     {
       "type": "patchouli:entity",
+      "anchor": "pink",
       "entity": "chococraft:chocobo{Color:6b}",
       "name": "Chocobo (Pink)",
       "text": "info.chococraft.book.chocobo.pink.description"
@@ -107,6 +109,7 @@
     },
     {
       "type": "patchouli:entity",
+      "anchor": "red",
       "entity": "chococraft:chocobo{Color:7b}",
       "name": "Chocobo (Red)",
       "text": "info.chococraft.book.chocobo.red.description"

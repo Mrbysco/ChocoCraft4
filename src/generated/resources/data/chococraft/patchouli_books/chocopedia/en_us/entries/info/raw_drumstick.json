@@ -10,6 +10,14 @@
     {
       "type": "patchouli:smelting",
       "recipe": "chococraft:chocobo_drumstick_cooked"
+    },
+    {
+      "type": "patchouli:smoking",
+      "recipe": "chococraft:chocobo_drumstick_cooked_from_smoking"
+    },
+    {
+      "type": "patchouli:campfire",
+      "recipe": "chococraft:chocobo_drumstick_cooked_from_campfire_cooking"
     }
   ]
 }
