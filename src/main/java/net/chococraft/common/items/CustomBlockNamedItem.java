@@ -15,6 +15,6 @@ public class CustomBlockNamedItem extends ItemNameBlockItem {
 
 	@Override
 	public Block getBlock() {
-		return this.blockSupplier.get() == null ? null : this.blockSupplier.get().delegate.get();
+		return this.blockSupplier.get() == null ? null : this.blockSupplier.get();
 	}
 }

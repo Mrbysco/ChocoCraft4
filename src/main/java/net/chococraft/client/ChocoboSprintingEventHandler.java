@@ -6,7 +6,7 @@ import net.chococraft.common.network.packets.ChocoboSprintingMessage;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.InputEvent.KeyInputEvent;
+import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -15,7 +15,7 @@ public class ChocoboSprintingEventHandler {
 	private static boolean isSprinting = false;
 
 	@SubscribeEvent
-	public static void onKeyPress(KeyInputEvent event) {
+	public static void onKeyPress(InputEvent.Key event) {
 		Minecraft minecraft = Minecraft.getInstance();
 		if (minecraft.player != null && minecraft.player.getVehicle() != null) {
 			KeyMapping keyBinding = minecraft.options.keySprint;

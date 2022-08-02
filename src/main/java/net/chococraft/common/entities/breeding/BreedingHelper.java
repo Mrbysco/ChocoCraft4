@@ -20,7 +20,7 @@ public class BreedingHelper {
 
 		LinkedTreeMap<String, LinkedTreeMap<String, List<LinkedTreeMap<String, String>>>> breedingInfoHashmap = BreedingConfig.breedingInfoHashmap;
 		if (breedingInfoHashmap.isEmpty()) {
-			Chococraft.log.error("BreedingInfoHashmap is empty!, make sure you have a valid breeding config file!");
+			Chococraft.LOGGER.error("BreedingInfoHashmap is empty!, make sure you have a valid breeding config file!");
 		}
 		if (!breedingInfoHashmap.isEmpty() && breedingInfoHashmap.containsKey(firstColor.name())) {
 			LinkedTreeMap<String, List<LinkedTreeMap<String, String>>> secondParentColorMaps = breedingInfoHashmap.get(firstColor.name());
@@ -63,7 +63,7 @@ public class BreedingHelper {
 				}
 			}
 		} else {
-			Chococraft.log.error("Breeding Config does not contain " + firstColor.name());
+			Chococraft.LOGGER.error("Breeding Config does not contain " + firstColor.name());
 		}
 		return ChocoboColor.YELLOW;
 	}

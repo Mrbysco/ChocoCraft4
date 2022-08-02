@@ -1,12 +1,13 @@
 package net.chococraft.utils;
 
+import net.minecraft.util.RandomSource;
+
 import java.util.InputMismatchException;
-import java.util.Random;
 
 public class RandomHelper {
 
 	//returns true if random returns a value that is under or equal to the percentage required for success
-	public static boolean getChanceResult(Random random, int percentageForSuccess) {
+	public static boolean getChanceResult(RandomSource random, int percentageForSuccess) {
 		if (percentageForSuccess == 0)
 			return false;
 		if (percentageForSuccess >= 0 && percentageForSuccess <= 100)

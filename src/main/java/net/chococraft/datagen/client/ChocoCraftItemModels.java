@@ -8,6 +8,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class ChocoCraftItemModels extends ItemModelProvider {
 	public ChocoCraftItemModels(DataGenerator gen, ExistingFileHelper helper) {
@@ -55,12 +56,12 @@ public class ChocoCraftItemModels extends ItemModelProvider {
 	}
 
 	private void withBlockParent(Block block) {
-		ResourceLocation location = block.getRegistryName();
+		ResourceLocation location = ForgeRegistries.BLOCKS.getKey(block);
 		withExistingParent(location.getPath(), modLoc("block/" + location.getPath()));
 	}
 
 	private void generatedItem(Item item) {
-		ResourceLocation location = item.getRegistryName();
+		ResourceLocation location = ForgeRegistries.ITEMS.getKey(item);
 		singleTexture(location.getPath(), new ResourceLocation("item/generated"),
 				"layer0", new ResourceLocation(Chococraft.MODID, "item/" + location.getPath()));
 	}

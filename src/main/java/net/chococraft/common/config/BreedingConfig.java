@@ -25,7 +25,7 @@ public class BreedingConfig {
 				InputStream inputStream = ChocoConfig.class.getResourceAsStream("/breedingDefault.json");
 				assert inputStream != null;
 				FileUtils.copyInputStreamToFile(inputStream, INITIAL_FILE);
-				Chococraft.log.debug("Generated a default Breeding Config");
+				Chococraft.LOGGER.debug("Generated a default Breeding Config");
 
 				loadConfig();
 			} catch (Exception e) {
@@ -43,16 +43,16 @@ public class BreedingConfig {
 				breedingMap.putAll(GSON.fromJson(json, Map.class));
 				if (breedingMap != null && !breedingMap.isEmpty()) {
 					breedingInfoHashmap.putAll(breedingMap);
-					Chococraft.log.debug("Loaded JSON config file " + INITIAL_FILE.getAbsolutePath());
+					Chococraft.LOGGER.debug("Loaded JSON config file " + INITIAL_FILE.getAbsolutePath());
 				} else {
-					Chococraft.log.error("Could not load Breeding Config from {}.", fileName);
+					Chococraft.LOGGER.error("Could not load Breeding Config from {}.", fileName);
 				}
 			} catch (final Exception e) {
-				Chococraft.log.error("Unable to load file {}. Please make sure it's a valid json.", fileName);
-				Chococraft.log.catching(e);
+				Chococraft.LOGGER.error("Unable to load file {}. Please make sure it's a valid json.", fileName);
+				Chococraft.LOGGER.error("Trace: ", e);
 			}
 		} else {
-			Chococraft.log.error("Could not locate Breeding Config from {}.", INITIAL_FILE.getAbsolutePath());
+			Chococraft.LOGGER.error("Could not locate Breeding Config from {}.", INITIAL_FILE.getAbsolutePath());
 			initializeConfig();
 		}
 	}

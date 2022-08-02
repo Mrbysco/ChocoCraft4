@@ -9,8 +9,6 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 
 
@@ -24,7 +22,7 @@ public class ChocoboBookScreen extends Screen {
 	private int guiTop;
 
 	public ChocoboBookScreen() {
-		super(TextComponent.EMPTY);
+		super(Component.empty());
 	}
 
 	public static void openScreen() {
@@ -36,9 +34,9 @@ public class ChocoboBookScreen extends Screen {
 		this.guiLeft = (this.width - this.xSize) / 2;
 		this.guiTop = (this.height - this.ySize) / 2;
 
-		this.addRenderableWidget(new Button(this.guiLeft, this.guiTop + 165, 20, 20, TextComponent.EMPTY, (button) ->
+		this.addRenderableWidget(new Button(this.guiLeft, this.guiTop + 165, 20, 20, Component.empty(), (button) ->
 				this.currentpage = (this.currentpage <= 1 ? 7 : this.currentpage - 1)));
-		this.addRenderableWidget(new Button((this.guiLeft + xSize) - 20, this.guiTop + 165, 20, 20, TextComponent.EMPTY, (button) ->
+		this.addRenderableWidget(new Button((this.guiLeft + xSize) - 20, this.guiTop + 165, 20, 20, Component.empty(), (button) ->
 				this.currentpage = (this.currentpage >= 7 ? 1 : this.currentpage + 1)));
 	}
 
@@ -54,7 +52,7 @@ public class ChocoboBookScreen extends Screen {
 
 		this.blit(matrixStack, 0, 0, 0, 0, this.xSize, this.ySize);
 
-		Component name = new TranslatableComponent("gui.chocobook.title", currentpage);
+		Component name = Component.translatable("gui.chocobook.title", currentpage);
 		int nameLength = this.font.width(name);
 		this.font.drawShadow(matrixStack, name, (this.xSize / 2) - (nameLength / 2), 4, -1);
 
@@ -64,7 +62,7 @@ public class ChocoboBookScreen extends Screen {
 	}
 
 	private void renderpage() {
-		this.font.drawWordWrap(new TranslatableComponent("gui.chocobook.page" + (currentpage)), 5, 20, 120, 0);
+		this.font.drawWordWrap(Component.translatable("gui.chocobook.page" + (currentpage)), 5, 20, 120, 0);
 	}
 
 }

@@ -22,7 +22,7 @@ import net.chococraft.utils.RandomHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -186,11 +186,6 @@ public class Chocobo extends TamableAnimal {
 	}
 
 	@Override
-	public boolean canBeControlledByRider() {
-		return this.isTame();
-	}
-
-	@Override
 	public void readAdditionalSaveData(CompoundTag compound) {
 		super.readAdditionalSaveData(compound);
 		this.setChocoboColor(ChocoboColor.values()[compound.getByte(NBTKEY_CHOCOBO_COLOR)]);
@@ -290,13 +285,20 @@ public class Chocobo extends TamableAnimal {
 	}
 
 	@Override
-	public boolean canBeRiddenInWater(Entity rider) {
+	public boolean rideableUnderWater() {
 		return true;
 	}
 
 	@Nullable
-	public Entity getControllingPassenger() {
-		return this.getPassengers().isEmpty() ? null : this.getPassengers().get(0);
+	public LivingEntity getControllingPassenger() {
+		if (isTame() && this.isSaddled()) {
+			Entity entity = this.getFirstPassenger();
+			if (entity instanceof LivingEntity) {
+				return (LivingEntity) entity;
+			}
+		}
+
+		return null;
 	}
 
 	@Override
@@ -326,65 +328,67 @@ public class Chocobo extends TamableAnimal {
 
 	@Override
 	public void travel(Vec3 travelVector) {
-		if (this.isAlive() && this.isVehicle() && this.canBeControlledByRider() && this.isSaddled()) {
-			LivingEntity livingentity = (LivingEntity) this.getControllingPassenger();
-			this.setYRot(livingentity.getYRot());
-			this.yRotO = this.getYRot();
-			this.setXRot(livingentity.getXRot() * 0.5F);
-			this.setRot(this.getYRot(), this.getXRot());
-			this.yBodyRot = this.getYRot();
-			this.yHeadRot = this.yBodyRot;
-			float strafe = livingentity.xxa * 0.5F;
-			float forward = livingentity.zza;
-			if (forward <= 0.0F) {
-				forward *= 0.25F;
+		if (this.isAlive()) {
+			LivingEntity livingentity = this.getControllingPassenger();
+			if (this.isVehicle() && livingentity != null) {
+				this.setYRot(livingentity.getYRot());
+				this.yRotO = this.getYRot();
+				this.setXRot(livingentity.getXRot() * 0.5F);
+				this.setRot(this.getYRot(), this.getXRot());
+				this.yBodyRot = this.getYRot();
+				this.yHeadRot = this.yBodyRot;
+				float strafe = livingentity.xxa * 0.5F;
+				float forward = livingentity.zza;
+				if (forward <= 0.0F) {
+					forward *= 0.25F;
+				}
+
+				if (isInWater() && this.getAbilityInfo().canWalkOnWater()) {
+					Vec3 delta = getDeltaMovement();
+					this.setDeltaMovement(delta.x, 0.4D, delta.y);
+					moveFlying(strafe, forward, 100 / getChocoboColor().getAbilityInfo().getWaterSpeed());
+					setJumping(true);
+				}
+
+				if (livingentity.jumping && this.getAbilityInfo().getCanFly()) {
+					this.jumping = true;
+					this.jumpFromGround();
+					this.hasImpulse = true;
+					moveFlying(strafe, forward, 100 / getAbilityInfo().getAirbornSpeed());
+				} else if (livingentity.jumping && !this.jumping && this.onGround) {
+					this.setDeltaMovement(getDeltaMovement().add(0, 0.75D, 0));
+					livingentity.setJumping(false);
+					this.setJumping(true);
+				}
+
+				if (this.isControlledByLocalInstance()) {
+					this.setSpeed((float) this.getAttributeValue(Attributes.MOVEMENT_SPEED));
+					super.travel(new Vec3((double) strafe, travelVector.y, (double) forward));
+				} else if (livingentity instanceof Player) {
+					this.setDeltaMovement(Vec3.ZERO);
+				}
+
+				this.animationSpeedOld = this.animationSpeed;
+				double d1 = this.getX() - this.xo;
+				double d0 = this.getZ() - this.zo;
+				float f4 = Mth.sqrt((float) (d1 * d1 + d0 * d0)) * 4.0F;
+
+				if (f4 > 1.0F) {
+					f4 = 1.0F;
+				}
+
+				this.animationSpeed += (f4 - this.animationSpeed) * 0.4F;
+				this.animationPosition += this.animationSpeed;
+
+				if (this.onGround) {
+					this.setJumping(false);
+				}
+
+				this.calculateEntityAnimation(this, false);
+				this.tryCheckInsideBlocks();
+			} else {
+				super.travel(travelVector);
 			}
-
-			if (isInWater() && this.getAbilityInfo().canWalkOnWater()) {
-				Vec3 delta = getDeltaMovement();
-				this.setDeltaMovement(delta.x, 0.4D, delta.y);
-				moveFlying(strafe, forward, 100 / getChocoboColor().getAbilityInfo().getWaterSpeed());
-				setJumping(true);
-			}
-
-			if (livingentity.jumping && this.getAbilityInfo().getCanFly()) {
-				this.jumping = true;
-				this.jumpFromGround();
-				this.hasImpulse = true;
-				moveFlying(strafe, forward, 100 / getAbilityInfo().getAirbornSpeed());
-			} else if (livingentity.jumping && !this.jumping && this.onGround) {
-				this.setDeltaMovement(getDeltaMovement().add(0, 0.75D, 0));
-				livingentity.setJumping(false);
-				this.setJumping(true);
-			}
-
-			if (this.isControlledByLocalInstance()) {
-				this.setSpeed((float) this.getAttributeValue(Attributes.MOVEMENT_SPEED));
-				super.travel(new Vec3((double) strafe, travelVector.y, (double) forward));
-			} else if (livingentity instanceof Player) {
-				this.setDeltaMovement(Vec3.ZERO);
-			}
-
-			this.animationSpeedOld = this.animationSpeed;
-			double d1 = this.getX() - this.xo;
-			double d0 = this.getZ() - this.zo;
-			float f4 = Mth.sqrt((float) (d1 * d1 + d0 * d0)) * 4.0F;
-
-			if (f4 > 1.0F) {
-				f4 = 1.0F;
-			}
-
-			this.animationSpeed += (f4 - this.animationSpeed) * 0.4F;
-			this.animationPosition += this.animationSpeed;
-
-			if (this.onGround) {
-				this.setJumping(false);
-			}
-
-			this.calculateEntityAnimation(this, false);
-			this.tryCheckInsideBlocks();
-		} else {
-			super.travel(travelVector);
 		}
 	}
 
@@ -559,9 +563,9 @@ public class Chocobo extends TamableAnimal {
 				if ((float) Math.random() < ChocoConfig.COMMON.tameChance.get().floatValue()) {
 					this.setOwnerUUID(player.getUUID());
 					this.setTame(true);
-					player.displayClientMessage(new TranslatableComponent(Chococraft.MODID + ".entity_chocobo.tame_success"), true);
+					player.displayClientMessage(Component.translatable(Chococraft.MODID + ".entity_chocobo.tame_success"), true);
 				} else {
-					player.displayClientMessage(new TranslatableComponent(Chococraft.MODID + ".entity_chocobo.tame_fail"), true);
+					player.displayClientMessage(Component.translatable(Chococraft.MODID + ".entity_chocobo.tame_fail"), true);
 				}
 				return InteractionResult.SUCCESS;
 			} else {
@@ -569,7 +573,7 @@ public class Chocobo extends TamableAnimal {
 					this.usePlayerItem(player, hand, player.getInventory().getSelected());
 					heal(5);
 				} else {
-					player.displayClientMessage(new TranslatableComponent(Chococraft.MODID + ".entity_chocobo.heal_fail"), true);
+					player.displayClientMessage(Component.translatable(Chococraft.MODID + ".entity_chocobo.heal_fail"), true);
 				}
 			}
 		}
@@ -581,20 +585,20 @@ public class Chocobo extends TamableAnimal {
 					this.setNoAi(false);
 					this.goalSelector.addGoal(0, this.follow);
 					followingmrhuman = 1;
-					player.displayClientMessage(new TranslatableComponent(Chococraft.MODID + ".entity_chocobo.chocobo_followcmd"), true);
+					player.displayClientMessage(Component.translatable(Chococraft.MODID + ".entity_chocobo.chocobo_followcmd"), true);
 				} else if (this.followingmrhuman == 1) {
 					this.playSound(ModSounds.WHISTLE_SOUND_WANDER.get(), 1.0F, 1.0F);
 					this.goalSelector.removeGoal(this.follow);
 					followingmrhuman = 2;
-					player.displayClientMessage(new TranslatableComponent(Chococraft.MODID + ".entity_chocobo.chocobo_wandercmd"), true);
+					player.displayClientMessage(Component.translatable(Chococraft.MODID + ".entity_chocobo.chocobo_wandercmd"), true);
 				} else if (this.followingmrhuman == 2) {
 					this.playSound(ModSounds.WHISTLE_SOUND_STAY.get(), 1.0F, 1.0F);
 					this.setNoAi(true);
 					followingmrhuman = 3;
-					player.displayClientMessage(new TranslatableComponent(Chococraft.MODID + ".entity_chocobo.chocobo_staycmd"), true);
+					player.displayClientMessage(Component.translatable(Chococraft.MODID + ".entity_chocobo.chocobo_staycmd"), true);
 				}
 			} else {
-				player.displayClientMessage(new TranslatableComponent(Chococraft.MODID + ".entity_chocobo.not_owner"), true);
+				player.displayClientMessage(Component.translatable(Chococraft.MODID + ".entity_chocobo.not_owner"), true);
 			}
 			return InteractionResult.SUCCESS;
 		}
@@ -613,7 +617,7 @@ public class Chocobo extends TamableAnimal {
 		}
 
 		if (this.isTame() && heldItemStack.getItem() == Items.NAME_TAG && !isOwnedBy(player)) {
-			player.displayClientMessage(new TranslatableComponent(Chococraft.MODID + ".entity_chocobo.not_owner"), true);
+			player.displayClientMessage(Component.translatable(Chococraft.MODID + ".entity_chocobo.not_owner"), true);
 			return InteractionResult.SUCCESS;
 		}
 

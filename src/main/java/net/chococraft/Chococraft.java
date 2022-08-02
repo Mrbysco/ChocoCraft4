@@ -1,5 +1,6 @@
 package net.chococraft;
 
+import com.mojang.logging.LogUtils;
 import net.chococraft.client.ClientHandler;
 import net.chococraft.common.config.BreedingConfig;
 import net.chococraft.common.config.BreedingConfigReloadManager;
@@ -9,8 +10,7 @@ import net.chococraft.common.init.ModEntities;
 import net.chococraft.common.init.ModRegistry;
 import net.chococraft.common.init.ModSounds;
 import net.chococraft.common.network.PacketManager;
-import net.chococraft.common.world.worldgen.ModWorldgen;
-import net.chococraft.utils.Log4jFilter;
+import net.chococraft.common.world.worldgen.ModFeatureConfigs;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -23,15 +23,14 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
 
 @SuppressWarnings("unused")
 @Mod(Chococraft.MODID)
 public class Chococraft {
 	public static final String MODID = "chococraft";
 
-	public final static Logger log = LogManager.getLogger(MODID);
+	public static final Logger LOGGER = LogUtils.getLogger();
 
 	public static final CreativeModeTab creativeTab = new CreativeModeTab(MODID) {
 		@Override
@@ -50,16 +49,13 @@ public class Chococraft {
 
 		ModRegistry.BLOCKS.register(eventBus);
 		ModRegistry.ITEMS.register(eventBus);
-		ModEntities.ENTITIES.register(eventBus);
+		ModEntities.ENTITY_TYPES.register(eventBus);
 		ModSounds.SOUND_EVENTS.register(eventBus);
 
-		MinecraftForge.EVENT_BUS.register(new ModWorldgen());
-		MinecraftForge.EVENT_BUS.addListener(ModEntities::addSpawns);
 		MinecraftForge.EVENT_BUS.register(new BreedingConfigReloadManager());
 		eventBus.addListener(ModEntities::registerEntityAttributes);
 
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-			eventBus.addListener(ClientHandler::onClientSetup);
 			eventBus.addListener(ClientHandler::registerEntityRenders);
 			eventBus.addListener(ClientHandler::registerLayerDefinitions);
 		});
@@ -69,7 +65,7 @@ public class Chococraft {
 		ModEntities.initializeSpawnPlacements();
 		ModDataSerializers.init();
 		PacketManager.init();
-		Log4jFilter.init();
+		ModFeatureConfigs.init();
 	}
 
 	private void loadComplete(final FMLLoadCompleteEvent event) {

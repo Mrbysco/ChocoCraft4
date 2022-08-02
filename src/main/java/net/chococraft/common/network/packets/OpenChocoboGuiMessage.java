@@ -63,7 +63,7 @@ public class OpenChocoboGuiMessage {
 				Minecraft mc = Minecraft.getInstance();
 				Entity entity = mc.level.getEntity(entityId);
 				if (!(entity instanceof Chocobo chocobo)) {
-					Chococraft.log.warn("Server send OpenGUI for chocobo with id {}, but this entity does not exist on my side", entityId);
+					Chococraft.LOGGER.warn("Server send OpenGUI for chocobo with id {}, but this entity does not exist on my side", entityId);
 					return;
 				}
 
