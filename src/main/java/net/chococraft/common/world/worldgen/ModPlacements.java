@@ -16,7 +16,7 @@ import java.util.List;
 public class ModPlacements {
 	public static final List<PlacementModifier> GYSAHL_PLACEMENT =
 			List.of(CountPlacement.of(UniformInt.of(0, 5)),
-					RarityFilter.onAverageOnceEvery((int) ChocoConfig.COMMON.gysahlGreenSpawnChance.get().doubleValue() * 10),
+					RarityFilter.onAverageOnceEvery((int) ChocoConfig.COMMON.gysahlGreenRarity.get().doubleValue()),
 					InSquarePlacement.spread(), PlacementUtils.RANGE_4_4, BiomeFilter.biome());
 
 	public static final Holder<PlacedFeature> PATCH_GYSAHL_GREEN = PlacementUtils.register("patch_gysahl_green",

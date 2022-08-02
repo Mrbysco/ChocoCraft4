@@ -11,9 +11,8 @@ import org.apache.commons.lang3.tuple.Pair;
 
 public class ChocoConfig {
 	public static class Common {
-		public final IntValue gysahlGreenSpawnWeight;
 		public final IntValue gysahlGreenPatchSize;
-		public final DoubleValue gysahlGreenSpawnChance;
+		public final IntValue gysahlGreenRarity;
 		public final BooleanValue gysahlGreensSpawnOnlyInOverworld;
 
 		public final IntValue chocoboSpawnWeight;
@@ -26,20 +25,15 @@ public class ChocoConfig {
 			builder.comment("World generation related configuration")
 					.push("World");
 
-			gysahlGreenSpawnWeight = builder
-					.worldRestart()
-					.comment("Controls the weight compared to other world gen [Default: 3]")
-					.defineInRange("gysahlGreenSpawnWeight", 3, 0, Integer.MAX_VALUE);
-
 			gysahlGreenPatchSize = builder
 					.worldRestart()
-					.comment("Controls the Patch Size compared to other world gen [Default: 64]")
+					.comment("Controls the Patch Size [Default: 64]")
 					.defineInRange("gysahlGreenPatchSize", 64, 0, Integer.MAX_VALUE);
 
-			gysahlGreenSpawnChance = builder
+			gysahlGreenRarity = builder
 					.worldRestart()
-					.comment("Controls the Spawn Chance compared to other world gen [Default: 0.1]")
-					.defineInRange("gysahlGreenSpawnChance", 0.1, 0, 1);
+					.comment("Controls the Patch Rarity (Generating once every X tries) [Default: 2]")
+					.defineInRange("gysahlGreenRarity", 2, 1, Integer.MAX_VALUE);
 
 			gysahlGreensSpawnOnlyInOverworld = builder
 					.worldRestart()
