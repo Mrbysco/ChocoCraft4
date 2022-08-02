@@ -111,7 +111,7 @@ public class ModDatagenerator {
 		final PlacedFeature gysahlGreenFeature = new PlacedFeature(
 				gysahlGreenFeatureHolder,
 				List.of(CountPlacement.of(UniformInt.of(0, 5)),
-						RarityFilter.onAverageOnceEvery(3),
+						RarityFilter.onAverageOnceEvery(2),
 						InSquarePlacement.spread(), PlacementUtils.RANGE_4_4, BiomeFilter.biome()));
 
 		return Map.of(
