@@ -50,10 +50,6 @@ public class ChocoboAbilityInfo {
 		return this;
 	}
 
-	public boolean canFly() {
-		return this.canFly;
-	}
-
 	public ChocoboAbilityInfo setImmuneToFire(boolean value) {
 		this.immuneToFire = value;
 		return this;
@@ -96,6 +92,10 @@ public class ChocoboAbilityInfo {
 	public ChocoboAbilityInfo addRiderAbility(Supplier<MobEffectInstance> effectSupplier) {
 		this.effectList.add(effectSupplier);
 		return this;
+	}
+
+	public List<Supplier<MobEffectInstance>> getRiderAbilities() {
+		return effectList;
 	}
 
 	public int getMaxHP() {

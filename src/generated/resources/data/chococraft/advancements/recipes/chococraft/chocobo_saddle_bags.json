@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "chococraft:chocobo_saddle_bags"
+    ]
+  },
+  "criteria": {
+    "has_chocobo_feather": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "chococraft:chocobo_feather"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "chococraft:chocobo_saddle_bags"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_chocobo_feather",
+      "has_the_recipe"
+    ]
+  ]
+}

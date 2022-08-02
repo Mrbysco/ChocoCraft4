@@ -525,6 +525,18 @@ public class Chocobo extends TamableAnimal {
 	}
 
 	@Override
+	public void tick() {
+		super.tick();
+
+		if (isVehicle() && getFirstPassenger() instanceof LivingEntity passenger) {
+			getAbilityInfo().getRiderAbilities().forEach(ability -> {
+				passenger.addEffect(ability.get());
+				this.addEffect(ability.get());
+			});
+		}
+	}
+
+	@Override
 	public boolean isFood(ItemStack stack) {
 		return false;
 	}
@@ -599,7 +611,7 @@ public class Chocobo extends TamableAnimal {
 			return InteractionResult.SUCCESS;
 		}
 
-		if (this.isTame() && this.canFallInLove() && heldItemStack.getItem() == ModRegistry.LOVELY_GYSAHL_GREEN.get() && !this.isBaby()) {
+		if (this.isTame() && this.canFallInLove() && heldItemStack.getItem() == ModRegistry.LOVERLY_GYSAHL_GREEN.get() && !this.isBaby()) {
 			this.usePlayerItem(player, hand, player.getInventory().getSelected());
 			this.setInLove(player);
 			return InteractionResult.SUCCESS;
