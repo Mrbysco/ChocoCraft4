@@ -12,7 +12,6 @@ import net.minecraftforge.registries.MissingMappingsEvent;
 public class RemappingEvents {
 	@SubscribeEvent
 	public static void remapMissingItems(final MissingMappingsEvent event) {
-		System.out.println("Hey");
 		for (MissingMappingsEvent.Mapping<Item> map : event.getAllMappings(ForgeRegistries.Keys.ITEMS)) {
 			if (map.getKey().getNamespace().equals(Chococraft.MODID) && map.getKey().getNamespace().equals("lovely_gysahl_green")) {
 				map.remap(ModRegistry.LOVERLY_GYSAHL_GREEN.get());
