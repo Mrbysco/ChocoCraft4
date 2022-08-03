@@ -1,0 +1,15 @@
+{
+  "category": "chococraft:info",
+  "icon": "chococraft:red_gysahl",
+  "name": "info.chococraft.book.red_gysahl.entry.name",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "info.chococraft.book.red_gysahl.text1"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "chococraft:red_gysahl"
+    }
+  ]
+}

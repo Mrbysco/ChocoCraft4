@@ -51,8 +51,10 @@ public class ModRegistry {
 	public static final RegistryObject<Item> GYSAHL_GREEN_ITEM = ITEMS.register("gysahl_green", () -> new Item(itemBuilder().food(ModFoods.GYSAHL_GREEN)));
 	public static final RegistryObject<Item> CHOCOBO_WHISTLE = ITEMS.register("chocobo_whistle", () -> new Item(itemBuilder()));
 	public static final RegistryObject<Item> CHOCOBO_FEATHER = ITEMS.register("chocobo_feather", () -> new Item(itemBuilder()));
-	public static final RegistryObject<Item> LOVELY_GYSAHL_GREEN = ITEMS.register("lovely_gysahl_green", () -> new Item(itemBuilder()));
+	public static final RegistryObject<Item> LOVERLY_GYSAHL_GREEN = ITEMS.register("loverly_gysahl_green", () -> new Item(itemBuilder()));
 	public static final RegistryObject<Item> GOLD_GYSAHL = ITEMS.register("gold_gysahl", () -> new Item(itemBuilder()));
+	public static final RegistryObject<Item> RED_GYSAHL = ITEMS.register("red_gysahl", () -> new Item(itemBuilder()));
+	public static final RegistryObject<Item> PINK_GYSAHL = ITEMS.register("pink_gysahl", () -> new Item(itemBuilder()));
 
 	public static final RegistryObject<Item> CHOCOBO_DRUMSTICK_RAW = ITEMS.register("chocobo_drumstick_raw", () -> new Item(itemBuilder().food(ModFoods.CHOCOBO_DRUMSTICK_RAW)));
 	public static final RegistryObject<Item> CHOCOBO_DRUMSTICK_COOKED = ITEMS.register("chocobo_drumstick_cooked", () -> new Item(itemBuilder().food(ModFoods.CHOCOBO_DRUMSTICK_COOKED)));

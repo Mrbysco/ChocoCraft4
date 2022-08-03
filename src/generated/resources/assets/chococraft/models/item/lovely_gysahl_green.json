@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "chococraft:item/lovely_gysahl_green"
-  }
-}

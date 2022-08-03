@@ -62,11 +62,21 @@
           "type": "minecraft:item",
           "conditions": [
             {
-              "chance": 0.02,
+              "chance": 0.15,
               "condition": "minecraft:random_chance"
             }
           ],
-          "name": "chococraft:lovely_gysahl_green"
+          "name": "chococraft:loverly_gysahl_green"
+        },
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "chance": 0.05,
+              "condition": "minecraft:random_chance"
+            }
+          ],
+          "name": "chococraft:gold_gysahl"
         }
       ],
       "rolls": 1.0

@@ -1,0 +1,17 @@
+{
+  "book_texture": "chococraft:textures/gui/patchouli_book.png",
+  "creative_tab": "chococraft",
+  "custom_book_item": "chococraft:chocopedia",
+  "dont_generate_book": true,
+  "filler_texture": "chococraft:textures/gui/chocobo_page_filler.png",
+  "i18n": true,
+  "landing_text": "info.chococraft.book.landing",
+  "macros": {
+    "$(item)": "$(#c47567)"
+  },
+  "model": "chococraft:chocopedia",
+  "name": "info.chocopedia.book.name",
+  "show_progress": false,
+  "subtitle": "info.chococraft.book.subtitle",
+  "use_blocky_font": true
+}
