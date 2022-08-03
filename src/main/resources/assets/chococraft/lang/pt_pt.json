@@ -1,0 +1,66 @@
+{
+    "itemGroup.chococraft": "ChocoCraft 4",
+
+    "block.chococraft.gysahl_green": "Gisal Verde",
+    "block.chococraft.straw": "Palha",
+
+    "entity.chococraft.chocobo": "Chocobo",
+
+    "item.chococraft.gold_gysahl": "Gisal Dourado",
+    "item.chococraft.gysahl_green": "Gisal Verde",
+    "item.chococraft.gysahl_green_seeds": "Sementes de Gisal Verde",
+    "item.chococraft.lovely_gysahl_green": "Gisal Verde Exótico",
+    "item.chococraft.pickled_gysahl_raw": "Gisal Verde em Conserva Cru",
+    "item.chococraft.pickled_gysahl_cooked": "Gisal Verde em Conserva Assado",
+
+    "item.chococraft.chocopedia": "Chocopédia",
+    "item.chococraft.chocopedia.tooltip": "Use em um Chocobo para ver suas estatísticas",
+
+    "item.chococraft.chocobo_feather": "Pena de Chocobo",
+    "item.chococraft.chocobo_whistle": "Apito de Chocobo",
+
+    "item.chococraft.chocobo_saddle": "Sela de Chocobo",
+    "item.chococraft.chocobo_saddle_bags": "Bolsa de Chocobo",
+    "item.chococraft.chocobo_saddle_pack": "Mala de Chocobo",
+
+    "item.chococraft.choco_disguise_helmet": "Capacete de Disfarce de Chocobo",
+    "item.chococraft.choco_disguise_chestplate": "Peitoral de Disfarce de Chocobo",
+    "item.chococraft.choco_disguise_leggings": "Calças de Disfarce de Chocobo",
+    "item.chococraft.choco_disguise_boots": "Botas de Disfarce de Chocobo",
+
+    "item.chococraft.gysahl_cake": "Bolo de Gisal",
+
+    "item.chococraft.chocobo_drumstick_raw": "Coxa de Chocobo Cru",
+    "item.chococraft.chocobo_drumstick_cooked": "Coxa de Chocobo Cozida",
+    "item.chococraft.yellow_chocobo_spawn_egg": "Ovo de Chocobo Amarelo",
+    "item.chococraft.green_chocobo_spawn_egg": "Ovo de Chocobo Verde",
+    "item.chococraft.blue_chocobo_spawn_egg": "Ovo de Chocobo Azul",
+    "item.chococraft.white_chocobo_spawn_egg": "Ovo de Chocobo Branco",
+    "item.chococraft.black_chocobo_spawn_egg": "Ovo de Chocobo Preto",
+    "item.chococraft.gold_chocobo_spawn_egg": "Ovo de Chocobo Dourado",
+    "item.chococraft.pink_chocobo_spawn_egg": "Ovo de Chocobo Rosa",
+    "item.chococraft.red_chocobo_spawn_egg": "Ovo de Chocobo Vermelho",
+    "item.chococraft.purple_chocobo_spawn_egg": "Ovo de Chocobo Roxo",
+    "item.chococraft.flame_chocobo_spawn_egg": "Ovo de Chocobo Vinho",
+
+    "chococraft.entity_chocobo.heal_fail": "§cSaúde completa",
+    "chococraft.entity_chocobo.tame_fail": "§cDomar falhou",
+    "chococraft.entity_chocobo.tame_success": "§aDomar foi bem sucedido",
+    "chococraft.entity_chocobo.chocobo_followcmd": "Seguir",
+    "chococraft.entity_chocobo.chocobo_wandercmd": "Vagar",
+    "chococraft.entity_chocobo.chocobo_staycmd": "Fique",
+    "chococraft.entity_chocobo.not_owner": "§cVocê não é o dono deste Chocobo!",
+
+    "chococraft.general.world": "Mundo",
+    "chococraft.general.world.gysahlgreenspawnweight": "Chance da geração de Gisel Verde",
+    "chococraft.general.gysahlgreenpatchsize": "Quantidade da geração de Gisel Verde",
+
+    "gui.chocobook.title": "Chocopédia Página %s",
+    "gui.chocobook.page1": "Chocobos são enormes, avestruzes como pássaros encontrados nos biomas do tipo planícies e colinas, sua dieta consiste em verduras Gisal e praticamente nada mais. Eles são normalmente encontrados com uma cor amarela e têm duas pernas com pés de três dedos, asas grandes e pescoços longos.",
+    "gui.chocobook.page2": "Então eu acho que você está se perguntando agora, como diabos posso domar um Chocobo? Bem, isso é fácil, para domar um Chocobo você deve encontrar Gisal Verde para alimentá-los, que aparecem em todo o mundo; Não pode fazê-lo amar você? Dê mais Gisal, vai funcionar!",
+    "gui.chocobook.page3": "Então, como montar nele? Às vezes, os Chocobos soltam uma pena única, combine isso com uma Sela normal para fazer uma Sela de Chocobo e clique com o botão direito do mouse no Chocobo para colocá-lo. Talvez você possa fazer uma Sela melhor, com armazenamento ou algo assim.",
+    "gui.chocobook.page4": "Então você tem um Chocobo simples, isso é ótimo, mas você pode fazer melhor. Usar uma Chocopédia em um Chocobo permitirá que você desbloqueie novas habilidades usando a experiência que você tem, que drenará sua alma. Isso inclui voar, planar, correr e mergulhar.",
+    "gui.chocobook.page5": "Legal, então desbloqueei uma habilidade, como faço para usá-la? Para voar, você deve correr para ganhar impulso e depois pular, planar é literalmente apenas cair mais devagar, para correr, pressione a tecla de correr, para mergulhar literalmente apenas pule na água.",
+    "gui.chocobook.page6": "Eu tenho um Chocobo, mas quero cruzar! Ok, então há uma mamãe e papai Chocobo, o papai tem penas coloridas, alimente ambos com um Gisal Exótico que é obtido de forma rara ao cultivar Gisal; Coloque o ovo em um ninho e, com tempo e espaço suficientes, ele eclodirá.",
+    "gui.chocobook.page7": "Socorro, meus Chocobos cagaram um Chocobo pior! Tudo bem, há uma chance de seu novo bebê ser pior em alguns aspectos, mas na maioria das vezes você terá um Chocobo mais rápido, saudável e energético do que a geração anterior. Apenas continue tentando!"
+}
