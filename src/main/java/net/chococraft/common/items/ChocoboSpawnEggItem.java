@@ -25,12 +25,12 @@ public class ChocoboSpawnEggItem extends Item {
 
 	@Override
 	public InteractionResult useOn(UseOnContext context) {
-		Level worldIn = context.getLevel();
-		if (worldIn.isClientSide) {
+		Level level = context.getLevel();
+		if (level.isClientSide) {
 			return InteractionResult.SUCCESS;
 		}
 
-		final Chocobo chocobo = ModEntities.CHOCOBO.get().create(worldIn);
+		final Chocobo chocobo = ModEntities.CHOCOBO.get().create(level);
 		if (chocobo != null) {
 			final BlockPos pos = context.getClickedPos();
 			final Player player = context.getPlayer();
@@ -40,12 +40,12 @@ public class ChocoboSpawnEggItem extends Item {
 				}
 			}
 
-			chocobo.moveTo(pos.getX() + .5, pos.getY() + 0.5F, pos.getZ() + .5, Mth.wrapDegrees(worldIn.random.nextFloat() * 360.0F), 0.0F);
+			chocobo.moveTo(pos.getX() + .5, pos.getY() + 0.5F, pos.getZ() + .5, Mth.wrapDegrees(level.random.nextFloat() * 360.0F), 0.0F);
 			chocobo.yHeadRot = chocobo.getYRot();
 			chocobo.yBodyRot = chocobo.getYRot();
 			chocobo.setChocoboColor(color);
-			chocobo.finalizeSpawn((ServerLevel) worldIn, worldIn.getCurrentDifficultyAt(chocobo.blockPosition()), MobSpawnType.SPAWN_EGG, (SpawnGroupData) null, (CompoundTag) null);
-			worldIn.addFreshEntity(chocobo);
+			chocobo.finalizeSpawn((ServerLevel) level, level.getCurrentDifficultyAt(chocobo.blockPosition()), MobSpawnType.SPAWN_EGG, (SpawnGroupData) null, (CompoundTag) null);
+			level.addFreshEntity(chocobo);
 			chocobo.playAmbientSound();
 		}
 
