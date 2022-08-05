@@ -137,8 +137,11 @@ public class Chocobo extends TamableAnimal {
 	private float destPos;
 	private float wingRotDelta;
 
+	public int timeSinceFeatherChance = 0;
+
 	public Chocobo(EntityType<? extends Chocobo> type, Level world) {
 		super(type, world);
+		timeSinceFeatherChance = 0;
 	}
 
 	@Override
@@ -174,15 +177,19 @@ public class Chocobo extends TamableAnimal {
 
 	@Override
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor levelAccessor, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
-		this.setMale(random.nextBoolean());
 		if (levelAccessor.getBiome((new BlockPos(blockPosition().below()))).is(BiomeTags.IS_NETHER)) {
 			this.setChocoboColor(ChocoboColor.FLAME);
 		}
-		this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getChocoboColor().getAbilityInfo().getMaxHP());
-		this.setHealth(getMaxHealth());
-		this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(getChocoboColor().getAbilityInfo().getLandSpeed() / 100F);
-		this.getAttribute(Attributes.FLYING_SPEED).setBaseValue(getChocoboColor().getAbilityInfo().getAirbornSpeed() / 100F);
+		this.finalizeChocobo(this);
 		return super.finalizeSpawn(levelAccessor, difficultyIn, reason, spawnDataIn, dataTag);
+	}
+
+	private void finalizeChocobo(Chocobo chocobo) {
+		chocobo.setMale(random.nextBoolean());
+		chocobo.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getChocoboColor().getAbilityInfo().getMaxHP());
+		chocobo.setHealth(getMaxHealth());
+		chocobo.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(getChocoboColor().getAbilityInfo().getLandSpeed() / 100F);
+		chocobo.getAttribute(Attributes.FLYING_SPEED).setBaseValue(getChocoboColor().getAbilityInfo().getAirbornSpeed() / 100F);
 	}
 
 	@Override
@@ -431,6 +438,7 @@ public class Chocobo extends TamableAnimal {
 	public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob partner) {
 		Chocobo babyChocobo = ModEntities.CHOCOBO.get().create(level);
 		babyChocobo.setChocoboColor(BreedingHelper.getColor(this, (Chocobo) partner));
+		this.finalizeChocobo(babyChocobo);
 		//Reset golden status
 		this.setFedGoldGysahl(false);
 		((Chocobo) partner).setFedGoldGysahl(false);
@@ -466,8 +474,6 @@ public class Chocobo extends TamableAnimal {
 
 		this.spawnAtLocation(new ItemStack(ModRegistry.CHOCOBO_FEATHER.get(), 1), 0.0F);
 	}
-
-	public int timeSinceFeatherChance = 0;
 
 	@Override
 	protected boolean canRide(Entity entityIn) {

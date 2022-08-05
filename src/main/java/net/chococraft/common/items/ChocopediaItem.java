@@ -17,13 +17,13 @@ public class ChocopediaItem extends Item {
 	}
 
 	@Override
-	public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
+	public InteractionResultHolder<ItemStack> use(Level level, Player playerIn, InteractionHand handIn) {
 		if (ModList.get().isLoaded("patchouli")) {
-			if (worldIn.isClientSide) {
+			if (level.isClientSide) {
 				vazkii.patchouli.api.PatchouliAPI.get().openBookGUI(new ResourceLocation("chococraft:chocopedia"));
 			}
 		} else {
-			if (worldIn.isClientSide) {
+			if (level.isClientSide) {
 				net.chococraft.client.gui.ChocoboBookScreen.openScreen();
 			}
 		}

@@ -28,14 +28,14 @@ public class GysahlGreenBlock extends CropBlock {
 	}
 
 	@Override
-	public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos) {
-		return (worldIn.getRawBrightness(pos, 0) >= 8 || worldIn.canSeeSky(pos)) && ((state.getBlock() == this || state.getValue(AGE) == MAX_AGE) &&
-				super.canSurvive(state, worldIn, pos));
+	public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+		return (level.getRawBrightness(pos, 0) >= 8 || level.canSeeSky(pos)) && ((state.getBlock() == this || state.getValue(AGE) == MAX_AGE) &&
+				super.canSurvive(state, level, pos));
 	}
 
 	@Override
-	protected boolean mayPlaceOn(BlockState state, BlockGetter worldIn, BlockPos pos) {
-		return super.mayPlaceOn(state, worldIn, pos) || state.is(Blocks.GRASS_BLOCK);
+	protected boolean mayPlaceOn(BlockState state, BlockGetter level, BlockPos pos) {
+		return super.mayPlaceOn(state, level, pos) || state.is(Blocks.GRASS_BLOCK);
 	}
 
 	@Override
