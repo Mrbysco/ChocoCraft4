@@ -158,10 +158,7 @@ public class Chocobo extends TamableAnimal {
 	public float followingmrhuman = 2;
 
 	public static AttributeSupplier.Builder createAttributes() {
-		return Mob.createMobAttributes()
-				.add(Attributes.MOVEMENT_SPEED, 20 / 100f)
-				.add(Attributes.FLYING_SPEED, 0 / 100F)
-				.add(Attributes.MAX_HEALTH, 30);
+		return Mob.createMobAttributes().add(Attributes.MOVEMENT_SPEED, 20 / 100f).add(Attributes.FLYING_SPEED, 0 / 100F).add(Attributes.MAX_HEALTH, 30);
 	}
 
 	@Override
@@ -310,11 +307,7 @@ public class Chocobo extends TamableAnimal {
 
 	@Override
 	protected boolean updateInWaterStateAndDoFluidPushing() {
-		this.fluidHeight.clear();
-		this.updateInWaterStateAndDoWaterCurrentPushing();
-		double d0 = this.level.dimensionType().ultraWarm() ? 0.007D : 0.0023333333333333335D;
-		boolean flag = this.updateFluidHeightAndDoFluidPushing(FluidTags.LAVA, d0);
-		return this.isInWater() || flag;
+		return super.updateInWaterStateAndDoFluidPushing();
 	}
 
 	private void updateInWaterStateAndDoWaterCurrentPushing() {
@@ -356,9 +349,9 @@ public class Chocobo extends TamableAnimal {
 					moveFlying(strafe, forward, 100 / getChocoboColor().getAbilityInfo().getWaterSpeed());
 					setJumping(true);
 				}
-
+				
 				if (livingentity.jumping && this.getAbilityInfo().getCanFly()) {
-					this.jumping = true;
+					setJumping(true);
 					this.jumpFromGround();
 					this.hasImpulse = true;
 					moveFlying(strafe, forward, 100 / getAbilityInfo().getAirbornSpeed());
@@ -466,11 +459,9 @@ public class Chocobo extends TamableAnimal {
 	}
 
 	public void dropFeather() {
-		if (this.getCommandSenderWorld().isClientSide)
-			return;
+		if (this.getCommandSenderWorld().isClientSide) return;
 
-		if (this.isBaby())
-			return;
+		if (this.isBaby()) return;
 
 		this.spawnAtLocation(new ItemStack(ModRegistry.CHOCOBO_FEATHER.get(), 1), 0.0F);
 	}
@@ -509,8 +500,7 @@ public class Chocobo extends TamableAnimal {
 			this.destPos += (double) (this.onGround ? -1 : 4) * 0.3D;
 			this.destPos = Mth.clamp(destPos, 0f, 1f);
 
-			if (!this.onGround)
-				this.wingRotDelta = Math.min(wingRotation, 1f);
+			if (!this.onGround) this.wingRotDelta = Math.min(wingRotation, 1f);
 			this.wingRotDelta *= 0.9D;
 			this.wingRotation += this.wingRotDelta * 2.0F;
 
@@ -555,8 +545,7 @@ public class Chocobo extends TamableAnimal {
 	public InteractionResult interactAt(Player player, Vec3 vec, InteractionHand hand) {
 		ItemStack heldItemStack = player.getItemInHand(hand);
 
-		if (this.getCommandSenderWorld().isClientSide)
-			return InteractionResult.SUCCESS;
+		if (this.getCommandSenderWorld().isClientSide) return InteractionResult.SUCCESS;
 
 		if (heldItemStack.getItem() == ModRegistry.GYSAHL_CAKE.get()) {
 			this.usePlayerItem(player, hand, heldItemStack);
@@ -570,8 +559,7 @@ public class Chocobo extends TamableAnimal {
 		}
 
 		if (this.isTame() && player.isShiftKeyDown() && !this.isBaby()) {
-			if (player instanceof ServerPlayer)
-				this.displayChocoboInventory((ServerPlayer) player);
+			if (player instanceof ServerPlayer) this.displayChocoboInventory((ServerPlayer) player);
 			return InteractionResult.SUCCESS;
 		}
 
@@ -718,8 +706,7 @@ public class Chocobo extends TamableAnimal {
 
 	@Override
 	public boolean checkSpawnRules(LevelAccessor levelAccessor, MobSpawnType spawnReasonIn) {
-		if (this.level.getBiome((new BlockPos(blockPosition()))).is(BiomeTags.IS_NETHER))
-			return true;
+		if (this.level.getBiome((new BlockPos(blockPosition()))).is(BiomeTags.IS_NETHER)) return true;
 
 		return super.checkSpawnRules(levelAccessor, spawnReasonIn);
 	}
@@ -733,8 +720,7 @@ public class Chocobo extends TamableAnimal {
 					int chance = 0;
 					for (ItemStack stack : player.getInventory().armor) {
 						if (stack != null) {
-							if (stack.getItem() instanceof ChocoDisguiseItem)
-								chance += 25;
+							if (stack.getItem() instanceof ChocoDisguiseItem) chance += 25;
 						}
 					}
 
