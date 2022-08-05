@@ -310,22 +310,6 @@ public class Chocobo extends TamableAnimal {
 		return super.updateInWaterStateAndDoFluidPushing();
 	}
 
-	private void updateInWaterStateAndDoWaterCurrentPushing() {
-		if (this.getVehicle() instanceof Boat) {
-			this.wasTouchingWater = false;
-		} else if (this.updateFluidHeightAndDoFluidPushing(FluidTags.WATER, 0.014D)) {
-			if (!this.wasTouchingWater && !this.firstTick) {
-				this.doWaterSplashEffect();
-			}
-
-			this.resetFallDistance();
-			this.wasTouchingWater = true;
-			this.clearFire();
-		} else {
-			this.wasTouchingWater = false;
-		}
-	}
-
 	@Override
 	public void travel(Vec3 travelVector) {
 		if (this.isAlive()) {
@@ -349,7 +333,7 @@ public class Chocobo extends TamableAnimal {
 					moveFlying(strafe, forward, 100 / getChocoboColor().getAbilityInfo().getWaterSpeed());
 					setJumping(true);
 				}
-				
+
 				if (livingentity.jumping && this.getAbilityInfo().getCanFly()) {
 					setJumping(true);
 					this.jumpFromGround();
