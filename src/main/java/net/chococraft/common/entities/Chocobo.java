@@ -2,6 +2,7 @@ package net.chococraft.common.entities;
 
 import net.chococraft.Chococraft;
 import net.chococraft.common.config.ChocoConfig;
+import net.chococraft.common.entities.breeding.BreedingHelper;
 import net.chococraft.common.entities.breeding.ChocoboAbilityInfo;
 import net.chococraft.common.entities.goal.ChocoboFollowOwnerGoal;
 import net.chococraft.common.entities.goal.ChocoboHealInPenGoal;
@@ -432,6 +433,7 @@ public class Chocobo extends TamableAnimal {
 	@Override
 	public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob partner) {
 		Chocobo babyChocobo = ModEntities.CHOCOBO.get().create(level);
+		babyChocobo.setChocoboColor(BreedingHelper.getColor(this, (Chocobo) partner));
 		finalizeChocobo(babyChocobo);
 
 		//Reset golden status
