@@ -1,6 +1,6 @@
 02b196ed97ac805f69d2a891b1cef4a479190482 assets/chococraft/blockstates/gysahl_green.json
 61d71f517e848acd1ecb1fc9ff9ec402fb4cafd2 assets/chococraft/blockstates/straw.json
-14fa8b9e4963af43ea7817719c89fbf1b5b1b4db assets/chococraft/lang/en_us.json
+5cffed988866c0e5a79998d38ee813d9460d2847 assets/chococraft/lang/en_us.json
 91d87d85162161dc3bc49451be70278f9c7315e5 assets/chococraft/models/block/gysahl_green_stage0.json
 d020b44a569961607aa8eed23c47b87433275eb9 assets/chococraft/models/block/gysahl_green_stage1.json
 f3466dcfd7b1e298b1bb2a5725f568a27e156add assets/chococraft/models/block/gysahl_green_stage2.json
@@ -71,6 +71,7 @@ bc08d6ee970ba43bd8e6c6a3dde4f131fdf0d964 data/chococraft/patchouli_books/chocope
 fd1b56d6d420e3c3b178db2fffcc75625c49f298 data/chococraft/patchouli_books/chocopedia/en_us/entries/info/chicobo.json
 a1a45bf931610580cb6ccbc2f0337426ffd00515 data/chococraft/patchouli_books/chocopedia/en_us/entries/info/chocobo.json
 040a9675d138933bbd8c65a82981da1cde514359 data/chococraft/patchouli_books/chocopedia/en_us/entries/info/chocodisguise.json
+7e894d8d090d0b684840a3da7fb6aeb56167f2b3 data/chococraft/patchouli_books/chocopedia/en_us/entries/info/feather.json
 05481f052d408b1caaa7dc2b5ed90004883beb98 data/chococraft/patchouli_books/chocopedia/en_us/entries/info/gold_gysahl.json
 df1b10c723bc7a9d59d0abb9948699a739b38837 data/chococraft/patchouli_books/chocopedia/en_us/entries/info/gysahl_cake.json
 0e2b9f796612a6dbe1712e21a5d3eba5010114dd data/chococraft/patchouli_books/chocopedia/en_us/entries/info/gysahl_green.json

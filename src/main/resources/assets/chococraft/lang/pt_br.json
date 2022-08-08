@@ -48,6 +48,8 @@
     "info.chococraft.book.chocobo.white.description2": "Corra mais rápido que Chocobos Amarelo, Verde ou Azul e saiba nadar e escalar.",
     "info.chococraft.book.chocodisguise.entry.name": "Disfarce de chocobo",
     "info.chococraft.book.chocodisguise.text1": "Disfarce de Chocobo é um conjunto de armadura que pode ser usado para reduzir o risco de $(l:chococraft:info/chocobo)Chocobos$() selvagens fugir de você ao se aproximar.",
+    "info.chococraft.book.feather.entry.name": "Chocobo Feather",
+    "info.chococraft.book.feather.text1": "$(l:chococraft:info/chocobo)Chocobos$() every so often shed feathers. They are useful for crafting a $(l:chococraft:info/chocodisguise)Choco Disguise$() armor set.",
     "info.chococraft.book.gold_gysahl.entry.name": "Gisal dourado",
     "info.chococraft.book.gold_gysahl.text1": "$(bold)Gisal Dourado$() é uma mutação de $(l:chococraft:info/gysahl_green)Gisal Verde$() e é usado para reprodução de $(l:chococraft:info/chocobo)Chocobos$().$(br)$(bold)Gisal Dourado$() é obtido através da colheita de $(l:chococraft:info/gysahl_green)Gisal Verde$(), há 5%% para obter um $(bold)Gisal Dourado$()$(br)Variantes mutantes de $(l:chococraft:info/gysahl_green)Gisal Verde$() não pode ser transformado em sementes.",
     "info.chococraft.book.gysahl_cake.entry.name": "Bolo de gisal",

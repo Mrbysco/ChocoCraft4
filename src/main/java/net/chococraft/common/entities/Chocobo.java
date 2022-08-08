@@ -588,6 +588,11 @@ public class Chocobo extends TamableAnimal {
 				if ((float) Math.random() < ChocoConfig.COMMON.tameChance.get().floatValue()) {
 					this.setOwnerUUID(player.getUUID());
 					this.setTame(true);
+					if (ChocoConfig.COMMON.nameTamedChocobos.get()) {
+						if (!hasCustomName()) {
+							setCustomName(DefaultNames.getRandomName(random, isMale()));
+						}
+					}
 					player.displayClientMessage(new TranslatableComponent(Chococraft.MODID + ".entity_chocobo.tame_success"), true);
 				} else {
 					player.displayClientMessage(new TranslatableComponent(Chococraft.MODID + ".entity_chocobo.tame_fail"), true);

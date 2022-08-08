@@ -48,6 +48,8 @@
   "info.chococraft.book.chocobo.white.description2": "Se desplazan más rápido que los chocobos amarillos, verdes o azules y son capaces de nadar y trepar.",
   "info.chococraft.book.chocodisguise.entry.name": "Chocodisfraz",
   "info.chococraft.book.chocodisguise.text1": "El chocodisfraz es un conjunto de armadura que se puede usar para reducir el riesgo de que los $(l:chococraft:info/chocobo)chocobos$() chocobos salvajes huyan cuando te acercas.",
+  "info.chococraft.book.feather.entry.name": "Chocobo Feather",
+  "info.chococraft.book.feather.text1": "$(l:chococraft:info/chocobo)Chocobos$() every so often shed feathers. They are useful for crafting a $(l:chococraft:info/chocodisguise)Choco Disguise$() armor set.",
   "info.chococraft.book.gold_gysahl.entry.name": "Verdura gysahl dorada",
   "info.chococraft.book.gold_gysahl.text1": "La $(bold)verdura gysahl dorada$() es una mutación de la ordinaria $(l:chococraft:info/gysahl_green)verdura gysahl$() y se utiliza para reproducir a los $(l:chococraft:info/chocobo)chocobos$().$(br)La $(bold)verdura gysahl dorada$() se puede obtener cosechando $(l:chococraft:info/gysahl_green)verduras gysahl$(), hay un 5%% de conseguir una $(bold)verdura gysahl dorada$().$(br)Las variantes mutadas de $(l:chococraft:info/gysahl_green)verdura gysahl$() no se pueden convertir en semillas.",
   "info.chococraft.book.gysahl_cake.entry.name": "Tarta gysahl",
