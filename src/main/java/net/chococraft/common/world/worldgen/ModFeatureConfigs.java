@@ -1,7 +1,6 @@
 package net.chococraft.common.world.worldgen;
 
 import net.chococraft.common.blocks.GysahlGreenBlock;
-import net.chococraft.common.config.ChocoConfig;
 import net.chococraft.common.init.ModRegistry;
 import net.minecraft.core.Holder;
 import net.minecraft.data.worldgen.features.FeatureUtils;

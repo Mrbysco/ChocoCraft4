@@ -5,21 +5,22 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.chococraft.Chococraft;
 import net.chococraft.client.ClientHandler;
 import net.chococraft.client.models.entities.AdultChocoboModel;
+import net.chococraft.client.models.entities.ChicoboModel;
 import net.chococraft.client.renderer.layers.LayerCollar;
 import net.chococraft.client.renderer.layers.LayerPlumage;
 import net.chococraft.client.renderer.layers.LayerSaddle;
 import net.chococraft.common.entities.Chocobo;
 import net.chococraft.common.entities.properties.ChocoboColor;
 import net.minecraft.Util;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.Map;
 
-public class ChocoboRenderer extends MobRenderer<Chocobo, AdultChocoboModel<Chocobo>> {
+public class ChocoboRenderer extends MobRenderer<Chocobo, EntityModel<Chocobo>> {
 	private static final Map<ChocoboColor, ResourceLocation> CHOCOBO_PER_COLOR = Util.make(Maps.newHashMap(), (map) -> {
 		map.put(ChocoboColor.YELLOW, new ResourceLocation(Chococraft.MODID, "textures/entities/chocobos/yellowchocobo.png"));
 		map.put(ChocoboColor.GREEN, new ResourceLocation(Chococraft.MODID, "textures/entities/chocobos/greenchocobo.png"));
@@ -45,8 +46,12 @@ public class ChocoboRenderer extends MobRenderer<Chocobo, AdultChocoboModel<Choc
 		map.put(ChocoboColor.FLAME, new ResourceLocation(Chococraft.MODID, "textures/entities/chicobos/flamechocobo.png"));
 	});
 
+	private final EntityModel<Chocobo> chicoboModel;
+	private final EntityModel<Chocobo> chocoboModel = this.getModel();
+
 	public ChocoboRenderer(EntityRendererProvider.Context context) {
 		super(context, new AdultChocoboModel(context.bakeLayer(ClientHandler.CHOCOBO)), 1.0f);
+		this.chicoboModel = new ChicoboModel<>(context.bakeLayer(ClientHandler.CHICOBO));
 
 		this.addLayer(new LayerCollar(this));
 		this.addLayer(new LayerPlumage(this));
@@ -54,11 +59,9 @@ public class ChocoboRenderer extends MobRenderer<Chocobo, AdultChocoboModel<Choc
 	}
 
 	@Override
-	protected void renderNameTag(Chocobo chocobo, Component component, PoseStack poseStack, MultiBufferSource bufferSource, int packedLightIn) {
-		poseStack.pushPose();
-		poseStack.translate(0, 0.2D, 0);
-		super.renderNameTag(chocobo, component, poseStack, bufferSource, packedLightIn);
-		poseStack.popPose();
+	public void render(Chocobo chocobo, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
+		this.model = chocobo.isBaby() ? chicoboModel : chocoboModel;
+		super.render(chocobo, entityYaw, partialTicks, poseStack, bufferSource, packedLight);
 	}
 
 	@Override

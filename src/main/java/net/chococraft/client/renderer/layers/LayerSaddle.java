@@ -2,9 +2,9 @@ package net.chococraft.client.renderer.layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.chococraft.Chococraft;
-import net.chococraft.client.models.entities.AdultChocoboModel;
 import net.chococraft.common.entities.Chocobo;
 import net.chococraft.common.init.ModRegistry;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
@@ -12,18 +12,18 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-public class LayerSaddle extends RenderLayer<Chocobo, AdultChocoboModel<Chocobo>> {
+public class LayerSaddle extends RenderLayer<Chocobo, EntityModel<Chocobo>> {
 	private ResourceLocation SADDLE = new ResourceLocation(Chococraft.MODID, "textures/entities/chocobos/saddle.png");
 	private ResourceLocation SADDLE_BAG = new ResourceLocation(Chococraft.MODID, "textures/entities/chocobos/saddle_bag.png");
 	private ResourceLocation PACK_BAG = new ResourceLocation(Chococraft.MODID, "textures/entities/chocobos/pack_bag.png");
 
-	public LayerSaddle(RenderLayerParent<Chocobo, AdultChocoboModel<Chocobo>> rendererIn) {
+	public LayerSaddle(RenderLayerParent<Chocobo, EntityModel<Chocobo>> rendererIn) {
 		super(rendererIn);
 	}
 
 	@Override
 	public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, Chocobo chocoboEntity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-		if (!chocoboEntity.isInvisible() && chocoboEntity.isSaddled()) {
+		if (!chocoboEntity.isInvisible() && chocoboEntity.isSaddled() && !chocoboEntity.isBaby()) {
 			ResourceLocation saddleTexture = null;
 
 			ItemStack saddleStack = chocoboEntity.getSaddle();

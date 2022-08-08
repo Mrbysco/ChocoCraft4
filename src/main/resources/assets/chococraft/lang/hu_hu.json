@@ -48,6 +48,8 @@
   "info.chococraft.book.chocobo.white.description2": "Travel faster than Yellow, Green or Blue Chocobos and are able to swim and climb.",
   "info.chococraft.book.chocodisguise.entry.name": "Choco Disguise",
   "info.chococraft.book.chocodisguise.text1": "Choco Disguise is a set of armor that can be worn to reduce the risk of wild $(l:chococraft:info/chocobo)Chocobos$() running from you when approaching.",
+  "info.chococraft.book.feather.entry.name": "Chocobo Feather",
+  "info.chococraft.book.feather.text1": "$(l:chococraft:info/chocobo)Chocobos$() every so often shed feathers. They are useful for crafting a $(l:chococraft:info/chocodisguise)Choco Disguise$() armor set.",
   "info.chococraft.book.gold_gysahl.entry.name": "Gold Gysahl",
   "info.chococraft.book.gold_gysahl.text1": "$(bold)Gold Gysahl$() is a mutation of the garden-variety $(l:chococraft:info/gysahl_green)Gysahl Green$() and is used for breeding $(l:chococraft:info/chocobo)Chocobos$().$(br)$(bold)Gold Gysahl$() is obtainable by harvesting $(l:chococraft:info/gysahl_green)Gysahl Green$(), there's a 5%% to get a $(bold)Gold Gysahl$()$(br)Mutated variants of $(l:chococraft:info/gysahl_green)Gysahl Green$() can not be crafted into seeds.",
   "info.chococraft.book.gysahl_cake.entry.name": "Gysahl Cake",

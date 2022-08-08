@@ -30,7 +30,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.BiomeTags;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Containers;
 import net.minecraft.world.DifficultyInstance;
@@ -58,7 +57,6 @@ import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -563,6 +561,11 @@ public class Chocobo extends TamableAnimal {
 				if ((float) Math.random() < ChocoConfig.COMMON.tameChance.get().floatValue()) {
 					this.setOwnerUUID(player.getUUID());
 					this.setTame(true);
+					if (ChocoConfig.COMMON.nameTamedChocobos.get()) {
+						if (!hasCustomName()) {
+							setCustomName(DefaultNames.getRandomName(random, isMale()));
+						}
+					}
 					player.displayClientMessage(Component.translatable(Chococraft.MODID + ".entity_chocobo.tame_success"), true);
 				} else {
 					player.displayClientMessage(Component.translatable(Chococraft.MODID + ".entity_chocobo.tame_fail"), true);
