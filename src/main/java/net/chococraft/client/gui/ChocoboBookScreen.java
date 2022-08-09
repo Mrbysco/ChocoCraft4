@@ -64,7 +64,7 @@ public class ChocoboBookScreen extends Screen {
 	}
 
 	private void renderpage() {
-		this.font.drawWordWrap(new TranslatableComponent("gui.chocobook.page" + (currentpage)), 5, 20, 120, 0);
+		this.font.drawWordWrap(new TranslatableComponent("gui.chocobook.page" + (currentpage)), this.guiLeft + 5, this.guiTop + 20, 120, 0);
 	}
 
 }
