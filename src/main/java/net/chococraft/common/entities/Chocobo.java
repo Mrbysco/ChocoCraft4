@@ -527,96 +527,96 @@ public class Chocobo extends TamableAnimal {
 	public InteractionResult interactAt(Player player, Vec3 vec, InteractionHand hand) {
 		ItemStack heldItemStack = player.getItemInHand(hand);
 
-		if (this.getCommandSenderWorld().isClientSide) return InteractionResult.SUCCESS;
-
-		if (heldItemStack.getItem() == ModRegistry.GYSAHL_CAKE.get()) {
-			this.usePlayerItem(player, hand, heldItemStack);
-			ageBoundaryReached();
-			return InteractionResult.SUCCESS;
-		}
-
-		if (this.isSaddled() && heldItemStack.isEmpty() && !player.isShiftKeyDown() && !this.isBaby()) {
-			player.startRiding(this);
-			return InteractionResult.SUCCESS;
-		}
-
-		if (this.isTame() && player.isShiftKeyDown() && !this.isBaby()) {
-			if (player instanceof ServerPlayer) this.displayChocoboInventory((ServerPlayer) player);
-			return InteractionResult.SUCCESS;
-		}
-
-		if (getChocoboColor() == ChocoboColor.GOLD) {
-			if (heldItemStack.getItem() == ModRegistry.RED_GYSAHL.get()) {
-				setChocoboColor(ChocoboColor.RED);
-				return InteractionResult.SUCCESS;
-			} else if (heldItemStack.getItem() == ModRegistry.PINK_GYSAHL.get()) {
-				setChocoboColor(ChocoboColor.PINK);
+		if(!level.isClientSide) {
+			if (heldItemStack.getItem() == ModRegistry.GYSAHL_CAKE.get()) {
+				this.usePlayerItem(player, hand, heldItemStack);
+				ageBoundaryReached();
 				return InteractionResult.SUCCESS;
 			}
-		}
 
-		if (heldItemStack.getItem() == ModRegistry.GYSAHL_GREEN_ITEM.get()) {
-			if (!this.isTame()) {
-				this.usePlayerItem(player, hand, player.getInventory().getSelected());
-				if ((float) Math.random() < ChocoConfig.COMMON.tameChance.get().floatValue()) {
-					this.setOwnerUUID(player.getUUID());
-					this.setTame(true);
-					if (ChocoConfig.COMMON.nameTamedChocobos.get()) {
-						if (!hasCustomName()) {
-							setCustomName(DefaultNames.getRandomName(random, isMale()));
-						}
-					}
-					player.displayClientMessage(Component.translatable(Chococraft.MODID + ".entity_chocobo.tame_success"), true);
-				} else {
-					player.displayClientMessage(Component.translatable(Chococraft.MODID + ".entity_chocobo.tame_fail"), true);
-				}
+			if (this.isSaddled() && heldItemStack.isEmpty() && !player.isShiftKeyDown() && !this.isBaby()) {
+				player.startRiding(this);
 				return InteractionResult.SUCCESS;
-			} else {
-				if (getHealth() != getMaxHealth()) {
+			}
+
+			if (this.isTame() && player.isShiftKeyDown() && !this.isBaby()) {
+				if (player instanceof ServerPlayer) this.displayChocoboInventory((ServerPlayer) player);
+				return InteractionResult.SUCCESS;
+			}
+
+			if (getChocoboColor() == ChocoboColor.GOLD) {
+				if (heldItemStack.getItem() == ModRegistry.RED_GYSAHL.get()) {
+					setChocoboColor(ChocoboColor.RED);
+					return InteractionResult.SUCCESS;
+				} else if (heldItemStack.getItem() == ModRegistry.PINK_GYSAHL.get()) {
+					setChocoboColor(ChocoboColor.PINK);
+					return InteractionResult.SUCCESS;
+				}
+			}
+
+			if (heldItemStack.getItem() == ModRegistry.GYSAHL_GREEN_ITEM.get()) {
+				if (!this.isTame()) {
 					this.usePlayerItem(player, hand, player.getInventory().getSelected());
-					heal(5);
+					if ((float) Math.random() < ChocoConfig.COMMON.tameChance.get().floatValue()) {
+						this.setOwnerUUID(player.getUUID());
+						this.setTame(true);
+						if (ChocoConfig.COMMON.nameTamedChocobos.get()) {
+							if (!hasCustomName()) {
+								setCustomName(DefaultNames.getRandomName(random, isMale()));
+							}
+						}
+						player.displayClientMessage(Component.translatable(Chococraft.MODID + ".entity_chocobo.tame_success"), true);
+					} else {
+						player.displayClientMessage(Component.translatable(Chococraft.MODID + ".entity_chocobo.tame_fail"), true);
+					}
+					return InteractionResult.SUCCESS;
 				} else {
-					player.displayClientMessage(Component.translatable(Chococraft.MODID + ".entity_chocobo.heal_fail"), true);
+					if (getHealth() != getMaxHealth()) {
+						this.usePlayerItem(player, hand, player.getInventory().getSelected());
+						heal(5);
+					} else {
+						player.displayClientMessage(Component.translatable(Chococraft.MODID + ".entity_chocobo.heal_fail"), true);
+					}
 				}
 			}
-		}
 
-		if (this.isTame() && heldItemStack.getItem() == ModRegistry.CHOCOBO_WHISTLE.get() && !this.isBaby()) {
-			if (isOwnedBy(player)) {
-				if (this.followingmrhuman == 3) {
-					this.playSound(ModSounds.WHISTLE_SOUND_FOLLOW.get(), 1.0F, 1.0F);
-					this.setNoAi(false);
-					this.goalSelector.addGoal(0, this.follow);
-					followingmrhuman = 1;
-					player.displayClientMessage(Component.translatable(Chococraft.MODID + ".entity_chocobo.chocobo_followcmd"), true);
-				} else if (this.followingmrhuman == 1) {
-					this.playSound(ModSounds.WHISTLE_SOUND_WANDER.get(), 1.0F, 1.0F);
-					this.goalSelector.removeGoal(this.follow);
-					followingmrhuman = 2;
-					player.displayClientMessage(Component.translatable(Chococraft.MODID + ".entity_chocobo.chocobo_wandercmd"), true);
-				} else if (this.followingmrhuman == 2) {
-					this.playSound(ModSounds.WHISTLE_SOUND_STAY.get(), 1.0F, 1.0F);
-					this.setNoAi(true);
-					followingmrhuman = 3;
-					player.displayClientMessage(Component.translatable(Chococraft.MODID + ".entity_chocobo.chocobo_staycmd"), true);
+			if (this.isTame() && heldItemStack.getItem() == ModRegistry.CHOCOBO_WHISTLE.get() && !this.isBaby()) {
+				if (isOwnedBy(player)) {
+					if (this.followingmrhuman == 3) {
+						this.playSound(ModSounds.WHISTLE_SOUND_FOLLOW.get(), 1.0F, 1.0F);
+						this.setNoAi(false);
+						this.goalSelector.addGoal(0, this.follow);
+						followingmrhuman = 1;
+						player.displayClientMessage(Component.translatable(Chococraft.MODID + ".entity_chocobo.chocobo_followcmd"), true);
+					} else if (this.followingmrhuman == 1) {
+						this.playSound(ModSounds.WHISTLE_SOUND_WANDER.get(), 1.0F, 1.0F);
+						this.goalSelector.removeGoal(this.follow);
+						followingmrhuman = 2;
+						player.displayClientMessage(Component.translatable(Chococraft.MODID + ".entity_chocobo.chocobo_wandercmd"), true);
+					} else if (this.followingmrhuman == 2) {
+						this.playSound(ModSounds.WHISTLE_SOUND_STAY.get(), 1.0F, 1.0F);
+						this.setNoAi(true);
+						followingmrhuman = 3;
+						player.displayClientMessage(Component.translatable(Chococraft.MODID + ".entity_chocobo.chocobo_staycmd"), true);
+					}
+				} else {
+					player.displayClientMessage(Component.translatable(Chococraft.MODID + ".entity_chocobo.not_owner"), true);
 				}
-			} else {
-				player.displayClientMessage(Component.translatable(Chococraft.MODID + ".entity_chocobo.not_owner"), true);
+				return InteractionResult.SUCCESS;
 			}
-			return InteractionResult.SUCCESS;
-		}
 
-		if (this.isTame() && this.canFallInLove() && heldItemStack.getItem() == ModRegistry.LOVERLY_GYSAHL_GREEN.get() && !this.isBaby()) {
-			this.usePlayerItem(player, hand, player.getInventory().getSelected());
-			this.setInLove(player);
-			return InteractionResult.SUCCESS;
-		}
+			if (this.isTame() && this.canFallInLove() && heldItemStack.getItem() == ModRegistry.LOVERLY_GYSAHL_GREEN.get() && !this.isBaby()) {
+				this.usePlayerItem(player, hand, player.getInventory().getSelected());
+				this.setInLove(player);
+				return InteractionResult.SUCCESS;
+			}
 
-		if (heldItemStack.getItem() instanceof ChocoboSaddleItem && this.isTame() && !this.isSaddled() && !this.isBaby()) {
-			this.saddleItemStackHandler.setStackInSlot(0, heldItemStack.copy().split(1));
-			this.setSaddleType(heldItemStack);
-			this.usePlayerItem(player, hand, heldItemStack);
-			return InteractionResult.SUCCESS;
+			if (heldItemStack.getItem() instanceof ChocoboSaddleItem && this.isTame() && !this.isSaddled() && !this.isBaby()) {
+				this.saddleItemStackHandler.setStackInSlot(0, heldItemStack.copy().split(1));
+				this.setSaddleType(heldItemStack);
+				this.usePlayerItem(player, hand, heldItemStack);
+				return InteractionResult.SUCCESS;
+			}
 		}
 
 		if (this.isTame() && heldItemStack.getItem() == Items.NAME_TAG && !isOwnedBy(player)) {

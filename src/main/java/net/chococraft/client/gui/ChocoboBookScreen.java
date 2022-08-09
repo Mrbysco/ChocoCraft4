@@ -41,28 +41,28 @@ public class ChocoboBookScreen extends Screen {
 	}
 
 	@Override
-	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		this.renderBackground(matrixStack);
-		super.render(matrixStack, mouseX, mouseY, partialTicks);
+	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
+		this.renderBackground(poseStack);
+		super.render(poseStack, mouseX, mouseY, partialTicks);
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		RenderSystem.setShaderTexture(0, TEXTURE);
 
-		matrixStack.pushPose();
-		matrixStack.translate(this.guiLeft, this.guiTop, 0);
+		poseStack.pushPose();
+		poseStack.translate(this.guiLeft, this.guiTop, 0);
 
-		this.blit(matrixStack, 0, 0, 0, 0, this.xSize, this.ySize);
+		this.blit(poseStack, 0, 0, 0, 0, this.xSize, this.ySize);
 
 		Component name = Component.translatable("gui.chocobook.title", currentpage);
 		int nameLength = this.font.width(name);
-		this.font.drawShadow(matrixStack, name, (this.xSize / 2) - (nameLength / 2), 4, -1);
+		this.font.drawShadow(poseStack, name, (this.xSize / 2) - (nameLength / 2), 4, -1);
 
 		this.renderpage();
 
-		matrixStack.popPose();
+		poseStack.popPose();
 	}
 
 	private void renderpage() {
-		this.font.drawWordWrap(Component.translatable("gui.chocobook.page" + (currentpage)), 5, 20, 120, 0);
+		this.font.drawWordWrap(Component.translatable("gui.chocobook.page" + (currentpage)), this.guiLeft + 5, this.guiTop + 20, 120, 0);
 	}
 
 }
