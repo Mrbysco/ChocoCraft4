@@ -1,9 +1,9 @@
 {
   "type": "minecraft:smoking",
   "ingredient": {
-    "item": "chococraft:chocobo_drumstick_cooked"
+    "item": "chococraft:chocobo_drumstick_raw"
   },
-  "result": "chococraft:chocobo_drumstick_raw",
+  "result": "chococraft:chocobo_drumstick_cooked",
   "experience": 0.35,
   "cookingtime": 100
 }
