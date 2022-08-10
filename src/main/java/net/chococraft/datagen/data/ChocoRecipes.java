@@ -74,14 +74,14 @@ public class ChocoRecipes extends RecipeProvider {
 				.unlockedBy("has_gysahl_green", has(ModRegistry.GYSAHL_GREEN_ITEM.get()))
 				.save(recipeConsumer, "chococraft:gysahl_green_to_seeds");
 
-		SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModRegistry.CHOCOBO_DRUMSTICK_COOKED.get()),
-						ModRegistry.CHOCOBO_DRUMSTICK_RAW.get(), 0.35F, 200).unlockedBy("has_raw_drumstick", has(ModRegistry.CHOCOBO_DRUMSTICK_RAW.get()))
-				.save(recipeConsumer, "chococraft:chocobo_drumstick_cooked");
-		SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(ModRegistry.CHOCOBO_DRUMSTICK_COOKED.get()),
-						ModRegistry.CHOCOBO_DRUMSTICK_RAW.get(), 0.35F, 600).unlockedBy("has_raw_drumstick", has(ModRegistry.CHOCOBO_DRUMSTICK_RAW.get()))
+		SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModRegistry.CHOCOBO_DRUMSTICK_RAW.get()),
+						ModRegistry.CHOCOBO_DRUMSTICK_COOKED.get(), 0.35F, 200).unlockedBy("has_raw_drumstick", has(ModRegistry.CHOCOBO_DRUMSTICK_RAW.get()))
+				.save(recipeConsumer);
+		SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(ModRegistry.CHOCOBO_DRUMSTICK_RAW.get()),
+						ModRegistry.CHOCOBO_DRUMSTICK_COOKED.get(), 0.35F, 600).unlockedBy("has_raw_drumstick", has(ModRegistry.CHOCOBO_DRUMSTICK_RAW.get()))
 				.save(recipeConsumer, "chococraft:chocobo_drumstick_cooked_from_campfire_cooking");
-		SimpleCookingRecipeBuilder.smoking(Ingredient.of(ModRegistry.CHOCOBO_DRUMSTICK_COOKED.get()),
-						ModRegistry.CHOCOBO_DRUMSTICK_RAW.get(), 0.35F, 100).unlockedBy("has_raw_drumstick", has(ModRegistry.CHOCOBO_DRUMSTICK_RAW.get()))
+		SimpleCookingRecipeBuilder.smoking(Ingredient.of(ModRegistry.CHOCOBO_DRUMSTICK_RAW.get()),
+						ModRegistry.CHOCOBO_DRUMSTICK_COOKED.get(), 0.35F, 100).unlockedBy("has_raw_drumstick", has(ModRegistry.CHOCOBO_DRUMSTICK_RAW.get()))
 				.save(recipeConsumer, "chococraft:chocobo_drumstick_cooked_from_smoking");
 
 		ShapelessRecipeBuilder.shapeless(ModRegistry.PICKLED_GYSAHL_RAW.get(), 3)
@@ -90,14 +90,14 @@ public class ChocoRecipes extends RecipeProvider {
 				.unlockedBy("has_gysahl_green", has(ModRegistry.GYSAHL_GREEN_ITEM.get()))
 				.save(recipeConsumer);
 
-		SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModRegistry.PICKLED_GYSAHL_COOKED.get()),
-						ModRegistry.PICKLED_GYSAHL_RAW.get(), 0.35F, 200).unlockedBy("has_raw_drumstick", has(ModRegistry.PICKLED_GYSAHL_RAW.get()))
-				.save(recipeConsumer, "chococraft:pickled_gysahl_cooked");
-		SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(ModRegistry.PICKLED_GYSAHL_COOKED.get()),
-						ModRegistry.PICKLED_GYSAHL_RAW.get(), 0.35F, 600).unlockedBy("has_raw_drumstick", has(ModRegistry.PICKLED_GYSAHL_RAW.get()))
+		SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModRegistry.PICKLED_GYSAHL_RAW.get()),
+						ModRegistry.PICKLED_GYSAHL_COOKED.get(), 0.35F, 200).unlockedBy("has_raw_drumstick", has(ModRegistry.PICKLED_GYSAHL_RAW.get()))
+				.save(recipeConsumer);
+		SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(ModRegistry.PICKLED_GYSAHL_RAW.get()),
+						ModRegistry.PICKLED_GYSAHL_COOKED.get(), 0.35F, 600).unlockedBy("has_raw_drumstick", has(ModRegistry.PICKLED_GYSAHL_RAW.get()))
 				.save(recipeConsumer, "chococraft:pickled_gysahl_cooked_from_campfire_cooking");
-		SimpleCookingRecipeBuilder.smoking(Ingredient.of(ModRegistry.PICKLED_GYSAHL_COOKED.get()),
-						ModRegistry.PICKLED_GYSAHL_RAW.get(), 0.35F, 100).unlockedBy("has_raw_drumstick", has(ModRegistry.PICKLED_GYSAHL_RAW.get()))
+		SimpleCookingRecipeBuilder.smoking(Ingredient.of(ModRegistry.PICKLED_GYSAHL_RAW.get()),
+						ModRegistry.PICKLED_GYSAHL_COOKED.get(), 0.35F, 100).unlockedBy("has_raw_drumstick", has(ModRegistry.PICKLED_GYSAHL_RAW.get()))
 				.save(recipeConsumer, "chococraft:pickled_gysahl_cooked_from_smoking");
 
 
