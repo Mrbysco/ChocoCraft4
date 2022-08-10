@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "chococraft:pink_gysahl"
+    ]
+  },
+  "criteria": {
+    "has_gysahl_green": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "chococraft:gysahl_green"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "chococraft:pink_gysahl"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_gysahl_green",
+      "has_the_recipe"
+    ]
+  ]
+}

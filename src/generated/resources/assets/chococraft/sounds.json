@@ -1,0 +1,26 @@
+{
+  "entity.chocobo.kweh": {
+    "subtitle": "chococraft.subtitle.entity.chocobo.kweh",
+    "sounds": [
+      "chococraft:entity/chocobo/kweh"
+    ]
+  },
+  "entity.chocobo.kwehwhistlefollow": {
+    "subtitle": "chococraft.subtitle.entity.chocobo.kwehwhistlefollow",
+    "sounds": [
+      "chococraft:entity/chocobo/kwehwhistlefollow"
+    ]
+  },
+  "entity.chocobo.kwehwhistlestay": {
+    "subtitle": "chococraft.subtitle.entity.chocobo.kwehwhistlestay",
+    "sounds": [
+      "chococraft:entity/chocobo/kwehwhistlestay"
+    ]
+  },
+  "entity.chocobo.kwehwhistlewander": {
+    "subtitle": "chococraft.subtitle.entity.chocobo.kwehwhistlewander",
+    "sounds": [
+      "chococraft:entity/chocobo/kwehwhistlewander"
+    ]
+  }
+}

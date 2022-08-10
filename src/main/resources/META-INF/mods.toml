@@ -1,6 +1,6 @@
 modLoader="javafml"
 loaderVersion="[36,)"
-issueTrackerURL="https://github.com/Mrbysco/ChocoCraft4"
+issueTrackerURL="https://github.com/Mrbysco/ChocoCraft4/issues"
 license="MIT"
 
 [[mods]]

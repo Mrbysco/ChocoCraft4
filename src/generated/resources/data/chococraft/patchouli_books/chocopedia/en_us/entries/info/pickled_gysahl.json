@@ -1,0 +1,27 @@
+{
+  "name": "info.chococraft.book.pickled_gysahl.entry.name",
+  "category": "info",
+  "icon": "chococraft:pickled_gysahl_raw",
+  "pages": [
+    {
+      "type": "text",
+      "text": "info.chococraft.book.pickled_gysahl.text1"
+    },
+    {
+      "type": "crafting",
+      "recipe": "chococraft:pickled_gysahl_raw"
+    },
+    {
+      "type": "smelting",
+      "recipe": "chococraft:pickled_gysahl_cooked"
+    },
+    {
+      "type": "patchouli:smoking",
+      "recipe": "chococraft:pickled_gysahl_cooked_from_smoking"
+    },
+    {
+      "type": "patchouli:campfire",
+      "recipe": "chococraft:pickled_gysahl_cooked_from_campfire_cooking"
+    }
+  ]
+}

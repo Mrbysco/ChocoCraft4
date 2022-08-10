@@ -1,0 +1,25 @@
+{
+  "name": "info.chococraft.book.saddle.entry.name",
+  "category": "info",
+  "icon": "chococraft:chocobo_saddle",
+  "pages": [
+    {
+      "type": "text",
+      "text": "info.chococraft.book.saddle.text1"
+    },
+    {
+      "type": "crafting",
+      "recipe": "chococraft:chocobo_saddle",
+      "recipe2": "chococraft:chocobo_saddle_alt"
+    },
+    {
+      "type": "text",
+      "text": "info.chococraft.book.saddle.text2"
+    },
+    {
+      "type": "crafting",
+      "recipe": "chococraft:chocobo_saddle_bags",
+      "recipe2": "chococraft:chocobo_saddle_pack"
+    }
+  ]
+}

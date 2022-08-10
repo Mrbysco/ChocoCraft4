@@ -1,0 +1,15 @@
+{
+  "name": "info.chococraft.book.loverly_gysahl.entry.name",
+  "category": "info",
+  "icon": "chococraft:loverly_gysahl_green",
+  "pages": [
+    {
+      "type": "text",
+      "text": "info.chococraft.book.loverly_gysahl.text1"
+    },
+    {
+      "type": "spotlight",
+      "item": "chococraft:loverly_gysahl_green"
+    }
+  ]
+}

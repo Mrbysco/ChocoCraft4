@@ -1,0 +1,35 @@
+{
+  "name": "info.chococraft.book.legacy.entry.name",
+  "category": "legacy",
+  "icon": "chococraft:chocopedia",
+  "pages": [
+    {
+      "type": "text",
+      "text": "gui.chocobook.page1"
+    },
+    {
+      "type": "text",
+      "text": "gui.chocobook.page2"
+    },
+    {
+      "type": "text",
+      "text": "gui.chocobook.page3"
+    },
+    {
+      "type": "text",
+      "text": "gui.chocobook.page4"
+    },
+    {
+      "type": "text",
+      "text": "gui.chocobook.page5"
+    },
+    {
+      "type": "text",
+      "text": "gui.chocobook.page6"
+    },
+    {
+      "type": "text",
+      "text": "gui.chocobook.page7"
+    }
+  ]
+}

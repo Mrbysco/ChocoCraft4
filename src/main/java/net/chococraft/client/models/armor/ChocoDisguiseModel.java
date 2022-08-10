@@ -187,7 +187,7 @@ public class ChocoDisguiseModel extends BipedModel<LivingEntity> {
 	}
 
 	@Override
-	public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
+	public void renderToBuffer(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
 		matrixStack.pushPose();
 
 		this.setHeadRotation();
@@ -213,8 +213,7 @@ public class ChocoDisguiseModel extends BipedModel<LivingEntity> {
 			matrixStack.scale(1.0F / f, 1.0F / f, 1.0F / f);
 			matrixStack.translate(0.0F, 24.0F * 1, 0.0F);
 			chocobo_body.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-		}
-		else {
+		} else {
 			chocobo_head.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 			chocobo_body.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 			chocobo_right_arm.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);

@@ -1,0 +1,15 @@
+{
+  "name": "info.chococraft.book.pink_gysahl.entry.name",
+  "category": "info",
+  "icon": "chococraft:pink_gysahl",
+  "pages": [
+    {
+      "type": "text",
+      "text": "info.chococraft.book.pink_gysahl.text1"
+    },
+    {
+      "type": "crafting",
+      "recipe": "chococraft:pink_gysahl"
+    }
+  ]
+}

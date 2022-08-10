@@ -1,0 +1,28 @@
+{
+  "name": "info.chococraft.book.chocodisguise.entry.name",
+  "category": "info",
+  "icon": "chococraft:choco_disguise_helmet",
+  "pages": [
+    {
+      "type": "text",
+      "text": "info.chococraft.book.chocodisguise.text1"
+    },
+    {
+      "type": "image",
+      "images": [
+        "chococraft:textures/gui/entry/chocodisguise.png"
+      ],
+      "border": true
+    },
+    {
+      "type": "crafting",
+      "recipe": "chococraft:choco_disguise_helmet",
+      "recipe2": "chococraft:choco_disguise_chestplate"
+    },
+    {
+      "type": "crafting",
+      "recipe": "chococraft:choco_disguise_leggings",
+      "recipe2": "chococraft:choco_disguise_boots"
+    }
+  ]
+}

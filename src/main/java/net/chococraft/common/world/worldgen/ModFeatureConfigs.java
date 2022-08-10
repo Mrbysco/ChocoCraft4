@@ -1,8 +1,8 @@
 package net.chococraft.common.world.worldgen;
 
 import net.chococraft.Chococraft;
-import net.chococraft.common.ChocoConfig;
 import net.chococraft.common.blocks.GysahlGreenBlock;
+import net.chococraft.common.config.ChocoConfig;
 import net.chococraft.common.init.ModRegistry;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.ResourceLocation;
@@ -26,7 +26,7 @@ public class ModFeatureConfigs {
 			.configured(GYSAHL_GREEN_PATCH_CONFIG)
 			.decorated(Features.Placements.ADD_32)
 			.decorated(Features.Placements.HEIGHTMAP_SQUARE)
-			.chance((int)ChocoConfig.COMMON.gysahlGreenSpawnChance.get().doubleValue() * 10));
+			.chance((int) ChocoConfig.COMMON.gysahlGreenRarity.get().doubleValue() * 10));
 
 	private static <FC extends IFeatureConfig> ConfiguredFeature<FC, ?> register(String key, ConfiguredFeature<FC, ?> feature) {
 		return Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation(Chococraft.MODID, key), feature);

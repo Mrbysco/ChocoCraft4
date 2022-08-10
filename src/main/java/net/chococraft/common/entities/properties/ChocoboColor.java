@@ -1,52 +1,34 @@
 package net.chococraft.common.entities.properties;
 
-import net.chococraft.Chococraft;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.common.Tags.IOptionalNamedTag;
-import net.minecraftforge.common.Tags.Items;
+import net.chococraft.common.entities.breeding.ChocoboAbilityInfo;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 
-import java.util.Optional;
 import java.util.Random;
 
 public enum ChocoboColor {
-    YELLOW(Items.DYES_YELLOW),
-    GREEN(Items.DYES_LIME),
-    BLUE(Items.DYES_BLUE),
-    WHITE(Items.DYES_WHITE),
-    BLACK(Items.DYES_BLACK),
-    GOLD(Items.INGOTS_GOLD),
-    PINK(Items.DYES_PINK),
-    RED(Items.DYES_RED),
-    PURPLE(Items.DYES_PURPLE),
-    FLAME(null);
+	YELLOW(new ChocoboAbilityInfo().setSpeeds(20, 10, 0).setMaxHP(30).setStepHeight(1, 0.5f)),
+	GREEN(new ChocoboAbilityInfo().setSpeeds(27, 10, 0).setMaxHP(30).setStepHeight(2, 0.5f)),
+	BLUE(new ChocoboAbilityInfo().setSpeeds(27, 55, 0).setMaxHP(30).setStepHeight(1, 0.5f).setCanWalkOnWater(true).addRiderAbility(() -> new EffectInstance(Effects.WATER_BREATHING, 100, 0, true, false))),
+	WHITE(new ChocoboAbilityInfo().setSpeeds(35, 45, 0).setMaxHP(40).setStepHeight(2, 0.5f).setCanClimb(true).setCanWalkOnWater(true)),
+	BLACK(new ChocoboAbilityInfo().setSpeeds(40, 20, 0).setMaxHP(40).setStepHeight(2, 0.5f).setCanWalkOnWater(true).setCanClimb(true).addRiderAbility(() -> new EffectInstance(Effects.NIGHT_VISION, 100, 0, true, false))),
+	GOLD(new ChocoboAbilityInfo().setSpeeds(50, 20, 55).setMaxHP(50).setStepHeight(2, 0.5f).setCanWalkOnWater(true).setCanClimb(true).setCanFly(true).setImmuneToFire(true)),
+	PINK(new ChocoboAbilityInfo().setSpeeds(55, 25, 60).setMaxHP(50).setStepHeight(2, 0.5f).setCanClimb(true).setCanWalkOnWater(true).setCanFly(true)),
+	RED(new ChocoboAbilityInfo().setSpeeds(55, 25, 60).setMaxHP(50).setStepHeight(2, 0.5f).setCanClimb(true).setCanWalkOnWater(true).setCanFly(true)),
+	PURPLE(new ChocoboAbilityInfo().setSpeeds(40, 10, 55).setMaxHP(50).setStepHeight(1, 0.5f).setCanClimb(true).setCanFly(true).setImmuneToFire(true).addRiderAbility(() -> new EffectInstance(Effects.FIRE_RESISTANCE, 100, -1, true, false))),
+	FLAME(new ChocoboAbilityInfo().setSpeeds(40, 10, 55).setMaxHP(50).setStepHeight(1, 0.5f).setCanClimb(true).setCanFly(true).setImmuneToFire(true).addRiderAbility(() -> new EffectInstance(Effects.FIRE_RESISTANCE, 100, -1, true, false)));
 
-    private static Random rand = new Random();
-    private IOptionalNamedTag<Item> colorTag;
+	private final ChocoboAbilityInfo abilityInfo;
 
-    private final TranslationTextComponent eggText;
+	ChocoboColor(ChocoboAbilityInfo abilityInfo) {
+		this.abilityInfo = abilityInfo;
+	}
 
-    ChocoboColor(IOptionalNamedTag<Item> colorIngredient) {
-        this.colorTag = colorIngredient;
-        this.eggText = new TranslationTextComponent("item." + Chococraft.MODID + ".chocobo_egg.tooltip."+this.name().toLowerCase());
-    }
+	public static ChocoboColor getRandomColor(Random random) {
+		return values()[random.nextInt(values().length)];
+	}
 
-    public static ChocoboColor getRandomColor() {
-        return values()[rand.nextInt(values().length)];
-    }
-
-    public static Optional<ChocoboColor> getColorForItemstack(ItemStack stack) {
-        for (ChocoboColor color : values()) {
-            if(color.colorTag != null && stack.getItem().is(color.colorTag))
-                return Optional.of(color);
-        }
-        return Optional.empty();
-    }
-
-    public TranslationTextComponent getEggText() {
-        return eggText;
-    }
-
+	public ChocoboAbilityInfo getAbilityInfo() {
+		return abilityInfo;
+	}
 }

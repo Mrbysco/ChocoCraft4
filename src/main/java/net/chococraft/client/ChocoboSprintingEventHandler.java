@@ -12,26 +12,26 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = Chococraft.MODID, value = Dist.CLIENT)
 public class ChocoboSprintingEventHandler {
-    private static boolean isSprinting = false;
+	private static boolean isSprinting = false;
 
-    @SubscribeEvent
-    public static void onKeyPress(KeyInputEvent event) {
-        Minecraft minecraft = Minecraft.getInstance();
-        if (minecraft.player != null && minecraft.player.getVehicle() != null) {
-            KeyBinding keyBinding = minecraft.options.keySprint;
-            if (keyBinding.consumeClick()) {
-                if (!isSprinting) {
-                    isSprinting = true;
-                    PacketManager.CHANNEL.sendToServer(new ChocoboSprintingMessage(true));
-                }
-            } else {
-                if (isSprinting) {
-                    isSprinting = false;
-                    PacketManager.CHANNEL.sendToServer(new ChocoboSprintingMessage(false));
-                }
-            }
-        } else {
-            isSprinting = false;
-        }
-    }
+	@SubscribeEvent
+	public static void onKeyPress(KeyInputEvent event) {
+		Minecraft minecraft = Minecraft.getInstance();
+		if (minecraft.player != null && minecraft.player.getVehicle() != null) {
+			KeyBinding keyBinding = minecraft.options.keySprint;
+			if (keyBinding.consumeClick()) {
+				if (!isSprinting) {
+					isSprinting = true;
+					PacketManager.CHANNEL.sendToServer(new ChocoboSprintingMessage(true));
+				}
+			} else {
+				if (isSprinting) {
+					isSprinting = false;
+					PacketManager.CHANNEL.sendToServer(new ChocoboSprintingMessage(false));
+				}
+			}
+		} else {
+			isSprinting = false;
+		}
+	}
 }

@@ -28,10 +28,9 @@ public class OpenChocoboGuiMessage {
 
 		this.saddle = chocobo.saddleItemStackHandler.serializeNBT();
 		ItemStack saddleStack = chocobo.getSaddle();
-		if(!saddleStack.isEmpty() && saddleStack.getItem() instanceof ChocoboSaddleItem) {
-			ChocoboSaddleItem saddleItem = (ChocoboSaddleItem) saddleStack.getItem();
-			if(saddleItem.getInventorySize() > 0) {
-				this.inventory = chocobo.chocoboInventory.serializeNBT();
+		if (!saddleStack.isEmpty() && saddleStack.getItem() instanceof ChocoboSaddleItem) {
+			if (((ChocoboSaddleItem) saddleStack.getItem()).getInventorySize() > 0) {
+				this.inventory = chocobo.inventory.serializeNBT();
 			}
 		}
 	}
@@ -60,7 +59,7 @@ public class OpenChocoboGuiMessage {
 	public void handle(Supplier<Context> context) {
 		NetworkEvent.Context ctx = context.get();
 		ctx.enqueueWork(() -> {
-			if(ctx.getDirection().getReceptionSide() == LogicalSide.CLIENT) {
+			if (ctx.getDirection().getReceptionSide() == LogicalSide.CLIENT) {
 				Minecraft mc = Minecraft.getInstance();
 				Entity entity = mc.level.getEntity(entityId);
 				if (!(entity instanceof ChocoboEntity)) {
@@ -73,7 +72,7 @@ public class OpenChocoboGuiMessage {
 
 				chocobo.saddleItemStackHandler.deserializeNBT(saddle);
 				if (inventory != null)
-					chocobo.chocoboInventory.deserializeNBT(inventory);
+					chocobo.inventory.deserializeNBT(inventory);
 			}
 		});
 		ctx.setPacketHandled(true);

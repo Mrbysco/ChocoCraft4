@@ -1,0 +1,16 @@
+{
+  "name": "info.chococraft.book.chicobo.entry.name",
+  "category": "info",
+  "icon": "chococraft:yellow_chocobo_spawn_egg",
+  "pages": [
+    {
+      "type": "text",
+      "text": "info.chococraft.book.chicobo.text1"
+    },
+    {
+      "type": "entity",
+      "entity": "chococraft:chocobo{Color:0b,Age:-1}",
+      "name": "Chicobo (Yellow)"
+    }
+  ]
+}

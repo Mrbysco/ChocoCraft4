@@ -13,43 +13,43 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 
 public class GysahlGreenBlock extends CropsBlock {
-    public static final int MAX_AGE = 4;
-    public static final IntegerProperty AGE = IntegerProperty.create("age", 0, MAX_AGE);
+	public static final int MAX_AGE = 4;
+	public static final IntegerProperty AGE = IntegerProperty.create("age", 0, MAX_AGE);
 
-    @SuppressWarnings("unused") // used by class factory
-    public GysahlGreenBlock(Properties properties) {
-        super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(this.getAgeProperty(), 0));
-    }
+	@SuppressWarnings("unused") // used by class factory
+	public GysahlGreenBlock(Properties properties) {
+		super(properties);
+		this.registerDefaultState(this.stateDefinition.any().setValue(this.getAgeProperty(), 0));
+	}
 
-    @Override
-    protected IItemProvider getBaseSeedId() {
-        return ModRegistry.GYSAHL_GREEN_SEEDS::get;
-    }
+	@Override
+	protected IItemProvider getBaseSeedId() {
+		return ModRegistry.GYSAHL_GREEN_SEEDS::get;
+	}
 
-    @Override
-    public boolean canSurvive(BlockState state, IWorldReader worldIn, BlockPos pos) {
-        return (worldIn.getRawBrightness(pos, 0) >= 8 || worldIn.canSeeSky(pos)) && ((state.getBlock() == this || state.getValue(AGE) == MAX_AGE) &&
-                super.canSurvive(state, worldIn, pos));
-    }
+	@Override
+	public boolean canSurvive(BlockState state, IWorldReader level, BlockPos pos) {
+		return (level.getRawBrightness(pos, 0) >= 8 || level.canSeeSky(pos)) && ((state.getBlock() == this || state.getValue(AGE) == MAX_AGE) &&
+				super.canSurvive(state, level, pos));
+	}
 
-    @Override
-    protected boolean mayPlaceOn(BlockState state, IBlockReader worldIn, BlockPos pos) {
-        return super.mayPlaceOn(state, worldIn, pos) || state.is(Blocks.GRASS_BLOCK);
-    }
+	@Override
+	protected boolean mayPlaceOn(BlockState state, IBlockReader level, BlockPos pos) {
+		return super.mayPlaceOn(state, level, pos) || state.is(Blocks.GRASS_BLOCK);
+	}
 
-    @Override
-    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
-        builder.add(AGE);
-    }
+	@Override
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+		builder.add(AGE);
+	}
 
-    @Override
-    public IntegerProperty getAgeProperty() {
-        return AGE;
-    }
+	@Override
+	public IntegerProperty getAgeProperty() {
+		return AGE;
+	}
 
-    @Override
-    public int getMaxAge() {
-        return MAX_AGE;
-    }
+	@Override
+	public int getMaxAge() {
+		return MAX_AGE;
+	}
 }

@@ -7,6 +7,7 @@ import java.util.function.Supplier;
 
 public class CustomBlockNamedItem extends BlockNamedItem {
 	private final Supplier<Block> blockSupplier;
+
 	public CustomBlockNamedItem(Supplier<Block> blockSupplier, Properties properties) {
 		super(null, properties);
 		this.blockSupplier = blockSupplier;
