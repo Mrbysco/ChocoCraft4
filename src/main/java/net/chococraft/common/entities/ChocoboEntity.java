@@ -246,8 +246,8 @@ public class ChocoboEntity extends TameableEntity {
 		return this.entityData.get(PARAM_FED_GOLD_GYSAHL);
 	}
 
-	public void setFedGoldGysahl(boolean isMale) {
-		this.entityData.set(PARAM_FED_GOLD_GYSAHL, isMale);
+	public void setFedGoldGysahl(boolean value) {
+		this.entityData.set(PARAM_FED_GOLD_GYSAHL, value);
 	}
 
 	public MovementType getMovementType() {
@@ -632,10 +632,17 @@ public class ChocoboEntity extends TameableEntity {
 				return ActionResultType.SUCCESS;
 			}
 
-			if (this.isTame() && this.canFallInLove() && heldItemStack.getItem() == ModRegistry.LOVERLY_GYSAHL_GREEN.get() && !this.isBaby()) {
-				this.usePlayerItem(player, player.inventory.getSelected());
-				this.setInLove(player);
-				return ActionResultType.SUCCESS;
+			if (this.isTame() && this.canFallInLove() && !this.isBaby()) {
+				if (heldItemStack.getItem() == ModRegistry.GOLD_GYSAHL.get()) {
+					this.usePlayerItem(player, player.inventory.getSelected());
+					this.setFedGoldGysahl(true);
+					this.setInLove(player);
+					return ActionResultType.SUCCESS;
+				} else if (heldItemStack.getItem() == ModRegistry.LOVERLY_GYSAHL_GREEN.get()) {
+					this.usePlayerItem(player, player.inventory.getSelected());
+					this.setInLove(player);
+					return ActionResultType.SUCCESS;
+				}
 			}
 
 			if (heldItemStack.getItem() instanceof ChocoboSaddleItem && this.isTame() && !this.isSaddled() && !this.isBaby()) {
