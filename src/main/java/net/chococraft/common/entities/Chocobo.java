@@ -236,8 +236,8 @@ public class Chocobo extends TamableAnimal {
 		return this.entityData.get(PARAM_FED_GOLD_GYSAHL);
 	}
 
-	public void setFedGoldGysahl(boolean isMale) {
-		this.entityData.set(PARAM_FED_GOLD_GYSAHL, isMale);
+	public void setFedGoldGysahl(boolean value) {
+		this.entityData.set(PARAM_FED_GOLD_GYSAHL, value);
 	}
 
 	public MovementType getMovementType() {
@@ -527,7 +527,7 @@ public class Chocobo extends TamableAnimal {
 	public InteractionResult interactAt(Player player, Vec3 vec, InteractionHand hand) {
 		ItemStack heldItemStack = player.getItemInHand(hand);
 
-		if(!level.isClientSide) {
+		if (!level.isClientSide) {
 			if (heldItemStack.getItem() == ModRegistry.GYSAHL_CAKE.get()) {
 				this.usePlayerItem(player, hand, heldItemStack);
 				ageBoundaryReached();
@@ -605,10 +605,17 @@ public class Chocobo extends TamableAnimal {
 				return InteractionResult.SUCCESS;
 			}
 
-			if (this.isTame() && this.canFallInLove() && heldItemStack.getItem() == ModRegistry.LOVERLY_GYSAHL_GREEN.get() && !this.isBaby()) {
-				this.usePlayerItem(player, hand, player.getInventory().getSelected());
-				this.setInLove(player);
-				return InteractionResult.SUCCESS;
+			if (this.isTame() && this.canFallInLove() && !this.isBaby()) {
+				if (heldItemStack.getItem() == ModRegistry.GOLD_GYSAHL.get()) {
+					this.usePlayerItem(player, hand, player.getInventory().getSelected());
+					this.setFedGoldGysahl(true);
+					this.setInLove(player);
+					return InteractionResult.SUCCESS;
+				} else if (heldItemStack.getItem() == ModRegistry.LOVERLY_GYSAHL_GREEN.get()) {
+					this.usePlayerItem(player, hand, player.getInventory().getSelected());
+					this.setInLove(player);
+					return InteractionResult.SUCCESS;
+				}
 			}
 
 			if (heldItemStack.getItem() instanceof ChocoboSaddleItem && this.isTame() && !this.isSaddled() && !this.isBaby()) {
