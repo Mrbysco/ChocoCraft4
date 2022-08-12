@@ -38,6 +38,11 @@ public class BreedingHelper {
 								if (!bothParentsFedGold) {
 									continue;
 								}
+							} else if (conditions.equals("bothParentsNotFedGold")) {
+								flag = true;
+								if (bothParentsFedGold) {
+									continue;
+								}
 							}
 						} else {
 							if (flag && bothParentsFedGold) {
