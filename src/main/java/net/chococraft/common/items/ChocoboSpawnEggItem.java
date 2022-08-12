@@ -40,7 +40,7 @@ public class ChocoboSpawnEggItem extends Item {
 				}
 			}
 
-			chocobo.moveTo(pos.getX() + .5, pos.getY() + 0.5F, pos.getZ() + .5, Mth.wrapDegrees(level.random.nextFloat() * 360.0F), 0.0F);
+			chocobo.moveTo(pos.getX() + .5, pos.getY() + 1.5F, pos.getZ() + .5, Mth.wrapDegrees(level.random.nextFloat() * 360.0F), 0.0F);
 			chocobo.yHeadRot = chocobo.getYRot();
 			chocobo.yBodyRot = chocobo.getYRot();
 			chocobo.setChocoboColor(color);
