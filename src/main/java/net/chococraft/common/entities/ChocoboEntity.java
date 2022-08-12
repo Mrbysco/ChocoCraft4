@@ -44,7 +44,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -147,7 +146,7 @@ public class ChocoboEntity extends TameableEntity {
 	protected void registerGoals() {
 		this.goalSelector.addGoal(1, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
 		this.goalSelector.addGoal(1, new ChocoboFollowOwnerGoal(this, 1.0D, 5.0F, 5.0F));
-		this.goalSelector.addGoal(1, new BreedGoal(this, 1.0D));
+		this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
 		this.goalSelector.addGoal(1, new LookAtGoal(this, PlayerEntity.class, 5.0F));
 		this.goalSelector.addGoal(1, new LookRandomlyGoal(this));
 		this.goalSelector.addGoal(1, new SwimGoal(this));
@@ -547,42 +546,115 @@ public class ChocoboEntity extends TameableEntity {
 
 	@Override
 	public boolean isFood(ItemStack stack) {
-		return false;
+		return stack.getItem() == ModRegistry.LOVERLY_GYSAHL_GREEN.get() || stack.getItem() == ModRegistry.GOLD_GYSAHL.get() || stack.getItem() == ModRegistry.GYSAHL_CAKE.get();
 	}
 
 	@Override
-	public ActionResultType interactAt(PlayerEntity player, Vector3d vec, Hand hand) {
+	public ActionResultType mobInteract(PlayerEntity player, Hand hand) {
 		ItemStack heldItemStack = player.getItemInHand(hand);
+		if (this.isFood(heldItemStack)) {
+			int i = this.getAge();
+			//Allow the Chocobo to breed by feeding Loverly or Gold Gysahl
+			if (!this.level.isClientSide && i == 0 && this.canFallInLove()) {
+				if (heldItemStack.getItem() == ModRegistry.GOLD_GYSAHL.get()) {
+					//If fed a Gold Gysahl set the "fedGoldGysahl" flag to true
+					this.setFedGoldGysahl(true);
+				}
+				this.usePlayerItem(player, player.inventory.getSelected());
+				this.setInLove(player);
+				return ActionResultType.SUCCESS;
+			}
 
-		if (!level.isClientSide) {
-			if (heldItemStack.getItem() == ModRegistry.GYSAHL_CAKE.get()) {
+			//Instantly age the Chocobo if fed Gysahl Cake
+			if (this.isBaby() && heldItemStack.getItem() == ModRegistry.GYSAHL_CAKE.get()) {
 				this.usePlayerItem(player, heldItemStack);
-				ageBoundaryReached();
-				return ActionResultType.SUCCESS;
+				this.ageBoundaryReached();
+				return ActionResultType.sidedSuccess(this.level.isClientSide);
 			}
 
-			if (this.isSaddled() && heldItemStack.isEmpty() && !player.isShiftKeyDown() && !this.isBaby()) {
-				player.startRiding(this);
-				return ActionResultType.SUCCESS;
+			if (this.level.isClientSide) {
+				return ActionResultType.CONSUME;
 			}
+		}
 
-			if (this.isTame() && player.isShiftKeyDown() && !this.isBaby()) {
-				if (player instanceof ServerPlayerEntity) this.displayChocoboInventory((ServerPlayerEntity) player);
-				return ActionResultType.SUCCESS;
-			}
-
-			if (getChocoboColor() == ChocoboColor.GOLD) {
-				if (heldItemStack.getItem() == ModRegistry.RED_GYSAHL.get()) {
-					setChocoboColor(ChocoboColor.RED);
-					return ActionResultType.SUCCESS;
-				} else if (heldItemStack.getItem() == ModRegistry.PINK_GYSAHL.get()) {
-					setChocoboColor(ChocoboColor.PINK);
+		if (this.level.isClientSide) {
+			return ActionResultType.PASS;
+		} else {
+			if (this.isTame()) {
+				if (this.isSaddled() && heldItemStack.isEmpty() && !player.isShiftKeyDown() && !this.isBaby()) {
+					player.startRiding(this);
 					return ActionResultType.SUCCESS;
 				}
-			}
 
-			if (heldItemStack.getItem() == ModRegistry.GYSAHL_GREEN_ITEM.get()) {
-				if (!this.isTame()) {
+				if (player.isShiftKeyDown() && !this.isBaby() && player.getMainHandItem().isEmpty()) {
+					if (player instanceof ServerPlayerEntity) this.displayChocoboInventory((ServerPlayerEntity) player);
+					return ActionResultType.SUCCESS;
+				}
+
+				//Switch between the Chocobo following, wandering or staying using the Chocobo Whistle
+				if (heldItemStack.getItem() == ModRegistry.CHOCOBO_WHISTLE.get() && !this.isBaby()) {
+					if (isOwnedBy(player)) {
+						if (this.followingmrhuman == 3) {
+							this.playSound(ModSounds.WHISTLE_SOUND_FOLLOW.get(), 1.0F, 1.0F);
+							this.setNoAi(false);
+							this.goalSelector.addGoal(0, this.follow);
+							followingmrhuman = 1;
+							player.displayClientMessage(new TranslationTextComponent(Chococraft.MODID + ".entity_chocobo.chocobo_followcmd"), true);
+						} else if (this.followingmrhuman == 1) {
+							this.playSound(ModSounds.WHISTLE_SOUND_WANDER.get(), 1.0F, 1.0F);
+							this.goalSelector.removeGoal(this.follow);
+							followingmrhuman = 2;
+							player.displayClientMessage(new TranslationTextComponent(Chococraft.MODID + ".entity_chocobo.chocobo_wandercmd"), true);
+						} else if (this.followingmrhuman == 2) {
+							this.playSound(ModSounds.WHISTLE_SOUND_STAY.get(), 1.0F, 1.0F);
+							this.setNoAi(true);
+							followingmrhuman = 3;
+							player.displayClientMessage(new TranslationTextComponent(Chococraft.MODID + ".entity_chocobo.chocobo_staycmd"), true);
+						}
+					} else {
+						player.displayClientMessage(new TranslationTextComponent(Chococraft.MODID + ".entity_chocobo.not_owner"), true);
+					}
+					return ActionResultType.SUCCESS;
+				}
+
+
+				//Heal the Chocobo if fed with Gysahl Green after being tamed and not at max health
+				if (heldItemStack.getItem() == ModRegistry.GYSAHL_GREEN_ITEM.get()) {
+					if (getHealth() != getMaxHealth()) {
+						this.usePlayerItem(player, player.inventory.getSelected());
+						this.heal(5);
+						return ActionResultType.SUCCESS;
+					} else {
+						player.displayClientMessage(new TranslationTextComponent(Chococraft.MODID + ".entity_chocobo.heal_fail"), true);
+						return ActionResultType.PASS;
+					}
+				}
+
+				//Turn Gold Chocobo red or pink depending on the gysahl fed
+				if (getChocoboColor() == ChocoboColor.GOLD) {
+					if (heldItemStack.getItem() == ModRegistry.RED_GYSAHL.get()) {
+						this.usePlayerItem(player, player.inventory.getSelected());
+						this.setChocoboColor(ChocoboColor.RED);
+						return ActionResultType.SUCCESS;
+					} else if (heldItemStack.getItem() == ModRegistry.PINK_GYSAHL.get()) {
+						this.usePlayerItem(player, player.inventory.getSelected());
+						this.setChocoboColor(ChocoboColor.PINK);
+						return ActionResultType.SUCCESS;
+					}
+				}
+
+				//Saddle the Chocobo if right-clicked with a saddle
+				if (heldItemStack.getItem() instanceof ChocoboSaddleItem && !this.isSaddled() && !this.isBaby()) {
+					if (!this.level.isClientSide) {
+						this.saddleItemStackHandler.setStackInSlot(0, heldItemStack.copy().split(1));
+						this.setSaddleType(heldItemStack);
+						this.usePlayerItem(player, heldItemStack);
+					}
+					return ActionResultType.SUCCESS;
+				}
+			} else {
+				//Chance of taming Chocobo if right-clicked with Gysahl Green
+				if (heldItemStack.getItem() == ModRegistry.GYSAHL_GREEN_ITEM.get()) {
 					this.usePlayerItem(player, player.inventory.getSelected());
 					if ((float) Math.random() < ChocoConfig.COMMON.tameChance.get().floatValue()) {
 						this.setOwnerUUID(player.getUUID());
@@ -597,68 +669,10 @@ public class ChocoboEntity extends TameableEntity {
 						player.displayClientMessage(new TranslationTextComponent(Chococraft.MODID + ".entity_chocobo.tame_fail"), true);
 					}
 					return ActionResultType.SUCCESS;
-				} else {
-					if (getHealth() != getMaxHealth()) {
-						this.usePlayerItem(player, player.inventory.getSelected());
-						heal(5);
-					} else {
-						player.displayClientMessage(new TranslationTextComponent(Chococraft.MODID + ".entity_chocobo.heal_fail"), true);
-					}
 				}
-			}
-
-			if (this.isTame() && heldItemStack.getItem() == ModRegistry.CHOCOBO_WHISTLE.get() && !this.isBaby()) {
-				if (isOwnedBy(player)) {
-					if (this.followingmrhuman == 3) {
-						this.playSound(ModSounds.WHISTLE_SOUND_FOLLOW.get(), 1.0F, 1.0F);
-						this.setNoAi(false);
-						this.goalSelector.addGoal(0, this.follow);
-						followingmrhuman = 1;
-						player.displayClientMessage(new TranslationTextComponent(Chococraft.MODID + ".entity_chocobo.chocobo_followcmd"), true);
-					} else if (this.followingmrhuman == 1) {
-						this.playSound(ModSounds.WHISTLE_SOUND_WANDER.get(), 1.0F, 1.0F);
-						this.goalSelector.removeGoal(this.follow);
-						followingmrhuman = 2;
-						player.displayClientMessage(new TranslationTextComponent(Chococraft.MODID + ".entity_chocobo.chocobo_wandercmd"), true);
-					} else if (this.followingmrhuman == 2) {
-						this.playSound(ModSounds.WHISTLE_SOUND_STAY.get(), 1.0F, 1.0F);
-						this.setNoAi(true);
-						followingmrhuman = 3;
-						player.displayClientMessage(new TranslationTextComponent(Chococraft.MODID + ".entity_chocobo.chocobo_staycmd"), true);
-					}
-				} else {
-					player.displayClientMessage(new TranslationTextComponent(Chococraft.MODID + ".entity_chocobo.not_owner"), true);
-				}
-				return ActionResultType.SUCCESS;
-			}
-
-			if (this.isTame() && this.canFallInLove() && !this.isBaby()) {
-				if (heldItemStack.getItem() == ModRegistry.GOLD_GYSAHL.get()) {
-					this.usePlayerItem(player, player.inventory.getSelected());
-					this.setFedGoldGysahl(true);
-					this.setInLove(player);
-					return ActionResultType.SUCCESS;
-				} else if (heldItemStack.getItem() == ModRegistry.LOVERLY_GYSAHL_GREEN.get()) {
-					this.usePlayerItem(player, player.inventory.getSelected());
-					this.setInLove(player);
-					return ActionResultType.SUCCESS;
-				}
-			}
-
-			if (heldItemStack.getItem() instanceof ChocoboSaddleItem && this.isTame() && !this.isSaddled() && !this.isBaby()) {
-				this.saddleItemStackHandler.setStackInSlot(0, heldItemStack.copy().split(1));
-				this.setSaddleType(heldItemStack);
-				this.usePlayerItem(player, heldItemStack);
-				return ActionResultType.SUCCESS;
 			}
 		}
-
-		if (this.isTame() && heldItemStack.getItem() == Items.NAME_TAG && !isOwnedBy(player)) {
-			player.displayClientMessage(new TranslationTextComponent(Chococraft.MODID + ".entity_chocobo.not_owner"), true);
-			return ActionResultType.SUCCESS;
-		}
-
-		return super.interactAt(player, vec, hand);
+		return ActionResultType.PASS;
 	}
 
 	private void displayChocoboInventory(ServerPlayerEntity player) {

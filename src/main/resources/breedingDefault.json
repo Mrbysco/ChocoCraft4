@@ -91,7 +91,14 @@
 	]
   },
   "GOLD": {
-	"GOLD, PINK, RED": [
+	"GOLD": [
+	  {
+		"childColor": "secondParent",
+		"conditions": "bothParentsFedGold",
+		"random": "none"
+	  }
+	],
+	"PINK, RED": [
 	  {
 		"childColor": "YELLOW",
 		"conditions": "bothParentsNotFedGold",
