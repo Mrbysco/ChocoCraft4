@@ -38,7 +38,6 @@ public class ModEntities {
 
 		ResourceKey<Biome> biomeKey = ResourceKey.create(Registry.BIOME_REGISTRY, event.getName());
 		if (BiomeDictionary.hasType(biomeKey, Type.PLAINS) || BiomeDictionary.hasType(biomeKey, Type.HILLS) || BiomeDictionary.hasType(biomeKey, Type.NETHER)) {
-
 			event.getSpawns().getSpawner(MobCategory.CREATURE).add(new SpawnerData(ModEntities.CHOCOBO.get(),
 					ChocoConfig.COMMON.chocoboSpawnWeight.get(), ChocoConfig.COMMON.chocoboPackSizeMin.get(), ChocoConfig.COMMON.chocoboPackSizeMax.get()));
 		}

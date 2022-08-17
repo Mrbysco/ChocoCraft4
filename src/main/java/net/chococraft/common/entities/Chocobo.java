@@ -29,7 +29,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Containers;
@@ -64,6 +63,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
@@ -175,7 +175,7 @@ public class Chocobo extends TamableAnimal {
 
 	@Override
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor levelAccessor, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
-		if (levelAccessor.getBiome((new BlockPos(blockPosition().below()))).is(BiomeTags.IS_NETHER)) {
+		if (BiomeDictionary.hasType(level.getBiomeName(new BlockPos(blockPosition().below())).get(), BiomeDictionary.Type.NETHER)) {
 			this.setChocoboColor(ChocoboColor.FLAME);
 		}
 		finalizeChocobo(this);
@@ -476,13 +476,10 @@ public class Chocobo extends TamableAnimal {
 	}
 
 	@Override
-	public float getStepHeight() {
-		return getAbilityInfo().getStepHeight(isVehicle());
-	}
-
-	@Override
 	public void aiStep() {
 		super.aiStep();
+
+		this.maxUpStep = getAbilityInfo().getStepHeight(isVehicle());
 
 		this.setRot(this.getYRot(), this.getXRot());
 
@@ -742,7 +739,7 @@ public class Chocobo extends TamableAnimal {
 
 	@Override
 	public boolean checkSpawnRules(LevelAccessor levelAccessor, MobSpawnType spawnReasonIn) {
-		if (this.level.getBiome((new BlockPos(blockPosition()))).is(BiomeTags.IS_NETHER))
+		if (BiomeDictionary.hasType(level.getBiomeName(new BlockPos(blockPosition().below())).get(), BiomeDictionary.Type.NETHER))
 			return true;
 
 		return super.checkSpawnRules(levelAccessor, spawnReasonIn);
