@@ -52,7 +52,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.BreedGoal;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.FollowOwnerGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
@@ -154,8 +153,7 @@ public class Chocobo extends TamableAnimal {
 		this.goalSelector.addGoal(1, new FloatGoal(this));
 	}
 
-	private final FollowOwnerGoal follow = new FollowOwnerGoal(this, 2.0D, 3.0F, 10.0F, false);
-	public float followingmrhuman = 2;
+	private final ChocoboFollowOwnerGoal follow = new ChocoboFollowOwnerGoal(this, 2.0D, 3.0F, 10.0F);
 
 	public static AttributeSupplier.Builder createAttributes() {
 		return Mob.createMobAttributes()
@@ -582,7 +580,7 @@ public class Chocobo extends TamableAnimal {
 			return InteractionResult.PASS;
 		} else {
 			if (this.isTame()) {
-				if (this.isSaddled() && heldItemStack.isEmpty() && !player.isShiftKeyDown() && !this.isBaby()) {
+				if (this.isSaddled() && player.getMainHandItem().isEmpty() && !player.isShiftKeyDown() && !this.isBaby()) {
 					player.startRiding(this);
 					return InteractionResult.SUCCESS;
 				}
@@ -595,21 +593,21 @@ public class Chocobo extends TamableAnimal {
 				//Switch between the Chocobo following, wandering or staying using the Chocobo Whistle
 				if (heldItemStack.is(ModRegistry.CHOCOBO_WHISTLE.get()) && !this.isBaby()) {
 					if (isOwnedBy(player)) {
-						if (this.followingmrhuman == 3) {
+						if (getMovementType() == MovementType.STANDSTILL) {
 							this.playSound(ModSounds.WHISTLE_SOUND_FOLLOW.get(), 1.0F, 1.0F);
 							this.setNoAi(false);
 							this.goalSelector.addGoal(0, this.follow);
-							followingmrhuman = 1;
+							this.setMovementType(MovementType.FOLLOW_OWNER);
 							player.displayClientMessage(new TranslatableComponent(Chococraft.MODID + ".entity_chocobo.chocobo_followcmd"), true);
-						} else if (this.followingmrhuman == 1) {
+						} else if (this.getMovementType() == MovementType.FOLLOW_OWNER) {
 							this.playSound(ModSounds.WHISTLE_SOUND_WANDER.get(), 1.0F, 1.0F);
 							this.goalSelector.removeGoal(this.follow);
-							followingmrhuman = 2;
+							setMovementType(MovementType.WANDER);
 							player.displayClientMessage(new TranslatableComponent(Chococraft.MODID + ".entity_chocobo.chocobo_wandercmd"), true);
-						} else if (this.followingmrhuman == 2) {
+						} else if (this.getMovementType() == MovementType.WANDER) {
 							this.playSound(ModSounds.WHISTLE_SOUND_STAY.get(), 1.0F, 1.0F);
 							this.setNoAi(true);
-							followingmrhuman = 3;
+							this.setMovementType(MovementType.STANDSTILL);
 							player.displayClientMessage(new TranslatableComponent(Chococraft.MODID + ".entity_chocobo.chocobo_staycmd"), true);
 						}
 					} else {
