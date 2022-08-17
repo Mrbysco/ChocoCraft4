@@ -19,7 +19,7 @@ public class ChocoboFollowOwnerGoal extends FollowOwnerGoal {
 			return false;
 		} else if (livingentity.isSpectator()) {
 			return false;
-		} else if (this.chocobo.getMovementType() == MovementType.FOLLOW_OWNER) {
+		} else if (this.chocobo.getMovementType() != MovementType.FOLLOW_OWNER) {
 			return false;
 		} else if (this.chocobo.distanceToSqr(livingentity) < (double) (this.startDistance * this.startDistance)) {
 			return false;
