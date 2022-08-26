@@ -7,7 +7,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
@@ -49,6 +48,6 @@ public class ModEntities {
 	}
 
 	public static void initializeSpawnPlacements() {
-		EntitySpawnPlacementRegistry.register(ModEntities.CHOCOBO.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AnimalEntity::checkAnimalSpawnRules);
+		EntitySpawnPlacementRegistry.register(ModEntities.CHOCOBO.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, ChocoboEntity::checkChocoboSpawnRules);
 	}
 }

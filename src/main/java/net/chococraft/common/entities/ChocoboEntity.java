@@ -19,6 +19,7 @@ import net.chococraft.common.items.ChocoboSaddleItem;
 import net.chococraft.common.network.PacketManager;
 import net.chococraft.common.network.packets.OpenChocoboGuiMessage;
 import net.chococraft.utils.RandomHelper;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntitySize;
@@ -54,12 +55,14 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.server.ServerWorld;
@@ -71,6 +74,7 @@ import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Random;
 
 public class ChocoboEntity extends TameableEntity {
 	private static final String NBTKEY_CHOCOBO_COLOR = "Color";
@@ -157,7 +161,7 @@ public class ChocoboEntity extends TameableEntity {
 	public static AttributeModifierMap.MutableAttribute createAttributes() {
 		return MobEntity.createMobAttributes()
 				.add(Attributes.MOVEMENT_SPEED, 20 / 100f)
-				.add(Attributes.FLYING_SPEED, 0 / 100F)
+				.add(Attributes.FLYING_SPEED, 0.0F)
 				.add(Attributes.MAX_HEALTH, 30);
 	}
 
@@ -348,7 +352,7 @@ public class ChocoboEntity extends TameableEntity {
 			if (isInWater() && this.getAbilityInfo().canWalkOnWater()) {
 				Vector3d delta = getDeltaMovement();
 				this.setDeltaMovement(delta.x, 0.4D, delta.y);
-				moveFlying(strafe, forward, 100 / getChocoboColor().getAbilityInfo().getWaterSpeed());
+				this.moveRelative(getChocoboColor().getAbilityInfo().getWaterSpeed() / 100F, travelVector);
 				setJumping(true);
 			}
 
@@ -356,7 +360,7 @@ public class ChocoboEntity extends TameableEntity {
 				this.jumping = true;
 				this.jumpFromGround();
 				this.hasImpulse = true;
-				moveFlying(strafe, forward, 100 / getAbilityInfo().getAirbornSpeed());
+				this.moveRelative(getChocoboColor().getAbilityInfo().getAirbornSpeed() / 100, travelVector);
 			} else if (livingentity.jumping && !this.jumping && this.onGround) {
 				this.setDeltaMovement(getDeltaMovement().add(0, 0.75D, 0));
 				livingentity.setJumping(false);
@@ -394,28 +398,6 @@ public class ChocoboEntity extends TameableEntity {
 
 	private ChocoboAbilityInfo getAbilityInfo() {
 		return getChocoboColor().getAbilityInfo();
-	}
-
-	/**
-	 * Used in both water and by flying objects
-	 */
-	public void moveFlying(float strafe, float forward, float friction) {
-		float f = strafe * strafe + forward * forward;
-
-		if (f >= 1.0E-4F) {
-			f = MathHelper.sqrt(f);
-
-			if (f < 1.0F) {
-				f = 1.0F;
-			}
-
-			f = friction / f;
-			strafe = strafe * f;
-			forward = forward * f;
-			float f1 = MathHelper.sin(this.yRot * (float) Math.PI / 180.0F);
-			float f2 = MathHelper.cos(this.yRot * (float) Math.PI / 180.0F);
-			this.setDeltaMovement(this.getDeltaMovement().add((double) (strafe * f2 - forward * f1), 0.0D, (double) (forward * f2 + strafe * f1)));
-		}
 	}
 
 	@Override
@@ -740,11 +722,11 @@ public class ChocoboEntity extends TameableEntity {
 	}
 
 	@Override
-	public boolean checkSpawnRules(IWorld levelAccessor, SpawnReason spawnReasonIn) {
+	public float getWalkTargetValue(BlockPos pos, IWorldReader levelReader) {
 		if (this.level.getBiome(blockPosition().below()).getBiomeCategory() == Biome.Category.NETHER)
-			return true;
+			return 0.0F;
 
-		return super.checkSpawnRules(levelAccessor, spawnReasonIn);
+		return super.getWalkTargetValue(pos, levelReader);
 	}
 
 	@Override
@@ -789,6 +771,16 @@ public class ChocoboEntity extends TameableEntity {
 			return super.getDimensions(pose).scale(0.5F);
 		}
 		return super.getDimensions(pose);
+	}
+
+	public static boolean checkChocoboSpawnRules(EntityType<? extends ChocoboEntity> entityType, IWorld levelAccessor,
+												 SpawnReason spawnType, BlockPos pos, Random randomSource) {
+		if (levelAccessor.getBiome(pos.below()).getBiomeCategory() == Biome.Category.NETHER) {
+			BlockPos blockpos = pos.below();
+			return spawnType == SpawnReason.SPAWNER || levelAccessor.getBlockState(blockpos).isValidSpawn(levelAccessor, blockpos, entityType);
+		}
+
+		return levelAccessor.getBlockState(pos.below()).is(Blocks.GRASS_BLOCK) && levelAccessor.getRawBrightness(pos, 0) > 8;
 	}
 
 	@Override
