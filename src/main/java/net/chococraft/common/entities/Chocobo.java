@@ -30,6 +30,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.BiomeTags;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Containers;
@@ -61,6 +62,7 @@ import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
@@ -73,6 +75,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Random;
 
 public class Chocobo extends TamableAnimal {
 	private static final String NBTKEY_CHOCOBO_COLOR = "Color";
@@ -158,7 +161,7 @@ public class Chocobo extends TamableAnimal {
 	public static AttributeSupplier.Builder createAttributes() {
 		return Mob.createMobAttributes()
 				.add(Attributes.MOVEMENT_SPEED, 20 / 100f)
-				.add(Attributes.FLYING_SPEED, 0 / 100F)
+				.add(Attributes.FLYING_SPEED, 0.0F)
 				.add(Attributes.MAX_HEALTH, 30);
 	}
 
@@ -348,15 +351,15 @@ public class Chocobo extends TamableAnimal {
 			if (isInWater() && this.getAbilityInfo().canWalkOnWater()) {
 				Vec3 delta = getDeltaMovement();
 				this.setDeltaMovement(delta.x, 0.4D, delta.y);
-				moveFlying(strafe, forward, 100 / getChocoboColor().getAbilityInfo().getWaterSpeed());
+				this.moveRelative(getChocoboColor().getAbilityInfo().getWaterSpeed() / 100F, travelVector);
 				setJumping(true);
 			}
 
 			if (livingentity.jumping && this.getAbilityInfo().getCanFly()) {
-				this.jumping = true;
+				setJumping(true);
 				this.jumpFromGround();
 				this.hasImpulse = true;
-				moveFlying(strafe, forward, 100 / getAbilityInfo().getAirbornSpeed());
+				this.moveRelative(getChocoboColor().getAbilityInfo().getAirbornSpeed() / 100, travelVector);
 			} else if (livingentity.jumping && !this.jumping && this.onGround) {
 				this.setDeltaMovement(getDeltaMovement().add(0, 0.75D, 0));
 				livingentity.setJumping(false);
@@ -395,28 +398,6 @@ public class Chocobo extends TamableAnimal {
 
 	private ChocoboAbilityInfo getAbilityInfo() {
 		return getChocoboColor().getAbilityInfo();
-	}
-
-	/**
-	 * Used in both water and by flying objects
-	 */
-	public void moveFlying(float strafe, float forward, float friction) {
-		float f = strafe * strafe + forward * forward;
-
-		if (f >= 1.0E-4F) {
-			f = Mth.sqrt(f);
-
-			if (f < 1.0F) {
-				f = 1.0F;
-			}
-
-			f = friction / f;
-			strafe = strafe * f;
-			forward = forward * f;
-			float f1 = Mth.sin(this.getYRot() * (float) Math.PI / 180.0F);
-			float f2 = Mth.cos(this.getYRot() * (float) Math.PI / 180.0F);
-			this.setDeltaMovement(this.getDeltaMovement().add((double) (strafe * f2 - forward * f1), 0.0D, (double) (forward * f2 + strafe * f1)));
-		}
 	}
 
 	@Override
@@ -741,11 +722,11 @@ public class Chocobo extends TamableAnimal {
 	}
 
 	@Override
-	public boolean checkSpawnRules(LevelAccessor levelAccessor, MobSpawnType spawnReasonIn) {
+	public float getWalkTargetValue(BlockPos pos, LevelReader levelReader) {
 		if (this.level.getBiome((new BlockPos(blockPosition()))).is(BiomeTags.IS_NETHER))
-			return true;
+			return 0.0F;
 
-		return super.checkSpawnRules(levelAccessor, spawnReasonIn);
+		return super.getWalkTargetValue(pos, levelReader);
 	}
 
 	@Override
@@ -789,6 +770,16 @@ public class Chocobo extends TamableAnimal {
 			return super.getDimensions(pose).scale(0.5F);
 		}
 		return super.getDimensions(pose);
+	}
+
+	public static boolean checkChocoboSpawnRules(EntityType<? extends Chocobo> entityType, LevelAccessor levelAccessor,
+												 MobSpawnType spawnType, BlockPos pos, Random randomSource) {
+		if (levelAccessor.getBiome(new BlockPos(pos)).is(BiomeTags.IS_NETHER)) {
+			BlockPos blockpos = pos.below();
+			return spawnType == MobSpawnType.SPAWNER || levelAccessor.getBlockState(blockpos).isValidSpawn(levelAccessor, blockpos, entityType);
+		}
+
+		return levelAccessor.getBlockState(pos.below()).is(BlockTags.ANIMALS_SPAWNABLE_ON) && isBrightEnoughToSpawn(levelAccessor, pos);
 	}
 
 	@Override
