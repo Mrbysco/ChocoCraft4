@@ -30,7 +30,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.BiomeTags;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
@@ -51,7 +53,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.BreedGoal;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.FollowOwnerGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
@@ -60,6 +61,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
@@ -714,10 +716,11 @@ public class Chocobo extends TamableAnimal {
 	}
 
 	@Override
-	public boolean checkSpawnRules(LevelAccessor levelAccessor, MobSpawnType spawnReasonIn) {
-		if (this.level.getBiome((new BlockPos(blockPosition()))).is(BiomeTags.IS_NETHER)) return true;
+	public float getWalkTargetValue(BlockPos pos, LevelReader levelReader) {
+		if (this.level.getBiome((new BlockPos(blockPosition()))).is(BiomeTags.IS_NETHER))
+			return 1.0F;
 
-		return super.checkSpawnRules(levelAccessor, spawnReasonIn);
+		return super.getWalkTargetValue(pos, levelReader);
 	}
 
 	@Override
@@ -760,6 +763,16 @@ public class Chocobo extends TamableAnimal {
 			return super.getDimensions(pose).scale(0.5F);
 		}
 		return super.getDimensions(pose);
+	}
+
+	public static boolean checkChocoboSpawnRules(EntityType<? extends Chocobo> entityType, LevelAccessor levelAccessor,
+												 MobSpawnType spawnType, BlockPos pos, RandomSource randomSource) {
+		if (levelAccessor.getBiome(new BlockPos(pos)).is(BiomeTags.IS_NETHER)) {
+			BlockPos blockpos = pos.below();
+			return spawnType == MobSpawnType.SPAWNER || levelAccessor.getBlockState(blockpos).isValidSpawn(levelAccessor, blockpos, entityType);
+		}
+
+		return levelAccessor.getBlockState(pos.below()).is(BlockTags.ANIMALS_SPAWNABLE_ON) && isBrightEnoughToSpawn(levelAccessor, pos);
 	}
 
 	@Override
