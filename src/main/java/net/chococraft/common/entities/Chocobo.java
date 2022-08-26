@@ -696,7 +696,7 @@ public class Chocobo extends TamableAnimal {
 	@Override
 	public float getWalkTargetValue(BlockPos pos, LevelReader levelReader) {
 		if (this.level.getBiome((new BlockPos(blockPosition()))).is(BiomeTags.IS_NETHER))
-			return 1.0F;
+			return 0.0F;
 
 		return super.getWalkTargetValue(pos, levelReader);
 	}
