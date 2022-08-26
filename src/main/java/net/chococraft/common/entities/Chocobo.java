@@ -30,7 +30,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.BiomeTags;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
@@ -715,15 +717,10 @@ public class Chocobo extends TamableAnimal {
 
 	@Override
 	public float getWalkTargetValue(BlockPos pos, LevelReader levelReader) {
-		System.out.println(super.getWalkTargetValue(pos, levelReader));
+		if (this.level.getBiome((new BlockPos(blockPosition()))).is(BiomeTags.IS_NETHER))
+			return 1.0F;
+
 		return super.getWalkTargetValue(pos, levelReader);
-	}
-
-	@Override
-	public boolean checkSpawnRules(LevelAccessor levelAccessor, MobSpawnType spawnReasonIn) {
-		if (this.level.getBiome((new BlockPos(blockPosition()))).is(BiomeTags.IS_NETHER)) return true;
-
-		return super.checkSpawnRules(levelAccessor, spawnReasonIn);
 	}
 
 	@Override
@@ -766,6 +763,16 @@ public class Chocobo extends TamableAnimal {
 			return super.getDimensions(pose).scale(0.5F);
 		}
 		return super.getDimensions(pose);
+	}
+
+	public static boolean checkChocoboSpawnRules(EntityType<? extends Chocobo> entityType, LevelAccessor levelAccessor,
+												 MobSpawnType spawnType, BlockPos pos, RandomSource randomSource) {
+		if (levelAccessor.getBiome(new BlockPos(pos)).is(BiomeTags.IS_NETHER)) {
+			BlockPos blockpos = pos.below();
+			return spawnType == MobSpawnType.SPAWNER || levelAccessor.getBlockState(blockpos).isValidSpawn(levelAccessor, blockpos, entityType);
+		}
+
+		return levelAccessor.getBlockState(pos.below()).is(BlockTags.ANIMALS_SPAWNABLE_ON) && isBrightEnoughToSpawn(levelAccessor, pos);
 	}
 
 	@Override
