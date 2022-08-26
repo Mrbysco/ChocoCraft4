@@ -157,7 +157,7 @@ public class Chocobo extends TamableAnimal {
 	private final ChocoboFollowOwnerGoal follow = new ChocoboFollowOwnerGoal(this, 2.0D, 3.0F, 10.0F);
 
 	public static AttributeSupplier.Builder createAttributes() {
-		return Mob.createMobAttributes().add(Attributes.MOVEMENT_SPEED, 20 / 100f).add(Attributes.FLYING_SPEED, 0 / 100F).add(Attributes.MAX_HEALTH, 30);
+		return Mob.createMobAttributes().add(Attributes.MOVEMENT_SPEED, 20 / 100f).add(Attributes.FLYING_SPEED, 0.0F).add(Attributes.MAX_HEALTH, 30);
 	}
 
 	@Override
@@ -329,7 +329,7 @@ public class Chocobo extends TamableAnimal {
 				if (isInWater() && this.getAbilityInfo().canWalkOnWater()) {
 					Vec3 delta = getDeltaMovement();
 					this.setDeltaMovement(delta.x, 0.4D, delta.y);
-					moveFlying(strafe, forward, 100 / getChocoboColor().getAbilityInfo().getWaterSpeed());
+					this.moveRelative(getChocoboColor().getAbilityInfo().getWaterSpeed() / 100F, travelVector);
 					setJumping(true);
 				}
 
@@ -337,7 +337,7 @@ public class Chocobo extends TamableAnimal {
 					setJumping(true);
 					this.jumpFromGround();
 					this.hasImpulse = true;
-					moveFlying(strafe, forward, 100 / getAbilityInfo().getAirbornSpeed());
+					this.moveRelative(getChocoboColor().getAbilityInfo().getAirbornSpeed() / 100, travelVector);
 				} else if (livingentity.jumping && !this.jumping && this.onGround) {
 					this.setDeltaMovement(getDeltaMovement().add(0, 0.75D, 0));
 					livingentity.setJumping(false);
@@ -377,28 +377,6 @@ public class Chocobo extends TamableAnimal {
 
 	private ChocoboAbilityInfo getAbilityInfo() {
 		return getChocoboColor().getAbilityInfo();
-	}
-
-	/**
-	 * Used in both water and by flying objects
-	 */
-	public void moveFlying(float strafe, float forward, float friction) {
-		float f = strafe * strafe + forward * forward;
-
-		if (f >= 1.0E-4F) {
-			f = Mth.sqrt(f);
-
-			if (f < 1.0F) {
-				f = 1.0F;
-			}
-
-			f = friction / f;
-			strafe = strafe * f;
-			forward = forward * f;
-			float f1 = Mth.sin(this.getYRot() * (float) Math.PI / 180.0F);
-			float f2 = Mth.cos(this.getYRot() * (float) Math.PI / 180.0F);
-			this.setDeltaMovement(this.getDeltaMovement().add((double) (strafe * f2 - forward * f1), 0.0D, (double) (forward * f2 + strafe * f1)));
-		}
 	}
 
 	@Override
