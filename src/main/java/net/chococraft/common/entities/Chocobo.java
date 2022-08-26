@@ -51,7 +51,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.BreedGoal;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.FollowOwnerGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
@@ -60,6 +59,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
@@ -705,12 +705,18 @@ public class Chocobo extends TamableAnimal {
 
 	@Override
 	protected float getSoundVolume() {
-		return .6f;
+		return 0.6F;
 	}
 
 	@Override
 	public int getAmbientSoundInterval() {
 		return (24 * (int) (Math.random() * 100));
+	}
+
+	@Override
+	public float getWalkTargetValue(BlockPos pos, LevelReader levelReader) {
+		System.out.println(super.getWalkTargetValue(pos, levelReader));
+		return super.getWalkTargetValue(pos, levelReader);
 	}
 
 	@Override
@@ -764,7 +770,7 @@ public class Chocobo extends TamableAnimal {
 
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-		if (this.isAlive() && capability == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+		if (this.isAlive() && capability == net.minecraftforge.common.capabilities.ForgeCapabilities.ITEM_HANDLER) {
 			if (facing == Direction.UP) {
 				return inventoryHolder.cast();
 			} else {
