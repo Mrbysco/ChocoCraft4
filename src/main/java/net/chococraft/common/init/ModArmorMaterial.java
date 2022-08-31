@@ -11,9 +11,7 @@ import java.util.function.Supplier;
 
 public enum ModArmorMaterial implements ArmorMaterial {
 	CHOCO_DISGUISE("chococraft:choco_disguise", 200, new int[]{3, 7, 6, 3}, 10, SoundEvents.ARMOR_EQUIP_LEATHER,
-			0.0F, 0.0F, () -> {
-		return Ingredient.of(ModRegistry.CHOCOBO_FEATHER.get());
-	});
+			0.0F, 0.0F, () -> Ingredient.of(ModRegistry.CHOCOBO_FEATHER.get()));
 
 	private static final int[] HEALTH_PER_SLOT = new int[]{13, 15, 16, 11};
 	private final String name;
