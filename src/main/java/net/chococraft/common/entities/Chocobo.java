@@ -146,12 +146,12 @@ public class Chocobo extends TamableAnimal {
 
 	@Override
 	protected void registerGoals() {
-		this.goalSelector.addGoal(1, new WaterAvoidingRandomStrollGoal(this, 1.0D));
-		this.goalSelector.addGoal(1, new ChocoboFollowOwnerGoal(this, 1.0D, 5.0F, 5.0F));
-		this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
-		this.goalSelector.addGoal(1, new LookAtPlayerGoal(this, Player.class, 5.0F));
-		this.goalSelector.addGoal(1, new RandomLookAroundGoal(this));
-		this.goalSelector.addGoal(1, new FloatGoal(this));
+		this.goalSelector.addGoal(0, new FloatGoal(this));
+		this.goalSelector.addGoal(3, new BreedGoal(this, 1.0D));
+		this.goalSelector.addGoal(4, new ChocoboFollowOwnerGoal(this, 1.0D, 5.0F, 5.0F));
+		this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+		this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 5.0F));
+		this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
 	}
 
 	private final ChocoboFollowOwnerGoal follow = new ChocoboFollowOwnerGoal(this, 2.0D, 3.0F, 10.0F);
@@ -506,23 +506,25 @@ public class Chocobo extends TamableAnimal {
 	public InteractionResult mobInteract(Player player, InteractionHand hand) {
 		ItemStack heldItemStack = player.getItemInHand(hand);
 		if (this.isFood(heldItemStack)) {
-			int i = this.getAge();
+			boolean fedCake = heldItemStack.getItem() == ModRegistry.GYSAHL_CAKE.get();
 			//Allow the Chocobo to breed by feeding Loverly or Gold Gysahl
-			if (!this.level.isClientSide && i == 0 && this.canFallInLove()) {
-				if (heldItemStack.is(ModRegistry.GOLD_GYSAHL.get())) {
-					//If fed a Gold Gysahl set the "fedGoldGysahl" flag to true
-					this.setFedGoldGysahl(true);
+			if (this.isBaby()) {
+				if (fedCake) {
+					this.usePlayerItem(player, hand, heldItemStack);
+					this.ageBoundaryReached();
+					return InteractionResult.sidedSuccess(this.level.isClientSide);
 				}
-				this.usePlayerItem(player, hand, player.getInventory().getSelected());
-				this.setInLove(player);
-				return InteractionResult.SUCCESS;
-			}
-
-			//Instantly age the Chocobo if fed Gysahl Cake
-			if (this.isBaby() && heldItemStack.is(ModRegistry.GYSAHL_CAKE.get())) {
-				this.usePlayerItem(player, hand, heldItemStack);
-				this.ageBoundaryReached();
-				return InteractionResult.sidedSuccess(this.level.isClientSide);
+			} else {
+				int i = this.getAge();
+				if (!this.level.isClientSide && i == 0 && this.canFallInLove() && !fedCake) {
+					if (heldItemStack.getItem() == ModRegistry.GOLD_GYSAHL.get()) {
+						//If fed a Gold Gysahl set the "fedGoldGysahl" flag to true
+						this.setFedGoldGysahl(true);
+					}
+					this.usePlayerItem(player, hand, heldItemStack);
+					this.setInLove(player);
+					return InteractionResult.SUCCESS;
+				}
 			}
 
 			if (this.level.isClientSide) {
@@ -574,7 +576,7 @@ public class Chocobo extends TamableAnimal {
 				//Heal the Chocobo if fed with Gysahl Green after being tamed and not at max health
 				if (heldItemStack.is(ModRegistry.GYSAHL_GREEN_ITEM.get())) {
 					if (getHealth() != getMaxHealth()) {
-						this.usePlayerItem(player, hand, player.getInventory().getSelected());
+						this.usePlayerItem(player, hand, heldItemStack);
 						this.heal(5);
 						this.gameEvent(GameEvent.EAT, this);
 						return InteractionResult.SUCCESS;
@@ -587,11 +589,11 @@ public class Chocobo extends TamableAnimal {
 				//Turn Gold Chocobo red or pink depending on the gysahl fed
 				if (getChocoboColor() == ChocoboColor.GOLD) {
 					if (heldItemStack.getItem() == ModRegistry.RED_GYSAHL.get()) {
-						this.usePlayerItem(player, hand, player.getInventory().getSelected());
+						this.usePlayerItem(player, hand, heldItemStack);
 						this.setChocoboColor(ChocoboColor.RED);
 						return InteractionResult.SUCCESS;
 					} else if (heldItemStack.getItem() == ModRegistry.PINK_GYSAHL.get()) {
-						this.usePlayerItem(player, hand, player.getInventory().getSelected());
+						this.usePlayerItem(player, hand, heldItemStack);
 						this.setChocoboColor(ChocoboColor.PINK);
 						return InteractionResult.SUCCESS;
 					}
@@ -609,7 +611,7 @@ public class Chocobo extends TamableAnimal {
 			} else {
 				//Chance of taming Chocobo if right-clicked with Gysahl Green
 				if (heldItemStack.is(ModRegistry.GYSAHL_GREEN_ITEM.get())) {
-					this.usePlayerItem(player, hand, player.getInventory().getSelected());
+					this.usePlayerItem(player, hand, heldItemStack);
 					if ((float) Math.random() < ChocoConfig.COMMON.tameChance.get().floatValue()) {
 						this.setOwnerUUID(player.getUUID());
 						this.setTame(true);
