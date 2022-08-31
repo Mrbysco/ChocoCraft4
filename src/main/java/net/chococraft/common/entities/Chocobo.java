@@ -575,7 +575,7 @@ public class Chocobo extends TamableAnimal {
 				//Heal the Chocobo if fed with Gysahl Green after being tamed and not at max health
 				if (heldItemStack.is(ModRegistry.GYSAHL_GREEN_ITEM.get())) {
 					if (getHealth() != getMaxHealth()) {
-						this.usePlayerItem(player, hand, player.getInventory().getSelected());
+						this.usePlayerItem(player, hand, heldItemStack);
 						this.heal(5);
 						this.gameEvent(GameEvent.EAT, this);
 						return InteractionResult.SUCCESS;
@@ -588,11 +588,11 @@ public class Chocobo extends TamableAnimal {
 				//Turn Gold Chocobo red or pink depending on the gysahl fed
 				if (getChocoboColor() == ChocoboColor.GOLD) {
 					if (heldItemStack.getItem() == ModRegistry.RED_GYSAHL.get()) {
-						this.usePlayerItem(player, hand, player.getInventory().getSelected());
+						this.usePlayerItem(player, hand, heldItemStack);
 						this.setChocoboColor(ChocoboColor.RED);
 						return InteractionResult.SUCCESS;
 					} else if (heldItemStack.getItem() == ModRegistry.PINK_GYSAHL.get()) {
-						this.usePlayerItem(player, hand, player.getInventory().getSelected());
+						this.usePlayerItem(player, hand, heldItemStack);
 						this.setChocoboColor(ChocoboColor.PINK);
 						return InteractionResult.SUCCESS;
 					}
@@ -610,7 +610,7 @@ public class Chocobo extends TamableAnimal {
 			} else {
 				//Chance of taming Chocobo if right-clicked with Gysahl Green
 				if (heldItemStack.is(ModRegistry.GYSAHL_GREEN_ITEM.get())) {
-					this.usePlayerItem(player, hand, player.getInventory().getSelected());
+					this.usePlayerItem(player, hand, heldItemStack);
 					if ((float) Math.random() < ChocoConfig.COMMON.tameChance.get().floatValue()) {
 						this.setOwnerUUID(player.getUUID());
 						this.setTame(true);
