@@ -41,7 +41,7 @@ public class BreedingConfig {
 			try (FileReader json = new FileReader(INITIAL_FILE)) {
 				final LinkedTreeMap<String, LinkedTreeMap<String, List<LinkedTreeMap<String, String>>>> breedingMap = new LinkedTreeMap<>();
 				breedingMap.putAll(GSON.fromJson(json, Map.class));
-				if (breedingMap != null && !breedingMap.isEmpty()) {
+				if (!breedingMap.isEmpty()) {
 					breedingInfoHashmap.putAll(breedingMap);
 					Chococraft.log.debug("Loaded JSON config file " + INITIAL_FILE.getAbsolutePath());
 				} else {
