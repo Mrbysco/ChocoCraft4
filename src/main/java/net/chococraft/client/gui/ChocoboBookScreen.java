@@ -44,6 +44,7 @@ public class ChocoboBookScreen extends Screen {
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		this.renderBackground(matrixStack);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
+		this.minecraft.getTextureManager().bind(TEXTURE);
 
 		matrixStack.pushPose();
 		matrixStack.translate(this.guiLeft, this.guiTop, 0);
