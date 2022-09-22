@@ -11,6 +11,7 @@ import net.chococraft.common.init.ModSounds;
 import net.chococraft.common.network.PacketManager;
 import net.chococraft.common.world.worldgen.ModWorldgen;
 import net.chococraft.utils.Log4jFilter;
+import net.minecraft.block.ComposterBlock;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -68,6 +69,21 @@ public class Chococraft {
 		ModDataSerializers.init();
 		PacketManager.init();
 		Log4jFilter.init();
+		event.enqueueWork(() -> {
+			registerCompostables();
+		});
+	}
+
+	public static void registerCompostables() {
+		// 30% chance
+		ComposterBlock.COMPOSTABLES.put(ModRegistry.GYSAHL_GREEN_SEEDS.get(), 0.3F);
+
+		// 65% chance
+		ComposterBlock.COMPOSTABLES.put(ModRegistry.GYSAHL_GREEN_ITEM.get(), 0.65F);
+		ComposterBlock.COMPOSTABLES.put(ModRegistry.LOVERLY_GYSAHL_GREEN.get(), 0.65F);
+		ComposterBlock.COMPOSTABLES.put(ModRegistry.GOLD_GYSAHL.get(), 0.65F);
+		ComposterBlock.COMPOSTABLES.put(ModRegistry.RED_GYSAHL.get(), 0.65F);
+		ComposterBlock.COMPOSTABLES.put(ModRegistry.PINK_GYSAHL.get(), 0.65F);
 	}
 
 	private void loadComplete(final FMLLoadCompleteEvent event) {

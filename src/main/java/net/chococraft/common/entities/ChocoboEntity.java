@@ -538,7 +538,7 @@ public class ChocoboEntity extends TameableEntity {
 			if (this.isBaby()) {
 				if (fedCake) {
 					this.usePlayerItem(player, heldItemStack);
-					this.ageBoundaryReached();
+					this.setBaby(false);
 					return ActionResultType.sidedSuccess(this.level.isClientSide);
 				}
 			} else {
