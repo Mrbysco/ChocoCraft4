@@ -511,7 +511,7 @@ public class Chocobo extends TamableAnimal {
 			if (this.isBaby()) {
 				if (fedCake) {
 					this.usePlayerItem(player, hand, heldItemStack);
-					this.ageBoundaryReached();
+					this.setBaby(false);
 					return InteractionResult.sidedSuccess(this.level.isClientSide);
 				}
 			} else {
