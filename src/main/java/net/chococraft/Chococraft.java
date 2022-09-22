@@ -13,6 +13,7 @@ import net.chococraft.common.network.PacketManager;
 import net.chococraft.common.world.worldgen.ModFeatureConfigs;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -66,6 +67,21 @@ public class Chococraft {
 		ModDataSerializers.init();
 		PacketManager.init();
 		ModFeatureConfigs.init();
+		event.enqueueWork(() -> {
+			registerCompostables();
+		});
+	}
+
+	public static void registerCompostables() {
+		// 30% chance
+		ComposterBlock.COMPOSTABLES.put(ModRegistry.GYSAHL_GREEN_SEEDS.get(), 0.3F);
+
+		// 65% chance
+		ComposterBlock.COMPOSTABLES.put(ModRegistry.GYSAHL_GREEN_ITEM.get(), 0.65F);
+		ComposterBlock.COMPOSTABLES.put(ModRegistry.LOVERLY_GYSAHL_GREEN.get(), 0.65F);
+		ComposterBlock.COMPOSTABLES.put(ModRegistry.GOLD_GYSAHL.get(), 0.65F);
+		ComposterBlock.COMPOSTABLES.put(ModRegistry.RED_GYSAHL.get(), 0.65F);
+		ComposterBlock.COMPOSTABLES.put(ModRegistry.PINK_GYSAHL.get(), 0.65F);
 	}
 
 	private void loadComplete(final FMLLoadCompleteEvent event) {
