@@ -294,14 +294,19 @@ public class Chocobo extends TamableAnimal {
 
 	@Nullable
 	public LivingEntity getControllingPassenger() {
-		if (isTame() && this.isSaddled()) {
-			Entity entity = this.getFirstPassenger();
-			if (entity instanceof LivingEntity) {
-				return (LivingEntity) entity;
-			}
+		Entity entity = this.getFirstPassenger();
+		if (entity instanceof LivingEntity livingEntity) {
+			return this.canBeControlledBy(livingEntity) ? livingEntity : null;
 		}
-
 		return null;
+	}
+
+	private boolean canBeControlledBy(LivingEntity entity) {
+		if (this.isTame() && this.isSaddled()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
@@ -455,6 +460,12 @@ public class Chocobo extends TamableAnimal {
 			this.timeSinceFeatherChance++;
 		}
 
+		if (!level.isClientSide) {
+			if (isPassenger() && isVehicle()) {
+				stopRiding();
+			}
+		}
+
 		if (this.getCommandSenderWorld().isClientSide) {
 			// Wing rotations, control packet, client side
 			// Client side
@@ -536,7 +547,7 @@ public class Chocobo extends TamableAnimal {
 			return InteractionResult.PASS;
 		} else {
 			if (this.isTame()) {
-				if (this.isSaddled() && player.getMainHandItem().isEmpty() && !player.isShiftKeyDown() && !this.isBaby()) {
+				if (this.isSaddled() && !this.isVehicle() && player.getMainHandItem().isEmpty() && !player.isShiftKeyDown() && !this.isBaby()) {
 					player.startRiding(this);
 					return InteractionResult.SUCCESS;
 				}
