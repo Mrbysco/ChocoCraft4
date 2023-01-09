@@ -70,6 +70,7 @@ public class Chococraft {
 		event.enqueueWork(() -> {
 			registerCompostables();
 		});
+
 	}
 
 	public static void registerCompostables() {

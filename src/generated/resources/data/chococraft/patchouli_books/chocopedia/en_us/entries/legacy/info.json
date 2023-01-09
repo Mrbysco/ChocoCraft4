@@ -30,6 +30,78 @@
     {
       "type": "patchouli:text",
       "text": "gui.chocobook.page7"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "gui.chocobook.page8"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "gui.chocobook.page9"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "gui.chocobook.page10"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "gui.chocobook.page11"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "gui.chocobook.page12"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "gui.chocobook.page13"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "gui.chocobook.page14"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "gui.chocobook.page15"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "gui.chocobook.page16"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "gui.chocobook.page17"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "gui.chocobook.page18"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "gui.chocobook.page19"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "gui.chocobook.page20"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "gui.chocobook.page21"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "gui.chocobook.page22"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "gui.chocobook.page23"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "gui.chocobook.page24"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "gui.chocobook.page25"
     }
   ]
 }
