@@ -1,0 +1,4 @@
+{
+  "type": "chococraft:add_chocobo",
+  "biomes": "#forge:is_plains"
+}

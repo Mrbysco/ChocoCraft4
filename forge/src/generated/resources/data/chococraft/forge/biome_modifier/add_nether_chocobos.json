@@ -1,0 +1,4 @@
+{
+  "type": "chococraft:add_chocobo",
+  "biomes": "#minecraft:is_nether"
+}

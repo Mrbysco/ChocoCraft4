@@ -1,0 +1,11 @@
+accessWidener   v2  named
+
+accessible field net/minecraft/world/entity/LivingEntity jumping Z
+accessible field net/minecraft/world/entity/ai/goal/FollowOwnerGoal owner Lnet/minecraft/world/entity/LivingEntity;
+accessible field net/minecraft/world/entity/ai/goal/FollowOwnerGoal navigation Lnet/minecraft/world/entity/ai/navigation/PathNavigation;
+accessible field net/minecraft/world/entity/ai/goal/FollowOwnerGoal startDistance F
+accessible field net/minecraft/world/entity/ai/goal/FollowOwnerGoal stopDistance F
+
+accessible field net/minecraft/server/level/ServerPlayer containerCounter I
+accessible method net/minecraft/server/level/ServerPlayer nextContainerCounter ()V
+accessible method net/minecraft/server/level/ServerPlayer initMenu (Lnet/minecraft/world/inventory/AbstractContainerMenu;)V

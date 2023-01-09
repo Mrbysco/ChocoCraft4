@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:saddle"
+    },
+    {
+      "item": "chococraft:chocobo_feather"
+    }
+  ],
+  "result": {
+    "item": "chococraft:chocobo_saddle"
+  }
+}

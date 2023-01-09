@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "F": {
+      "item": "chococraft:chocobo_feather"
+    },
+    "L": {
+      "tag": "c:leather"
+    },
+    "S": {
+      "item": "chococraft:chocobo_saddle_bags"
+    },
+    "T": {
+      "tag": "c:string"
+    },
+    "W": {
+      "item": "minecraft:white_wool"
+    }
+  },
+  "pattern": [
+    "TFT",
+    "WSW",
+    "TLT"
+  ],
+  "result": {
+    "item": "chococraft:chocobo_saddle_pack"
+  }
+}

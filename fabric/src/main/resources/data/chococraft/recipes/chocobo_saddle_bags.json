@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "F": {
+      "item": "chococraft:chocobo_feather"
+    },
+    "L": {
+      "tag": "c:leather"
+    },
+    "S": {
+      "item": "chococraft:chocobo_saddle"
+    }
+  },
+  "pattern": [
+    " F ",
+    "LSL",
+    " L "
+  ],
+  "result": {
+    "item": "chococraft:chocobo_saddle_bags"
+  }
+}

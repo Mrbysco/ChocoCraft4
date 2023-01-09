@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "id": "chococraft",
+  "version": "${version}",
+  "name": "Chococraft 4",
+  "description": "Chocobos in Minecraft\n Thanks to EddieV for the original Chococraft, ArnoSaxena(Torojimas) and clienthax for maintaining it",
+  "authors": [
+    "Mrbysco",
+    "Xalcon",
+    "Slayer5934",
+    "balika011"
+  ],
+  "contributors": [
+    "Kraehe"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/chococraft",
+    "sources": "https://github.com/Mrbysco/ChocoCraft4",
+    "issues": "https://github.com/Mrbysco/ChocoCraft4/issues"
+  },
+  "license": "MIT",
+  "icon": "assets/chococraft/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.chococraft.fabric.ChococraftFabric"
+    ],
+    "client": [
+      "net.chococraft.fabric.ChococraftClientFabric"
+    ],
+    "modmenu": [
+      "net.chococraft.fabric.common.config.ChococraftMenuIntegration"
+    ]
+  },
+  "mixins": [
+    "chococraft.mixins.json"
+  ],
+  "depends": {
+    "fabric": "*",
+    "minecraft": ">=1.19.2",
+    "architectury": ">=6.2.43",
+    "cloth-config": ">=7.0.67"
+  }
+}
