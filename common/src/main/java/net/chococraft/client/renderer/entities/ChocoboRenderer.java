@@ -3,7 +3,7 @@ package net.chococraft.client.renderer.entities;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.chococraft.Chococraft;
-import net.chococraft.client.ClientHandler;
+import net.chococraft.ChococraftClient;
 import net.chococraft.client.models.entities.AdultChocoboModel;
 import net.chococraft.client.models.entities.ChicoboModel;
 import net.chococraft.client.renderer.layers.LayerCollar;
@@ -50,8 +50,8 @@ public class ChocoboRenderer extends MobRenderer<AbstractChocobo, EntityModel<Ab
 	private final EntityModel<AbstractChocobo> chocoboModel = this.getModel();
 
 	public ChocoboRenderer(EntityRendererProvider.Context context) {
-		super(context, new AdultChocoboModel(context.bakeLayer(ClientHandler.CHOCOBO)), 1.0f);
-		this.chicoboModel = new ChicoboModel<>(context.bakeLayer(ClientHandler.CHICOBO));
+		super(context, new AdultChocoboModel(context.bakeLayer(ChococraftClient.CHOCOBO)), 1.0f);
+		this.chicoboModel = new ChicoboModel<>(context.bakeLayer(ChococraftClient.CHICOBO));
 
 		this.addLayer(new LayerCollar(this));
 		this.addLayer(new LayerPlumage(this));

@@ -76,8 +76,6 @@
   "info.chococraft.book.gysahl_green.text2": "Una parcela de verduras gysahl se aparecen en un bioma de llanura.",
   "info.chococraft.book.gysahl_green.text3": "La verdura gysahl se puede cultivar plantando semillas de verdura gysahl. Después de cosechar la verdura gysahl silvestre, el jugador puede convertirla en semillas de verdura gysahl.",
   "info.chococraft.book.gysahl_green.text4": "Las semillas se pueden plantar en tierras de cultivo como la mayoría de los otros cultivos. Cuando el cultivo madura y es cosechado hay un 15%% de obtener una $(l:chococraft:info/loverly_gysahl)verdura gysahl preciosa$() y un 5%% de obtener una $(l:chococraft:info/gold_gysahl)verdura gysahl dorada$().",
-  "info.chococraft.book.info.desc": "Estas entradas contienen información sobre los objetos/bloques/criaturas que aparecen en las entradas.",
-  "info.chococraft.book.info.name": "Información",
   "info.chococraft.book.landing": "La chocopedia es tu guía para Chococraft 4. Contiene información sobre todas las diferentes habilidades y objetos que puedes utilizar en Chococraft 4.",
   "info.chococraft.book.legacy.desc": "El texto original que se puede encontrar en la chocopedia original.",
   "info.chococraft.book.legacy.entry.name": "Información heredada",
@@ -141,5 +139,15 @@
   "text.autoconfig.chococraft.option.spawning.chocoboPackSizeMax": "Chocobo Pack Min Size",
   "text.autoconfig.chococraft.option.spawning.chocoboPackSizeMin": "Chocobo Pack Max Size",
   "text.autoconfig.chococraft.option.spawning.chocoboSpawnWeight": "Chocobo Spawn Weight",
-  "chococraft.entity_chocobo.not_owner": "§cYou are not the owner of this Chocobo!"
+  "chococraft.entity_chocobo.not_owner": "§cYou are not the owner of this Chocobo!",
+  "info.chococraft.book.chocobos.desc": "These entries contain information about $(l:chococraft:info/chocobo)Chocobos$()",
+  "info.chococraft.book.chocobos.name": "Chocobos",
+  "info.chococraft.book.equipments.desc": "These entries contain information about the Tools & Equipments of ChocoCraft 4",
+  "info.chococraft.book.equipments.name": "Tools & Equipments",
+  "info.chococraft.book.gysahls.desc": "These entries contain information about Gysahls",
+  "info.chococraft.book.gysahls.name": "Gysahls",
+  "info.chococraft.book.misc.desc": "These entries contain information about other stuff from ChocoCraft 4.",
+  "info.chococraft.book.misc.name": "Misc",
+  "info.chococraft.book.whistle.entry.name": "Chocobo Whistle",
+  "info.chococraft.book.whistle.text1": "The Chocobo Whistle allows you to command your tamed $(l:chococraft:info/chocobo)Chocobos$() by right-clicking them with it. $(br2)There are three commands that you can do, $(o)Wander$(), $(o)Follow$(), and $(o)Stay$()."
 }

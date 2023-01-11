@@ -3,6 +3,7 @@ package net.chococraft.forge;
 import dev.architectury.event.events.client.ClientLifecycleEvent;
 import dev.architectury.platform.forge.EventBuses;
 import net.chococraft.Chococraft;
+import net.chococraft.ChococraftClient;
 import net.chococraft.forge.client.ForgeClientHandler;
 import net.chococraft.forge.common.config.BreedingConfig;
 import net.chococraft.forge.common.config.BreedingConfigReloadManager;
@@ -48,7 +49,7 @@ public class ChococraftForge {
 			eventBus.addListener(ForgeClientHandler::registerLayerDefinitions);
 
 			ClientLifecycleEvent.CLIENT_SETUP.register(e -> {
-				net.chococraft.client.ClientHandler.initializeScreen();
+				ChococraftClient.init();
 			});
 		});
 	}

@@ -1,6 +1,6 @@
 package net.chococraft.forge.client;
 
-import net.chococraft.client.ClientHandler;
+import net.chococraft.ChococraftClient;
 import net.chococraft.client.models.armor.ChocoDisguiseModel;
 import net.chococraft.client.models.entities.AdultChocoboModel;
 import net.chococraft.client.models.entities.ChicoboModel;
@@ -14,8 +14,8 @@ public class ForgeClientHandler {
 	}
 
 	public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
-		event.registerLayerDefinition(ClientHandler.CHOCOBO, () -> AdultChocoboModel.createBodyLayer());
-		event.registerLayerDefinition(ClientHandler.CHICOBO, () -> ChicoboModel.createBodyLayer());
-		event.registerLayerDefinition(ClientHandler.CHOCO_DISGUISE, () -> ChocoDisguiseModel.createArmorDefinition());
+		event.registerLayerDefinition(ChococraftClient.CHOCOBO, () -> AdultChocoboModel.createBodyLayer());
+		event.registerLayerDefinition(ChococraftClient.CHICOBO, () -> ChicoboModel.createBodyLayer());
+		event.registerLayerDefinition(ChococraftClient.CHOCO_DISGUISE, () -> ChocoDisguiseModel.createArmorDefinition());
 	}
 }

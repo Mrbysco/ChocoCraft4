@@ -1,8 +1,7 @@
 package net.chococraft.fabric;
 
-import dev.architectury.event.events.client.ClientLifecycleEvent;
 import dev.architectury.registry.client.rendering.RenderTypeRegistry;
-import net.chococraft.client.ClientHandler;
+import net.chococraft.ChococraftClient;
 import net.chococraft.client.gui.ChocoboInventoryScreen;
 import net.chococraft.client.models.armor.ChocoDisguiseModel;
 import net.chococraft.client.models.entities.AdultChocoboModel;
@@ -23,15 +22,13 @@ public class ChococraftClientFabric implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
-		EntityModelLayerRegistry.registerModelLayer(ClientHandler.CHOCOBO, AdultChocoboModel::createBodyLayer);
-		EntityModelLayerRegistry.registerModelLayer(ClientHandler.CHICOBO, ChicoboModel::createBodyLayer);
-		EntityModelLayerRegistry.registerModelLayer(ClientHandler.CHOCO_DISGUISE, ChocoDisguiseModel::createArmorDefinition);
+		EntityModelLayerRegistry.registerModelLayer(ChococraftClient.CHOCOBO, AdultChocoboModel::createBodyLayer);
+		EntityModelLayerRegistry.registerModelLayer(ChococraftClient.CHICOBO, ChicoboModel::createBodyLayer);
+		EntityModelLayerRegistry.registerModelLayer(ChococraftClient.CHOCO_DISGUISE, ChocoDisguiseModel::createArmorDefinition);
 
 		EntityRendererRegistry.register(ModEntities.CHOCOBO.get(), (ctx) -> new ChocoboRenderer(ctx));
 
-		ClientLifecycleEvent.CLIENT_SETUP.register(e -> {
-			net.chococraft.client.ClientHandler.initializeScreen();
-		});
+		ChococraftClient.init();
 
 		ClientPlayNetworking.registerGlobalReceiver(ChococraftFabric.OPEN_CHOCOBO_SCREEN, (client, handler, buf, responseSender) -> {
 			int containerId = buf.readUnsignedByte();

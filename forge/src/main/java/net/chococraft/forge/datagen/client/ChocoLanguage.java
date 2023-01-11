@@ -103,14 +103,24 @@ public class ChocoLanguage extends LanguageProvider {
 		//Patchouli
 		add("info.chocopedia.book.name", "Chocopedia");
 		add("info.chococraft.book.subtitle", "Chococraft Guide");
-		add("info.chococraft.book.landing", "The chocopedia is your guide to Chococraft 4. It contains information on all of the different abilities and items that you can use in Chococraft 4.");
+		add("info.chococraft.book.landing", "The chocopedia is your guide to Chococraft 4. $(br2)It contains information on all of the different abilities and items that you can use in Chococraft 4.");
+
+		add("info.chococraft.book.chocobos.name", "Chocobos");
+		add("info.chococraft.book.chocobos.desc", "These entries contain information about $(l:chococraft:info/chocobo)Chocobos$()");
+
+		add("info.chococraft.book.gysahls.name", "Gysahls");
+		add("info.chococraft.book.gysahls.desc", "These entries contain information about Gysahls");
+
+		add("info.chococraft.book.equipments.name", "Tools & Equipments");
+		add("info.chococraft.book.equipments.desc", "These entries contain information about the Tools & Equipments of ChocoCraft 4");
+
+		add("info.chococraft.book.misc.name", "Misc");
+		add("info.chococraft.book.misc.desc", "These entries contain information about other stuff from ChocoCraft 4.");
 
 		add("info.chococraft.book.legacy.name", "Legacy");
-		add("info.chococraft.book.legacy.desc", "The original text that can be found in the original Chocopedia.");
+		add("info.chococraft.book.legacy.desc", "These are the original entries that can be found in the original Chocopedia Book.");
 		add("info.chococraft.book.legacy.entry.name", "Legacy Info");
 
-		add("info.chococraft.book.info.name", "Info");
-		add("info.chococraft.book.info.desc", "These entries contain information about items/blocks/entities depicted in the entries.");
 
 		add("info.chococraft.book.chocobo.entry.name", "Chocobo");
 		add("info.chococraft.book.chocobo.text", "Chocobos are passive mobs but scared of players so be careful around them.");
@@ -187,6 +197,9 @@ public class ChocoLanguage extends LanguageProvider {
 
 		add("info.chococraft.book.feather.entry.name", "Chocobo Feather");
 		add("info.chococraft.book.feather.text1", "$(l:chococraft:info/chocobo)Chocobos$() every so often shed feathers. They are useful for crafting a $(l:chococraft:info/chocodisguise)Choco Disguise$() armor set.");
+
+		add("info.chococraft.book.whistle.entry.name", "Chocobo Whistle");
+		add("info.chococraft.book.whistle.text1", "The Chocobo Whistle allows you to command your tamed $(l:chococraft:info/chocobo)Chocobos$() by right-clicking them with it. $(br2)There are three commands that you can do, $(o)Wander$(), $(o)Follow$(), and $(o)Stay$().");
 
 		//ClothConfig (fabric)
 		add("text.autoconfig.chococraft.option.spawning", "Spawning");

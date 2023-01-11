@@ -35,45 +35,12 @@ public class PatchouliProvider extends PatchouliBookProvider {
 				.addMacro("$(item)", "$(#c47567)");
 
 
-		//Legacy category
-		bookBuilder = bookBuilder.addCategory("legacy", "info.chococraft.book.legacy.name",
-						"info.chococraft.book.legacy.desc", "chococraft:chocopedia")
-				//Add legacy info entry
-				.addEntry("legacy/info", "info.chococraft.book.legacy.entry.name", "chococraft:chocopedia")
-				.addTextPage("gui.chocobook.page1").build()
-				.addTextPage("gui.chocobook.page2").build()
-				.addTextPage("gui.chocobook.page3").build()
-				.addTextPage("gui.chocobook.page4").build()
-				.addTextPage("gui.chocobook.page5").build()
-				.addTextPage("gui.chocobook.page6").build()
-				.addTextPage("gui.chocobook.page7").build()
-				.addTextPage("gui.chocobook.page8").build()
-				.addTextPage("gui.chocobook.page9").build()
-				.addTextPage("gui.chocobook.page10").build()
-				.addTextPage("gui.chocobook.page11").build()
-				.addTextPage("gui.chocobook.page12").build()
-				.addTextPage("gui.chocobook.page13").build()
-				.addTextPage("gui.chocobook.page14").build()
-				.addTextPage("gui.chocobook.page15").build()
-				.addTextPage("gui.chocobook.page16").build()
-				.addTextPage("gui.chocobook.page17").build()
-				.addTextPage("gui.chocobook.page18").build()
-				.addTextPage("gui.chocobook.page19").build()
-				.addTextPage("gui.chocobook.page20").build()
-				.addTextPage("gui.chocobook.page21").build()
-				.addTextPage("gui.chocobook.page22").build()
-				.addTextPage("gui.chocobook.page23").build()
-				.addTextPage("gui.chocobook.page24").build()
-				.addTextPage("gui.chocobook.page25").build()
-				.build()
-				.build(); //Back to the bookbuilder
-
-		//Crafting category
-		bookBuilder = bookBuilder.addCategory("info", "info.chococraft.book.info.name",
-						"info.chococraft.book.info.desc", "chococraft:chocobo_feather")
+		bookBuilder = bookBuilder.addCategory("chocobos", "info.chococraft.book.chocobos.name",
+						"info.chococraft.book.chocobos.desc", "chococraft:chocobo_feather")
+				.setSortnum(0)
 
 				//Add Chocobo entry
-				.addEntry("info/chocobo", "info.chococraft.book.chocobo.entry.name", ModRegistry.YELLOW_CHOCOBO_SPAWN_EGG.getId().toString())
+				.addEntry("chocobos/chocobo", "info.chococraft.book.chocobo.entry.name", ModRegistry.YELLOW_CHOCOBO_SPAWN_EGG.getId().toString())
 				.addEntityPage(ModEntities.CHOCOBO.getId()).setEntityNbt(getChocoboData(ChocoboColor.YELLOW))
 				.setText("info.chococraft.book.chocobo.text").build()
 				.addTextPage("info.chococraft.book.chocobo.text2").build()
@@ -120,38 +87,58 @@ public class PatchouliProvider extends PatchouliBookProvider {
 				.build()
 
 				//Add Chicobo entry
-				.addEntry("info/chicobo", "info.chococraft.book.chicobo.entry.name", ModRegistry.YELLOW_CHOCOBO_SPAWN_EGG.getId().toString())
+				.addEntry("chocobos/chicobo", "info.chococraft.book.chicobo.entry.name", ModRegistry.YELLOW_CHOCOBO_SPAWN_EGG.getId().toString())
 				.addTextPage("info.chococraft.book.chicobo.text1").build()
 				.addEntityPage(ModEntities.CHOCOBO.getId()).setEntityNbt(getChicoboData(ChocoboColor.YELLOW))
 				.setName("Chicobo (Yellow)").build()
 				.build()
 
+				//Add Raw Drumstick entry
+				.addEntry("chocobos/raw_drumstick", "info.chococraft.book.raw_drumstick.entry.name", ModRegistry.CHOCOBO_DRUMSTICK_RAW.getId().toString())
+				.addTextPage("info.chococraft.book.raw_drumstick.text1").build()
+				.addSmeltingPage(new ResourceLocation(Chococraft.MOD_ID, "chocobo_drumstick_cooked")).build()
+				.addSmokingPage(new ResourceLocation(Chococraft.MOD_ID, "chocobo_drumstick_cooked_from_smoking")).build()
+				.addCampfirePage(new ResourceLocation(Chococraft.MOD_ID, "chocobo_drumstick_cooked_from_campfire_cooking")).build()
+				.build()
+
+				//Add Feather entry
+				.addEntry("chocobos/feather", "info.chococraft.book.feather.entry.name", ModRegistry.CHOCOBO_FEATHER.getId().toString())
+				.addTextPage("info.chococraft.book.feather.text1").build()
+				.addSpotlightPage(new ItemStack(ModRegistry.CHOCOBO_FEATHER.get())).build()
+				.build()
+
+				.build(); //Back to the bookbuilder
+
+		bookBuilder = bookBuilder.addCategory("gysahls", "info.chococraft.book.gysahls.name",
+						"info.chococraft.book.gysahls.desc", "chococraft:gysahl_green")
+				.setSortnum(1)
+
 				//Add Loverly Gysahl entry
-				.addEntry("info/loverly_gysahl", "info.chococraft.book.loverly_gysahl.entry.name", ModRegistry.LOVERLY_GYSAHL_GREEN.getId().toString())
+				.addEntry("gysahls/loverly_gysahl", "info.chococraft.book.loverly_gysahl.entry.name", ModRegistry.LOVERLY_GYSAHL_GREEN.getId().toString())
 				.addTextPage("info.chococraft.book.loverly_gysahl.text1").build()
 				.addSpotlightPage(new ItemStack(ModRegistry.LOVERLY_GYSAHL_GREEN.get())).build()
 				.build()
 
 				//Add Golden Gysahl entry
-				.addEntry("info/gold_gysahl", "info.chococraft.book.gold_gysahl.entry.name", ModRegistry.GOLD_GYSAHL.getId().toString())
+				.addEntry("gysahls/gold_gysahl", "info.chococraft.book.gold_gysahl.entry.name", ModRegistry.GOLD_GYSAHL.getId().toString())
 				.addTextPage("info.chococraft.book.gold_gysahl.text1").build()
 				.addSpotlightPage(new ItemStack(ModRegistry.GOLD_GYSAHL.get())).build()
 				.build()
 
 				//Add Red Gysahl entry
-				.addEntry("info/red_gysahl", "info.chococraft.book.red_gysahl.entry.name", ModRegistry.RED_GYSAHL.getId().toString())
+				.addEntry("gysahls/red_gysahl", "info.chococraft.book.red_gysahl.entry.name", ModRegistry.RED_GYSAHL.getId().toString())
 				.addTextPage("info.chococraft.book.red_gysahl.text1").build()
 				.addCraftingPage(new ResourceLocation(Chococraft.MOD_ID, "red_gysahl")).build()
 				.build()
 
 				//Add Pink Gysahl entry
-				.addEntry("info/pink_gysahl", "info.chococraft.book.pink_gysahl.entry.name", ModRegistry.PINK_GYSAHL.getId().toString())
+				.addEntry("gysahls/pink_gysahl", "info.chococraft.book.pink_gysahl.entry.name", ModRegistry.PINK_GYSAHL.getId().toString())
 				.addTextPage("info.chococraft.book.pink_gysahl.text1").build()
 				.addCraftingPage(new ResourceLocation(Chococraft.MOD_ID, "pink_gysahl")).build()
 				.build()
 
 				//Add Gysahl Green entry
-				.addEntry("info/gysahl_green", "info.chococraft.book.gysahl_green.entry.name", ModRegistry.GYSAHL_GREEN_ITEM.getId().toString())
+				.addEntry("gysahls/gysahl_green", "info.chococraft.book.gysahl_green.entry.name", ModRegistry.GYSAHL_GREEN_ITEM.getId().toString())
 				.addTextPage("info.chococraft.book.gysahl_green.text1").build()
 				.addImagePage(new ResourceLocation(Chococraft.MOD_ID, "textures/gui/entry/gysahl.png"))
 				.setText("info.chococraft.book.gysahl_green.text2").setBorder(true).build()
@@ -162,7 +149,7 @@ public class PatchouliProvider extends PatchouliBookProvider {
 				.build()
 
 				//Add Pickled Gysahl entry
-				.addEntry("info/pickled_gysahl", "info.chococraft.book.pickled_gysahl.entry.name", ModRegistry.PICKLED_GYSAHL_RAW.getId().toString())
+				.addEntry("gysahls/pickled_gysahl", "info.chococraft.book.pickled_gysahl.entry.name", ModRegistry.PICKLED_GYSAHL_RAW.getId().toString())
 				.addTextPage("info.chococraft.book.pickled_gysahl.text1").build()
 				.addCraftingPage(new ResourceLocation(Chococraft.MOD_ID, "pickled_gysahl_raw")).build()
 				.addSmeltingPage(new ResourceLocation(Chococraft.MOD_ID, "pickled_gysahl_cooked")).build()
@@ -170,22 +157,30 @@ public class PatchouliProvider extends PatchouliBookProvider {
 				.addCampfirePage(new ResourceLocation(Chococraft.MOD_ID, "pickled_gysahl_cooked_from_campfire_cooking")).build()
 				.build()
 
-				//Add Raw Drumstick entry
-				.addEntry("info/raw_drumstick", "info.chococraft.book.raw_drumstick.entry.name", ModRegistry.CHOCOBO_DRUMSTICK_RAW.getId().toString())
-				.addTextPage("info.chococraft.book.raw_drumstick.text1").build()
-				.addSmeltingPage(new ResourceLocation(Chococraft.MOD_ID, "chocobo_drumstick_cooked")).build()
-				.addSmokingPage(new ResourceLocation(Chococraft.MOD_ID, "chocobo_drumstick_cooked_from_smoking")).build()
-				.addCampfirePage(new ResourceLocation(Chococraft.MOD_ID, "chocobo_drumstick_cooked_from_campfire_cooking")).build()
-				.build()
-
 				//Add Gysahl Cake entry
-				.addEntry("info/gysahl_cake", "info.chococraft.book.gysahl_cake.entry.name", ModRegistry.GYSAHL_CAKE.getId().toString())
+				.addEntry("gysahls/gysahl_cake", "info.chococraft.book.gysahl_cake.entry.name", ModRegistry.GYSAHL_CAKE.getId().toString())
 				.addTextPage("info.chococraft.book.gysahl_cake.text1").build()
 				.addCraftingPage(new ResourceLocation(Chococraft.MOD_ID, "gysahl_cake")).build()
 				.build()
 
+				//Add Saddle Cake entry
+				.addEntry("gysahls/saddle", "info.chococraft.book.saddle.entry.name", ModRegistry.CHOCOBO_SADDLE.getId().toString())
+				.addTextPage("info.chococraft.book.saddle.text1").build()
+				.addCraftingPage(new ResourceLocation(Chococraft.MOD_ID, "chocobo_saddle"))
+				.setRecipe2(new ResourceLocation(Chococraft.MOD_ID, "chocobo_saddle_alt")).build()
+				.addTextPage("info.chococraft.book.saddle.text2").build()
+				.addCraftingPage(new ResourceLocation(Chococraft.MOD_ID, "chocobo_saddle_bags"))
+				.setRecipe2(new ResourceLocation(Chococraft.MOD_ID, "chocobo_saddle_pack")).build()
+				.build()
+
+				.build(); //Back to the bookbuilder
+
+		bookBuilder = bookBuilder.addCategory("equipments", "info.chococraft.book.equipments.name",
+						"info.chococraft.book.equipments.desc", "chococraft:chocobo_saddle_pack")
+				.setSortnum(2)
+
 				//Add Choco Disguise entry
-				.addEntry("info/chocodisguise", "info.chococraft.book.chocodisguise.entry.name", ModRegistry.CHOCO_DISGUISE_HELMET.getId().toString())
+				.addEntry("equipments/chocodisguise", "info.chococraft.book.chocodisguise.entry.name", ModRegistry.CHOCO_DISGUISE_HELMET.getId().toString())
 				.addTextPage("info.chococraft.book.chocodisguise.text1").build()
 				.addImagePage(new ResourceLocation(Chococraft.MOD_ID, "textures/gui/entry/chocodisguise.png")).setBorder(true).build()
 				.addCraftingPage(new ResourceLocation(Chococraft.MOD_ID, "choco_disguise_helmet"))
@@ -195,7 +190,7 @@ public class PatchouliProvider extends PatchouliBookProvider {
 				.build()
 
 				//Add Saddle Cake entry
-				.addEntry("info/saddle", "info.chococraft.book.saddle.entry.name", ModRegistry.CHOCOBO_SADDLE.getId().toString())
+				.addEntry("equipments/saddle", "info.chococraft.book.saddle.entry.name", ModRegistry.CHOCOBO_SADDLE.getId().toString())
 				.addTextPage("info.chococraft.book.saddle.text1").build()
 				.addCraftingPage(new ResourceLocation(Chococraft.MOD_ID, "chocobo_saddle"))
 				.setRecipe2(new ResourceLocation(Chococraft.MOD_ID, "chocobo_saddle_alt")).build()
@@ -204,20 +199,59 @@ public class PatchouliProvider extends PatchouliBookProvider {
 				.setRecipe2(new ResourceLocation(Chococraft.MOD_ID, "chocobo_saddle_pack")).build()
 				.build()
 
-				//Add Straw entry
-				.addEntry("info/straw", "info.chococraft.book.straw.entry.name", ModRegistry.STRAW_ITEM.getId().toString())
-				.addTextPage("info.chococraft.book.straw.text1").build()
-				.addCraftingPage(new ResourceLocation(Chococraft.MOD_ID, "straw")).build()
-				.build()
-
-				//Add Feather entry
-				.addEntry("info/feather", "info.chococraft.book.feather.entry.name", ModRegistry.CHOCOBO_FEATHER.getId().toString())
-				.addTextPage("info.chococraft.book.feather.text1").build()
-				.addSpotlightPage(new ItemStack(ModRegistry.CHOCOBO_FEATHER.get())).build()
+				//Add Whistle entry
+				.addEntry("equipments/whistle", "info.chococraft.book.whistle.entry.name", ModRegistry.CHOCOBO_WHISTLE.getId().toString())
+				.addTextPage("info.chococraft.book.whistle.text1").build()
+				.addCraftingPage(new ResourceLocation(Chococraft.MOD_ID, "chocobo_whistle")).build()
 				.build()
 
 				.build(); //Back to the bookbuilder
 
+		bookBuilder = bookBuilder.addCategory("misc", "info.chococraft.book.misc.name",
+						"info.chococraft.book.misc.desc", "chococraft:straw")
+				.setSortnum(3)
+
+				//Add Straw entry
+				.addEntry("misc/straw", "info.chococraft.book.straw.entry.name", ModRegistry.STRAW_ITEM.getId().toString())
+				.addTextPage("info.chococraft.book.straw.text1").build()
+				.addCraftingPage(new ResourceLocation(Chococraft.MOD_ID, "straw")).build()
+				.build()
+
+				.build(); //Back to the bookbuilder
+
+		//Legacy category
+		bookBuilder = bookBuilder.addCategory("legacy", "info.chococraft.book.legacy.name",
+						"info.chococraft.book.legacy.desc", "chococraft:chocopedia")
+				.setSortnum(4)
+				//Add legacy info entry
+				.addEntry("legacy/info", "info.chococraft.book.legacy.entry.name", "chococraft:chocopedia")
+				.addTextPage("gui.chocobook.page1").build()
+				.addTextPage("gui.chocobook.page2").build()
+				.addTextPage("gui.chocobook.page3").build()
+				.addTextPage("gui.chocobook.page4").build()
+				.addTextPage("gui.chocobook.page5").build()
+				.addTextPage("gui.chocobook.page6").build()
+				.addTextPage("gui.chocobook.page7").build()
+				.addTextPage("gui.chocobook.page8").build()
+				.addTextPage("gui.chocobook.page9").build()
+				.addTextPage("gui.chocobook.page10").build()
+				.addTextPage("gui.chocobook.page11").build()
+				.addTextPage("gui.chocobook.page12").build()
+				.addTextPage("gui.chocobook.page13").build()
+				.addTextPage("gui.chocobook.page14").build()
+				.addTextPage("gui.chocobook.page15").build()
+				.addTextPage("gui.chocobook.page16").build()
+				.addTextPage("gui.chocobook.page17").build()
+				.addTextPage("gui.chocobook.page18").build()
+				.addTextPage("gui.chocobook.page19").build()
+				.addTextPage("gui.chocobook.page20").build()
+				.addTextPage("gui.chocobook.page21").build()
+				.addTextPage("gui.chocobook.page22").build()
+				.addTextPage("gui.chocobook.page23").build()
+				.addTextPage("gui.chocobook.page24").build()
+				.addTextPage("gui.chocobook.page25").build()
+				.build()
+				.build(); //Back to the bookbuilder
 
 		//Finish book
 		bookBuilder.build(consumer);

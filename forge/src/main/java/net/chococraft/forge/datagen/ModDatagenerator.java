@@ -5,13 +5,7 @@ import com.mojang.serialization.JsonOps;
 import net.chococraft.Chococraft;
 import net.chococraft.common.world.worldgen.ModConfiguredFeatures;
 import net.chococraft.forge.common.modifier.AddChocoboModifier;
-import net.chococraft.forge.datagen.client.ChocoBlockModels;
-import net.chococraft.forge.datagen.client.ChocoBlockstates;
-import net.chococraft.forge.datagen.client.ChocoItemModels;
-import net.chococraft.forge.datagen.client.ChocoLanguage;
-import net.chococraft.forge.datagen.client.ChocoSoundProvider;
 import net.chococraft.forge.datagen.client.patchouli.PatchouliProvider;
-import net.chococraft.forge.datagen.data.ChocoLoot;
 import net.chococraft.forge.datagen.data.ChocoRecipes;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
@@ -54,9 +48,8 @@ public class ModDatagenerator {
 		ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
 		if (event.includeServer()) {
-			generator.addProvider(event.includeServer(), new ChocoLoot(generator));
+//			generator.addProvider(event.includeServer(), new ChocoLoot(generator));
 			generator.addProvider(event.includeServer(), new ChocoRecipes(generator));
-
 
 			generator.addProvider(event.includeServer(), JsonCodecProvider.forDatapackRegistry(
 					generator, existingFileHelper, Chococraft.MOD_ID, ops, Registry.PLACED_FEATURE_REGISTRY, getPlacedFeatures(ops)));
@@ -65,11 +58,11 @@ public class ModDatagenerator {
 					generator, existingFileHelper, Chococraft.MOD_ID, ops, ForgeRegistries.Keys.BIOME_MODIFIERS, getBiomeModifiers(ops)));
 		}
 		if (event.includeClient()) {
-			generator.addProvider(event.includeClient(), new ChocoLanguage(generator));
-			generator.addProvider(event.includeClient(), new ChocoBlockModels(generator, existingFileHelper));
-			generator.addProvider(event.includeClient(), new ChocoBlockstates(generator, existingFileHelper));
-			generator.addProvider(event.includeClient(), new ChocoItemModels(generator, existingFileHelper));
-			generator.addProvider(event.includeClient(), new ChocoSoundProvider(generator, existingFileHelper));
+//			generator.addProvider(event.includeClient(), new ChocoLanguage(generator));
+//			generator.addProvider(event.includeClient(), new ChocoBlockModels(generator, existingFileHelper));
+//			generator.addProvider(event.includeClient(), new ChocoBlockstates(generator, existingFileHelper));
+//			generator.addProvider(event.includeClient(), new ChocoItemModels(generator, existingFileHelper));
+//			generator.addProvider(event.includeClient(), new ChocoSoundProvider(generator, existingFileHelper));
 		}
 		generator.addProvider(true, new PatchouliProvider(generator));
 	}

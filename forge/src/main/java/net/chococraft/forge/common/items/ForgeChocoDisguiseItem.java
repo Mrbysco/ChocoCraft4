@@ -1,7 +1,7 @@
 package net.chococraft.forge.common.items;
 
 import net.chococraft.Chococraft;
-import net.chococraft.client.ClientHandler;
+import net.chococraft.ChococraftClient;
 import net.chococraft.client.models.armor.ChocoDisguiseModel;
 import net.chococraft.common.items.armor.AbstractChocoDisguiseItem;
 import net.minecraft.client.Minecraft;
@@ -35,7 +35,7 @@ public class ForgeChocoDisguiseItem extends AbstractChocoDisguiseItem {
 
 	@OnlyIn(Dist.CLIENT)
 	public HumanoidModel<?> provideArmorModelForSlot(EquipmentSlot slot) {
-		return new ChocoDisguiseModel(Minecraft.getInstance().getEntityModels().bakeLayer(ClientHandler.CHOCO_DISGUISE), slot);
+		return new ChocoDisguiseModel(Minecraft.getInstance().getEntityModels().bakeLayer(ChococraftClient.CHOCO_DISGUISE), slot);
 	}
 
 	@Override
