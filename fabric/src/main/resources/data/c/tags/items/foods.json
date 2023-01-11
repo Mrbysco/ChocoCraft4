@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "chococraft:gysahl_green",
+	"chococraft:chocobo_drumstick_raw",
+	"chococraft:chocobo_drumstick_cooked",
+	"chococraft:pickled_gysahl_raw",
+	"chococraft:pickled_gysahl_cooked"
+  ]
+}
