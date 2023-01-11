@@ -1,7 +1,8 @@
 {
-  "category": "chococraft:info",
+  "category": "chococraft:gysahls",
   "icon": "chococraft:pink_gysahl",
   "name": "info.chococraft.book.pink_gysahl.entry.name",
+  "sortnum": 3,
   "pages": [
     {
       "type": "patchouli:text",

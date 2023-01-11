@@ -1,7 +1,8 @@
 {
-  "category": "chococraft:info",
+  "category": "chococraft:chocobos",
   "icon": "chococraft:yellow_chocobo_spawn_egg",
   "name": "info.chococraft.book.chocobo.entry.name",
+  "sortnum": 0,
   "pages": [
     {
       "type": "patchouli:entity",

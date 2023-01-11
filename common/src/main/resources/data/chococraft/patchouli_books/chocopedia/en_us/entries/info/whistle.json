@@ -1,0 +1,16 @@
+{
+  "category": "chococraft:equipments",
+  "icon": "chococraft:chocobo_whistle",
+  "name": "info.chococraft.book.whistle.entry.name",
+  "sortnum": 2,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "info.chococraft.book.whistle.text1"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "chococraft:chocobo_whistle"
+    }
+  ]
+}

@@ -1,7 +1,8 @@
 {
-  "category": "chococraft:info",
+  "category": "chococraft:gysahls",
   "icon": "chococraft:red_gysahl",
   "name": "info.chococraft.book.red_gysahl.entry.name",
+  "sortnum": 4,
   "pages": [
     {
       "type": "patchouli:text",

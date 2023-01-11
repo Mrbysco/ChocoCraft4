@@ -1,7 +1,8 @@
 {
-  "category": "chococraft:info",
+  "category": "chococraft:equipments",
   "icon": "chococraft:chocobo_saddle",
   "name": "info.chococraft.book.saddle.entry.name",
+  "sortnum": 1,
   "pages": [
     {
       "type": "patchouli:text",

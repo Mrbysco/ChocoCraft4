@@ -1,7 +1,8 @@
 {
-  "category": "chococraft:info",
+  "category": "chococraft:equipments",
   "icon": "chococraft:choco_disguise_helmet",
   "name": "info.chococraft.book.chocodisguise.entry.name",
+  "sortnum": 0,
   "pages": [
     {
       "type": "patchouli:text",
