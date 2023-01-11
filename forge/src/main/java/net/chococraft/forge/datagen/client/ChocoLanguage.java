@@ -69,31 +69,31 @@ public class ChocoLanguage extends LanguageProvider {
 		add("chococraft.entity_chocobo.not_owner", "§cYou are not the owner of this Chocobo!");
 
 		int pages = 1;
-		add("gui.chocobook.page" + pages++, "Table of Contents\n\nI. Chocobos\nII. In the wild\nIII. Gysahl Greens\n .1 Gysahl Mutations\n .2 Gysahl Pickles\nIV. Domestication\n .1 Breeding Chocobos\n .2 Chocobo Colours\nV. The Nether\nVI. Chocobo Pen\nVII. Chocobo Cake\n");
-		add("gui.chocobook.page" + pages++, "I. Chocobos\n\nThese large, herbiv- orous birds are largely unable to fly, but their powerful legs allow them to run at high speeds. Their size and impressive speed make them a popular choice when looking for a mount.\n");
-		add("gui.chocobook.page" + pages++, "Although largely too small to allow real flight, the Chocobo's wings enable the birds to glide and avoid fall damage to itself and its rider up to a cer- tain hight.\n\nDomesticated Chocobos can be deployed as mounts and transport animals.");
-		add("gui.chocobook.page" + pages++, "There are even re- ports of desperate adventurers having to relyto their Chocobos as a source of food.");
-		add("gui.chocobook.page" + pages++, "II. In the wild\n\nChocobos, in their yellow variety, found wild in most parts of the world. Flocks of mostly three, some- times five animals roam free in the wild. How- ever they are very scarce and an inter- ested ornithologist would have to search");
-		add("gui.chocobook.page" + pages++, "wide areas to find a flock.");
-		add("gui.chocobook.page" + pages++, "III. Gysahl Greens\n\nThe Chocobo's fa- vorite food are Gysahl Greens, these thick red root vegetables can be found growing widespread in all fertile areas. These plants can be crafted into seeds. The seeds then can be used to domestically grow");
-		add("gui.chocobook.page" + pages++, "Gysahl Greens on tilted and moisturised land.");
-		add("gui.chocobook.page" + pages++, "III.1 Gysahl Mutations\n\nWhen domestically growing Gysahl Greens, there is a chance of the root mutating into a Loverly or even Golden Gysahl. These special roots can be feed to two Chocobos of opposite gender, to initialise the mating process.");
-		add("gui.chocobook.page" + pages++, "III.2 Gysahl Pickles\n\nGysahl Greens and sugar can be crafted into raw Gysahl pickles, which can be cooked in a furnace to receive Gysahl pickles. These treats are not only tasty, but also very nourishing.");
-		add("gui.chocobook.page" + pages++, "IV. Domestication\n\nChocobos can be tamed by feeding them Gysahl Greens, the birds are very fond of the root vegetable and will sometimes form a bond to whomever is feeding them their fa- vorite food item. If tamed, the owner can fit either a chocobo");
-		add("gui.chocobook.page" + pages++, "saddle or pack bags on a Chocobo. Fitted with a saddle the Chocobo can be additionally equipped with saddle bags. (" + ChatFormatting.ITALIC + "Pack bags and saddle bags can be accessed by shift-right click" + ChatFormatting.RESET + ").");
-		add("gui.chocobook.page" + pages++, "IV.1 Chocobo Breeding\n\nIf feed with Loverly or Golden Gysahls, Chocobos of different gender can be breed to produce an off- spring. These infant Chocobos are called Chicobos and even- tually grow into a Chocobo. Besides in- creasing the number");
-		add("gui.chocobook.page" + pages++, "of Chocobos in a domesticated flock, breeding is the only way to obtain the different varieties of Chocobos available. There is a slight chance of mutation, which can be in- creased with the use of Golden Gysahls. The following combinations of parents can cause");
-		add("gui.chocobook.page" + pages++, "their offspring to mutate into these subspecies:\n\n 1. " + ChatFormatting.GOLD + "Yellow" + ChatFormatting.BLACK + " + " + ChatFormatting.GOLD + "Yellow" + ChatFormatting.BLACK + "\n = " + ChatFormatting.GREEN + "Green" + ChatFormatting.BLACK + " or " + ChatFormatting.BLUE + "Blue" + ChatFormatting.BLACK + "\n\n 2. " + ChatFormatting.GREEN + "Green" + ChatFormatting.BLACK + " + " + ChatFormatting.BLUE + "Blue" + ChatFormatting.BLACK + "\n = " + ChatFormatting.GRAY + "White" + ChatFormatting.BLACK + "\n\n 3. " + ChatFormatting.GOLD + "Yellow" + ChatFormatting.BLACK + " + " + ChatFormatting.GRAY + "White" + ChatFormatting.BLACK + "\n = " + "Black");
-		add("gui.chocobook.page" + pages++, "4. Black + " + ChatFormatting.GRAY + "White" + ChatFormatting.BLACK + "\n = " + ChatFormatting.GOLD + "Gold" + ChatFormatting.BLACK + "\n\nTo enable the off- spring to mutate into a golden " + "Chocobo, the use of Golden Gysahls is mandatory.");
-		add("gui.chocobook.page" + pages++, "IV.2 Chocobo Colours\n\n" + ChatFormatting.GOLD + "Yellow Chocobos" + ChatFormatting.BLACK + " are the average variety and have no " + "clear abilities, they can be used however as fast riding and transport animals." + "\n\n" + ChatFormatting.GREEN + "Green Chocobos" + ChatFormatting.BLACK + " have the ability to climb, which means they do");
-		add("gui.chocobook.page" + pages++, "not have the need to jump when ascending a block level. They are slightly faster than their yellow cousins.\n\n" + ChatFormatting.BLUE + "Blue Chocobos" + ChatFormatting.BLACK + " have the ability to travel fast on water. " + "Al- though all Chocobos have the ability to swim, the blue ones can do it very " + "fast,");
-		add("gui.chocobook.page" + pages++, "thus are the first choice of transpor- tation when traveling by water route.\n\n" + ChatFormatting.GRAY + "White Chocobos" + ChatFormatting.BLACK + " have the combined abilities to climb like the green Chocobos " + "and to travel fast on water like the blue. In ad- dition they are slightly faster " + "than the blue");
-		add("gui.chocobook.page" + pages++, "or green varieties.\n\nBlack Chocobos have the abilities to jump very hight, climb and travel fast on water. Also they are faster than the white ones.\n\n" + ChatFormatting.GOLD + "Golden Chocobos" + ChatFormatting.BLACK + " are the fastes variety and are not " + "only able to glide like the other");
-		add("gui.chocobook.page" + pages++, "subspecies, but can fully fly.\n\nAll Chocobo sub- species can glide and avoid fall damage up to a certain hight. Golden Chocobos don't take fall damage at all.");
-		add("gui.chocobook.page" + pages++, "V. The Nether\n\nThe Nether is popu- lated by a special breed of Chocobo. The Purple Chocobos roaming the hostile tunnels and caves of the nether in search of the scarce avail- able food. This makes them even harder to find than their yellow");
-		add("gui.chocobook.page" + pages++, "cousins. Living in the nether had the purple Chocobos develop the ability to swim in lava and fly.");
-		add("gui.chocobook.page" + pages++, "VI. Chocobo Pen\n\nAn area covered with straw and equipped with a water filled cauldron will count as a Chocobo pen. If a hurt Chocobo will stand on the straw near the cauldron it will automatically heal over time.");
-		add("gui.chocobook.page" + pages++, "VII. Chocobo Cake\n\nChocobo Cakes can be used to have Chicobos instantly grow up into Chocobos.\n\nRecipe:\nTake an egg, mix it with two units of sugar, two buckets of milk and two bundles of grain. Finally garnish it with two Gysahl Greens.\nEnjoy.");
+		addChocopediaEntry(pages++, "Table of Contents\n\nI. Chocobos\nII. In the wild\nIII. Gysahl Greens\n .1 Gysahl Mutations\n .2 Gysahl Pickles\nIV. Domestication\n .1 Breeding Chocobos\n .2 Chocobo Colours\nV. The Nether\nVI. Chocobo Pen\nVII. Chocobo Cake\n");
+		addChocopediaEntry(pages++, "I. Chocobos\n\nThese large, herbiv- orous birds are largely unable to fly, but their powerful legs allow them to run at high speeds. Their size and impressive speed make them a popular choice when looking for a mount.\n");
+		addChocopediaEntry(pages++, "Although largely too small to allow real flight, the Chocobo's wings enable the birds to glide and avoid fall damage to itself and its rider up to a cer- tain hight.\n\nDomesticated Chocobos can be deployed as mounts and transport animals.");
+		addChocopediaEntry(pages++, "There are even re- ports of desperate adventurers having to relyto their Chocobos as a source of food.");
+		addChocopediaEntry(pages++, "II. In the wild\n\nChocobos, in their yellow variety, found wild in most parts of the world. Flocks of mostly three, some- times five animals roam free in the wild. How- ever they are very scarce and an inter- ested ornithologist would have to search");
+		addChocopediaEntry(pages++, "wide areas to find a flock.");
+		addChocopediaEntry(pages++, "III. Gysahl Greens\n\nThe Chocobo's fa- vorite food are Gysahl Greens, these thick red root vegetables can be found growing widespread in all fertile areas. These plants can be crafted into seeds. The seeds then can be used to domestically grow");
+		addChocopediaEntry(pages++, "Gysahl Greens on tilted and moisturised land.");
+		addChocopediaEntry(pages++, "III.1 Gysahl Mutations\n\nWhen domestically growing Gysahl Greens, there is a chance of the root mutating into a Loverly or even Golden Gysahl. These special roots can be feed to two Chocobos of opposite gender, to initialise the mating process.");
+		addChocopediaEntry(pages++, "III.2 Gysahl Pickles\n\nGysahl Greens and sugar can be crafted into raw Gysahl pickles, which can be cooked in a furnace to receive Gysahl pickles. These treats are not only tasty, but also very nourishing.");
+		addChocopediaEntry(pages++, "IV. Domestication\n\nChocobos can be tamed by feeding them Gysahl Greens, the birds are very fond of the root vegetable and will sometimes form a bond to whomever is feeding them their fa- vorite food item. If tamed, the owner can fit either a chocobo");
+		addChocopediaEntry(pages++, "saddle or pack bags on a Chocobo. Fitted with a saddle the Chocobo can be additionally equipped with saddle bags. (" + ChatFormatting.ITALIC + "Pack bags and saddle bags can be accessed by shift-right click" + ChatFormatting.RESET + ").");
+		addChocopediaEntry(pages++, "IV.1 Chocobo Breeding\n\nIf feed with Loverly or Golden Gysahls, Chocobos of different gender can be breed to produce an off- spring. These infant Chocobos are called Chicobos and even- tually grow into a Chocobo. Besides in- creasing the number");
+		addChocopediaEntry(pages++, "of Chocobos in a domesticated flock, breeding is the only way to obtain the different varieties of Chocobos available. There is a slight chance of mutation, which can be in- creased with the use of Golden Gysahls. The following combinations of parents can cause");
+		addChocopediaEntry(pages++, "their offspring to mutate into these subspecies:\n\n 1. " + ChatFormatting.GOLD + "Yellow" + ChatFormatting.BLACK + " + " + ChatFormatting.GOLD + "Yellow" + ChatFormatting.BLACK + "\n = " + ChatFormatting.GREEN + "Green" + ChatFormatting.BLACK + " or " + ChatFormatting.BLUE + "Blue" + ChatFormatting.BLACK + "\n\n 2. " + ChatFormatting.GREEN + "Green" + ChatFormatting.BLACK + " + " + ChatFormatting.BLUE + "Blue" + ChatFormatting.BLACK + "\n = " + ChatFormatting.GRAY + "White" + ChatFormatting.BLACK + "\n\n 3. " + ChatFormatting.GOLD + "Yellow" + ChatFormatting.BLACK + " + " + ChatFormatting.GRAY + "White" + ChatFormatting.BLACK + "\n = " + "Black");
+		addChocopediaEntry(pages++, "4. Black + " + ChatFormatting.GRAY + "White" + ChatFormatting.BLACK + "\n = " + ChatFormatting.GOLD + "Gold" + ChatFormatting.BLACK + "\n\nTo enable the off- spring to mutate into a golden " + "Chocobo, the use of Golden Gysahls is mandatory.");
+		addChocopediaEntry(pages++, "IV.2 Chocobo Colours\n\n" + ChatFormatting.GOLD + "Yellow Chocobos" + ChatFormatting.BLACK + " are the average variety and have no " + "clear abilities, they can be used however as fast riding and transport animals." + "\n\n" + ChatFormatting.GREEN + "Green Chocobos" + ChatFormatting.BLACK + " have the ability to climb, which means they do");
+		addChocopediaEntry(pages++, "not have the need to jump when ascending a block level. They are slightly faster than their yellow cousins.\n\n" + ChatFormatting.BLUE + "Blue Chocobos" + ChatFormatting.BLACK + " have the ability to travel fast on water. " + "Al- though all Chocobos have the ability to swim, the blue ones can do it very " + "fast,");
+		addChocopediaEntry(pages++, "thus are the first choice of transpor- tation when traveling by water route.\n\n" + ChatFormatting.GRAY + "White Chocobos" + ChatFormatting.BLACK + " have the combined abilities to climb like the green Chocobos " + "and to travel fast on water like the blue. In ad- dition they are slightly faster " + "than the blue");
+		addChocopediaEntry(pages++, "or green varieties.\n\nBlack Chocobos have the abilities to jump very hight, climb and travel fast on water. Also they are faster than the white ones.\n\n" + ChatFormatting.GOLD + "Golden Chocobos" + ChatFormatting.BLACK + " are the fastes variety and are not " + "only able to glide like the other");
+		addChocopediaEntry(pages++, "subspecies, but can fully fly.\n\nAll Chocobo sub- species can glide and avoid fall damage up to a certain hight. Golden Chocobos don't take fall damage at all.");
+		addChocopediaEntry(pages++, "V. The Nether\n\nThe Nether is popu- lated by a special breed of Chocobo. The Purple Chocobos roaming the hostile tunnels and caves of the nether in search of the scarce avail- able food. This makes them even harder to find than their yellow");
+		addChocopediaEntry(pages++, "cousins. Living in the nether had the purple Chocobos develop the ability to swim in lava and fly.");
+		addChocopediaEntry(pages++, "VI. Chocobo Pen\n\nAn area covered with straw and equipped with a water filled cauldron will count as a Chocobo pen. If a hurt Chocobo will stand on the straw near the cauldron it will automatically heal over time.");
+		addChocopediaEntry(pages++, "VII. Chocobo Cake\n\nChocobo Cakes can be used to have Chicobos instantly grow up into Chocobos.\n\nRecipe:\nTake an egg, mix it with two units of sugar, two buckets of milk and two bundles of grain. Finally garnish it with two Gysahl Greens.\nEnjoy.");
 
 		addSubtitle(ModSounds.AMBIENT_SOUND.get(), "Chocobo Kwehs");
 		addSubtitle(ModSounds.WHISTLE_SOUND_FOLLOW.get(), "Whistles to follow");
@@ -212,6 +212,31 @@ public class ChocoLanguage extends LanguageProvider {
 		add("text.autoconfig.chococraft.option.naming.nameTamedChocobos", "Name Tamed Chocobos");
 		add("text.autoconfig.chococraft.option.naming.maleNames", "Male Chocobo Names");
 		add("text.autoconfig.chococraft.option.naming.femaleNames", "Female Chocobo Names");
+	}
+
+	public void addChocopediaEntry(int id, String translation) {
+		add("gui.chocobook.page" + id, translation);
+
+		String patchouliVersion = translation.replaceAll("[\\n]{2,}", "\\$(br2)").replaceAll("\\n", "\\$(br)");
+		patchouliVersion = patchouliVersion.replaceAll("(§o)", "\\$(o)"); //Italics
+		patchouliVersion = patchouliVersion.replaceAll("(§0)", "\\$(0)");
+		patchouliVersion = patchouliVersion.replaceAll("(§1)", "\\$(1)");
+		patchouliVersion = patchouliVersion.replaceAll("(§2)", "\\$(2)");
+		patchouliVersion = patchouliVersion.replaceAll("(§3)", "\\$(3)");
+		patchouliVersion = patchouliVersion.replaceAll("(§4)", "\\$(4)");
+		patchouliVersion = patchouliVersion.replaceAll("(§5)", "\\$(5)");
+		patchouliVersion = patchouliVersion.replaceAll("(§6)", "\\$(6)");
+		patchouliVersion = patchouliVersion.replaceAll("(§7)", "\\$(7)");
+		patchouliVersion = patchouliVersion.replaceAll("(§8)", "\\$(8)");
+		patchouliVersion = patchouliVersion.replaceAll("(§9)", "\\$(9)");
+		patchouliVersion = patchouliVersion.replaceAll("(§a)", "\\$(a)");
+		patchouliVersion = patchouliVersion.replaceAll("(§b)", "\\$(b)");
+		patchouliVersion = patchouliVersion.replaceAll("(§c)", "\\$(c)");
+		patchouliVersion = patchouliVersion.replaceAll("(§d)", "\\$(d)");
+		patchouliVersion = patchouliVersion.replaceAll("(§e)", "\\$(e)");
+		patchouliVersion = patchouliVersion.replaceAll("(§f)", "\\$(f)");
+		patchouliVersion = patchouliVersion.replaceAll("(§r)", "\\$()"); //Reset
+		add("info.chococraft.book.legacy.page" + id, patchouliVersion);
 	}
 
 	public void addSubtitle(SoundEvent sound, String name) {
