@@ -6,6 +6,10 @@
   "mixins": [
     "EntityMixin"
   ],
+  "client": [
+    "HumanoidArmorLayerMixin",
+    "LivingEntityRendererMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }
