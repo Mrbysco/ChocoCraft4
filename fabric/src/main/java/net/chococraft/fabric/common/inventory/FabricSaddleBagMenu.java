@@ -42,15 +42,15 @@ public class FabricSaddleBagMenu extends SaddleBagMenu {
 		//Chocobo inventory
 		for (int row = 0; row < 5; row++) {
 			for (int col = 0; col < 9; col++) {
-				this.addSlot(new Slot(chocobo.getInventory(), (row * 9 + col) + 1, 8 + col * 18, 18 + row * 18) {
+				this.addSlot(new Slot(chocobo.getInventory(), row * 9 + col, 8 + col * 18, 18 + row * 18) {
 					@Override
 					public boolean isActive() {
 						ItemStack saddleStack = chocobo.getSaddle();
 						if (saddleStack.isEmpty()) {
 							return false;
 						}
+
 						if (!saddleStack.isEmpty() && saddleStack.getItem() instanceof ChocoboSaddleItem saddleItem) {
-							System.out.println(saddleItem.getInventorySize());
 							switch (saddleItem.getInventorySize()) {
 								default -> {
 									return false;
@@ -66,6 +66,19 @@ public class FabricSaddleBagMenu extends SaddleBagMenu {
 						}
 
 						return super.isActive();
+					}
+
+					@Override
+					public int getMaxStackSize(ItemStack itemStack) {
+						if (itemStack.getItem() instanceof ChocoboSaddleItem) {
+							return 1;
+						}
+						return super.getMaxStackSize(itemStack);
+					}
+
+					@Override
+					public boolean mayPlace(ItemStack itemStack) {
+						return super.mayPlace(itemStack) && isActive();
 					}
 				});
 			}
@@ -91,15 +104,17 @@ public class FabricSaddleBagMenu extends SaddleBagMenu {
 
 	public ItemStack quickMoveStack(Player player, int index) {
 		ItemStack itemstack = ItemStack.EMPTY;
+
 		Slot slot = this.slots.get(index);
 		if (slot != null && slot.hasItem()) {
 			ItemStack itemstack1 = slot.getItem();
 			itemstack = itemstack1.copy();
-			if (index < this.chocobo.getInventory().getContainerSize()) {
-				if (!this.moveItemStackTo(itemstack1, this.chocobo.getInventory().getContainerSize(), this.slots.size(), true)) {
+			int containerSize = this.chocobo.getInventory().getContainerSize();
+			if (index < containerSize) {
+				if (!this.moveItemStackTo(itemstack1, containerSize, this.slots.size(), true)) {
 					return ItemStack.EMPTY;
 				}
-			} else if (!this.moveItemStackTo(itemstack1, 0, this.chocobo.getInventory().getContainerSize(), false)) {
+			} else if (!this.moveItemStackTo(itemstack1, 0, containerSize, false)) {
 				return ItemStack.EMPTY;
 			}
 

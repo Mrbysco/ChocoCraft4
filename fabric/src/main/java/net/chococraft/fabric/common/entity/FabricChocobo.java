@@ -39,7 +39,7 @@ public class FabricChocobo extends AbstractChocobo implements ContainerListener 
 				if (slot == 0) {
 					return stack.isEmpty() || stack.getItem() instanceof ChocoboSaddleItem;
 				} else {
-					if (this.getItem(slot).isEmpty()) {
+					if (this.getItem(0).isEmpty()) {
 						return false;
 					}
 					if (this.getItem(slot).getItem() instanceof ChocoboSaddleItem saddleItem) {
