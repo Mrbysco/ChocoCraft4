@@ -1,4 +1,5 @@
-[![](http://cf.way2muchnoise.eu/versions/225280_latest.svg)](https://www.curseforge.com/minecraft/mc-mods/chococraft)
+[![build](https://github.com/Mrbysco/ChocoCraft4/actions/workflows/build.yml/badge.svg)](https://github.com/Mrbysco/ChocoCraft4/actions/workflows/build.yml) 
+[![](http://cf.way2muchnoise.eu/versions/225280.svg)](https://www.curseforge.com/minecraft/mc-mods/chococraft)
 # Chococraft 4
 This repository is based on Slayer5934's [ChocoCraft3](https://github.com/Slayer5934/ChocoCraft3SLY) repository.
 
