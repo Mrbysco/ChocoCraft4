@@ -106,7 +106,7 @@ public class ChocoLanguage extends LanguageProvider {
 		add("info.chococraft.book.landing", "The chocopedia is your guide to Chococraft 4. $(br2)It contains information on all of the different abilities and items that you can use in Chococraft 4.");
 
 		add("info.chococraft.book.chocobos.name", "Chocobos");
-		add("info.chococraft.book.chocobos.desc", "These entries contain information about $(l:chococraft:info/chocobo)Chocobos$()");
+		add("info.chococraft.book.chocobos.desc", "These entries contain information about $(l:chococraft:chocobos/chocobo)Chocobos$()");
 
 		add("info.chococraft.book.gysahls.name", "Gysahls");
 		add("info.chococraft.book.gysahls.desc", "These entries contain information about Gysahls");
@@ -124,7 +124,7 @@ public class ChocoLanguage extends LanguageProvider {
 
 		add("info.chococraft.book.chocobo.entry.name", "Chocobo");
 		add("info.chococraft.book.chocobo.text", "Chocobos are passive mobs but scared of players so be careful around them.");
-		add("info.chococraft.book.chocobo.text2", "Yellow Chocobos spawn in Plains and Hills type biomes. Flame Chocobos spawn in The Nether. You however can get different color Chocobos by breeding them with $(l:chococraft:info/loverly_gysahl)Loverly$() (20%% Chance of new color with new and better abilities) or $(l:chococraft:info/gold_gysahl)Golden Gysahls$() (50%% Chance). $(l:chococraft:info/gold_gysahl)Golden Gysahls$() are REQUIRED to get a Gold Chocobo from breeding.");
+		add("info.chococraft.book.chocobo.text2", "Yellow Chocobos spawn in Plains and Hills type biomes. Flame Chocobos spawn in The Nether. You however can get different color Chocobos by breeding them with $(l:chococraft:gysahls/loverly_gysahl)Loverly$() (20%% Chance of new color with new and better abilities) or $(l:chococraft:gysahls/gold_gysahl)Golden Gysahls$() (50%% Chance). $(l:chococraft:gysahls/gold_gysahl)Golden Gysahls$() are REQUIRED to get a Gold Chocobo from breeding.");
 		add("info.chococraft.book.chocobo.text3", "A group of Chocobos that have spawned in a Plains Biome near a mountain.");
 		add("info.chococraft.book.chocobo.text4", "You breed Chocobos by feeding them Gysahl. All Chocobos can be bred together. But only males and females can breed. You breed a chocobo by feeding the Chocobos either Golden or Loverly Gysahls.");
 		add("info.chococraft.book.chocobo.green.description", "Obtainable by breeding two Yellow Chocobos.");
@@ -147,59 +147,59 @@ public class ChocoLanguage extends LanguageProvider {
 		add("info.chococraft.book.chocobo.pink.description2", "Have the same abilities of the Gold Chocobo.");
 
 		add("info.chococraft.book.chicobo.entry.name", "Chicobo");
-		add("info.chococraft.book.chicobo.text1", "Chicobos are the baby versions of $(l:chococraft:info/chocobo)Chocobos$() that you get from breeding them.$(br)" +
-				"Can be instantly grown by feeding it $(l:chococraft:info/gysahl_cake)Gysahl Cake$() after being tamed.");
+		add("info.chococraft.book.chicobo.text1", "Chicobos are the baby versions of $(l:chococraft:chocobos/chocobo)Chocobos$() that you get from breeding them.$(br)" +
+				"Can be instantly grown by feeding it $(l:chococraft:gysahls/gysahl_cake)Gysahl Cake$() after being tamed.");
 
 		add("info.chococraft.book.loverly_gysahl.entry.name", "Loverly Gysahl");
-		add("info.chococraft.book.loverly_gysahl.text1", "$(bold)Loverly Gysahl$() is a mutation of the garden-variety $(l:chococraft:info/gysahl_green)Gysahl Green$() and is used for breeding $(l:chococraft:info/chocobo)Chocobos$().$(br)" +
-				"$(bold)Loverly Gysahl$() is obtainable by harvesting $(l:chococraft:info/gysahl_green)Gysahl Green$(), there's a 15%% to get a $(bold)Loverly Gysahl$()");
+		add("info.chococraft.book.loverly_gysahl.text1", "$(bold)Loverly Gysahl$() is a mutation of the garden-variety $(l:chococraft:gysahls/gysahl_green)Gysahl Green$() and is used for breeding $(l:chococraft:chocobos/chocobo)Chocobos$().$(br)" +
+				"$(bold)Loverly Gysahl$() is obtainable by harvesting $(l:chococraft:gysahls/gysahl_green)Gysahl Green$(), there's a 15%% to get a $(bold)Loverly Gysahl$()");
 
 		add("info.chococraft.book.gold_gysahl.entry.name", "Gold Gysahl");
-		add("info.chococraft.book.gold_gysahl.text1", "$(bold)Gold Gysahl$() is a mutation of the garden-variety $(l:chococraft:info/gysahl_green)Gysahl Green$() and is used for breeding $(l:chococraft:info/chocobo)Chocobos$().$(br)" +
-				"$(bold)Gold Gysahl$() is obtainable by harvesting $(l:chococraft:info/gysahl_green)Gysahl Green$(), there's a 5%% to get a $(bold)Gold Gysahl$()$(br)" +
-				"Mutated variants of $(l:chococraft:info/gysahl_green)Gysahl Green$() can not be crafted into seeds.");
+		add("info.chococraft.book.gold_gysahl.text1", "$(bold)Gold Gysahl$() is a mutation of the garden-variety $(l:chococraft:gysahls/gysahl_green)Gysahl Green$() and is used for breeding $(l:chococraft:chocobos/chocobo)Chocobos$().$(br)" +
+				"$(bold)Gold Gysahl$() is obtainable by harvesting $(l:chococraft:gysahls/gysahl_green)Gysahl Green$(), there's a 5%% to get a $(bold)Gold Gysahl$()$(br)" +
+				"Mutated variants of $(l:chococraft:gysahls/gysahl_green)Gysahl Green$() can not be crafted into seeds.");
 
 		add("info.chococraft.book.red_gysahl.entry.name", "Red Gysahl");
-		add("info.chococraft.book.red_gysahl.text1", "$(bold)Red Gysahl$() is a mutation of the garden-variety $(l:chococraft:info/gysahl_green)Gysahl Green$() and is to turn a $(l:chococraft:info/chocobo#gold)Gold Chocobo$() into a $(l:chococraft:info/chocobo#red)Red Chocobo$().");
+		add("info.chococraft.book.red_gysahl.text1", "$(bold)Red Gysahl$() is a mutation of the garden-variety $(l:chococraft:gysahls/gysahl_green)Gysahl Green$() and is to turn a $(l:chococraft:chocobos/chocobo#gold)Gold Chocobo$() into a $(l:chococraft:chocobos/chocobo#red)Red Chocobo$().");
 
 		add("info.chococraft.book.pink_gysahl.entry.name", "Pink Gysahl");
-		add("info.chococraft.book.pink_gysahl.text1", "$(bold)Pink Gysahl$() is a mutation of the garden-variety $(l:chococraft:info/gysahl_green)Gysahl Green$() and is to turn a $(l:chococraft:info/chocobo#gold)Gold Chocobo$() into a $(l:chococraft:info/chocobo#pink)Pink Chocobo$().");
+		add("info.chococraft.book.pink_gysahl.text1", "$(bold)Pink Gysahl$() is a mutation of the garden-variety $(l:chococraft:gysahls/gysahl_green)Gysahl Green$() and is to turn a $(l:chococraft:chocobos/chocobo#gold)Gold Chocobo$() into a $(l:chococraft:chocobos/chocobo#pink)Pink Chocobo$().");
 
 		add("info.chococraft.book.gysahl_green.entry.name", "Gysahl Green");
-		add("info.chococraft.book.gysahl_green.text1", "Gysahl can be found throughout the Overworld in small patches. Gysahl can be used for taming and healing $(l:chococraft:info/chocobo)Chocobos$().$(br)" +
-				"To have a chance of taming a $(l:chococraft:info/chocobo)Chocobos$() you have to hand feed it a Gysahl. Once tamed it'll display a collar similar to tamed wolves.");
+		add("info.chococraft.book.gysahl_green.text1", "Gysahl can be found throughout the Overworld in small patches. Gysahl can be used for taming and healing $(l:chococraft:chocobos/chocobo)Chocobos$().$(br)" +
+				"To have a chance of taming a $(l:chococraft:chocobos/chocobo)Chocobos$() you have to hand feed it a Gysahl. Once tamed it'll display a collar similar to tamed wolves.");
 		add("info.chococraft.book.gysahl_green.text2", "A patch of Gysahl Green that generated in a Plains biome.");
 		add("info.chococraft.book.gysahl_green.text3", "Gysahl Green can be farmed by planting Gyshal Green Seeds. After harvesting wild Gysahl the player can craft it into Gysahl Green Seeds.");
-		add("info.chococraft.book.gysahl_green.text4", "The seeds can be planted on Farmland like most other crops can. When the crop matures and is harvested there's a 15%% to get a $(l:chococraft:info/loverly_gysahl)Loverly Gysahl$() and a a 5%% to get a $(l:chococraft:info/gold_gysahl)Gold Gysahl$().");
+		add("info.chococraft.book.gysahl_green.text4", "The seeds can be planted on Farmland like most other crops can. When the crop matures and is harvested there's a 15%% to get a $(l:chococraft:gysahls/loverly_gysahl)Loverly Gysahl$() and a a 5%% to get a $(l:chococraft:gysahls/gold_gysahl)Gold Gysahl$().");
 
 		add("info.chococraft.book.pickled_gysahl.entry.name", "Raw Pickled Gysahl");
-		add("info.chococraft.book.pickled_gysahl.text1", "Raw Pickled Gysahl is a food item that can be crafted from $(l:chococraft:info/gysahl_green)Gysahl Green$().$(br)" +
+		add("info.chococraft.book.pickled_gysahl.text1", "Raw Pickled Gysahl is a food item that can be crafted from $(l:chococraft:gysahls/gysahl_green)Gysahl Green$().$(br)" +
 				"The raw version can not be eaten, you have to cook it in order for it to be edible.");
 
 		add("info.chococraft.book.raw_drumstick.entry.name", "Chocobo Drumstick");
-		add("info.chococraft.book.raw_drumstick.text1", "Raw Chocobo Drumstick is a food item that can be obtained by killing $(l:chococraft:info/chocobo)Chocobos$().");
+		add("info.chococraft.book.raw_drumstick.text1", "Raw Chocobo Drumstick is a food item that can be obtained by killing $(l:chococraft:chocobos/chocobo)Chocobos$().");
 
 		add("info.chococraft.book.gysahl_cake.entry.name", "Gysahl Cake");
-		add("info.chococraft.book.gysahl_cake.text1", "Gysahl Cakes are used to instantly age a $(l:chococraft:info/chicobo)Chicobo$() to a $(l:chococraft:info/chocobo)Chocobo$().$(br)" +
-				"You must first tame the $(l:chococraft:info/chicobo)Chicobo$() to feed it a Gysahl Cake. It can NOT be placed.");
+		add("info.chococraft.book.gysahl_cake.text1", "Gysahl Cakes are used to instantly age a $(l:chococraft:chocobos/chicobo)Chicobo$() to a $(l:chococraft:chocobos/chocobo)Chocobo$().$(br)" +
+				"You must first tame the $(l:chococraft:chocobos/chicobo)Chicobo$() to feed it a Gysahl Cake. It can NOT be placed.");
 
 		add("info.chococraft.book.chocodisguise.entry.name", "Choco Disguise");
-		add("info.chococraft.book.chocodisguise.text1", "Choco Disguise is a set of armor that can be worn to reduce the risk of wild $(l:chococraft:info/chocobo)Chocobos$() running from you when approaching.");
+		add("info.chococraft.book.chocodisguise.text1", "Choco Disguise is a set of armor that can be worn to reduce the risk of wild $(l:chococraft:chocobos/chocobo)Chocobos$() running from you when approaching.");
 
 		add("info.chococraft.book.saddle.entry.name", "Chocobo Saddle");
-		add("info.chococraft.book.saddle.text1", "Chocobo Saddle's allow you to ride your tamed $(l:chococraft:info/chocobo)Chocobo$().$(br)" +
-				"There's different types of saddles, the basic variant just allows you to ride the chocobo while others also grant storage space onto the $(l:chococraft:info/chocobo)Chocobo$().");
+		add("info.chococraft.book.saddle.text1", "Chocobo Saddle's allow you to ride your tamed $(l:chococraft:chocobos/chocobo)Chocobo$().$(br)" +
+				"There's different types of saddles, the basic variant just allows you to ride the chocobo while others also grant storage space onto the $(l:chococraft:chocobos/chocobo)Chocobo$().");
 		add("info.chococraft.book.saddle.text2", "The $(bold)Chocobo Saddle Bags$() gives you acces to 18 inventory slots.$(br)" +
 				"The $(bold)Chocobo Saddle Pack$() gives you access to 45 inventory slots.");
 
 		add("info.chococraft.book.straw.entry.name", "Straw");
-		add("info.chococraft.book.straw.text1", "Straw blocks can be placed in your $(l:chococraft:info/chocobo)Chocobo$() pen to allow your $(l:chococraft:info/chocobo)Chocobo$() to heal naturally when inside the pen.");
+		add("info.chococraft.book.straw.text1", "Straw blocks can be placed in your $(l:chococraft:chocobos/chocobo)Chocobo$() pen to allow your $(l:chococraft:chocobos/chocobo)Chocobo$() to heal naturally when inside the pen.");
 
 		add("info.chococraft.book.feather.entry.name", "Chocobo Feather");
-		add("info.chococraft.book.feather.text1", "$(l:chococraft:info/chocobo)Chocobos$() every so often shed feathers. They are useful for crafting a $(l:chococraft:info/chocodisguise)Choco Disguise$() armor set.");
+		add("info.chococraft.book.feather.text1", "$(l:chococraft:chocobos/chocobo)Chocobos$() every so often shed feathers. They are useful for crafting a $(l:chococraft:equipments/chocodisguise)Choco Disguise$() armor set.");
 
 		add("info.chococraft.book.whistle.entry.name", "Chocobo Whistle");
-		add("info.chococraft.book.whistle.text1", "The Chocobo Whistle allows you to command your tamed $(l:chococraft:info/chocobo)Chocobos$() by right-clicking them with it. $(br2)There are three commands that you can do, $(o)Wander$(), $(o)Follow$(), and $(o)Stay$().");
+		add("info.chococraft.book.whistle.text1", "The Chocobo Whistle allows you to command your tamed $(l:chococraft:chocobos/chocobo)Chocobos$() by right-clicking them with it. $(br2)There are three commands that you can do, $(o)Wander$(), $(o)Follow$(), and $(o)Stay$().");
 
 		//ClothConfig (fabric)
 		add("text.autoconfig.chococraft.option.spawning", "Spawning");

@@ -5,7 +5,7 @@ import com.mojang.serialization.JsonOps;
 import net.chococraft.Chococraft;
 import net.chococraft.common.world.worldgen.ModConfiguredFeatures;
 import net.chococraft.forge.common.modifier.AddChocoboModifier;
-import net.chococraft.forge.datagen.client.patchouli.PatchouliProvider;
+import net.chococraft.forge.datagen.client.ChocoLanguage;
 import net.chococraft.forge.datagen.data.ChocoRecipes;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
@@ -58,13 +58,13 @@ public class ModDatagenerator {
 					generator, existingFileHelper, Chococraft.MOD_ID, ops, ForgeRegistries.Keys.BIOME_MODIFIERS, getBiomeModifiers(ops)));
 		}
 		if (event.includeClient()) {
-//			generator.addProvider(event.includeClient(), new ChocoLanguage(generator));
+			generator.addProvider(event.includeClient(), new ChocoLanguage(generator));
 //			generator.addProvider(event.includeClient(), new ChocoBlockModels(generator, existingFileHelper));
 //			generator.addProvider(event.includeClient(), new ChocoBlockstates(generator, existingFileHelper));
 //			generator.addProvider(event.includeClient(), new ChocoItemModels(generator, existingFileHelper));
 //			generator.addProvider(event.includeClient(), new ChocoSoundProvider(generator, existingFileHelper));
 		}
-		generator.addProvider(true, new PatchouliProvider(generator));
+//		generator.addProvider(true, new PatchouliProvider(generator));
 	}
 
 	public static Map<ResourceLocation, PlacedFeature> getPlacedFeatures(RegistryOps<JsonElement> ops) {
