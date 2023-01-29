@@ -42,7 +42,7 @@ public class FabricSaddleBagMenu extends SaddleBagMenu {
 		//Chocobo inventory
 		for (int row = 0; row < 5; row++) {
 			for (int col = 0; col < 9; col++) {
-				this.addSlot(new Slot(chocobo.getInventory(), row * 9 + col, 8 + col * 18, 18 + row * 18) {
+				this.addSlot(new Slot(chocobo.getInventory(), row * 9 + col + 1, 8 + col * 18, 18 + row * 18) {
 					@Override
 					public boolean isActive() {
 						ItemStack saddleStack = chocobo.getSaddle();
