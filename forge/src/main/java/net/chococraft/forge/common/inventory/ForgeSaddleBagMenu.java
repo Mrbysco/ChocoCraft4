@@ -70,7 +70,7 @@ public class ForgeSaddleBagMenu extends SaddleBagMenu {
 
 					@Override
 					public boolean mayPlace(ItemStack itemStack) {
-						return mayPlace(itemStack) && isActive();
+						return super.mayPlace(itemStack) && isActive();
 					}
 				});
 			}
