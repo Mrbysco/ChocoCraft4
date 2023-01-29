@@ -18,9 +18,9 @@ public class LayerPlumage extends RenderLayer<AbstractChocobo, EntityModel<Abstr
 	}
 
 	@Override
-	public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, AbstractChocobo chocoboEntity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLightIn, AbstractChocobo chocoboEntity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		if (!chocoboEntity.isInvisible() && chocoboEntity.isMale() && !chocoboEntity.isBaby()) {
-			renderColoredCutoutModel(this.getParentModel(), PLUMAGE, matrixStackIn, bufferIn, packedLightIn, chocoboEntity, 1.0F, 1.0F, 1.0F);
+			renderColoredCutoutModel(this.getParentModel(), PLUMAGE, poseStack, bufferSource, packedLightIn, chocoboEntity, 1.0F, 1.0F, 1.0F);
 		}
 	}
 }

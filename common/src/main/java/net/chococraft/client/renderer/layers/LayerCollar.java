@@ -18,9 +18,9 @@ public class LayerCollar extends RenderLayer<AbstractChocobo, EntityModel<Abstra
 	}
 
 	@Override
-	public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, AbstractChocobo chocoboEntity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLightIn, AbstractChocobo chocoboEntity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		if (chocoboEntity.isTame() && !chocoboEntity.isInvisible()) {
-			renderColoredCutoutModel(this.getParentModel(), chocoboEntity.isBaby() ? COLLAR_CHICOBO : COLLAR_CHOCOBO, matrixStackIn, bufferIn, packedLightIn, chocoboEntity, 1.0F, 1.0F, 1.0F);
+			renderColoredCutoutModel(this.getParentModel(), chocoboEntity.isBaby() ? COLLAR_CHICOBO : COLLAR_CHOCOBO, poseStack, bufferSource, packedLightIn, chocoboEntity, 1.0F, 1.0F, 1.0F);
 		}
 	}
 }

@@ -22,7 +22,7 @@ public class LayerSaddle extends RenderLayer<AbstractChocobo, EntityModel<Abstra
 	}
 
 	@Override
-	public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, AbstractChocobo chocoboEntity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLightIn, AbstractChocobo chocoboEntity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		if (!chocoboEntity.isInvisible() && chocoboEntity.isSaddled() && !chocoboEntity.isBaby()) {
 			ResourceLocation saddleTexture = null;
 
@@ -38,7 +38,7 @@ public class LayerSaddle extends RenderLayer<AbstractChocobo, EntityModel<Abstra
 				}
 			}
 
-			renderColoredCutoutModel(this.getParentModel(), saddleTexture, matrixStackIn, bufferIn, packedLightIn, chocoboEntity, 1.0F, 1.0F, 1.0F);
+			renderColoredCutoutModel(this.getParentModel(), saddleTexture, poseStack, bufferSource, packedLightIn, chocoboEntity, 1.0F, 1.0F, 1.0F);
 		}
 	}
 }

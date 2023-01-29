@@ -38,14 +38,14 @@ public class ChocoboInventoryScreen extends AbstractContainerScreen<SaddleBagMen
 	}
 
 	@Override
-	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-		renderBackground(matrixStack);
-		super.render(matrixStack, mouseX, mouseY, partialTicks);
-		renderTooltip(matrixStack, mouseX, mouseY);
+	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
+		renderBackground(poseStack);
+		super.render(poseStack, mouseX, mouseY, partialTicks);
+		renderTooltip(poseStack, mouseX, mouseY);
 	}
 
 	@Override
-	protected void renderBg(PoseStack matrixStack, float partialTicks, int x, int y) {
+	protected void renderBg(PoseStack poseStack, float partialTicks, int x, int y) {
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
@@ -65,13 +65,13 @@ public class ChocoboInventoryScreen extends AbstractContainerScreen<SaddleBagMen
 
 		int i = (this.width - this.imageWidth) / 2;
 		int j = (this.height - this.imageHeight) / 2;
-		this.blit(matrixStack, i, j, 0, 0, this.imageWidth, this.imageHeight);
-		this.blit(matrixStack, i - 24, j + 10, 0, 204, 27, 33);
+		this.blit(poseStack, i, j, 0, 0, this.imageWidth, this.imageHeight);
+		this.blit(poseStack, i - 24, j + 10, 0, 204, 27, 33);
 	}
 
 	@Override
-	protected void renderLabels(PoseStack matrixStack, int x, int y) {
-		this.font.draw(matrixStack, title, 8, 6, 0x888888);
-		this.font.draw(matrixStack, this.playerInventoryTitle, 8, this.imageHeight - 96 + 2, 0x888888);
+	protected void renderLabels(PoseStack poseStack, int x, int y) {
+		this.font.draw(poseStack, title, 8, 6, 0x888888);
+		this.font.draw(poseStack, this.playerInventoryTitle, 8, this.imageHeight - 96 + 2, 0x888888);
 	}
 }

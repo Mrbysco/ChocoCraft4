@@ -181,8 +181,8 @@ public class ChocoDisguiseModel extends HumanoidModel<LivingEntity> {
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		matrixStack.pushPose();
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+		poseStack.pushPose();
 
 		this.setHeadRotation();
 		this.setChestRotation();
@@ -199,25 +199,25 @@ public class ChocoDisguiseModel extends HumanoidModel<LivingEntity> {
 		chocobo_claw_left.visible = slot == EquipmentSlot.FEET;
 		if (this.young) {
 			float f = 2.0F;
-			matrixStack.scale(1.5F / f, 1.5F / f, 1.5F / f);
-			matrixStack.translate(0.0F, 16.0F * 1, 0.0F);
-			chocobo_head.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-			matrixStack.popPose();
-			matrixStack.pushPose();
-			matrixStack.scale(1.0F / f, 1.0F / f, 1.0F / f);
-			matrixStack.translate(0.0F, 24.0F * 1, 0.0F);
-			chocobo_body.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+			poseStack.scale(1.5F / f, 1.5F / f, 1.5F / f);
+			poseStack.translate(0.0F, 16.0F * 1, 0.0F);
+			chocobo_head.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+			poseStack.popPose();
+			poseStack.pushPose();
+			poseStack.scale(1.0F / f, 1.0F / f, 1.0F / f);
+			poseStack.translate(0.0F, 24.0F * 1, 0.0F);
+			chocobo_body.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 		} else {
-			chocobo_head.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-			chocobo_body.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-			chocobo_right_arm.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-			chocobo_left_arm.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+			chocobo_head.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+			chocobo_body.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+			chocobo_right_arm.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+			chocobo_left_arm.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 		}
-		chocobo_leg_right.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-		chocobo_leg_left.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-		chocobo_claw_right.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-		chocobo_claw_left.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
-		matrixStack.popPose();
+		chocobo_leg_right.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+		chocobo_leg_left.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+		chocobo_claw_right.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+		chocobo_claw_left.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+		poseStack.popPose();
 	}
 
 	public void setHeadRotation() {
