@@ -125,7 +125,7 @@ public class FabricChocobo extends AbstractChocobo implements ContainerListener 
 
 	@Override
 	public void openCustomInventoryScreen(Player player) {
-		if (!level.isClientSide) {
+		if (!this.level.isClientSide && (!this.isVehicle() || this.hasPassenger(player)) && this.isTame()) {
 			ServerPlayer serverPlayer = (ServerPlayer) player;
 			if ((!this.isVehicle())) {
 				if (serverPlayer.containerMenu != serverPlayer.inventoryMenu) {
@@ -138,7 +138,6 @@ public class FabricChocobo extends AbstractChocobo implements ContainerListener 
 						new FabricSaddleBagMenu(ix, playerInventory, this), this.getDisplayName()), buf -> {
 					buf.writeUUID(getUUID());
 				});
-
 			}
 		}
 	}

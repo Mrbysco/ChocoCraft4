@@ -59,8 +59,8 @@ public class ForgeChocobo extends AbstractChocobo {
 		}
 
 		@Override
-		protected void onStackChanged() {
-			ForgeChocobo.this.setSaddleType(this.itemStack);
+		protected void onContentsChanged(int slot) {
+			ForgeChocobo.this.setSaddleType(getStackInSlot(slot));
 		}
 	};
 	private final LazyOptional<IItemHandler> saddleHolder = LazyOptional.of(() -> saddleItemStackHandler);
@@ -87,7 +87,7 @@ public class ForgeChocobo extends AbstractChocobo {
 
 	@Override
 	public void openCustomInventoryScreen(Player player) {
-		if (!level.isClientSide) {
+		if (!this.level.isClientSide && (!this.isVehicle() || this.hasPassenger(player)) && this.isTame()) {
 			ServerPlayer serverPlayer = (ServerPlayer) player;
 			if (player.containerMenu != player.inventoryMenu) {
 				player.closeContainer();
