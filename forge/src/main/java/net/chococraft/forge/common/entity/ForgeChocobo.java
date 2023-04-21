@@ -21,7 +21,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class ForgeChocobo extends AbstractChocobo {
@@ -54,7 +54,7 @@ public class ForgeChocobo extends AbstractChocobo {
 
 	public final SaddleItemStackHandler saddleItemStackHandler = new SaddleItemStackHandler() {
 		@Override
-		public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
+		public boolean isItemValid(int slot, @NotNull ItemStack stack) {
 			return stack.isEmpty() || stack.getItem() instanceof ChocoboSaddleItem;
 		}
 

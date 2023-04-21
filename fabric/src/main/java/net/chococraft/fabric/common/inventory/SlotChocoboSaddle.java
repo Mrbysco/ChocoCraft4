@@ -5,7 +5,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public class SlotChocoboSaddle extends Slot {
 	public SlotChocoboSaddle(Container itemHandler, int index, int xPosition, int yPosition) {
@@ -13,12 +13,12 @@ public class SlotChocoboSaddle extends Slot {
 	}
 
 	@Override
-	public boolean mayPlace(@Nonnull ItemStack stack) {
+	public boolean mayPlace(@NotNull ItemStack stack) {
 		return stack.isEmpty() || stack.getItem() instanceof ChocoboSaddleItem;
 	}
 
 	@Override
-	public int getMaxStackSize(@Nonnull ItemStack stack) {
+	public int getMaxStackSize(@NotNull ItemStack stack) {
 		return 1;
 	}
 }

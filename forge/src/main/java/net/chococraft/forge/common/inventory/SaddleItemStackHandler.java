@@ -3,7 +3,7 @@ package net.chococraft.forge.common.inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public class SaddleItemStackHandler extends ItemStackHandler {
 	public SaddleItemStackHandler() {
@@ -11,7 +11,7 @@ public class SaddleItemStackHandler extends ItemStackHandler {
 	}
 
 	@Override
-	public void setStackInSlot(int slot, @Nonnull ItemStack stack) {
+	public void setStackInSlot(int slot, @NotNull ItemStack stack) {
 		this.validateSlotIndex(slot);
 		if (!stacks.get(slot).sameItem(stack)) {
 			this.stacks.set(slot, stack);

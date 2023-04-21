@@ -36,7 +36,7 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
@@ -93,7 +93,7 @@ public class ChocoLoot extends LootTableProvider {
 	}
 
 	@Override
-	protected void validate(Map<ResourceLocation, LootTable> map, @Nonnull ValidationContext validationtracker) {
+	protected void validate(Map<ResourceLocation, LootTable> map, @NotNull ValidationContext validationtracker) {
 		map.forEach((name, table) -> LootTables.validate(validationtracker, name, table));
 	}
 }
