@@ -60,8 +60,7 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractChocobo extends TamableAnimal implements HasCustomInventoryScreen {
 	private static final String NBTKEY_CHOCOBO_COLOR = "Color";
