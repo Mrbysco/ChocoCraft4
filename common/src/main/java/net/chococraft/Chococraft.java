@@ -7,14 +7,12 @@ import dev.architectury.registry.CreativeTabRegistry;
 import dev.architectury.registry.level.entity.EntityAttributeRegistry;
 import net.chococraft.common.entity.AbstractChocobo;
 import net.chococraft.common.entity.properties.ModDataSerializers;
-import net.chococraft.common.world.worldgen.ModConfiguredFeatures;
 import net.chococraft.registry.ModEntities;
 import net.chococraft.registry.ModMenus;
 import net.chococraft.registry.ModRegistry;
 import net.chococraft.registry.ModSounds;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.ComposterBlock;
 import org.slf4j.Logger;
@@ -23,11 +21,13 @@ public class Chococraft {
 	public static final String MOD_ID = "chococraft";
 	public static final Logger LOGGER = LogUtils.getLogger();
 
-	public static final CreativeModeTab CREATIVE_TAB = CreativeTabRegistry.create(new ResourceLocation(MOD_ID, "tab"), () ->
-			new ItemStack(ModRegistry.GYSAHL_GREEN.get()));
+	public static CreativeTabRegistry.TabSupplier CREATIVE_TAB;
 
 
 	public static void init() {
+		CREATIVE_TAB = CreativeTabRegistry.create(new ResourceLocation(MOD_ID, "tab"), () ->
+				new ItemStack(ModRegistry.GYSAHL_GREEN.get()));
+
 		ModEntities.ENTITY_TYPES.register();
 		ModRegistry.BLOCKS.register();
 		ModRegistry.ITEMS.register();
@@ -38,8 +38,11 @@ public class Chococraft {
 
 		LifecycleEvent.SETUP.register(() -> {
 			ModDataSerializers.init();
-			ModConfiguredFeatures.init();
 			registerCompostables();
+
+			ModRegistry.ITEMS.forEach(supplier -> {
+				CreativeTabRegistry.append(CREATIVE_TAB, supplier.get());
+			});
 		});
 
 		PlayerEvent.PLAYER_QUIT.register((player) -> {

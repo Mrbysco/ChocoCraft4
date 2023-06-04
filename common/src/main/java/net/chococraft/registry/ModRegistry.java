@@ -12,7 +12,7 @@ import net.chococraft.common.items.ChocoboSpawnEggItem;
 import net.chococraft.common.items.ChocopediaItem;
 import net.chococraft.common.items.CustomBlockNamedItem;
 import net.chococraft.common.items.armor.ModArmorMaterial;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -22,8 +22,8 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 
 public class ModRegistry {
-	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Chococraft.MOD_ID, Registry.BLOCK_REGISTRY);
-	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Chococraft.MOD_ID, Registry.ITEM_REGISTRY);
+	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Chococraft.MOD_ID, Registries.BLOCK);
+	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Chococraft.MOD_ID, Registries.ITEM);
 
 	public static final RegistrySupplier<Block> GYSAHL_GREEN = BLOCKS.register("gysahl_green", () ->
 			new GysahlGreenBlock(BlockBehaviour.Properties.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP)));
@@ -74,6 +74,6 @@ public class ModRegistry {
 	public static final RegistrySupplier<Item> STRAW_ITEM = ITEMS.register("straw", () -> new BlockItem(STRAW.get(), itemBuilder()));
 
 	private static Item.Properties itemBuilder() {
-		return new Item.Properties().tab(Chococraft.CREATIVE_TAB);
+		return new Item.Properties();
 	}
 }

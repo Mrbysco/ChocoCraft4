@@ -4,7 +4,7 @@ import net.chococraft.Chococraft;
 import net.chococraft.common.entity.properties.ChocoboColor;
 import net.chococraft.registry.ModEntities;
 import net.chococraft.registry.ModRegistry;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -14,8 +14,8 @@ import xyz.brassgoggledcoders.patchouliprovider.PatchouliBookProvider;
 import java.util.function.Consumer;
 
 public class PatchouliProvider extends PatchouliBookProvider {
-	public PatchouliProvider(DataGenerator gen) {
-		super(gen, Chococraft.MOD_ID, "en_us");
+	public PatchouliProvider(PackOutput packOutput) {
+		super(packOutput, Chococraft.MOD_ID, "en_us");
 	}
 
 	@Override

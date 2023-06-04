@@ -1,5 +1,6 @@
 package net.chococraft.fabric.common.world;
 
+import net.chococraft.common.world.worldgen.ModFeatures;
 import net.chococraft.fabric.ChococraftFabric;
 import net.chococraft.fabric.common.config.FabricChocoConfig;
 import net.chococraft.registry.ModEntities;
@@ -17,7 +18,7 @@ public class FeatureInjector {
 		FabricChocoConfig config = ChococraftFabric.config.get();
 
 		Predicate<BiomeSelectionContext> overworld = (ctx -> ctx.hasTag(BiomeTags.IS_OVERWORLD));
-		BiomeModifications.addFeature(overworld, GenerationStep.Decoration.VEGETAL_DECORATION, ModPlacedFeatures.GYSASHL_GREEN.unwrapKey().orElseThrow());
+		BiomeModifications.addFeature(overworld, GenerationStep.Decoration.VEGETAL_DECORATION, ModFeatures.PLACED_PATCH_GYSAHL_GREEN);
 
 		Predicate<BiomeSelectionContext> plains = (ctx -> ctx.hasTag(BiomeTags.HAS_VILLAGE_PLAINS) || ctx.hasTag(BiomeTags.IS_MOUNTAIN) || ctx.hasTag(BiomeTags.IS_NETHER));
 		BiomeModifications.addSpawn(plains, MobCategory.CREATURE, ModEntities.CHOCOBO.get(),

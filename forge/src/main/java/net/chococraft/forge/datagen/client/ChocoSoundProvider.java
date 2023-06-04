@@ -2,15 +2,15 @@ package net.chococraft.forge.datagen.client;
 
 import net.chococraft.Chococraft;
 import net.chococraft.registry.ModSounds;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.common.data.SoundDefinitionsProvider;
 
 public class ChocoSoundProvider extends SoundDefinitionsProvider {
 
-	public ChocoSoundProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-		super(generator, Chococraft.MOD_ID, existingFileHelper);
+	public ChocoSoundProvider(PackOutput packOutput, ExistingFileHelper existingFileHelper) {
+		super(packOutput, Chococraft.MOD_ID, existingFileHelper);
 	}
 
 	@Override

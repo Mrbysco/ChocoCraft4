@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "cookingtime": 200,
-  "experience": 0.35,
-  "ingredient": {
-    "item": "chococraft:pickled_gysahl_raw"
-  },
-  "result": "chococraft:pickled_gysahl_cooked"
-}

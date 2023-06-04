@@ -6,11 +6,11 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import net.chococraft.Chococraft;
 import net.chococraft.ChococraftExpectPlatform;
 import net.chococraft.common.inventory.SaddleBagMenu;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.inventory.MenuType;
 
 public class ModMenus {
-	public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(Chococraft.MOD_ID, Registry.MENU_REGISTRY);
+	public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(Chococraft.MOD_ID, Registries.MENU);
 
 	public static final RegistrySupplier<MenuType<SaddleBagMenu>> CHOCOBO = MENU_TYPES.register("chocobo_screen", () ->
 			MenuRegistry.ofExtended(ChococraftExpectPlatform::constructMenu));

@@ -2,7 +2,7 @@ package net.chococraft.forge.datagen.client;
 
 import net.chococraft.Chococraft;
 import net.chococraft.registry.ModRegistry;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CropBlock;
@@ -13,8 +13,8 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class ChocoBlockstates extends BlockStateProvider {
-	public ChocoBlockstates(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-		super(generator, Chococraft.MOD_ID, existingFileHelper);
+	public ChocoBlockstates(PackOutput packOutput, ExistingFileHelper existingFileHelper) {
+		super(packOutput, Chococraft.MOD_ID, existingFileHelper);
 	}
 
 	@Override

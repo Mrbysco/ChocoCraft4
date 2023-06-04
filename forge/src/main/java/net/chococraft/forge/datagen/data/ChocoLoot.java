@@ -1,24 +1,22 @@
 package net.chococraft.forge.datagen.data;
 
-import com.google.common.collect.ImmutableList;
-import com.mojang.datafixers.util.Pair;
 import net.chococraft.Chococraft;
 import net.chococraft.common.blocks.GysahlGreenBlock;
 import net.chococraft.registry.ModEntities;
 import net.chococraft.registry.ModRegistry;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.loot.BlockLoot;
-import net.minecraft.data.loot.EntityLoot;
+import net.minecraft.data.PackOutput;
+import net.minecraft.data.loot.BlockLootSubProvider;
+import net.minecraft.data.loot.EntityLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.LootTable.Builder;
 import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.level.storage.loot.ValidationContext;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
@@ -26,7 +24,6 @@ import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.LootingEnchantFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.functions.SmeltItemFunction;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
@@ -35,29 +32,29 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCon
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.registries.ForgeRegistries;
-
 import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
+import java.util.Set;
 import java.util.stream.Stream;
 
-
 public class ChocoLoot extends LootTableProvider {
-	public ChocoLoot(DataGenerator gen) {
-		super(gen);
+	public ChocoLoot(PackOutput packOutput) {
+		super(packOutput, Set.of(), List.of(
+				new SubProviderEntry(ChocoBlockLoot::new, LootContextParamSets.BLOCK),
+				new SubProviderEntry(ChocoEntityLoot::new, LootContextParamSets.ENTITY))
+		);
 	}
 
-	@Override
-	protected List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, Builder>>>, LootContextParamSet>> getTables() {
-		return ImmutableList.of(Pair.of(ChocoBlockLoot::new, LootContextParamSets.BLOCK), Pair.of(ChocoEntityLoot::new, LootContextParamSets.ENTITY));
-	}
+	private static class ChocoBlockLoot extends BlockLootSubProvider {
 
-	private static class ChocoBlockLoot extends BlockLoot {
+		protected ChocoBlockLoot() {
+			super(Set.of(), FeatureFlags.REGISTRY.allFlags());
+		}
+
 		@Override
-		protected void addTables() {
+		protected void generate() {
 			this.dropSelf(ModRegistry.STRAW.get());
 			LootItemCondition.Builder condition = LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModRegistry.GYSAHL_GREEN.get()).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(GysahlGreenBlock.AGE, GysahlGreenBlock.MAX_AGE));
 			this.add(ModRegistry.GYSAHL_GREEN.get(), applyExplosionDecay(ModRegistry.GYSAHL_GREEN.get(), LootTable.lootTable().withPool(LootPool.lootPool()
@@ -76,19 +73,23 @@ public class ChocoLoot extends LootTableProvider {
 		}
 	}
 
-	private static class ChocoEntityLoot extends EntityLoot {
+	private static class ChocoEntityLoot extends EntityLootSubProvider {
+		protected ChocoEntityLoot() {
+			super(FeatureFlags.REGISTRY.allFlags());
+		}
+
 		@Override
-		protected void addTables() {
+		public void generate() {
 			this.add(ModEntities.CHOCOBO.get(), LootTable.lootTable()
 					.withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(ModRegistry.CHOCOBO_FEATHER.get()).apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 2.0F))).apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F)))))
 					.withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0F)).add(LootItem.lootTableItem(ModRegistry.CHOCOBO_DRUMSTICK_RAW.get()).apply(SmeltItemFunction.smelted().when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, ENTITY_ON_FIRE))).apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0.0F, 1.0F))))));
 		}
 
 		@Override
-		protected Iterable<EntityType<?>> getKnownEntities() {
+		protected Stream<EntityType<?>> getKnownEntityTypes() {
 			Stream<EntityType<?>> entityTypeStream = ForgeRegistries.ENTITY_TYPES.getEntries().stream()
 					.filter(entry -> entry.getKey().location().getNamespace() == Chococraft.MOD_ID).map(entry -> entry.getValue());
-			return entityTypeStream::iterator;
+			return entityTypeStream;
 		}
 	}
 

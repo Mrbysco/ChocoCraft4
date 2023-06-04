@@ -5,13 +5,13 @@ import net.chococraft.registry.ModEntities;
 import net.chococraft.registry.ModRegistry;
 import net.chococraft.registry.ModSounds;
 import net.minecraft.ChatFormatting;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.common.data.LanguageProvider;
 
 public class ChocoLanguage extends LanguageProvider {
-	public ChocoLanguage(DataGenerator gen) {
-		super(gen, Chococraft.MOD_ID, "en_us");
+	public ChocoLanguage(PackOutput packOutput) {
+		super(packOutput, Chococraft.MOD_ID, "en_us");
 	}
 
 	@Override

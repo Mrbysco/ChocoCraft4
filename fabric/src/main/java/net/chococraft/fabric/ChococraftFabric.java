@@ -10,7 +10,6 @@ import net.chococraft.fabric.common.config.FabricBreedingConfig;
 import net.chococraft.fabric.common.config.FabricChocoConfig;
 import net.chococraft.fabric.common.entity.FabricChocobo;
 import net.chococraft.fabric.common.world.FeatureInjector;
-import net.chococraft.fabric.common.world.ModPlacedFeatures;
 import net.chococraft.fabric.event.MountEvent;
 import net.chococraft.registry.ModEntities;
 import net.fabricmc.api.ModInitializer;
@@ -32,7 +31,6 @@ public class ChococraftFabric implements ModInitializer {
 
 		Chococraft.init();
 
-		ModPlacedFeatures.init();
 		FeatureInjector.init();
 
 		SpawnPlacements.register(ModEntities.CHOCOBO.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, FabricChocobo::checkChocoboSpawnRules);
