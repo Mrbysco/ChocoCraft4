@@ -32,7 +32,8 @@ public class PatchouliProvider extends PatchouliBookProvider {
 				.setUseBlockyFont(true)
 				.setI18n(true)
 				.setFillerTexture("chococraft:textures/gui/chocobo_page_filler.png")
-				.addMacro("$(item)", "$(#c47567)");
+				.addMacro("$(item)", "$(#c47567)")
+				.setUseResourcePack(true);
 
 
 		bookBuilder = bookBuilder.addCategory("chocobos", "info.chococraft.book.chocobos.name",
@@ -163,16 +164,6 @@ public class PatchouliProvider extends PatchouliBookProvider {
 				.addCraftingPage(new ResourceLocation(Chococraft.MOD_ID, "gysahl_cake")).build()
 				.build()
 
-				//Add Saddle Cake entry
-				.addEntry("gysahls/saddle", "info.chococraft.book.saddle.entry.name", ModRegistry.CHOCOBO_SADDLE.getId().toString())
-				.addTextPage("info.chococraft.book.saddle.text1").build()
-				.addCraftingPage(new ResourceLocation(Chococraft.MOD_ID, "chocobo_saddle"))
-				.setRecipe2(new ResourceLocation(Chococraft.MOD_ID, "chocobo_saddle_alt")).build()
-				.addTextPage("info.chococraft.book.saddle.text2").build()
-				.addCraftingPage(new ResourceLocation(Chococraft.MOD_ID, "chocobo_saddle_bags"))
-				.setRecipe2(new ResourceLocation(Chococraft.MOD_ID, "chocobo_saddle_pack")).build()
-				.build()
-
 				.build(); //Back to the bookbuilder
 
 		bookBuilder = bookBuilder.addCategory("equipments", "info.chococraft.book.equipments.name",
@@ -189,7 +180,7 @@ public class PatchouliProvider extends PatchouliBookProvider {
 				.setRecipe2(new ResourceLocation(Chococraft.MOD_ID, "choco_disguise_boots")).build()
 				.build()
 
-				//Add Saddle Cake entry
+				//Add Saddle entry
 				.addEntry("equipments/saddle", "info.chococraft.book.saddle.entry.name", ModRegistry.CHOCOBO_SADDLE.getId().toString())
 				.addTextPage("info.chococraft.book.saddle.text1").build()
 				.addCraftingPage(new ResourceLocation(Chococraft.MOD_ID, "chocobo_saddle"))
