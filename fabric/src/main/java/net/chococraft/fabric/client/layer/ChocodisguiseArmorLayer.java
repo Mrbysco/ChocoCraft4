@@ -26,57 +26,65 @@ import java.util.Map;
 
 public class ChocodisguiseArmorLayer<T extends LivingEntity, M extends HumanoidModel<T>> extends RenderLayer<T, M> {
 	private static final ResourceLocation ARMOR_LOCATION = new ResourceLocation(Chococraft.MOD_ID, "textures/models/armor/chocodisguise.png");
-	private final Map<EquipmentSlot, ChocoDisguiseModel> chocoDisguiseMap = new HashMap<>();
+	private final Map<ArmorItem.Type, ChocoDisguiseModel> chocoDisguiseMap = new HashMap<>();
 
 	public ChocodisguiseArmorLayer(RenderLayerParent<T, M> renderLayerParent, EntityModelSet modelSet) {
 		super(renderLayerParent);
-		this.chocoDisguiseMap.put(EquipmentSlot.CHEST, new ChocoDisguiseModel(modelSet.bakeLayer(ChococraftClient.CHOCO_DISGUISE), EquipmentSlot.CHEST));
-		this.chocoDisguiseMap.put(EquipmentSlot.LEGS, new ChocoDisguiseModel(modelSet.bakeLayer(ChococraftClient.CHOCO_DISGUISE), EquipmentSlot.LEGS));
-		this.chocoDisguiseMap.put(EquipmentSlot.FEET, new ChocoDisguiseModel(modelSet.bakeLayer(ChococraftClient.CHOCO_DISGUISE), EquipmentSlot.FEET));
-		this.chocoDisguiseMap.put(EquipmentSlot.HEAD, new ChocoDisguiseModel(modelSet.bakeLayer(ChococraftClient.CHOCO_DISGUISE), EquipmentSlot.HEAD));
+		this.chocoDisguiseMap.put(ArmorItem.Type.CHESTPLATE, new ChocoDisguiseModel(modelSet.bakeLayer(ChococraftClient.CHOCO_DISGUISE), ArmorItem.Type.CHESTPLATE));
+		this.chocoDisguiseMap.put(ArmorItem.Type.LEGGINGS, new ChocoDisguiseModel(modelSet.bakeLayer(ChococraftClient.CHOCO_DISGUISE), ArmorItem.Type.LEGGINGS));
+		this.chocoDisguiseMap.put(ArmorItem.Type.BOOTS, new ChocoDisguiseModel(modelSet.bakeLayer(ChococraftClient.CHOCO_DISGUISE), ArmorItem.Type.BOOTS));
+		this.chocoDisguiseMap.put(ArmorItem.Type.HELMET, new ChocoDisguiseModel(modelSet.bakeLayer(ChococraftClient.CHOCO_DISGUISE), ArmorItem.Type.HELMET));
 	}
 
 	public void render(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, T livingEntity, float f, float g, float h, float j, float k, float l) {
-		this.renderArmorPiece(poseStack, multiBufferSource, livingEntity, EquipmentSlot.CHEST, i, this.getArmorModel(EquipmentSlot.CHEST));
-		this.renderArmorPiece(poseStack, multiBufferSource, livingEntity, EquipmentSlot.LEGS, i, this.getArmorModel(EquipmentSlot.LEGS));
-		this.renderArmorPiece(poseStack, multiBufferSource, livingEntity, EquipmentSlot.FEET, i, this.getArmorModel(EquipmentSlot.FEET));
-		this.renderArmorPiece(poseStack, multiBufferSource, livingEntity, EquipmentSlot.HEAD, i, this.getArmorModel(EquipmentSlot.HEAD));
+		this.renderArmorPiece(poseStack, multiBufferSource, livingEntity, EquipmentSlot.CHEST, i, this.getArmorModel(ArmorItem.Type.CHESTPLATE));
+		this.renderArmorPiece(poseStack, multiBufferSource, livingEntity, EquipmentSlot.LEGS, i, this.getArmorModel(ArmorItem.Type.LEGGINGS));
+		this.renderArmorPiece(poseStack, multiBufferSource, livingEntity, EquipmentSlot.FEET, i, this.getArmorModel(ArmorItem.Type.BOOTS));
+		this.renderArmorPiece(poseStack, multiBufferSource, livingEntity, EquipmentSlot.HEAD, i, this.getArmorModel(ArmorItem.Type.HELMET));
 	}
 
-	private void renderArmorPiece(PoseStack poseStack, MultiBufferSource multiBufferSource, T livingEntity, EquipmentSlot equipmentSlot, int i, ChocoDisguiseModel humanoidModel) {
+	private void renderArmorPiece(PoseStack poseStack, MultiBufferSource multiBufferSource, T livingEntity, EquipmentSlot slot, int i, ChocoDisguiseModel humanoidModel) {
 		if (humanoidModel == null) return;
-		ItemStack itemStack = livingEntity.getItemBySlot(equipmentSlot);
+		ItemStack itemStack = livingEntity.getItemBySlot(slot);
 		if (itemStack.getItem() instanceof FabricChocoDisguiseItem) {
 			FabricChocoDisguiseItem armorItem = (FabricChocoDisguiseItem) itemStack.getItem();
-			if (armorItem.getSlot() == equipmentSlot) {
-				((HumanoidModel) this.getParentModel()).copyPropertiesTo(humanoidModel);
-				this.setPartVisibility(humanoidModel, equipmentSlot);
-				boolean bl2 = itemStack.hasFoil();
-				this.renderModel(poseStack, multiBufferSource, i, armorItem, bl2, humanoidModel, 1.0F, 1.0F, 1.0F, (String) null);
-			}
+			((HumanoidModel) this.getParentModel()).copyPropertiesTo(humanoidModel);
+			this.setPartVisibility(humanoidModel, convertSlot(slot));
+			boolean bl2 = itemStack.hasFoil();
+			this.renderModel(poseStack, multiBufferSource, i, armorItem, bl2, humanoidModel, 1.0F, 1.0F, 1.0F, (String) null);
 		}
 	}
 
-	protected void setPartVisibility(ChocoDisguiseModel humanoidModel, EquipmentSlot equipmentSlot) {
+	private ArmorItem.Type convertSlot(EquipmentSlot slot) {
+		return switch (slot) {
+			case HEAD -> ArmorItem.Type.HELMET;
+			case CHEST -> ArmorItem.Type.CHESTPLATE;
+			case LEGS -> ArmorItem.Type.LEGGINGS;
+			default -> ArmorItem.Type.BOOTS;
+		};
+	}
+
+	protected void setPartVisibility(ChocoDisguiseModel humanoidModel, ArmorItem.Type equipmentSlot) {
 		humanoidModel.setAllVisible(false);
 		switch (equipmentSlot) {
-			case HEAD:
+			case HELMET -> {
 				humanoidModel.head.visible = true;
 				humanoidModel.hat.visible = true;
-				break;
-			case CHEST:
+			}
+			case CHESTPLATE -> {
 				humanoidModel.body.visible = true;
 				humanoidModel.rightArm.visible = true;
 				humanoidModel.leftArm.visible = true;
-				break;
-			case LEGS:
+			}
+			case LEGGINGS -> {
 				humanoidModel.body.visible = true;
 				humanoidModel.rightLeg.visible = true;
 				humanoidModel.leftLeg.visible = true;
-				break;
-			case FEET:
+			}
+			case BOOTS -> {
 				humanoidModel.rightLeg.visible = true;
 				humanoidModel.leftLeg.visible = true;
+			}
 		}
 
 	}
@@ -87,7 +95,7 @@ public class ChocodisguiseArmorLayer<T extends LivingEntity, M extends HumanoidM
 		humanoidModel.renderToBuffer(poseStack, vertexConsumer, i, OverlayTexture.NO_OVERLAY, f, g, h, 1.0F);
 	}
 
-	private ChocoDisguiseModel getArmorModel(EquipmentSlot equipmentSlot) {
+	private ChocoDisguiseModel getArmorModel(ArmorItem.Type equipmentSlot) {
 		return this.chocoDisguiseMap.getOrDefault(equipmentSlot, null);
 	}
 

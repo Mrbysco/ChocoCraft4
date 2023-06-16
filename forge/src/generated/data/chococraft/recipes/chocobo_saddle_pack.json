@@ -25,5 +25,6 @@
   ],
   "result": {
     "item": "chococraft:chocobo_saddle_pack"
-  }
+  },
+  "show_notification": true
 }

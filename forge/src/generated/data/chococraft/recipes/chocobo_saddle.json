@@ -18,5 +18,6 @@
   ],
   "result": {
     "item": "chococraft:chocobo_saddle"
-  }
+  },
+  "show_notification": true
 }

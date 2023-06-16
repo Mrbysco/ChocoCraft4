@@ -23,7 +23,7 @@ public class FabricChocobo extends AbstractChocobo implements ContainerListener 
 
 	public FabricChocobo(EntityType<? extends AbstractChocobo> type, Level world) {
 		super(type, world);
-		this.maxUpStep = 1.0F;
+		this.setMaxUpStep(1.0F);
 		this.createInventory();
 	}
 

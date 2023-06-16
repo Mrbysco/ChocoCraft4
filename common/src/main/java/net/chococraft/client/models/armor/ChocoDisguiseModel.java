@@ -10,12 +10,12 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.decoration.ArmorStand;
+import net.minecraft.world.item.ArmorItem;
 
 public class ChocoDisguiseModel extends HumanoidModel<LivingEntity> {
-	private final EquipmentSlot slot;
+	private final ArmorItem.Type armorType;
 
 	private final ModelPart chocobo_head;
 	private final ModelPart chocobo_body;
@@ -26,9 +26,9 @@ public class ChocoDisguiseModel extends HumanoidModel<LivingEntity> {
 	private final ModelPart chocobo_claw_right;
 	private final ModelPart chocobo_claw_left;
 
-	public ChocoDisguiseModel(ModelPart root, EquipmentSlot slot) {
+	public ChocoDisguiseModel(ModelPart root, ArmorItem.Type type) {
 		super(root);
-		this.slot = slot;
+		this.armorType = type;
 
 		chocobo_head = root.getChild("chocobo_head");
 		chocobo_body = root.getChild("chocobo_body");
@@ -189,14 +189,14 @@ public class ChocoDisguiseModel extends HumanoidModel<LivingEntity> {
 		this.setLegsRotation();
 		this.setBootRotation();
 
-		chocobo_head.visible = slot == EquipmentSlot.HEAD;
-		chocobo_body.visible = slot == EquipmentSlot.CHEST;
-		chocobo_right_arm.visible = slot == EquipmentSlot.CHEST;
-		chocobo_left_arm.visible = slot == EquipmentSlot.CHEST;
-		chocobo_leg_right.visible = slot == EquipmentSlot.LEGS;
-		chocobo_leg_left.visible = slot == EquipmentSlot.LEGS;
-		chocobo_claw_right.visible = slot == EquipmentSlot.FEET;
-		chocobo_claw_left.visible = slot == EquipmentSlot.FEET;
+		chocobo_head.visible = armorType == ArmorItem.Type.HELMET;
+		chocobo_body.visible = armorType == ArmorItem.Type.CHESTPLATE;
+		chocobo_right_arm.visible = armorType == ArmorItem.Type.CHESTPLATE;
+		chocobo_left_arm.visible = armorType == ArmorItem.Type.CHESTPLATE;
+		chocobo_leg_right.visible = armorType == ArmorItem.Type.LEGGINGS;
+		chocobo_leg_left.visible = armorType == ArmorItem.Type.LEGGINGS;
+		chocobo_claw_right.visible = armorType == ArmorItem.Type.BOOTS;
+		chocobo_claw_left.visible = armorType == ArmorItem.Type.BOOTS;
 		if (this.young) {
 			float f = 2.0F;
 			poseStack.scale(1.5F / f, 1.5F / f, 1.5F / f);

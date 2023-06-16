@@ -13,5 +13,6 @@
   "name": "info.chocopedia.book.name",
   "show_progress": false,
   "subtitle": "info.chococraft.book.subtitle",
-  "use_blocky_font": true
+  "use_blocky_font": true,
+  "use_resource_pack": true
 }

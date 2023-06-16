@@ -52,7 +52,7 @@ public class ModDatagenerator {
 			generator.addProvider(event.includeServer(), new ChocoLoot(packOutput));
 			generator.addProvider(event.includeServer(), new ChocoRecipes(packOutput));
 
-			generator.addProvider(true, new PatchouliProvider(packOutput));
+			generator.addProvider(event.includeServer(), new PatchouliProvider(packOutput));
 
 //			generator.addProvider(event.includeServer(), JsonCodecProvider.forDatapackRegistry(
 //					generator, helper, Chococraft.MOD_ID, ops, Registry.PLACED_FEATURE_REGISTRY, getPlacedFeatures(ops)));

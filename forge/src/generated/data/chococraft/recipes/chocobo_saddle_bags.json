@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "chococraft:chocobo_saddle_bags"
-  }
+  },
+  "show_notification": true
 }

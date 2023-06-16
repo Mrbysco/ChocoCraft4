@@ -13,5 +13,6 @@
   ],
   "result": {
     "item": "chococraft:choco_disguise_chestplate"
-  }
+  },
+  "show_notification": true
 }

@@ -79,15 +79,15 @@ public class ChocoboBookScreen extends Screen {
 				this.font.draw(poseStack, this.pageMsg, ((this.xSize / 2) - (this.font.width(bookAuthor) / 2) - 6), 14, 0);
 			}
 
-			this.renderpage();
+			this.renderpage(poseStack);
 		}
 		poseStack.popPose();
 		super.render(poseStack, mouseX, mouseY, partialTicks);
 	}
 
-	private void renderpage() {
+	private void renderpage(PoseStack poseStack) {
 		int i = (this.width - this.xSize) / 2;
-		this.font.drawWordWrap(Component.translatable("gui.chocobook.page" + (currentPage)), i + 34, this.guiTop + 26, 120, 0);
+		this.font.drawWordWrap(poseStack, Component.translatable("gui.chocobook.page" + (currentPage)), i + 34, this.guiTop + 26, 120, 0);
 	}
 
 }

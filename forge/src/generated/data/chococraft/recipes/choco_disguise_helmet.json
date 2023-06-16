@@ -12,5 +12,6 @@
   ],
   "result": {
     "item": "chococraft:choco_disguise_helmet"
-  }
+  },
+  "show_notification": true
 }

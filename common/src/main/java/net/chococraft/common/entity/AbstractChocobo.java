@@ -231,11 +231,6 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 		return 1.65D;
 	}
 
-	@Override
-	public boolean rideableUnderWater() {
-		return true;
-	}
-
 	@Nullable
 	public LivingEntity getControllingPassenger() {
 		Entity entity = this.getFirstPassenger();
@@ -296,23 +291,11 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 					this.setDeltaMovement(Vec3.ZERO);
 				}
 
-				this.animationSpeedOld = this.animationSpeed;
-				double d1 = this.getX() - this.xo;
-				double d0 = this.getZ() - this.zo;
-				float f4 = Mth.sqrt((float) (d1 * d1 + d0 * d0)) * 4.0F;
-
-				if (f4 > 1.0F) {
-					f4 = 1.0F;
-				}
-
-				this.animationSpeed += (f4 - this.animationSpeed) * 0.4F;
-				this.animationPosition += this.animationSpeed;
-
 				if (this.onGround) {
 					this.setJumping(false);
 				}
 
-				this.calculateEntityAnimation(this, false);
+				this.calculateEntityAnimation(false);
 				this.tryCheckInsideBlocks();
 			} else {
 				super.travel(travelVector);
@@ -412,21 +395,10 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 			this.wingRotation += this.wingRotDelta * 2.0F;
 
 			if (this.onGround) {
-				this.animationSpeedOld = this.animationSpeed;
-				double d1 = this.getX() - this.xo;
-				double d0 = this.getZ() - this.zo;
-				float f4 = ((float) Math.sqrt(d1 * d1 + d0 * d0)) * 4.0F;
-
-				if (f4 > 1.0F) {
-					f4 = 1.0F;
-				}
-
-				this.animationSpeed += (f4 - this.animationSpeed) * 0.4F;
-				this.animationPosition += this.animationSpeed;
+				this.calculateEntityAnimation(false);
 			} else {
-				this.animationPosition = 0;
-				this.animationSpeed = 0;
-				this.animationSpeedOld = 0;
+				this.walkAnimation.position(0);
+				this.walkAnimation.setSpeed(0);
 			}
 		}
 	}

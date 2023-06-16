@@ -10,6 +10,7 @@ import net.minecraft.util.LazyLoadedValue;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -22,9 +23,9 @@ import java.util.function.Consumer;
 public class ForgeChocoDisguiseItem extends AbstractChocoDisguiseItem {
 	private final LazyLoadedValue<HumanoidModel<?>> model;
 
-	public ForgeChocoDisguiseItem(ArmorMaterial material, EquipmentSlot slot, Properties properties) {
-		super(material, slot, properties);
-		this.model = DistExecutor.unsafeRunForDist(() -> () -> new LazyLoadedValue<>(() -> this.provideArmorModelForSlot(this.slot)),
+	public ForgeChocoDisguiseItem(ArmorMaterial material, ArmorItem.Type type, Properties properties) {
+		super(material, type, properties);
+		this.model = DistExecutor.unsafeRunForDist(() -> () -> new LazyLoadedValue<>(() -> this.provideArmorModelForSlot(this.type)),
 				() -> () -> null);
 	}
 
@@ -34,8 +35,8 @@ public class ForgeChocoDisguiseItem extends AbstractChocoDisguiseItem {
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public HumanoidModel<?> provideArmorModelForSlot(EquipmentSlot slot) {
-		return new ChocoDisguiseModel(Minecraft.getInstance().getEntityModels().bakeLayer(ChococraftClient.CHOCO_DISGUISE), slot);
+	public HumanoidModel<?> provideArmorModelForSlot(ArmorItem.Type type) {
+		return new ChocoDisguiseModel(Minecraft.getInstance().getEntityModels().bakeLayer(ChococraftClient.CHOCO_DISGUISE), type);
 	}
 
 	@Override

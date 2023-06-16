@@ -25,5 +25,6 @@
   ],
   "result": {
     "item": "chococraft:gysahl_cake"
-  }
+  },
+  "show_notification": true
 }
