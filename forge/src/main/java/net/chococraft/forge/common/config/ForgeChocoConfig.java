@@ -23,6 +23,7 @@ public class ForgeChocoConfig {
 		public final DoubleValue tameChance;
 
 		public final BooleanValue nameTamedChocobos;
+		public final BooleanValue canChocobosFly;
 		public final ConfigValue<List<? extends String>> maleNames;
 		public final ConfigValue<List<? extends String>> femaleNames;
 
@@ -50,6 +51,10 @@ public class ForgeChocoConfig {
 			tameChance = builder
 					.comment("This multiplier controls the tame chance per gysahl used, so .15 results in 15% chance to tame [Default: 0.15]")
 					.defineInRange("tameChance", 0.15, 0, 1);
+
+			canChocobosFly = builder
+					.comment("If certain chocobos are allowed to fly [Default: true]")
+					.define("canChocobosFly", true);
 
 			builder.pop();
 			builder.comment("Naming configuration")
