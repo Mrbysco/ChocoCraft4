@@ -1,5 +1,7 @@
 plugins {
     id "com.github.johnrengelman.shadow" version "7.1.2"
+    id 'com.matthewprenger.cursegradle'
+    id 'com.modrinth.minotaur'
 }
 
 architectury {
@@ -113,6 +115,52 @@ publishing {
                     password = "${System.getenv().SAP_SECRET}"
                 }
             }
+        }
+    }
+}
+
+if (System.getenv().CURSEFORGE_KEY) {
+    curseforge {
+        apiKey = System.getenv().CURSEFORGE_KEY
+        project {
+            id = project.curseforge_id
+            releaseType = "beta"
+            addGameVersion "Fabric"
+            addGameVersion "${minecraft_version}"
+            addGameVersion "Java 17"
+            mainArtifact(remapJar)
+            changelog = file("$project.rootDir/changelog.md")
+            changelogType = 'markdown'
+
+
+            relations {
+                requiredDependency "architectury-api"
+                optionalDependency "patchouli"
+            }
+        }
+
+        options {
+            forgeGradleIntegration = false
+        }
+    }
+}
+
+if (System.getenv().MODRINTH_KEY) {
+    String fileContents = file("$project.rootDir/changelog.md").text
+    modrinth {
+        token = System.getenv().MODRINTH_KEY
+        projectId = project.modrinth_id
+        versionType = "beta"
+        versionName = "${archives_base_name} ${minecraft_version}"
+        versionNumber = project.version
+        uploadFile = remapJar
+        changelog = fileContents
+        gameVersions = ["${minecraft_version}"]
+        loaders = ["fabric"]
+
+        dependencies {
+            required.project "architectury-api"
+            optional.project "patchouli"
         }
     }
 }
