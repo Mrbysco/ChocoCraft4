@@ -52,6 +52,10 @@ public class ChococraftExpectPlatformImpl {
 		return (float) ChococraftFabric.config.get().chocobo.tameChance;
 	}
 
+	public static boolean canChocobosFly() {
+		return ChococraftFabric.config.get().chocobo.canChocobosFly;
+	}
+
 	public static boolean nameTamedChocobos() {
 		return ChococraftFabric.config.get().naming.nameTamedChocobos;
 	}

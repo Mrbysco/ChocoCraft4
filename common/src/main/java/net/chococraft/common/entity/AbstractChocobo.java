@@ -144,6 +144,8 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 		this.setMovementType(MovementType.values()[compound.getByte(NBTKEY_MOVEMENTTYPE)]);
 
 		this.setGeneration(compound.getInt(NBTKEY_CHOCOBO_GENERATION));
+		if (compound.contains("wornSaddle", 10))
+			this.setSaddleType(ItemStack.of(compound.getCompound("wornSaddle")));
 	}
 
 	@Override
@@ -154,6 +156,8 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 		compound.putByte(NBTKEY_MOVEMENTTYPE, (byte) this.getMovementType().ordinal());
 
 		compound.putInt(NBTKEY_CHOCOBO_GENERATION, this.getGeneration());
+		if (!getSaddle().isEmpty())
+			compound.put("wornSaddle", getSaddle().save(new CompoundTag()));
 	}
 
 	public ChocoboColor getChocoboColor() {
@@ -519,7 +523,10 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 
 				//Saddle the Chocobo if right-clicked with a saddle
 				if (heldItemStack.getItem() instanceof ChocoboSaddleItem && !this.isSaddled() && !this.isBaby()) {
-					setSaddled(player, hand, heldItemStack);
+					if (!player.getAbilities().instabuild) {
+						heldItemStack.shrink(1);
+					}
+					setSaddled(player, hand, new ItemStack(heldItemStack.getItem()));
 					return InteractionResult.SUCCESS;
 				}
 			} else {
