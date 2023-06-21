@@ -38,6 +38,9 @@ public class FabricChocoConfig implements ConfigData {
 		@Comment("This multiplier controls the tame chance per gysahl used, so .15 results in 15% chance to tame [Default: 0.15]")
 		@ConfigEntry.BoundedDiscrete(min = 0, max = 1)
 		public double tameChance = 0.15;
+
+		@Comment("If certain chocobos are allowed to fly [Default: true]")
+		public boolean canChocobosFly = true;
 	}
 
 	public static class Naming {

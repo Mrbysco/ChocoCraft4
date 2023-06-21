@@ -65,6 +65,12 @@ public class ChococraftExpectPlatform {
 	}
 
 	@ExpectPlatform
+	public static boolean canChocobosFly() {
+		// Just throw an error, the content should get replaced at runtime.
+		throw new AssertionError();
+	}
+
+	@ExpectPlatform
 	public static boolean nameTamedChocobos() {
 		// Just throw an error, the content should get replaced at runtime.
 		throw new AssertionError();

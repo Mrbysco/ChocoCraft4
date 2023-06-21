@@ -1,5 +1,6 @@
 package net.chococraft.common.entity.breeding;
 
+import net.chococraft.ChococraftExpectPlatform;
 import net.minecraft.world.effect.MobEffectInstance;
 
 import java.util.ArrayList;
@@ -107,6 +108,6 @@ public class ChocoboAbilityInfo {
 	}
 
 	public boolean getCanFly() {
-		return canFly;
+		return canFly && ChococraftExpectPlatform.canChocobosFly();
 	}
 }

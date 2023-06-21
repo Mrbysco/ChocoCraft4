@@ -1,5 +1,6 @@
 package net.chococraft.forge.common.entity;
 
+import net.chococraft.Chococraft;
 import net.chococraft.common.entity.AbstractChocobo;
 import net.chococraft.common.items.ChocoboSaddleItem;
 import net.chococraft.forge.common.inventory.ForgeSaddleBagMenu;
@@ -56,6 +57,11 @@ public class ForgeChocobo extends AbstractChocobo {
 		@Override
 		public boolean isItemValid(int slot, @NotNull ItemStack stack) {
 			return stack.isEmpty() || stack.getItem() instanceof ChocoboSaddleItem;
+		}
+
+		@Override
+		public void setStackInSlot(int slot, @NotNull ItemStack stack) {
+			ForgeChocobo.this.setSaddleType(stack);
 		}
 
 		@Override
@@ -134,7 +140,9 @@ public class ForgeChocobo extends AbstractChocobo {
 	@Override
 	public void readAdditionalSaveData(CompoundTag compound) {
 		super.readAdditionalSaveData(compound);
+
 		this.saddleItemStackHandler.deserializeNBT(compound.getCompound(NBTKEY_SADDLE_ITEM));
+		setSaddleType(this.saddleItemStackHandler.getStackInSlot(0));
 		this.inventory.deserializeNBT(compound.getCompound(NBTKEY_INVENTORY));
 	}
 
