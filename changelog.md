@@ -1,3 +1,5 @@
-### Version 0.9.9
+### Version 0.6.6
 * Adjust a check in the Gyashl Green block to stop a potential crash upon placement
-* 
+* Adjust chocobo speeds
+* Add a config to restrict all chocobo flight
+* Fix the saddle being lost when reloading the world
