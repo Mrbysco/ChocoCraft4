@@ -2,6 +2,7 @@ package net.chococraft.common.blocks;
 
 import net.chococraft.registry.ModRegistry;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.LevelReader;
@@ -29,8 +30,11 @@ public class GysahlGreenBlock extends CropBlock {
 
 	@Override
 	public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
-		return (level.getRawBrightness(pos, 0) >= 8 || level.canSeeSky(pos)) && ((state.getBlock() == this && state.getValue(AGE) == MAX_AGE) &&
-				super.canSurvive(state, level, pos));
+		boolean canSurvive = super.canSurvive(state, level, pos);
+		if (level instanceof WorldGenRegion) {
+			return canSurvive && ((state.getBlock() == this && state.getValue(AGE) == MAX_AGE));
+		}
+		return canSurvive;
 	}
 
 	@Override
