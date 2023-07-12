@@ -84,7 +84,7 @@ public class ForgeChocobo extends AbstractChocobo {
 
 	@Override
 	protected void setSaddled(Player player, InteractionHand hand, ItemStack heldItemStack) {
-		if (!this.level.isClientSide) {
+		if (!this.level().isClientSide) {
 			this.saddleItemStackHandler.setStackInSlot(0, heldItemStack.copy().split(1));
 			this.setSaddleType(heldItemStack);
 			this.usePlayerItem(player, hand, heldItemStack);
@@ -93,7 +93,7 @@ public class ForgeChocobo extends AbstractChocobo {
 
 	@Override
 	public void openCustomInventoryScreen(Player player) {
-		if (!this.level.isClientSide && (!this.isVehicle() || this.hasPassenger(player)) && this.isTame()) {
+		if (!this.level().isClientSide && (!this.isVehicle() || this.hasPassenger(player)) && this.isTame()) {
 			ServerPlayer serverPlayer = (ServerPlayer) player;
 			if (player.containerMenu != player.inventoryMenu) {
 				player.closeContainer();
@@ -120,7 +120,7 @@ public class ForgeChocobo extends AbstractChocobo {
 			}
 		}
 
-		for (Player player : level.players()) {
+		for (Player player : this.level().players()) {
 			if (player.containerMenu instanceof ForgeSaddleBagMenu bagContainer) {
 				bagContainer.refreshSlots(bagContainer.getChocobo(), player.getInventory());
 			}

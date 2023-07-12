@@ -116,7 +116,7 @@ public class FabricChocobo extends AbstractChocobo implements ContainerListener 
 
 	@Override
 	protected void setSaddled(Player player, InteractionHand hand, ItemStack heldItemStack) {
-		if (!this.level.isClientSide) {
+		if (!this.level().isClientSide) {
 			this.inventory.setItem(0, heldItemStack.copy().split(1));
 			this.setSaddleType(heldItemStack);
 			this.usePlayerItem(player, hand, heldItemStack);
@@ -125,7 +125,7 @@ public class FabricChocobo extends AbstractChocobo implements ContainerListener 
 
 	@Override
 	public void openCustomInventoryScreen(Player player) {
-		if (!this.level.isClientSide && (!this.isVehicle() || this.hasPassenger(player)) && this.isTame()) {
+		if (!this.level().isClientSide && (!this.isVehicle() || this.hasPassenger(player)) && this.isTame()) {
 			ServerPlayer serverPlayer = (ServerPlayer) player;
 			if ((!this.isVehicle())) {
 				if (serverPlayer.containerMenu != serverPlayer.inventoryMenu) {
@@ -157,7 +157,7 @@ public class FabricChocobo extends AbstractChocobo implements ContainerListener 
 			}
 		}
 
-		for (Player player : level.players()) {
+		for (Player player : this.level().players()) {
 			if (player.containerMenu instanceof FabricSaddleBagMenu bagContainer) {
 				bagContainer.refreshSlots(bagContainer.getChocobo(), player.getInventory());
 			}

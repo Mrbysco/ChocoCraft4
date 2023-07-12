@@ -20,8 +20,8 @@ public class ChocoboHealInPenGoal extends Goal {
 
 	@Override
 	public boolean canUse() {
-		if (chocobo.level.getGameTime() % 40 == 0 && chocobo.getHealth() != chocobo.getMaxHealth()) {
-			return chocobo.level.getBlockState(chocobo.blockPosition()).is(ModRegistry.STRAW.get());
+		if (chocobo.level().getGameTime() % 40 == 0 && chocobo.getHealth() != chocobo.getMaxHealth()) {
+			return chocobo.level().getBlockState(chocobo.blockPosition()).is(ModRegistry.STRAW.get());
 		}
 
 		return false;
@@ -32,7 +32,7 @@ public class ChocoboHealInPenGoal extends Goal {
 		BlockPos pos = chocobo.blockPosition();
 		Iterable<BlockPos> positions = BlockPos.betweenClosed(pos.offset(-5, 0, -5), pos.offset(5, 0, 5));
 		for (BlockPos position : positions) {
-			BlockState state = chocobo.level.getBlockState(position);
+			BlockState state = chocobo.level().getBlockState(position);
 			if (state.is(Blocks.WATER_CAULDRON) && state.getValue(BlockStateProperties.LEVEL_CAULDRON) == 3) {
 				chocobo.heal(chocobo.getRandom().nextInt(3) + 1);
 			}

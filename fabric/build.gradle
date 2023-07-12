@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id "com.github.johnrengelman.shadow" version "8.1.1"
     id 'com.matthewprenger.cursegradle'
     id 'com.modrinth.minotaur'
 }
@@ -41,6 +41,7 @@ dependencies {
     modRuntimeOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}")
 
     modImplementation("vazkii.patchouli:Patchouli:${patchouli_version}-FABRIC")
+    modImplementation("xyz.brassgoggledcoders:PatchouliProvider:${patchouli_provider_version}")
 }
 
 processResources {
@@ -55,19 +56,19 @@ shadowJar {
     exclude "architectury.common.json"
 
     configurations = [project.configurations.shadowCommon]
-    classifier "dev-shadow"
+    archiveClassifier.set("dev-shadow")
 }
 
 remapJar {
     injectAccessWidener = true
     input.set shadowJar.archiveFile
     dependsOn shadowJar
-    archiveBaseName.set "${rootProject.archives_base_name}-${rootProject.minecraft_version}-${project.name}"
-    classifier null
+    archiveBaseName.set "${rootProject.archives_base_name}-${project.minecraft_version}-${project.name}"
+    archiveClassifier.set('')
 }
 
 jar {
-    classifier "dev"
+    archiveClassifier.set("dev")
 }
 
 sourcesJar {

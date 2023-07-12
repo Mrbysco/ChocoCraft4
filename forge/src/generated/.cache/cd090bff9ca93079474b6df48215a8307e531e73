@@ -1,4 +1,4 @@
-// 1.19.4	2023-06-14T13:26:31.6196701	Patchouli Book Provider
+// 1.20.1	2023-07-12T20:14:50.6878441	Patchouli Book Provider
 8cefbb9f2ff0998a96c8a44f3a75069ffae28ed8 assets/chococraft/patchouli_books/chocopedia/en_us/categories/chocobos.json
 bfa481910d11c591b1741900fbe9788abf9d309e assets/chococraft/patchouli_books/chocopedia/en_us/categories/equipments.json
 c5d8fc49de0d2e75a8da8d54cbb6bcf766e48690 assets/chococraft/patchouli_books/chocopedia/en_us/categories/gysahls.json
@@ -18,7 +18,6 @@ ceff75d084d2e989e63cd3724d206cca8cd1e6e5 assets/chococraft/patchouli_books/choco
 6642f98cec25b5c5112f289cb3f752ab8a1a5913 assets/chococraft/patchouli_books/chocopedia/en_us/entries/gysahls/pickled_gysahl.json
 3600857acf761b76390d7328633bfc34a769e491 assets/chococraft/patchouli_books/chocopedia/en_us/entries/gysahls/pink_gysahl.json
 720255959dd6e091639af87dfcbbaf194e195dd2 assets/chococraft/patchouli_books/chocopedia/en_us/entries/gysahls/red_gysahl.json
-2bfeb407bd8201251b331a4b2356d70982602d54 assets/chococraft/patchouli_books/chocopedia/en_us/entries/gysahls/saddle.json
 8e334abe07c4e01c0b2d8739f1d98874b73ce680 assets/chococraft/patchouli_books/chocopedia/en_us/entries/legacy/info.json
 4465967ac51c56c3a2f8b64d9e0904e9413032ea assets/chococraft/patchouli_books/chocopedia/en_us/entries/misc/straw.json
 c09b5efdf890d8d3225436018392bb85a14e1b9a data/chococraft/patchouli_books/chocopedia/book.json

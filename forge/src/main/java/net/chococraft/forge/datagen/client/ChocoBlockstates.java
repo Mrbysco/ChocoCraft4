@@ -1,6 +1,7 @@
 package net.chococraft.forge.datagen.client;
 
 import net.chococraft.Chococraft;
+import net.chococraft.common.blocks.GysahlGreenBlock;
 import net.chococraft.registry.ModRegistry;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -19,11 +20,11 @@ public class ChocoBlockstates extends BlockStateProvider {
 
 	@Override
 	protected void registerStatesAndModels() {
-		buildCrops((CropBlock) ModRegistry.GYSAHL_GREEN.get());
+		buildCrops((GysahlGreenBlock) ModRegistry.GYSAHL_GREEN.get());
 		buildStraw(ModRegistry.STRAW.get());
 	}
 
-	protected void buildCrops(CropBlock block) {
+	protected void buildCrops(GysahlGreenBlock block) {
 		VariantBlockStateBuilder builder = getVariantBuilder(block);
 		for (int i = 0; i <= block.getMaxAge(); i++) {
 			ModelFile file = models().cross(ForgeRegistries.BLOCKS.getKey(block).getPath() + "_stage" + (i),

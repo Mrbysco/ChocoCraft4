@@ -2,12 +2,12 @@ package net.chococraft.common.blocks;
 
 import net.chococraft.registry.ModRegistry;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.WorldGenRegion;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -31,15 +31,16 @@ public class GysahlGreenBlock extends CropBlock {
 	@Override
 	public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
 		boolean canSurvive = super.canSurvive(state, level, pos);
-		if (level instanceof WorldGenRegion) {
-			return canSurvive && ((state.getBlock() == this && state.getValue(AGE) == MAX_AGE));
+		if (level instanceof WorldGenLevel && state.getValue(AGE) == MAX_AGE) {
+			BlockPos blockPos2 = pos.below();
+			return this.mayPlaceOn(level.getBlockState(blockPos2), level, blockPos2);
 		}
 		return canSurvive;
 	}
 
 	@Override
 	protected boolean mayPlaceOn(BlockState state, BlockGetter level, BlockPos pos) {
-		return super.mayPlaceOn(state, level, pos) || state.is(Blocks.GRASS_BLOCK);
+		return super.mayPlaceOn(state, level, pos) || state.is(BlockTags.DIRT);
 	}
 
 	@Override

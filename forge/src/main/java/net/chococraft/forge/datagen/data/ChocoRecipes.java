@@ -1,6 +1,8 @@
 package net.chococraft.forge.datagen.data;
 
+import com.google.gson.JsonObject;
 import net.chococraft.registry.ModRegistry;
+import net.minecraft.data.CachedOutput;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -11,7 +13,9 @@ import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.Tags;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 public class ChocoRecipes extends RecipeProvider {
@@ -116,5 +120,10 @@ public class ChocoRecipes extends RecipeProvider {
 				.requires(ModRegistry.GYSAHL_GREEN_ITEM.get()).requires(Ingredient.of(Tags.Items.DYES_PINK))
 				.unlockedBy("has_gysahl_green", has(ModRegistry.GYSAHL_GREEN_ITEM.get()))
 				.save(recipeConsumer);
+	}
+
+	@Override
+	protected @Nullable CompletableFuture<?> saveAdvancement(CachedOutput output, FinishedRecipe finishedRecipe, JsonObject advancementJson) {
+		return null;
 	}
 }

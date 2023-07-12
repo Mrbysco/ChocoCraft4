@@ -1,14 +1,13 @@
 package net.chococraft.client.gui;
 
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.chococraft.Chococraft;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.PageButton;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
@@ -60,34 +59,33 @@ public class ChocoboBookScreen extends Screen {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
-		this.renderBackground(poseStack);
-		RenderSystem.setShader(GameRenderer::getPositionTexShader);
-		RenderSystem.setShaderTexture(0, TEXTURE);
+	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+		this.renderBackground(guiGraphics);
 
+		PoseStack poseStack = guiGraphics.pose();
 		poseStack.pushPose();
 		poseStack.translate(this.guiLeft, this.guiTop, 0);
 
-		this.blit(poseStack, 0, 0, 0, 0, this.xSize, this.ySize);
+		guiGraphics.blit(TEXTURE, 0, 0, 0, 0, this.xSize, this.ySize);
 
 		if (this.currentPage == 0) {
-			this.font.draw(poseStack, bookTitle, (this.xSize / 2) - (this.font.width(bookTitle) / 2), 24, 0);
-			this.font.draw(poseStack, bookAuthor, (this.xSize / 2) - (this.font.width(bookAuthor) / 2), 44, 0);
+			guiGraphics.drawString(font, bookTitle, (this.xSize / 2) - (this.font.width(bookTitle) / 2), 24, 0, false);
+			guiGraphics.drawString(font, bookAuthor, (this.xSize / 2) - (this.font.width(bookAuthor) / 2), 44, 0, false);
 		} else {
 			if (currentPage > 1) {
 				this.pageMsg = Component.translatable("book.pageIndicator", currentPage - 1, Math.max(pageCount - 1, 1));
-				this.font.draw(poseStack, this.pageMsg, ((this.xSize / 2) - (this.font.width(bookAuthor) / 2) - 6), 14, 0);
+				guiGraphics.drawString(font, this.pageMsg, ((this.xSize / 2) - (this.font.width(bookAuthor) / 2) - 6), 14, 0, false);
 			}
 
-			this.renderpage(poseStack);
+			this.renderPage(guiGraphics);
 		}
 		poseStack.popPose();
-		super.render(poseStack, mouseX, mouseY, partialTicks);
+		super.render(guiGraphics, mouseX, mouseY, partialTicks);
 	}
 
-	private void renderpage(PoseStack poseStack) {
+	private void renderPage(GuiGraphics guiGraphics) {
 		int i = (this.width - this.xSize) / 2;
-		this.font.drawWordWrap(poseStack, Component.translatable("gui.chocobook.page" + (currentPage)), i + 34, this.guiTop + 26, 120, 0);
+		guiGraphics.drawWordWrap(font, Component.translatable("gui.chocobook.page" + (currentPage)), i + 34, this.guiTop + 26, 120, 0);
 	}
 
 }

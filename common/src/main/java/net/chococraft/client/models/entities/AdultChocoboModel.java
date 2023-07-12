@@ -222,7 +222,7 @@ public class AdultChocoboModel<T extends AbstractChocobo> extends EntityModel<Ab
 //		}
 
 		// flying animation
-		if (Math.abs(motion.y) > 0.1F || !entityIn.isOnGround()) {
+		if (Math.abs(motion.y) > 0.1F || !entityIn.onGround()) {
 			setRotateAngle(wing_right, (pi / 2F) - (pi / 12), -0.0174533F, -90 + Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount);
 			setRotateAngle(wing_left, (pi / 2F) - (pi / 12), 0.0174533F, 90 + Mth.cos(limbSwing * 0.6662F + pi) * 1.4F * limbSwingAmount);
 			this.setLeftLegXRotation(0.6F);

@@ -23,7 +23,7 @@ public class FabricSaddleBagMenu extends SaddleBagMenu {
 
 	public static FabricSaddleBagMenu create(final int windowId, final Inventory inventory, final FriendlyByteBuf buffer) {
 		UUID uuid = buffer.readUUID();
-		List<FabricChocobo> chocobos = inventory.player.level.getEntitiesOfClass(FabricChocobo.class, inventory.player.getBoundingBox().inflate(16.0D),
+		List<FabricChocobo> chocobos = inventory.player.level().getEntitiesOfClass(FabricChocobo.class, inventory.player.getBoundingBox().inflate(16.0D),
 				(test) -> test.getUUID().equals(uuid));
 		FabricChocobo chocobo = chocobos.isEmpty() ? null : chocobos.get(0);
 		return new FabricSaddleBagMenu(windowId, inventory, chocobo);

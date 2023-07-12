@@ -24,7 +24,7 @@ public class ForgeSaddleBagMenu extends SaddleBagMenu {
 
 	public static ForgeSaddleBagMenu create(final int windowId, final Inventory inventory, final FriendlyByteBuf buffer) {
 		UUID uuid = buffer.readUUID();
-		List<ForgeChocobo> chocobos = inventory.player.level.getEntitiesOfClass(ForgeChocobo.class, inventory.player.getBoundingBox().inflate(16.0D),
+		List<ForgeChocobo> chocobos = inventory.player.level().getEntitiesOfClass(ForgeChocobo.class, inventory.player.getBoundingBox().inflate(16.0D),
 				(test) -> test.getUUID().equals(uuid));
 		ForgeChocobo chocobo = chocobos.isEmpty() ? null : chocobos.get(0);
 		return new ForgeSaddleBagMenu(windowId, inventory, chocobo);

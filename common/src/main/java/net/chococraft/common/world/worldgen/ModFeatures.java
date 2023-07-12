@@ -30,8 +30,8 @@ public class ModFeatures {
 
 	public static void configuredBootstrap(BootstapContext<ConfiguredFeature<?, ?>> context) {
 		FeatureUtils.register(context, PATCH_GYSAHL_GREEN,
-				Feature.RANDOM_PATCH, FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(BlockStateProvider.simple(GYSAHL_GREEN)),
-						List.of(Blocks.GRASS_BLOCK), 64)
+				Feature.RANDOM_PATCH, FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK,
+						new SimpleBlockConfiguration(BlockStateProvider.simple(GYSAHL_GREEN)))
 		);
 	}
 
@@ -41,8 +41,9 @@ public class ModFeatures {
 		HolderGetter<ConfiguredFeature<?, ?>> holdergetter = context.lookup(Registries.CONFIGURED_FEATURE);
 
 		PlacementUtils.register(context, PLACED_PATCH_GYSAHL_GREEN, holdergetter.getOrThrow(PATCH_GYSAHL_GREEN),
-				List.of(CountPlacement.of(UniformInt.of(0, 5)),
+				List.of(
+						CountPlacement.of(UniformInt.of(0, 5)),
 						RarityFilter.onAverageOnceEvery(2),
-						InSquarePlacement.spread(), PlacementUtils.RANGE_4_4, BiomeFilter.biome()));
+						InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome()));
 	}
 }

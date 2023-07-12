@@ -282,7 +282,7 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 					this.jumpFromGround();
 					this.hasImpulse = true;
 					this.moveRelative(getChocoboColor().getAbilityInfo().getAirbornSpeed() / 100, travelVector);
-				} else if (livingentity.jumping && !this.jumping && this.onGround) {
+				} else if (livingentity.jumping && !this.jumping && this.onGround()) {
 					this.setDeltaMovement(getDeltaMovement().add(0, 0.75D, 0));
 					livingentity.setJumping(false);
 					this.setJumping(true);
@@ -295,7 +295,7 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 					this.setDeltaMovement(Vec3.ZERO);
 				}
 
-				if (this.onGround) {
+				if (this.onGround()) {
 					this.setJumping(false);
 				}
 
@@ -312,8 +312,8 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 	}
 
 	@Override
-	public void positionRider(Entity passenger) {
-		super.positionRider(passenger);
+	protected void positionRider(Entity passenger, MoveFunction moveFunction) {
+		super.positionRider(passenger, moveFunction);
 		if (passenger instanceof Mob && this.getControllingPassenger() == passenger) {
 			this.yBodyRot = ((LivingEntity) passenger).yBodyRot;
 		}
@@ -382,7 +382,7 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 			this.timeSinceFeatherChance++;
 		}
 
-		if (!level.isClientSide) {
+		if (!this.level().isClientSide) {
 			if (isPassenger() && isVehicle()) {
 				stopRiding();
 			}
@@ -391,14 +391,14 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 		if (this.getCommandSenderWorld().isClientSide) {
 			// Wing rotations, control packet, client side
 			// Client side
-			this.destPos += (double) (this.onGround ? -1 : 4) * 0.3D;
+			this.destPos += (double) (this.onGround() ? -1 : 4) * 0.3D;
 			this.destPos = Mth.clamp(destPos, 0f, 1f);
 
-			if (!this.onGround) this.wingRotDelta = Math.min(wingRotation, 1f);
+			if (!this.onGround()) this.wingRotDelta = Math.min(wingRotation, 1f);
 			this.wingRotDelta *= 0.9D;
 			this.wingRotation += this.wingRotDelta * 2.0F;
 
-			if (this.onGround) {
+			if (this.onGround()) {
 				this.calculateEntityAnimation(false);
 			} else {
 				this.walkAnimation.position(0);
@@ -434,11 +434,11 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 				if (fedCake) {
 					this.usePlayerItem(player, hand, heldItemStack);
 					this.setBaby(false);
-					return InteractionResult.sidedSuccess(this.level.isClientSide);
+					return InteractionResult.sidedSuccess(this.level().isClientSide);
 				}
 			} else {
 				int i = this.getAge();
-				if (!this.level.isClientSide && i == 0 && this.canFallInLove() && !fedCake) {
+				if (!this.level().isClientSide && i == 0 && this.canFallInLove() && !fedCake) {
 					if (heldItemStack.getItem() == ModRegistry.GOLD_GYSAHL.get()) {
 						//If fed a Gold Gysahl set the "fedGoldGysahl" flag to true
 						this.setFedGoldGysahl(true);
@@ -449,12 +449,12 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 				}
 			}
 
-			if (this.level.isClientSide) {
+			if (this.level().isClientSide) {
 				return InteractionResult.CONSUME;
 			}
 		}
 
-		if (this.level.isClientSide) {
+		if (this.level().isClientSide) {
 			return InteractionResult.PASS;
 		} else {
 			if (this.isTame()) {
@@ -589,7 +589,7 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 
 	@Override
 	public float getWalkTargetValue(BlockPos pos, LevelReader levelReader) {
-		if (this.level.getBiome((new BlockPos(blockPosition()))).is(BiomeTags.IS_NETHER))
+		if (this.level().getBiome((new BlockPos(blockPosition()))).is(BiomeTags.IS_NETHER))
 			return 0.0F;
 
 		return super.getWalkTargetValue(pos, levelReader);

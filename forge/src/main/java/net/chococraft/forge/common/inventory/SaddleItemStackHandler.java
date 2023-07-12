@@ -13,7 +13,7 @@ public class SaddleItemStackHandler extends ItemStackHandler {
 	@Override
 	public void setStackInSlot(int slot, @NotNull ItemStack stack) {
 		this.validateSlotIndex(slot);
-		if (!stacks.get(slot).sameItem(stack)) {
+		if (!ItemStack.isSameItem(stacks.get(slot), stack)) {
 			this.stacks.set(slot, stack);
 			this.onContentsChanged(slot);
 		}

@@ -26,7 +26,7 @@ public class EntityMixin {
 	public void chococraft_startRiding(Entity entity, boolean bl, CallbackInfoReturnable<Boolean> cir) {
 		//CanMount - Mounting: true
 		Entity mountingEntity = (Entity) (Object) this;
-		InteractionResult result = MountEvent.MOUNTING.invoker().onMount(mountingEntity, entity, mountingEntity.getLevel(), true);
+		InteractionResult result = MountEvent.MOUNTING.invoker().onMount(mountingEntity, entity, mountingEntity.level(), true);
 		if (result == InteractionResult.FAIL) {
 			cir.setReturnValue(false);
 		}
@@ -37,7 +37,7 @@ public class EntityMixin {
 		//CanMount - Mounting: false
 		if (this.vehicle != null) {
 			Entity mountingEntity = (Entity) (Object) this;
-			InteractionResult result = MountEvent.MOUNTING.invoker().onMount(mountingEntity, this.vehicle, mountingEntity.getLevel(), false);
+			InteractionResult result = MountEvent.MOUNTING.invoker().onMount(mountingEntity, this.vehicle, mountingEntity.level(), false);
 			if (result == InteractionResult.FAIL) {
 				ci.cancel();
 			}

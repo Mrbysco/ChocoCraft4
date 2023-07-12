@@ -16,7 +16,7 @@ public class RidingEventHandler {
 
 		if (event.getEntityBeingMounted().isInWater()) return;
 
-		if (!event.getEntityBeingMounted().isOnGround())
+		if (!event.getEntityBeingMounted().onGround())
 			event.setCanceled(true);
 	}
 }

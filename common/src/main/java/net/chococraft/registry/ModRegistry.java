@@ -15,21 +15,24 @@ import net.chococraft.common.items.armor.ModArmorMaterial;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MapColor;
 
 public class ModRegistry {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(Chococraft.MOD_ID, Registries.BLOCK);
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Chococraft.MOD_ID, Registries.ITEM);
+	public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS
+			= DeferredRegister.create(Chococraft.MOD_ID, Registries.CREATIVE_MODE_TAB);
 
 	public static final RegistrySupplier<Block> GYSAHL_GREEN = BLOCKS.register("gysahl_green", () ->
-			new GysahlGreenBlock(BlockBehaviour.Properties.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP)));
+			new GysahlGreenBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GRASS).noCollission().randomTicks().instabreak().sound(SoundType.CROP)));
 
 	public static final RegistrySupplier<Block> STRAW = BLOCKS.register("straw", () ->
-			new StrawBlock(BlockBehaviour.Properties.of(Material.STONE).sound(SoundType.GRASS)));
+			new StrawBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_YELLOW).sound(SoundType.GRASS)));
 
 	public static final RegistrySupplier<Item> CHOCOBO_SADDLE = ITEMS.register("chocobo_saddle", () -> new ChocoboSaddleItem(itemBuilder(), 0));
 	public static final RegistrySupplier<Item> CHOCOBO_SADDLE_BAGS = ITEMS.register("chocobo_saddle_bags", () -> new ChocoboSaddleItem(itemBuilder(), 18));

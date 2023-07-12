@@ -42,7 +42,7 @@ public class ChococraftFabric implements ModInitializer {
 
 			if (entityBeingMounted.isInWater()) return InteractionResult.PASS;
 
-			if (!entityBeingMounted.isOnGround())
+			if (!entityBeingMounted.onGround())
 				return InteractionResult.FAIL;
 
 			return InteractionResult.PASS;

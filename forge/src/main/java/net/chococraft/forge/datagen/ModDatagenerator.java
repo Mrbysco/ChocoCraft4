@@ -54,12 +54,6 @@ public class ModDatagenerator {
 
 			generator.addProvider(event.includeServer(), new PatchouliProvider(packOutput));
 
-//			generator.addProvider(event.includeServer(), JsonCodecProvider.forDatapackRegistry(
-//					generator, helper, Chococraft.MOD_ID, ops, Registry.PLACED_FEATURE_REGISTRY, getPlacedFeatures(ops)));
-//
-//			generator.addProvider(event.includeServer(), JsonCodecProvider.forDatapackRegistry(
-//					generator, helper, Chococraft.MOD_ID, ops, ForgeRegistries.Keys.BIOME_MODIFIERS, getBiomeModifiers(ops)));
-
 			generator.addProvider(event.includeServer(), new DatapackBuiltinEntriesProvider(
 					packOutput, CompletableFuture.supplyAsync(ModDatagenerator::getProvider), Set.of(Chococraft.MOD_ID)));
 		}
