@@ -87,7 +87,7 @@ public class ForgeChocobo extends AbstractChocobo {
 	@Override
 	protected void setSaddled(Player player, InteractionHand hand, ItemStack heldItemStack) {
 		if (!this.level.isClientSide) {
-			this.saddleItemStackHandler.setStackInSlot(0, heldItemStack.copy().split(1));
+			this.saddleItemStackHandler.setStackInSlot(0, heldItemStack.getItem().getDefaultInstance());
 			this.setSaddleType(heldItemStack);
 			this.usePlayerItem(player, hand, heldItemStack);
 		}
