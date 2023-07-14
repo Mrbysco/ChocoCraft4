@@ -1,2 +1,2 @@
-### Version 0.8.2
-* Fix being unable to plant Gysahl Seeds
+### Version 0.9.1
+* Fix issue were the saddle dissapears the moment you open the chocobo inventory
