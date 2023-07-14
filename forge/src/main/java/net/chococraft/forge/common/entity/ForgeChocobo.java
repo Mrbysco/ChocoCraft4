@@ -62,11 +62,13 @@ public class ForgeChocobo extends AbstractChocobo {
 		@Override
 		public void setStackInSlot(int slot, @NotNull ItemStack stack) {
 			ForgeChocobo.this.setSaddleType(stack);
+			super.setStackInSlot(slot, stack);
 		}
 
 		@Override
 		protected void onContentsChanged(int slot) {
 			ForgeChocobo.this.setSaddleType(getStackInSlot(slot));
+			super.onContentsChanged(slot);
 		}
 	};
 	private final LazyOptional<IItemHandler> saddleHolder = LazyOptional.of(() -> saddleItemStackHandler);
