@@ -1,2 +1,2 @@
-### Version 0.9.1
-* Fix issue were the saddle dissapears the moment you open the chocobo inventory
+### Version 0.9.2
+* Fix saddle right-click wiping the saddle
