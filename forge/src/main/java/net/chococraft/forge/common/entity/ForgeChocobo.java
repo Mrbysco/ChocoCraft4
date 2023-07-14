@@ -1,6 +1,5 @@
 package net.chococraft.forge.common.entity;
 
-import net.chococraft.Chococraft;
 import net.chococraft.common.entity.AbstractChocobo;
 import net.chococraft.common.items.ChocoboSaddleItem;
 import net.chococraft.forge.common.inventory.ForgeSaddleBagMenu;
@@ -20,8 +19,6 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.network.NetworkHooks;
-import org.jetbrains.annotations.NotNull;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
