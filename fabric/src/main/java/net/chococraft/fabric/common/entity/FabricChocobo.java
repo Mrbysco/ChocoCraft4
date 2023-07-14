@@ -117,7 +117,7 @@ public class FabricChocobo extends AbstractChocobo implements ContainerListener 
 	@Override
 	protected void setSaddled(Player player, InteractionHand hand, ItemStack heldItemStack) {
 		if (!this.level.isClientSide) {
-			this.inventory.setItem(0, heldItemStack.copy().split(1));
+			this.inventory.setItem(0, heldItemStack.getItem().getDefaultInstance());
 			this.setSaddleType(heldItemStack);
 			this.usePlayerItem(player, hand, heldItemStack);
 		}
