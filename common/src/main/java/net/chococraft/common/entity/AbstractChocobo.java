@@ -69,12 +69,14 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 	protected static final String NBTKEY_SADDLE_ITEM = "Saddle";
 	protected static final String NBTKEY_INVENTORY = "Inventory";
 	private static final String NBTKEY_CHOCOBO_GENERATION = "Generation";
+	private static final String NBTKEY_ALLOWED_FLIGHT = "AllowedFlight";
 
 	private static final EntityDataAccessor<ChocoboColor> PARAM_COLOR = SynchedEntityData.defineId(AbstractChocobo.class, ModDataSerializers.CHOCOBO_COLOR);
 	private static final EntityDataAccessor<Boolean> PARAM_IS_MALE = SynchedEntityData.defineId(AbstractChocobo.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<Boolean> PARAM_FED_GOLD_GYSAHL = SynchedEntityData.defineId(AbstractChocobo.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<MovementType> PARAM_MOVEMENT_TYPE = SynchedEntityData.defineId(AbstractChocobo.class, ModDataSerializers.MOVEMENT_TYPE);
 	private static final EntityDataAccessor<ItemStack> PARAM_SADDLE_ITEM = SynchedEntityData.defineId(AbstractChocobo.class, EntityDataSerializers.ITEM_STACK);
+	private static final EntityDataAccessor<Boolean> ALLOWED_FLIGHT = SynchedEntityData.defineId(AbstractChocobo.class, EntityDataSerializers.BOOLEAN);
 
 	private final static EntityDataAccessor<Integer> PARAM_GENERATION = SynchedEntityData.defineId(AbstractChocobo.class, EntityDataSerializers.INT);
 
@@ -117,6 +119,7 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 		this.entityData.define(PARAM_MOVEMENT_TYPE, MovementType.WANDER);
 		this.entityData.define(PARAM_SADDLE_ITEM, ItemStack.EMPTY);
 		this.entityData.define(PARAM_GENERATION, 0);
+		this.entityData.define(ALLOWED_FLIGHT, true);
 	}
 
 	@Override
@@ -134,6 +137,7 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 		chocobo.setHealth(getMaxHealth());
 		chocobo.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(getChocoboColor().getAbilityInfo().getLandSpeed() / 100F);
 		chocobo.getAttribute(Attributes.FLYING_SPEED).setBaseValue(getChocoboColor().getAbilityInfo().getAirbornSpeed() / 100F);
+		chocobo.setAllowedFlight(ChococraftExpectPlatform.canChocobosFly());
 	}
 
 	@Override
@@ -146,6 +150,8 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 		this.setGeneration(compound.getInt(NBTKEY_CHOCOBO_GENERATION));
 		if (compound.contains("wornSaddle", 10))
 			this.setSaddleType(ItemStack.of(compound.getCompound("wornSaddle")));
+
+		this.setAllowedFlight(compound.getBoolean(NBTKEY_CHOCOBO_GENERATION));
 	}
 
 	@Override
@@ -158,6 +164,8 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 		compound.putInt(NBTKEY_CHOCOBO_GENERATION, this.getGeneration());
 		if (!getSaddle().isEmpty())
 			compound.put("wornSaddle", getSaddle().save(new CompoundTag()));
+
+		compound.putBoolean(NBTKEY_ALLOWED_FLIGHT, this.allowedFlight());
 	}
 
 	public ChocoboColor getChocoboColor() {
@@ -228,6 +236,14 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 	public void setGeneration(int value) {
 		this.entityData.set(PARAM_GENERATION, value);
 	}
+
+	public boolean allowedFlight() {
+		return this.entityData.get(ALLOWED_FLIGHT);
+	}
+
+	public void setAllowedFlight(boolean value) {
+		this.entityData.set(ALLOWED_FLIGHT, value);
+	}
 	//endregion
 
 	@Override
@@ -277,7 +293,7 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 					setJumping(true);
 				}
 
-				if (livingentity.jumping && this.getAbilityInfo().getCanFly()) {
+				if (livingentity.jumping && (this.getAbilityInfo().getCanFly() && allowedFlight())) {
 					setJumping(true);
 					this.jumpFromGround();
 					this.hasImpulse = true;
