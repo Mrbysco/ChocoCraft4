@@ -1,2 +1,2 @@
-### Version 0.7.4
-* Fix saddle right-click wiping the saddle
+### Version 0.7.5
+* Fix `canChocoboFly` config option only working partially on servers
