@@ -1,2 +1,2 @@
-### Version 0.8.5
-* Fix `canChocoboFly` config option only working partially on servers
+### Version 0.8.6
+* Fix Patchouli support
