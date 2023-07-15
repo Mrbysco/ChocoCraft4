@@ -121,7 +121,7 @@ if (System.getenv().CURSEFORGE_KEY) {
                 requiredDependency "architectury-api"
                 requiredDependency "fabric-api"
                 requiredDependency "cloth-config"
-                optionalDependency "patchouli"
+                optionalDependency "patchouli-fabric"
             }
         }
 
@@ -148,7 +148,7 @@ if (System.getenv().MODRINTH_KEY) {
             required.project "architectury-api"
             required.project "fabric-api"
             required.project "cloth-config"
-            optional.project "patchouli"
+            optional.project "patchouli-fabric"
         }
     }
 }
