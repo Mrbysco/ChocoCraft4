@@ -149,7 +149,7 @@ if (System.getenv().MODRINTH_KEY) {
             required.project "architectury-api"
             required.project "fabric-api"
             required.project "cloth-config"
-            optional.project "patchouli-fabric"
+            optional.project "patchouli"
         }
     }
 }
