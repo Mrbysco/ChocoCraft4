@@ -1,2 +1,2 @@
-### Version 0.9.3
-* Fix `canChocoboFly` config option only working partially on servers
+### Version 0.9.4
+* Fix Patchouli support being broken
