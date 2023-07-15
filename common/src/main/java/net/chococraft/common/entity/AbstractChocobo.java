@@ -222,13 +222,6 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 		}
 	}
 
-	private int getSaddleCount(ItemStack stack) {
-		if (stack.getItem() instanceof ChocoboSaddleItem saddle) {
-			return saddle.getInventorySize();
-		}
-		return 0;
-	}
-
 	public int getGeneration() {
 		return this.entityData.get(PARAM_GENERATION);
 	}
