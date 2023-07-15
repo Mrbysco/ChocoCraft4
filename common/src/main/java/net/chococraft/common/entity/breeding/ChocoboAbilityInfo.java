@@ -108,6 +108,6 @@ public class ChocoboAbilityInfo {
 	}
 
 	public boolean getCanFly() {
-		return canFly && ChococraftExpectPlatform.canChocobosFly();
+		return canFly;
 	}
 }
