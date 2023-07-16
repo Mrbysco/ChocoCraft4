@@ -151,7 +151,7 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 		if (compound.contains("wornSaddle", 10))
 			this.setSaddleType(ItemStack.of(compound.getCompound("wornSaddle")));
 
-		this.setAllowedFlight(compound.getBoolean(NBTKEY_CHOCOBO_GENERATION));
+		this.setAllowedFlight(compound.getBoolean(NBTKEY_ALLOWED_FLIGHT));
 	}
 
 	@Override
