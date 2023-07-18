@@ -12,7 +12,10 @@ architectury {
 def generatedResources = file("src/generated")
 sourceSets {
     main {
-        resources.srcDir file("src/generated/resources")
+        resources {
+            srcDirs += project(":forge").file("src/generated").absolutePath
+            exclude '.cache'
+        }
     }
 }
 
