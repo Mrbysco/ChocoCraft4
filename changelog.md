@@ -1,2 +1,2 @@
-### Version 0.7.7
-* Fix resources missing on forge
+### Version 0.7.8
+* Fix broken forge build
