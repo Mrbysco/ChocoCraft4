@@ -12,7 +12,7 @@ architectury {
 def generatedResources = file("src/generated")
 sourceSets {
     main {
-        resources.srcDir generatedResources
+        resources.srcDir file("src/generated/resources")
     }
 }
 
