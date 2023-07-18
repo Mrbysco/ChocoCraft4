@@ -1,2 +1,2 @@
-### Version 0.7.6
-* Fix flight being disabled after reloading the world
+### Version 0.7.7
+* Fix resources missing on forge
