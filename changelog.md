@@ -1,2 +1,2 @@
-### Version 0.8.8
-* Fix resources missing on forge
+### Version 0.8.9
+* Fix broken forge build
