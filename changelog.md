@@ -1,2 +1,2 @@
-### Version 0.9.7
-* Fix broken forge build
+### Version 0.9.8
+* Reduce the amount of gysahl generating in the world. During the 1.20 update the amount of gysahl generated skyrocketed and it was not intended. This should reduce the amount of gysahl generated to a more reasonable amount.
