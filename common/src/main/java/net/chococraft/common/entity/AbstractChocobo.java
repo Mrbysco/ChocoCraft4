@@ -26,6 +26,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
@@ -59,6 +60,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
@@ -263,6 +265,12 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 	}
 
 	@Override
+	public boolean canStandOnFluid(FluidState fluidState) {
+		boolean flag = this.getControllingPassenger() != null && this.getControllingPassenger().jumping;
+		return fluidState.is(FluidTags.WATER) && this.getAbilityInfo().canWalkOnWater() && !flag;
+	}
+
+	@Override
 	public void travel(Vec3 travelVector) {
 		if (this.isAlive()) {
 			LivingEntity livingentity = this.getControllingPassenger();
@@ -279,22 +287,25 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 					forward *= 0.25F;
 				}
 
-				if (isInWater() && this.getAbilityInfo().canWalkOnWater()) {
-					Vec3 delta = getDeltaMovement();
-					this.setDeltaMovement(delta.x, 0.4D, delta.y);
-					this.moveRelative(getChocoboColor().getAbilityInfo().getWaterSpeed() / 100F, travelVector);
-					setJumping(true);
-				}
-
 				if (livingentity.jumping && (this.getAbilityInfo().getCanFly() && allowedFlight())) {
 					setJumping(true);
 					this.jumpFromGround();
 					this.hasImpulse = true;
 					this.moveRelative(getChocoboColor().getAbilityInfo().getAirbornSpeed() / 100, travelVector);
-				} else if (livingentity.jumping && !this.jumping && this.onGround()) {
-					this.setDeltaMovement(getDeltaMovement().add(0, 0.75D, 0));
-					livingentity.setJumping(false);
-					this.setJumping(true);
+				} else if (livingentity.jumping && !this.jumping) {
+					if (isUnderWater()) {
+						jumpInLiquid(FluidTags.WATER);
+					} else {
+						if (this.isInWater()) {
+							goDownInWater();
+						} else {
+							if (onGround()) {
+								jumpFromGround();
+								livingentity.setJumping(false);
+								this.setJumping(true);
+							}
+						}
+					}
 				}
 
 				if (this.isControlledByLocalInstance()) {
