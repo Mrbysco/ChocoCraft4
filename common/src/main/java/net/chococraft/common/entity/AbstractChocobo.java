@@ -604,7 +604,7 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 
 	@Override
 	public int getAmbientSoundInterval() {
-		return (24 * (int) (Math.random() * 100));
+		return (24 * (int) (Math.random() * ChococraftExpectPlatform.kwehIntervalLimit()));
 	}
 
 	@Override

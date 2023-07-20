@@ -24,6 +24,7 @@ public class ForgeChocoConfig {
 
 		public final BooleanValue nameTamedChocobos;
 		public final BooleanValue canChocobosFly;
+		public final IntValue kwehIntervalLimit;
 		public final ConfigValue<List<? extends String>> maleNames;
 		public final ConfigValue<List<? extends String>> femaleNames;
 
@@ -55,6 +56,10 @@ public class ForgeChocoConfig {
 			canChocobosFly = builder
 					.comment("If certain chocobos are allowed to fly [Default: true]")
 					.define("canChocobosFly", true);
+
+			kwehIntervalLimit = builder
+					.comment("Determines the maximum interval duration for the Chocobo's ambient sound [Default: 100]")
+					.defineInRange("kwehIntervalLimit", 100, 1, Integer.MAX_VALUE);
 
 			builder.pop();
 			builder.comment("Naming configuration")

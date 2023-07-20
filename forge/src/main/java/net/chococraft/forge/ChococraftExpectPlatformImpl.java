@@ -59,6 +59,10 @@ public class ChococraftExpectPlatformImpl {
 		return ForgeChocoConfig.COMMON.canChocobosFly.get();
 	}
 
+	public static int kwehIntervalLimit() {
+		return ForgeChocoConfig.COMMON.kwehIntervalLimit.get();
+	}
+
 	public static boolean nameTamedChocobos() {
 		return ForgeChocoConfig.COMMON.nameTamedChocobos.get();
 	}

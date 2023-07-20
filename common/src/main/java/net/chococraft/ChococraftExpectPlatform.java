@@ -88,4 +88,11 @@ public class ChococraftExpectPlatform {
 		// Just throw an error, the content should get replaced at runtime.
 		throw new AssertionError();
 	}
+
+
+	@ExpectPlatform
+	public static int kwehIntervalLimit() {
+		// Just throw an error, the content should get replaced at runtime.
+		throw new AssertionError();
+	}
 }

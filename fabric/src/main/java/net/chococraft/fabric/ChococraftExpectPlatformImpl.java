@@ -56,6 +56,10 @@ public class ChococraftExpectPlatformImpl {
 		return ChococraftFabric.config.get().chocobo.canChocobosFly;
 	}
 
+	public static int kwehIntervalLimit() {
+		return ChococraftFabric.config.get().chocobo.kwehIntervalLimit;
+	}
+
 	public static boolean nameTamedChocobos() {
 		return ChococraftFabric.config.get().naming.nameTamedChocobos;
 	}

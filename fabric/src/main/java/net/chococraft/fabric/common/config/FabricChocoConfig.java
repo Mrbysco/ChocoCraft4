@@ -41,6 +41,10 @@ public class FabricChocoConfig implements ConfigData {
 
 		@Comment("If certain chocobos are allowed to fly [Default: true]")
 		public boolean canChocobosFly = true;
+
+		@Comment("Determines the maximum interval duration for the Chocobo's ambient sound [Default: 100]")
+		@ConfigEntry.BoundedDiscrete(min = 1, max = Integer.MAX_VALUE)
+		public int kwehIntervalLimit = 100;
 	}
 
 	public static class Naming {
