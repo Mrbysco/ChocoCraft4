@@ -261,6 +261,10 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 	protected boolean updateInWaterStateAndDoFluidPushing() {
 		return super.updateInWaterStateAndDoFluidPushing();
 	}
+	
+	public boolean canStandOnFluid(FluidState arg) {
+		return arg.is(FluidTags.WATER) && this.getAbilityInfo().canWalkOnWater();
+	}
 
 	@Override
 	public void travel(Vec3 travelVector) {
@@ -279,12 +283,6 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 					forward *= 0.25F;
 				}
 
-				if (isInWater() && this.getAbilityInfo().canWalkOnWater()) {
-					Vec3 delta = getDeltaMovement();
-					this.setDeltaMovement(delta.x, 0.4D, delta.y);
-					this.moveRelative(getChocoboColor().getAbilityInfo().getWaterSpeed() / 100F, travelVector);
-					setJumping(true);
-				}
 
 				if (livingentity.jumping && (this.getAbilityInfo().getCanFly() && allowedFlight())) {
 					setJumping(true);
@@ -294,7 +292,6 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 				} else if (livingentity.jumping && !this.jumping && this.onGround()) {
 					this.setDeltaMovement(getDeltaMovement().add(0, 0.75D, 0));
 					livingentity.setJumping(false);
-					this.setJumping(true);
 				}
 
 				if (this.isControlledByLocalInstance()) {
@@ -425,6 +422,11 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 				passenger.addEffect(ability.get());
 				this.addEffect(ability.get());
 			});
+		}
+		if (this.isUnderWater()) {
+			setNoAi(false);
+			this.goalSelector.addGoal(0, this.follow);
+			this.setMovementType(MovementType.FOLLOW_OWNER);
 		}
 	}
 
@@ -593,7 +595,7 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 
 	@Override
 	public int getAmbientSoundInterval() {
-		return (24 * (int) (Math.random() * 100));
+		return (24 * (int) (Math.random() * 200));
 	}
 
 	@Override
