@@ -1,2 +1,3 @@
-### Version 0.9.8
-* Reduce the amount of gysahl generating in the world. During the 1.20 update the amount of gysahl generated skyrocketed and it was not intended. This should reduce the amount of gysahl generated to a more reasonable amount.
+### Version 0.9.9
+* Add a config option `kwehIntervalLimit` to change the maximum interval duration for the chocobo ambient sounds (kweh)
+* Adjust how swimming works, the water walking should work properly now and when holding jump while standing on water the chocobo will dive down
