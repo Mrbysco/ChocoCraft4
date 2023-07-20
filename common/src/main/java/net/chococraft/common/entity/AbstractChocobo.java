@@ -293,17 +293,21 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 					this.hasImpulse = true;
 					this.moveRelative(getChocoboColor().getAbilityInfo().getAirbornSpeed() / 100, travelVector);
 				} else if (livingentity.jumping && !this.jumping) {
-					if (isUnderWater()) {
-						jumpInLiquid(FluidTags.WATER);
-					} else {
-						if (this.isInWater()) {
-							goDownInWater();
-						} else {
-							if (onGround()) {
-								jumpFromGround();
-								livingentity.setJumping(false);
-								this.setJumping(true);
+					if (isInWater()) {
+						if (this.getAbilityInfo().canWalkOnWater()) {
+							if (isUnderWater()) {
+								jumpInLiquid(FluidTags.WATER);
 							}
+						} else {
+							this.setDeltaMovement(this.getDeltaMovement().add(0.0, 0.01f + random.nextFloat() * 0.09f, 0.0));
+						}
+					} else {
+						if (this.isInWater() && this.getAbilityInfo().canWalkOnWater()) {
+							goDownInWater();
+						} else if (onGround()) {
+							jumpFromGround();
+							livingentity.setJumping(false);
+							this.setJumping(true);
 						}
 					}
 				}
