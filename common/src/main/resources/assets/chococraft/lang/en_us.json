@@ -166,6 +166,8 @@
   "itemGroup.chococraft.tab": "ChocoCraft 4",
   "text.autoconfig.chococraft.option.chocobo": "Chocobo",
   "text.autoconfig.chococraft.option.chocobo.tameChance": "Tame Chance",
+  "text.autoconfig.chococraft.option.chocobo.canChocobosFly": "Can Chocobo's Fly",
+  "text.autoconfig.chococraft.option.chocobo.kwehIntervalLimit": "Kweh Interval Limit",
   "text.autoconfig.chococraft.option.naming": "Naming",
   "text.autoconfig.chococraft.option.naming.femaleNames": "Female Chocobo Names",
   "text.autoconfig.chococraft.option.naming.maleNames": "Male Chocobo Names",

@@ -208,6 +208,8 @@ public class ChocoLanguage extends LanguageProvider {
 		add("text.autoconfig.chococraft.option.spawning.chocoboPackSizeMax", "Chocobo Pack Min Size");
 		add("text.autoconfig.chococraft.option.chocobo", "Chocobo");
 		add("text.autoconfig.chococraft.option.chocobo.tameChance", "Tame Chance");
+		add("text.autoconfig.chococraft.option.chocobo.canChocobosFly", "Can Chocobo's Fly");
+		add("text.autoconfig.chococraft.option.chocobo.kwehIntervalLimit", "Kweh Interval Limit");
 		add("text.autoconfig.chococraft.option.naming", "Naming");
 		add("text.autoconfig.chococraft.option.naming.nameTamedChocobos", "Name Tamed Chocobos");
 		add("text.autoconfig.chococraft.option.naming.maleNames", "Male Chocobo Names");
