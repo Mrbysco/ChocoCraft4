@@ -1,3 +1,2 @@
-### Version 0.9.9
-* Add a config option `kwehIntervalLimit` to change the maximum interval duration for the chocobo ambient sounds (kweh)
-* Adjust how swimming works, the water walking should work properly now and when holding jump while standing on water the chocobo will dive down
+### Version 0.9.10
+* Only reduce the saddle stack by 1 after applying the saddle to the chocobo (This should fix an issue where if a singular choco saddle was used it wouldn't work)
