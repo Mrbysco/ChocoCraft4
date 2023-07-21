@@ -1,2 +1,2 @@
-### Version 0.7.8
-* Fix broken forge build
+### Version 0.7.9
+* Only reduce the saddle stack by 1 after applying the saddle to the chocobo (This should fix an issue where if a singular choco saddle was used it wouldn't work)
