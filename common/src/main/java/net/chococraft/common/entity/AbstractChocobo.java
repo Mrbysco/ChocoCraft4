@@ -532,10 +532,10 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 
 				//Saddle the Chocobo if right-clicked with a saddle
 				if (heldItemStack.getItem() instanceof ChocoboSaddleItem && !this.isSaddled() && !this.isBaby()) {
+					setSaddled(player, hand, new ItemStack(heldItemStack.getItem()));
 					if (!player.getAbilities().instabuild) {
 						heldItemStack.shrink(1);
 					}
-					setSaddled(player, hand, new ItemStack(heldItemStack.getItem()));
 					return InteractionResult.SUCCESS;
 				}
 			} else {
