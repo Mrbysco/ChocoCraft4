@@ -67,7 +67,7 @@ public class ChocoLoot extends LootTableProvider {
 
 		@Override
 		protected Iterable<Block> getKnownBlocks() {
-			return ForgeRegistries.BLOCKS.getEntries().stream().filter(entry -> entry.getKey().location().getNamespace() == Chococraft.MOD_ID)
+			return ForgeRegistries.BLOCKS.getEntries().stream().filter(entry -> entry.getKey().location().getNamespace().equals(Chococraft.MOD_ID))
 					.map(entry -> entry.getValue())::iterator;
 		}
 	}
@@ -87,7 +87,7 @@ public class ChocoLoot extends LootTableProvider {
 		@Override
 		protected Stream<EntityType<?>> getKnownEntityTypes() {
 			Stream<EntityType<?>> entityTypeStream = ForgeRegistries.ENTITY_TYPES.getEntries().stream()
-					.filter(entry -> entry.getKey().location().getNamespace() == Chococraft.MOD_ID).map(entry -> entry.getValue());
+					.filter(entry -> entry.getKey().location().getNamespace().equals(Chococraft.MOD_ID)).map(entry -> entry.getValue());
 			return entityTypeStream;
 		}
 	}
