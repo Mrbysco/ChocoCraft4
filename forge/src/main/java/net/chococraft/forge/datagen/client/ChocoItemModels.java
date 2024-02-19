@@ -1,9 +1,7 @@
 package net.chococraft.forge.datagen.client;
 
 import net.chococraft.Chococraft;
-import net.chococraft.registry.ModRegistry;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 

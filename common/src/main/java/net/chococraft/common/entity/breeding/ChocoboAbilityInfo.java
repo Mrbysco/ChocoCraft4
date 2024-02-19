@@ -1,6 +1,5 @@
 package net.chococraft.common.entity.breeding;
 
-import net.chococraft.ChococraftExpectPlatform;
 import net.minecraft.world.effect.MobEffectInstance;
 
 import java.util.ArrayList;
