@@ -1,2 +1,2 @@
-### Version 0.9.10
-* Only reduce the saddle stack by 1 after applying the saddle to the chocobo (This should fix an issue where if a singular choco saddle was used it wouldn't work)
+### Version 0.10.0
+* Initial update to 1.20.4
