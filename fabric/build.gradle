@@ -1,6 +1,6 @@
 plugins {
     id "com.github.johnrengelman.shadow" version "8.1.1"
-    id 'com.matthewprenger.cursegradle'
+    id 'net.darkhax.curseforgegradle'
     id 'com.modrinth.minotaur'
 }
 
@@ -40,7 +40,7 @@ dependencies {
 
     modRuntimeOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}")
 
-    modImplementation("vazkii.patchouli:Patchouli:${patchouli_version}-FABRIC")
+    modImplementation("vazkii.patchouli:Patchouli:${patchouli_version}-FABRIC-SNAPSHOT")
     modImplementation("xyz.brassgoggledcoders:PatchouliProvider:${patchouli_provider_version}")
 }
 
@@ -105,30 +105,19 @@ publishing {
 }
 
 if (System.getenv().CURSEFORGE_KEY) {
-    curseforge {
-        apiKey = System.getenv().CURSEFORGE_KEY
-        project {
-            id = project.curseforge_id
-            releaseType = "beta"
-            addGameVersion "Fabric"
-            addGameVersion "${minecraft_version}"
-            addGameVersion "Java 17"
-            mainArtifact(remapJar)
-            changelog = file("$project.rootDir/changelog.md")
-            changelogType = 'markdown'
+    task curseforge(type: net.darkhax.curseforgegradle.TaskPublishCurseForge) {
+        apiToken = System.getenv().CURSEFORGE_KEY
 
+        def mainFile = upload(project.curseforge_id, jar)
+        mainFile.releaseType = 'beta'
+        mainFile.addGameVersion "Fabric"
+        mainFile.addGameVersion "${minecraft_version}"
+        mainFile.addGameVersion "Java 17"
 
-            relations {
-                requiredDependency "architectury-api"
-                requiredDependency "fabric-api"
-                requiredDependency "cloth-config"
-                optionalDependency "patchouli-fabric"
-            }
-        }
+        mainFile.changelog = file("$project.rootDir/changelog.md")
+        mainFile.changelogType = 'markdown'
 
-        options {
-            forgeGradleIntegration = false
-        }
+        mainFile.addOptional("architectury-api", "fabric-api", "cloth-config", "patchouli-fabric")
     }
 }
 

@@ -1,6 +1,0 @@
-{
-  "type": "forge:add_features",
-  "biomes": "#minecraft:is_overworld",
-  "features": "chococraft:patch_gysahl_green",
-  "step": "vegetal_decoration"
-}

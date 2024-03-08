@@ -63,6 +63,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3f;
 
 public abstract class AbstractChocobo extends TamableAnimal implements HasCustomInventoryScreen {
 	private static final String NBTKEY_CHOCOBO_COLOR = "Color";
@@ -242,8 +243,8 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 	//endregion
 
 	@Override
-	public double getPassengersRidingOffset() {
-		return 1.65D;
+	protected Vector3f getPassengerAttachmentPoint(Entity entity, EntityDimensions entityDimensions, float f) {
+		return new Vector3f(0.0F, 1.65F, 0.0F);
 	}
 
 	@Nullable

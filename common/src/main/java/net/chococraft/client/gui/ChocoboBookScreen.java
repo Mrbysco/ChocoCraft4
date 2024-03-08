@@ -60,7 +60,7 @@ public class ChocoboBookScreen extends Screen {
 
 	@Override
 	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-		this.renderBackground(guiGraphics);
+		this.renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
 
 		PoseStack poseStack = guiGraphics.pose();
 		poseStack.pushPose();

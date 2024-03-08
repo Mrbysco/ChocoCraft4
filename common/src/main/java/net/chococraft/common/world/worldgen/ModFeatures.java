@@ -42,7 +42,7 @@ public class ModFeatures {
 		PlacementUtils.register(context, PLACED_PATCH_GYSAHL_GREEN, holdergetter.getOrThrow(PATCH_GYSAHL_GREEN),
 				List.of(
 						CountPlacement.of(UniformInt.of(0, 5)),
-						RarityFilter.onAverageOnceEvery(2),
+						RarityFilter.onAverageOnceEvery(32),
 						InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP, BiomeFilter.biome()));
 	}
 }
