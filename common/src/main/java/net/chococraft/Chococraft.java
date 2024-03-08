@@ -5,7 +5,6 @@ import dev.architectury.event.events.common.LifecycleEvent;
 import dev.architectury.event.events.common.PlayerEvent;
 import dev.architectury.registry.CreativeTabRegistry;
 import dev.architectury.registry.level.entity.EntityAttributeRegistry;
-import dev.architectury.registry.level.entity.SpawnPlacementsRegistry;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.chococraft.common.entity.AbstractChocobo;
 import net.chococraft.common.entity.properties.ModDataSerializers;
@@ -15,11 +14,9 @@ import net.chococraft.registry.ModRegistry;
 import net.chococraft.registry.ModSounds;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.ComposterBlock;
-import net.minecraft.world.level.levelgen.Heightmap;
 import org.slf4j.Logger;
 
 public class Chococraft {
