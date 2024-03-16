@@ -415,11 +415,11 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 		if (this.getCommandSenderWorld().isClientSide) {
 			// Wing rotations, control packet, client side
 			// Client side
-			this.destPos += (double) (this.onGround() ? -1 : 4) * 0.3D;
+			this.destPos += (float) ((double) (this.onGround() ? -1 : 4) * 0.3D);
 			this.destPos = Mth.clamp(destPos, 0f, 1f);
 
 			if (!this.onGround()) this.wingRotDelta = Math.min(wingRotation, 1f);
-			this.wingRotDelta *= 0.9D;
+			this.wingRotDelta *= 0.9F;
 			this.wingRotation += this.wingRotDelta * 2.0F;
 
 			if (this.onGround()) {
