@@ -46,8 +46,7 @@ public class ChocodisguiseArmorLayer<T extends LivingEntity, M extends HumanoidM
 	private void renderArmorPiece(PoseStack poseStack, MultiBufferSource multiBufferSource, T livingEntity, EquipmentSlot slot, int i, ChocoDisguiseModel humanoidModel) {
 		if (humanoidModel == null) return;
 		ItemStack itemStack = livingEntity.getItemBySlot(slot);
-		if (itemStack.getItem() instanceof FabricChocoDisguiseItem) {
-			FabricChocoDisguiseItem armorItem = (FabricChocoDisguiseItem) itemStack.getItem();
+		if (itemStack.getItem() instanceof FabricChocoDisguiseItem armorItem) {
 			((HumanoidModel) this.getParentModel()).copyPropertiesTo(humanoidModel);
 			this.setPartVisibility(humanoidModel, convertSlot(slot));
 			boolean bl2 = itemStack.hasFoil();
