@@ -7,7 +7,6 @@ import net.chococraft.common.entity.breeding.ChocoboAbilityInfo;
 import net.chococraft.common.entity.goal.ChocoboFollowOwnerGoal;
 import net.chococraft.common.entity.goal.ChocoboHealInPenGoal;
 import net.chococraft.common.entity.properties.ChocoboColor;
-import net.chococraft.common.entity.properties.ModDataSerializers;
 import net.chococraft.common.entity.properties.MovementType;
 import net.chococraft.common.items.ChocoboSaddleItem;
 import net.chococraft.common.items.armor.AbstractChocoDisguiseItem;
@@ -74,10 +73,10 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 	private static final String NBTKEY_CHOCOBO_GENERATION = "Generation";
 	private static final String NBTKEY_ALLOWED_FLIGHT = "AllowedFlight";
 
-	private static final EntityDataAccessor<ChocoboColor> PARAM_COLOR = SynchedEntityData.defineId(AbstractChocobo.class, ModDataSerializers.CHOCOBO_COLOR);
+	private static final EntityDataAccessor<ChocoboColor> PARAM_COLOR = SynchedEntityData.defineId(AbstractChocobo.class, ChococraftExpectPlatform.getColorSerializer());
 	private static final EntityDataAccessor<Boolean> PARAM_IS_MALE = SynchedEntityData.defineId(AbstractChocobo.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<Boolean> PARAM_FED_GOLD_GYSAHL = SynchedEntityData.defineId(AbstractChocobo.class, EntityDataSerializers.BOOLEAN);
-	private static final EntityDataAccessor<MovementType> PARAM_MOVEMENT_TYPE = SynchedEntityData.defineId(AbstractChocobo.class, ModDataSerializers.MOVEMENT_TYPE);
+	private static final EntityDataAccessor<MovementType> PARAM_MOVEMENT_TYPE = SynchedEntityData.defineId(AbstractChocobo.class, ChococraftExpectPlatform.getMovementSerializer());
 	private static final EntityDataAccessor<ItemStack> PARAM_SADDLE_ITEM = SynchedEntityData.defineId(AbstractChocobo.class, EntityDataSerializers.ITEM_STACK);
 	private static final EntityDataAccessor<Boolean> ALLOWED_FLIGHT = SynchedEntityData.defineId(AbstractChocobo.class, EntityDataSerializers.BOOLEAN);
 

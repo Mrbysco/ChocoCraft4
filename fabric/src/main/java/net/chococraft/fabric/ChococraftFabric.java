@@ -11,8 +11,10 @@ import net.chococraft.fabric.common.config.FabricChocoConfig;
 import net.chococraft.fabric.common.entity.FabricChocobo;
 import net.chococraft.fabric.common.world.FeatureInjector;
 import net.chococraft.fabric.event.MountEvent;
+import net.chococraft.fabric.registry.ModDataSerializers;
 import net.chococraft.registry.ModEntities;
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.SpawnPlacements;
@@ -28,6 +30,9 @@ public class ChococraftFabric implements ModInitializer {
 	public void onInitialize() {
 		config = AutoConfig.register(FabricChocoConfig.class, Toml4jConfigSerializer::new);
 		breedingConfig = AutoConfig.register(FabricBreedingConfig.class, GsonConfigSerializer::new);
+
+		EntityDataSerializers.registerSerializer(ModDataSerializers.CHOCOBO_COLOR);
+		EntityDataSerializers.registerSerializer(ModDataSerializers.MOVEMENT_TYPE);
 
 		Chococraft.init();
 
