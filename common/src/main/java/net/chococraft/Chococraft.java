@@ -7,7 +7,6 @@ import dev.architectury.registry.CreativeTabRegistry;
 import dev.architectury.registry.level.entity.EntityAttributeRegistry;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.chococraft.common.entity.AbstractChocobo;
-import net.chococraft.common.entity.properties.ModDataSerializers;
 import net.chococraft.registry.ModEntities;
 import net.chococraft.registry.ModMenus;
 import net.chococraft.registry.ModRegistry;
@@ -41,7 +40,6 @@ public class Chococraft {
 		EntityAttributeRegistry.register(ModEntities.CHOCOBO, () -> AbstractChocobo.createAttributes());
 
 		LifecycleEvent.SETUP.register(() -> {
-			ModDataSerializers.init();
 			registerCompostables();
 
 			ModRegistry.ITEMS.forEach(supplier -> {

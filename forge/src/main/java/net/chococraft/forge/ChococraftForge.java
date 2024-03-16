@@ -10,6 +10,7 @@ import net.chococraft.forge.common.config.BreedingConfigReloadManager;
 import net.chococraft.forge.common.config.ForgeChocoConfig;
 import net.chococraft.forge.common.entity.ForgeChocobo;
 import net.chococraft.forge.common.modifier.ModModifiers;
+import net.chococraft.forge.registry.ModDataSerializers;
 import net.chococraft.registry.ModEntities;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -36,6 +37,7 @@ public class ChococraftForge {
 		EventBuses.registerModEventBus(Chococraft.MOD_ID, eventBus);
 
 		ModModifiers.BIOME_MODIFIER_SERIALIZERS.register(eventBus);
+		ModDataSerializers.ENTITY_DATA_SERIALIZER.register(eventBus);
 
 		MinecraftForge.EVENT_BUS.register(new BreedingConfigReloadManager());
 

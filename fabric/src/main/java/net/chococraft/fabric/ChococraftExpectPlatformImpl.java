@@ -2,13 +2,17 @@ package net.chococraft.fabric;
 
 import com.google.gson.internal.LinkedTreeMap;
 import net.chococraft.common.entity.AbstractChocobo;
+import net.chococraft.common.entity.properties.ChocoboColor;
+import net.chococraft.common.entity.properties.MovementType;
 import net.chococraft.common.inventory.SaddleBagMenu;
 import net.chococraft.common.items.armor.AbstractChocoDisguiseItem;
 import net.chococraft.fabric.common.entity.FabricChocobo;
 import net.chococraft.fabric.common.inventory.FabricSaddleBagMenu;
 import net.chococraft.fabric.common.items.FabricChocoDisguiseItem;
+import net.chococraft.fabric.registry.ModDataSerializers;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.player.Inventory;
@@ -70,5 +74,13 @@ public class ChococraftExpectPlatformImpl {
 
 	public static List<? extends String> getConfiguredFemaleNames() {
 		return ChococraftFabric.config.get().naming.femaleNames;
+	}
+
+	public static EntityDataSerializer<ChocoboColor> getColorSerializer() {
+		return ModDataSerializers.CHOCOBO_COLOR;
+	}
+
+	public static EntityDataSerializer<MovementType> getMovementSerializer() {
+		return ModDataSerializers.MOVEMENT_TYPE;
 	}
 }
