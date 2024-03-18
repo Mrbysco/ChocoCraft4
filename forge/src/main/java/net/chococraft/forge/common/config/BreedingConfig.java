@@ -22,14 +22,17 @@ public class BreedingConfig {
 	public static void initializeConfig() {
 		if (!INITIAL_FILE.exists()) {
 			try {
-				InputStream inputStream = BreedingConfig.class.getResourceAsStream("/breedingDefault.json");
-				assert inputStream != null;
-				FileUtils.copyInputStreamToFile(inputStream, INITIAL_FILE);
-				Chococraft.LOGGER.debug("Generated a default Breeding Config");
-
-				loadConfig();
+				InputStream inputStream = BreedingConfig.class.getClassLoader().getResourceAsStream("/breedingDefault.json");
+				if (inputStream == null) {
+					Chococraft.LOGGER.error("Unable to locate default breeding config");
+				} else {
+					FileUtils.copyInputStreamToFile(inputStream, INITIAL_FILE);
+					Chococraft.LOGGER.debug("Generated a default Breeding Config");
+					loadConfig();
+				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				Chococraft.LOGGER.error("Unable to initialize breeding config");
+				Chococraft.LOGGER.error("Trace: ", e);
 			}
 		}
 	}
