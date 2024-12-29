@@ -1,6 +1,6 @@
 {
   "book_texture": "chococraft:textures/gui/patchouli_book.png",
-  "creative_tab": "chococraft",
+  "creative_tab": "chococraft:tab",
   "custom_book_item": "chococraft:chocopedia",
   "dont_generate_book": true,
   "filler_texture": "chococraft:textures/gui/chocobo_page_filler.png",

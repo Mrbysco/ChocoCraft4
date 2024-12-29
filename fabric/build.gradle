@@ -37,7 +37,7 @@ dependencies {
 
     modRuntimeOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}")
 
-//    modImplementation("vazkii.patchouli:Patchouli:${patchouli_version}-FABRIC")
+    modImplementation("vazkii.patchouli:Patchouli:${patchouli_version}-FABRIC")
 }
 
 processResources {

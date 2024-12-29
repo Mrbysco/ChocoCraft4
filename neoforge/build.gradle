@@ -56,7 +56,7 @@ dependencies {
 
     modRuntimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
 
-    modImplementation "vazkii.patchouli:Patchouli:${patchouli_version}"
+    modImplementation "vazkii.patchouli:Patchouli:${patchouli_version}-NEOFORGE"
 
     modImplementation "xyz.brassgoggledcoders:PatchouliProvider:${patchouli_provider_version}"
 }

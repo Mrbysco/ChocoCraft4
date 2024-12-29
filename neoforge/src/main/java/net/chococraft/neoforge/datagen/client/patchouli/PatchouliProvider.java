@@ -26,7 +26,7 @@ public class PatchouliProvider extends PatchouliBookProvider {
 				"info.chocopedia.book.name", "info.chococraft.book.landing", provider)
 				.setSubtitle("info.chococraft.book.subtitle")
 				.setCustomBookItem(new ItemStack(ModRegistry.CHOCOPEDIA.get()))
-				.setCreativeTab("chococraft")
+				.setCreativeTab("chococraft:tab")
 				.setModel("chococraft:chocopedia")
 				.setBookTexture("chococraft:textures/gui/patchouli_book.png")
 				.setDontGenerateBook(true)
