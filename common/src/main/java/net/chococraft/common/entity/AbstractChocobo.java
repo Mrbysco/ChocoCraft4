@@ -220,11 +220,10 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 	}
 
 	protected void setSaddleType(ItemStack saddleStack) {
-		ItemStack newStack = saddleStack;
 		ItemStack oldStack = getSaddle();
-		if (oldStack.getItem() != newStack.getItem()) {
-			this.entityData.set(PARAM_SADDLE_ITEM, newStack.copy());
-			this.reconfigureInventory(oldStack, newStack);
+		if (oldStack.getItem() != saddleStack.getItem()) {
+			this.entityData.set(PARAM_SADDLE_ITEM, saddleStack.copy());
+			this.reconfigureInventory(oldStack, saddleStack);
 		}
 	}
 
