@@ -69,11 +69,11 @@ public class NeoForgeChocoConfig {
 
 			maleNames = builder
 					.comment("The list of male names it can choose from if 'nameTamedChocobos' is enabled")
-					.defineList("maleNames", List.of(ChocoConfig.maleNames), o -> (o instanceof String));
+					.defineList("maleNames", List.of(ChocoConfig.maleNames), String::new,o -> (o instanceof String));
 
 			femaleNames = builder
 					.comment("The list of female names it can choose from if 'nameTamedChocobos' is enabled")
-					.defineList("femaleNames", List.of(ChocoConfig.femaleNames), o -> (o instanceof String));
+					.defineList("femaleNames", List.of(ChocoConfig.femaleNames), String::new,o -> (o instanceof String));
 
 			builder.pop();
 		}
