@@ -2,6 +2,7 @@ package net.chococraft.client.gui;
 
 
 import net.chococraft.Chococraft;
+import net.chococraft.ChococraftExpectPlatform;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -10,7 +11,10 @@ import net.minecraft.client.gui.screens.inventory.PageButton;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+
+import java.util.ArrayList;
 
 
 public class ChocoboBookScreen extends Screen {
@@ -25,13 +29,22 @@ public class ChocoboBookScreen extends Screen {
 	private int guiLeft;
 	private int guiTop;
 	private Component pageMsg = CommonComponents.EMPTY;
+	private ArrayList<Integer> genderlessPages;
 
 	public ChocoboBookScreen() {
 		super(Component.empty());
 
 		int maxPages = 1;
+		genderlessPages = new ArrayList<>();
 		for (int i = 1; i < 128; i++) {
 			String unlocalized = "gui.chocobook.page" + i;
+			if(ChococraftExpectPlatform.genderless()){
+				String genderless = unlocalized + ".genderless";
+				if(I18n.exists(genderless)){
+					System.out.println(i);
+					genderlessPages.add(i);
+				}
+			}
 			if (I18n.get(unlocalized).equals(unlocalized)) {
 				maxPages = i - 1;
 				break;
@@ -83,7 +96,9 @@ public class ChocoboBookScreen extends Screen {
 
 	private void renderPage(GuiGraphics guiGraphics) {
 		int i = (this.width - this.xSize) / 2;
-		guiGraphics.drawWordWrap(font, Component.translatable("gui.chocobook.page" + (currentPage)), i + 34, this.guiTop + 26, 120, 0);
+		boolean genderless = ChococraftExpectPlatform.genderless() && genderlessPages.contains(currentPage);
+		MutableComponent component = Component.translatable("gui.chocobook.page" + (currentPage) + (genderless ? ".genderless" : ""));
+		guiGraphics.drawWordWrap(font, component, i + 34, this.guiTop + 26, 120, 0);
 	}
 
 }

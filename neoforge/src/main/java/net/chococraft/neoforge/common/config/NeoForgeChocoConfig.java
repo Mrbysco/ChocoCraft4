@@ -23,6 +23,8 @@ public class NeoForgeChocoConfig {
 		public final ModConfigSpec.BooleanValue nameTamedChocobos;
 		public final ModConfigSpec.BooleanValue canChocobosFly;
 		public final IntValue kwehIntervalLimit;
+		public final ModConfigSpec.BooleanValue requireEmptyHand;
+		public final ModConfigSpec.BooleanValue genderless;
 		public final ModConfigSpec.ConfigValue<List<? extends String>> maleNames;
 		public final ModConfigSpec.ConfigValue<List<? extends String>> femaleNames;
 
@@ -58,6 +60,14 @@ public class NeoForgeChocoConfig {
 			kwehIntervalLimit = builder
 					.comment("Determines the maximum interval duration for the Chocobo's ambient sound [Default: 100]")
 					.defineInRange("kwehIntervalLimit", 100, 1, Integer.MAX_VALUE);
+
+			requireEmptyHand = builder
+					.comment("If mounting a tamed chocobo requires an empty hand [Default: true]")
+					.define("requireEmptyHand", true);
+
+			genderless = builder
+					.comment("If chocobo gender is purely cosmetic [Default: false]")
+					.define("genderless", false);
 
 			builder.pop();
 			builder.comment("Naming configuration")

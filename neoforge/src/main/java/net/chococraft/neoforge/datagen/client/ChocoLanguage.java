@@ -78,10 +78,12 @@ public class ChocoLanguage extends LanguageProvider {
 		addChocopediaEntry(pages++, "III. Gysahl Greens\n\nThe Chocobo's fa- vorite food are Gysahl Greens, these thick red root vegetables can be found growing widespread in all fertile areas. These plants can be crafted into seeds. The seeds then can be used to domestically grow");
 		addChocopediaEntry(pages++, "Gysahl Greens on tilted and moisturised land.");
 		addChocopediaEntry(pages++, "III.1 Gysahl Mutations\n\nWhen domestically growing Gysahl Greens, there is a chance of the root mutating into a Loverly or even Golden Gysahl. These special roots can be feed to two Chocobos of opposite gender, to initialise the mating process.");
+		addChocopediaEntry(pages++, true, "III.1 Gysahl Mutations\n\nWhen domestically growing Gysahl Greens, there is a chance of the root mutating into a Loverly or even Golden Gysahl. These special roots can be fed to two Chocobos to initialise the mating process.");
 		addChocopediaEntry(pages++, "III.2 Gysahl Pickles\n\nGysahl Greens and sugar can be crafted into raw Gysahl pickles, which can be cooked in a furnace to receive Gysahl pickles. These treats are not only tasty, but also very nourishing.");
 		addChocopediaEntry(pages++, "IV. Domestication\n\nChocobos can be tamed by feeding them Gysahl Greens, the birds are very fond of the root vegetable and will sometimes form a bond to whomever is feeding them their fa- vorite food item. If tamed, the owner can fit either a chocobo");
 		addChocopediaEntry(pages++, "saddle or pack bags on a Chocobo. Fitted with a saddle the Chocobo can be additionally equipped with saddle bags. (" + ChatFormatting.ITALIC + "Pack bags and saddle bags can be accessed by shift-right click" + ChatFormatting.RESET + ").");
 		addChocopediaEntry(pages++, "IV.1 Chocobo Breeding\n\nIf feed with Loverly or Golden Gysahls, Chocobos of different gender can be breed to produce an off- spring. These infant Chocobos are called Chicobos and even- tually grow into a Chocobo. Besides in- creasing the number");
+		addChocopediaEntry(pages++, true, "IV.1 Chocobo Breeding\n\nIf feed with Loverly or Golden Gysahls, two Chocobos can be bred to produce an off- spring. These infant Chocobos are called Chicobos and even- tually grow into a Chocobo. Besides in- creasing the number");
 		addChocopediaEntry(pages++, "of Chocobos in a domesticated flock, breeding is the only way to obtain the different varieties of Chocobos available. There is a slight chance of mutation, which can be in- creased with the use of Golden Gysahls. The following combinations of parents can cause");
 		addChocopediaEntry(pages++, "their offspring to mutate into these subspecies:\n\n 1. " + ChatFormatting.GOLD + "Yellow" + ChatFormatting.BLACK + " + " + ChatFormatting.GOLD + "Yellow" + ChatFormatting.BLACK + "\n = " + ChatFormatting.GREEN + "Green" + ChatFormatting.BLACK + " or " + ChatFormatting.BLUE + "Blue" + ChatFormatting.BLACK + "\n\n 2. " + ChatFormatting.GREEN + "Green" + ChatFormatting.BLACK + " + " + ChatFormatting.BLUE + "Blue" + ChatFormatting.BLACK + "\n = " + ChatFormatting.GRAY + "White" + ChatFormatting.BLACK + "\n\n 3. " + ChatFormatting.GOLD + "Yellow" + ChatFormatting.BLACK + " + " + ChatFormatting.GRAY + "White" + ChatFormatting.BLACK + "\n = " + "Black");
 		addChocopediaEntry(pages++, "4. Black + " + ChatFormatting.GRAY + "White" + ChatFormatting.BLACK + "\n = " + ChatFormatting.GOLD + "Gold" + ChatFormatting.BLACK + "\n\nTo enable the off- spring to mutate into a golden " + "Chocobo, the use of Golden Gysahls is mandatory.");
@@ -210,14 +212,16 @@ public class ChocoLanguage extends LanguageProvider {
 		add("text.autoconfig.chococraft.option.chocobo.tameChance", "Tame Chance");
 		add("text.autoconfig.chococraft.option.chocobo.canChocobosFly", "Can Chocobo's Fly");
 		add("text.autoconfig.chococraft.option.chocobo.kwehIntervalLimit", "Kweh Interval Limit");
+		add("text.autoconfig.chococraft.option.chocobo.requireEmptyHand", "Mounting Requires Empty Hand");
+		add("text.autoconfig.chococraft.option.chocobo.genderless", "Gender Is Purely Cosmetic");
 		add("text.autoconfig.chococraft.option.naming", "Naming");
 		add("text.autoconfig.chococraft.option.naming.nameTamedChocobos", "Name Tamed Chocobos");
 		add("text.autoconfig.chococraft.option.naming.maleNames", "Male Chocobo Names");
 		add("text.autoconfig.chococraft.option.naming.femaleNames", "Female Chocobo Names");
 	}
 
-	public void addChocopediaEntry(int id, String translation) {
-		add("gui.chocobook.page" + id, translation);
+	public void addChocopediaEntry(int id, boolean genderless, String translation) {
+		add("gui.chocobook.page" + id + (genderless ? ".genderless" : ""), translation);
 
 		String patchouliVersion = translation.replaceAll("[\\n]{2,}", "\\$(br2)").replaceAll("\\n", "\\$(br)");
 		patchouliVersion = patchouliVersion.replaceAll("(§o)", "\\$(o)"); //Italics
@@ -239,6 +243,10 @@ public class ChocoLanguage extends LanguageProvider {
 		patchouliVersion = patchouliVersion.replaceAll("(§f)", "\\$(f)");
 		patchouliVersion = patchouliVersion.replaceAll("(§r)", "\\$()"); //Reset
 		add("info.chococraft.book.legacy.page" + id, patchouliVersion);
+	}
+
+	public void addChocopediaEntry(int id, String translation){
+		addChocopediaEntry(id, false, translation);
 	}
 
 	public void addSubtitle(SoundEvent sound, String name) {

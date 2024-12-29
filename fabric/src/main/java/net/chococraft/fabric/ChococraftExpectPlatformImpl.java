@@ -65,6 +65,14 @@ public class ChococraftExpectPlatformImpl {
 		return ChococraftFabric.config.get().chocobo.kwehIntervalLimit;
 	}
 
+	public static boolean requireEmptyHand() {
+		return ChococraftFabric.config.get().chocobo.requireEmptyHand;
+	}
+
+	public static boolean genderless() {
+		return ChococraftFabric.config.get().chocobo.genderless;
+	}
+
 	public static boolean nameTamedChocobos() {
 		return ChococraftFabric.config.get().naming.nameTamedChocobos;
 	}

@@ -68,6 +68,14 @@ public class ChococraftExpectPlatformImpl {
 		return NeoForgeChocoConfig.COMMON.kwehIntervalLimit.get();
 	}
 
+	public static boolean requireEmptyHand() {
+		return NeoForgeChocoConfig.COMMON.requireEmptyHand.get();
+	}
+
+	public static boolean genderless() {
+		return NeoForgeChocoConfig.COMMON.genderless.get();
+	}
+
 	public static boolean nameTamedChocobos() {
 		return NeoForgeChocoConfig.COMMON.nameTamedChocobos.get();
 	}

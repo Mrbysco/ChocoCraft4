@@ -45,6 +45,12 @@ public class FabricChocoConfig implements ConfigData {
 		@Comment("Determines the maximum interval duration for the Chocobo's ambient sound [Default: 100]")
 		@ConfigEntry.BoundedDiscrete(min = 1, max = Integer.MAX_VALUE)
 		public int kwehIntervalLimit = 100;
+
+		@Comment("If mounting a tamed chocobo requires an empty hand [Default: true]")
+		public boolean requireEmptyHand = true;
+
+		@Comment("If chocobo gender is purely cosmetic [Default: false]")
+		public boolean genderless = false;
 	}
 
 	public static class Naming {
