@@ -136,7 +136,8 @@ if (System.getenv().CURSEFORGE_KEY) {
         mainFile.changelog = file("$project.rootDir/changelog.md")
         mainFile.changelogType = 'markdown'
 
-        mainFile.addOptional("architectury-api", "patchouli")
+        mainFile.addRequirement("architectury-api")
+        mainFile.addOptional("patchouli")
     }
 }
 
