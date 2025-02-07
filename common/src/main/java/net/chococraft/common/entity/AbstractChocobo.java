@@ -646,9 +646,10 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 			chocoboAvoidPlayerGoal = new AvoidEntityGoal<>(this, Player.class, 10.0F, 1.0D, 1.2D, livingEntity -> {
 				if (livingEntity instanceof Player player) {
 					int chance = 0;
-					for (ItemStack stack : player.getInventory().armor) {
-						if (stack != null) {
-							if (stack.getItem() instanceof AbstractChocoDisguiseItem) chance += 25;
+					for (ItemStack stack : player.getArmorSlots()) {
+						if (stack != null && !stack.isEmpty() &&
+								stack.getItem() instanceof AbstractChocoDisguiseItem) {
+							chance += 25;
 						}
 					}
 
