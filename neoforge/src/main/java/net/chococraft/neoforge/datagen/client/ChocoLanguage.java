@@ -8,6 +8,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.data.PackOutput;
 import net.minecraft.sounds.SoundEvent;
 import net.neoforged.neoforge.common.data.LanguageProvider;
+import org.jetbrains.annotations.Nullable;
 
 public class ChocoLanguage extends LanguageProvider {
 	public ChocoLanguage(PackOutput packOutput) {
@@ -201,19 +202,20 @@ public class ChocoLanguage extends LanguageProvider {
 		add("info.chococraft.book.whistle.entry.name", "Chocobo Whistle");
 		add("info.chococraft.book.whistle.text1", "The Chocobo Whistle allows you to command your tamed $(l:chococraft:chocobos/chocobo)Chocobos$() by right-clicking them with it. $(br2)There are three commands that you can do, $(o)Wander$(), $(o)Follow$(), and $(o)Stay$().");
 
-		//ClothConfig (fabric)
-		add("text.autoconfig.chococraft.option.spawning", "Spawning");
-		add("text.autoconfig.chococraft.option.spawning.chocoboSpawnWeight", "Chocobo Spawn Weight");
-		add("text.autoconfig.chococraft.option.spawning.chocoboPackSizeMin", "Chocobo Pack Max Size");
-		add("text.autoconfig.chococraft.option.spawning.chocoboPackSizeMax", "Chocobo Pack Min Size");
-		add("text.autoconfig.chococraft.option.chocobo", "Chocobo");
-		add("text.autoconfig.chococraft.option.chocobo.tameChance", "Tame Chance");
-		add("text.autoconfig.chococraft.option.chocobo.canChocobosFly", "Can Chocobo's Fly");
-		add("text.autoconfig.chococraft.option.chocobo.kwehIntervalLimit", "Kweh Interval Limit");
-		add("text.autoconfig.chococraft.option.naming", "Naming");
-		add("text.autoconfig.chococraft.option.naming.nameTamedChocobos", "Name Tamed Chocobos");
-		add("text.autoconfig.chococraft.option.naming.maleNames", "Male Chocobo Names");
-		add("text.autoconfig.chococraft.option.naming.femaleNames", "Female Chocobo Names");
+		//Config
+		add("text.autoconfig.chococraft.title", "Chococraft 4");
+		addConfig("spawning", null, "Spawning", "Spawning Settings");
+		addConfig("chocoboSpawnWeight", "spawning", "Chocobo Spawn Weight", "Controls Chocobo Spawn Weight [Default: 10]");
+		addConfig("chocoboPackSizeMin", "spawning", "Chocobo Pack Max Size", "Controls Chocobo Pack Size Min [Default: 1]");
+		addConfig("chocoboPackSizeMax", "spawning", "Chocobo Pack Min Size", "Controls Chocobo Pack Size Max [Default: 3]");
+		addConfig("chocobo", null, "Chocobo", "Chocobo Settings");
+		addConfig("tameChance", "chocobo", "Tame Chance", "This multiplier controls the tame chance per gysahl used, so .15 results in 15% chance to tame [Default: 0.15]");
+		addConfig("canChocobosFly", "chocobo", "Can Chocobo's Fly", "If certain chocobos are allowed to fly [Default: true]");
+		addConfig("kwehIntervalLimit", "chocobo", "Kweh Interval Limit", "Determines the maximum interval duration for the Chocobo's ambient sound [Default: 100]");
+		addConfig("naming", null, "Naming", "Naming Settings");
+		addConfig("nameTamedChocobos", "naming", "Name Tamed Chocobos", "If taming a chocobo will provide them with a name (unless already named) [Default: true]");
+		addConfig("maleNames", "naming", "Male Chocobo Names", "The list of male names it can choose from if 'nameTamedChocobos' is enabled");
+		addConfig("femaleNames", "naming", "Female Chocobo Names", "The list of female names it can choose from if 'nameTamedChocobos' is enabled");
 	}
 
 	public void addChocopediaEntry(int id, String translation) {
@@ -244,5 +246,23 @@ public class ChocoLanguage extends LanguageProvider {
 	public void addSubtitle(SoundEvent sound, String name) {
 		String path = Chococraft.MOD_ID + ".subtitle." + sound.getLocation().getPath();
 		this.add(path, name);
+	}
+
+	/**
+	 * Add the translation for a config entry
+	 *
+	 * @param path        The path of the config entry
+	 * @param category    The category of the config entry (Optional, only required for ClothConfig)
+	 * @param name        The name of the config entry
+	 * @param description The description of the config entry (optional in case of targeting "title" or similar entries that have no tooltip)
+	 */
+	private void addConfig(String path, @Nullable String category, String name, @Nullable String description) {
+		this.add(Chococraft.MOD_ID + ".configuration." + path, name);
+		String categoryString = category == null ? "" : category + ".";
+		this.add("text.autoconfig." + Chococraft.MOD_ID + ".option." + categoryString + path, name);
+		if (description != null && !description.isEmpty()) {
+			this.add(Chococraft.MOD_ID + ".configuration." + path + ".tooltip", description);
+			this.add("text.autoconfig." + Chococraft.MOD_ID + ".option." + categoryString + path + ".@Tooltip", description);
+		}
 	}
 }
