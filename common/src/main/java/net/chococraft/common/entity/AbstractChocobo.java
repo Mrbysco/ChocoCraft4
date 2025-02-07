@@ -143,6 +143,7 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 		chocobo.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(getChocoboColor().getAbilityInfo().getLandSpeed() / 100F);
 		chocobo.getAttribute(Attributes.FLYING_SPEED).setBaseValue(getChocoboColor().getAbilityInfo().getAirbornSpeed() / 100F);
 		chocobo.setAllowedFlight(ChococraftExpectPlatform.canChocobosFly());
+		reassessTameGoals();
 	}
 
 	@Override
@@ -644,6 +645,7 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 	protected void reassessTameGoals() {
 		if (chocoboAvoidPlayerGoal == null) {
 			chocoboAvoidPlayerGoal = new AvoidEntityGoal<>(this, Player.class, 10.0F, 1.0D, 1.2D, livingEntity -> {
+				// Avoid Entity Targeting predicate
 				if (livingEntity instanceof Player player) {
 					int chance = 0;
 					for (ItemStack stack : player.getArmorSlots()) {
@@ -652,7 +654,6 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 							chance += 25;
 						}
 					}
-
 					return !RandomHelper.getChanceResult(getRandom(), chance);
 				}
 				return false;
