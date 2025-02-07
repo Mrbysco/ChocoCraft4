@@ -45,7 +45,7 @@ public class NeoForgeChocoConfig {
 			builder.pop();
 
 			builder.comment("Chocobo configuration")
-					.push("Chocobo");
+					.push("chocobo");
 
 			tameChance = builder
 					.comment("This multiplier controls the tame chance per gysahl used, so .15 results in 15% chance to tame [Default: 0.15]")
@@ -61,7 +61,7 @@ public class NeoForgeChocoConfig {
 
 			builder.pop();
 			builder.comment("Naming configuration")
-					.push("Naming");
+					.push("naming");
 
 			nameTamedChocobos = builder
 					.comment("If taming a chocobo will provide them with a name (unless already named) [Default: true]")
