@@ -21,6 +21,8 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.client.gui.ConfigurationScreen;
+import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 
@@ -42,6 +44,7 @@ public class ChococraftNeoForge {
 		Chococraft.init();
 
 		if (dist.isClient()) {
+			container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
 			eventBus.addListener(NeoForgeClientHandler::registerEntityRenders);
 			eventBus.addListener(NeoForgeClientHandler::registerMenuScreen);
 			eventBus.addListener(NeoForgeClientHandler::registerLayerDefinitions);
