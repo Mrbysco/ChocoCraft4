@@ -60,14 +60,14 @@
 		"random": "above 45"
 	  }
 	],
-	"BLUE": [
+	"GREEN": [
 	  {
 		"childColor": "WHITE",
 		"conditions": "bothParentsFedGold",
 		"random": "above 60"
 	  },
 	  {
-		"childColor": "BLUE",
+		"childColor": "GREEN",
 		"conditions": "bothParentsFedGold",
 		"random": "above 30"
 	  },
@@ -77,7 +77,7 @@
 		"random": "above 80"
 	  },
 	  {
-		"childColor": "BLUE",
+		"childColor": "GREEN",
 		"conditions": "none",
 		"random": "above 40"
 	  }
