@@ -15,8 +15,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,9 +32,7 @@ public class NeoForgeChocoDisguiseItem extends AbstractChocoDisguiseItem {
 		return ResourceLocation.fromNamespaceAndPath(Chococraft.MOD_ID, "textures/models/armor/chocodisguise.png");
 	}
 
-	@OnlyIn(Dist.CLIENT)
-
-
+	@SuppressWarnings("removal")
 	@Override
 	public void initializeClient(Consumer<IClientItemExtensions> consumer) {
 		consumer.accept(new IClientItemExtensions() {
