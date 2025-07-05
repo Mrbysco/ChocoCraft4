@@ -12,15 +12,14 @@ import net.chococraft.neoforge.common.entity.NeoForgeChocobo;
 import net.chococraft.neoforge.common.inventory.NeoForgeSaddleBagMenu;
 import net.chococraft.neoforge.common.items.NeoForgeChocoDisguiseItem;
 import net.chococraft.neoforge.registry.ModDataSerializers;
-import net.minecraft.core.Holder;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.equipment.ArmorMaterial;
+import net.minecraft.world.item.equipment.ArmorType;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLPaths;
 
@@ -48,7 +47,7 @@ public class ChococraftExpectPlatformImpl {
 		return new NeoForgeSaddleBagMenu(i, inventory, (NeoForgeChocobo) abstractChocobo);
 	}
 
-	public static AbstractChocoDisguiseItem constructChocoDisguise(Holder<ArmorMaterial> material, ArmorItem.Type type, Item.Properties properties) {
+	public static AbstractChocoDisguiseItem constructChocoDisguise(ArmorMaterial material, ArmorType type, Item.Properties properties) {
 		return new NeoForgeChocoDisguiseItem(material, type, properties);
 	}
 

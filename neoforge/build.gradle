@@ -23,26 +23,32 @@ loom {
     accessWidenerPath = project(":common").loom.accessWidenerPath
 
     neoForge {
-        runs {
-            all {}
+    }
 
-            data {
-                data()
-                programArgs("--all", "--mod", "chococraft")
-                programArgs "--output", generatedResources.absolutePath
-                programArgs "--existing", project(":common").file("src/main/resources").absolutePath
-                programArgs "--existing", file("src/main/resources").absolutePath
-            }
+    runs {
+        dataClient {
+            clientData()
+            programArgs("--all", "--mod", "chococraft")
+            programArgs "--output", generatedResources.absolutePath
+            programArgs "--existing", project(":common").file("src/main/resources").absolutePath
+            programArgs "--existing", file("src/main/resources").absolutePath
         }
     }
 }
 
 configurations {
-    common
-    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
+    common {
+        canBeResolved = true
+        canBeConsumed = false
+    }
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
     developmentNeoForge.extendsFrom common
+
+    shadowBundle {
+        canBeResolved = true
+        canBeConsumed = false
+    }
 }
 
 dependencies {
@@ -52,13 +58,13 @@ dependencies {
     modApi "dev.architectury:architectury-neoforge:${rootProject.architectury_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive = false }
+    shadowBundle(project(path: ":common", configuration: "transformProductionNeoForge"))
 
-    modRuntimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
+//    modRuntimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
 
-    modImplementation "vazkii.patchouli:Patchouli:${patchouli_version}-NEOFORGE"
+//    modImplementation "vazkii.patchouli:Patchouli:${patchouli_version}-NEOFORGE"
 
-    modImplementation "xyz.brassgoggledcoders:PatchouliProvider:${patchouli_provider_version}"
+//    modImplementation "xyz.brassgoggledcoders:PatchouliProvider:${patchouli_provider_version}"
 }
 
 processResources {
@@ -73,17 +79,16 @@ shadowJar {
     exclude "fabric.mod.json"
     exclude "architectury.common.json"
 
-    configurations = [project.configurations.shadowCommon]
+    configurations = [project.configurations.shadowBundle]
     archiveClassifier.set("dev-shadow")
 }
-
 
 remapJar {
     inputFile.set shadowJar.archiveFile
     dependsOn shadowJar
-    archiveBaseName.set "${rootProject.archives_base_name}-${project.minecraft_version}-${project.name}"
+    archiveBaseName.set("${rootProject.archives_base_name}-${rootProject.minecraft_version}-${project.name}")
     archiveClassifier.set(null)
-    atAccessWideners.add("${rootProject.archives_base_name}.accesswidener") // this is a path inside the mod jar
+    atAccessWideners.add(loom.accessWidenerPath.get().asFile.name)
 }
 
 jar {

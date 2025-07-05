@@ -13,38 +13,45 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.equipment.ArmorType;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class ChocodisguiseArmorLayer<T extends LivingEntity, M extends HumanoidModel<T>> extends RenderLayer<T, M> {
+public class ChocodisguiseArmorLayer<T extends HumanoidRenderState, M extends HumanoidModel<T>> extends RenderLayer<T, M> {
 	private static final ResourceLocation ARMOR_LOCATION = ResourceLocation.fromNamespaceAndPath(Chococraft.MOD_ID, "textures/models/armor/chocodisguise.png");
-	private final Map<ArmorItem.Type, ChocoDisguiseModel> chocoDisguiseMap = new HashMap<>();
+	private final Map<ArmorType, ChocoDisguiseModel> chocoDisguiseMap = new HashMap<>();
 
 	public ChocodisguiseArmorLayer(RenderLayerParent<T, M> renderLayerParent, EntityModelSet modelSet) {
 		super(renderLayerParent);
-		this.chocoDisguiseMap.put(ArmorItem.Type.CHESTPLATE, new ChocoDisguiseModel(modelSet.bakeLayer(ChococraftClient.CHOCO_DISGUISE), ArmorItem.Type.CHESTPLATE));
-		this.chocoDisguiseMap.put(ArmorItem.Type.LEGGINGS, new ChocoDisguiseModel(modelSet.bakeLayer(ChococraftClient.CHOCO_DISGUISE), ArmorItem.Type.LEGGINGS));
-		this.chocoDisguiseMap.put(ArmorItem.Type.BOOTS, new ChocoDisguiseModel(modelSet.bakeLayer(ChococraftClient.CHOCO_DISGUISE), ArmorItem.Type.BOOTS));
-		this.chocoDisguiseMap.put(ArmorItem.Type.HELMET, new ChocoDisguiseModel(modelSet.bakeLayer(ChococraftClient.CHOCO_DISGUISE), ArmorItem.Type.HELMET));
+		this.chocoDisguiseMap.put(ArmorType.CHESTPLATE, new ChocoDisguiseModel(modelSet.bakeLayer(ChococraftClient.CHOCO_DISGUISE), ArmorType.CHESTPLATE));
+		this.chocoDisguiseMap.put(ArmorType.LEGGINGS, new ChocoDisguiseModel(modelSet.bakeLayer(ChococraftClient.CHOCO_DISGUISE), ArmorType.LEGGINGS));
+		this.chocoDisguiseMap.put(ArmorType.BOOTS, new ChocoDisguiseModel(modelSet.bakeLayer(ChococraftClient.CHOCO_DISGUISE), ArmorType.BOOTS));
+		this.chocoDisguiseMap.put(ArmorType.HELMET, new ChocoDisguiseModel(modelSet.bakeLayer(ChococraftClient.CHOCO_DISGUISE), ArmorType.HELMET));
 	}
 
-	public void render(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, T livingEntity, float f, float g, float h, float j, float k, float l) {
-		this.renderArmorPiece(poseStack, multiBufferSource, livingEntity, EquipmentSlot.CHEST, i, this.getArmorModel(ArmorItem.Type.CHESTPLATE));
-		this.renderArmorPiece(poseStack, multiBufferSource, livingEntity, EquipmentSlot.LEGS, i, this.getArmorModel(ArmorItem.Type.LEGGINGS));
-		this.renderArmorPiece(poseStack, multiBufferSource, livingEntity, EquipmentSlot.FEET, i, this.getArmorModel(ArmorItem.Type.BOOTS));
-		this.renderArmorPiece(poseStack, multiBufferSource, livingEntity, EquipmentSlot.HEAD, i, this.getArmorModel(ArmorItem.Type.HELMET));
+	@Override
+	public void render(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, T renderState, float f, float g) {
+		this.renderArmorPiece(poseStack, multiBufferSource, renderState, EquipmentSlot.CHEST, i, this.getArmorModel(ArmorType.CHESTPLATE));
+		this.renderArmorPiece(poseStack, multiBufferSource, renderState, EquipmentSlot.LEGS, i, this.getArmorModel(ArmorType.LEGGINGS));
+		this.renderArmorPiece(poseStack, multiBufferSource, renderState, EquipmentSlot.FEET, i, this.getArmorModel(ArmorType.BOOTS));
+		this.renderArmorPiece(poseStack, multiBufferSource, renderState, EquipmentSlot.HEAD, i, this.getArmorModel(ArmorType.HELMET));
 	}
 
-	private void renderArmorPiece(PoseStack poseStack, MultiBufferSource multiBufferSource, T livingEntity, EquipmentSlot slot, int i, ChocoDisguiseModel humanoidModel) {
+	private void renderArmorPiece(PoseStack poseStack, MultiBufferSource multiBufferSource, T renderState, EquipmentSlot slot, int i, ChocoDisguiseModel humanoidModel) {
 		if (humanoidModel == null) return;
-		ItemStack itemStack = livingEntity.getItemBySlot(slot);
+		ItemStack itemStack = switch(slot) {
+			case HEAD -> renderState.headEquipment;
+			case CHEST -> renderState.chestEquipment;
+			case LEGS -> renderState.legsEquipment;
+			default -> renderState.feetEquipment;
+		};
 		if (itemStack.getItem() instanceof FabricChocoDisguiseItem armorItem) {
 			((HumanoidModel) this.getParentModel()).copyPropertiesTo(humanoidModel);
 			this.setPartVisibility(humanoidModel, convertSlot(slot));
@@ -53,16 +60,16 @@ public class ChocodisguiseArmorLayer<T extends LivingEntity, M extends HumanoidM
 		}
 	}
 
-	private ArmorItem.Type convertSlot(EquipmentSlot slot) {
+	private ArmorType convertSlot(EquipmentSlot slot) {
 		return switch (slot) {
-			case HEAD -> ArmorItem.Type.HELMET;
-			case CHEST -> ArmorItem.Type.CHESTPLATE;
-			case LEGS -> ArmorItem.Type.LEGGINGS;
-			default -> ArmorItem.Type.BOOTS;
+			case HEAD -> ArmorType.HELMET;
+			case CHEST -> ArmorType.CHESTPLATE;
+			case LEGS -> ArmorType.LEGGINGS;
+			default -> ArmorType.BOOTS;
 		};
 	}
 
-	protected void setPartVisibility(ChocoDisguiseModel humanoidModel, ArmorItem.Type equipmentSlot) {
+	protected void setPartVisibility(ChocoDisguiseModel humanoidModel, ArmorType equipmentSlot) {
 		humanoidModel.setAllVisible(false);
 		switch (equipmentSlot) {
 			case HELMET -> {
@@ -93,7 +100,7 @@ public class ChocodisguiseArmorLayer<T extends LivingEntity, M extends HumanoidM
 		humanoidModel.renderToBuffer(poseStack, vertexConsumer, i, OverlayTexture.NO_OVERLAY, color);
 	}
 
-	private ChocoDisguiseModel getArmorModel(ArmorItem.Type equipmentSlot) {
+	private ChocoDisguiseModel getArmorModel(ArmorType equipmentSlot) {
 		return this.chocoDisguiseMap.getOrDefault(equipmentSlot, null);
 	}
 

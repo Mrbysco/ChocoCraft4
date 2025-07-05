@@ -8,7 +8,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -29,7 +29,7 @@ public class ChocoboSpawnEggItem extends Item {
 	@Override
 	public InteractionResult useOn(UseOnContext context) {
 		Level level = context.getLevel();
-		if (!(level instanceof ServerLevel)) {
+		if (!(level instanceof ServerLevel serverLevel)) {
 			return InteractionResult.SUCCESS;
 		} else {
 			ItemStack stack = context.getItemInHand();
@@ -45,7 +45,7 @@ public class ChocoboSpawnEggItem extends Item {
 				pos = blockPos.relative(direction);
 			}
 
-			AbstractChocobo chocobo = ModEntities.CHOCOBO.get().create(level);
+			AbstractChocobo chocobo = ModEntities.CHOCOBO.get().create(serverLevel, EntitySpawnReason.SPAWN_ITEM_USE);
 			if (chocobo != null) {
 				if (player != null) {
 					if (player.isCrouching()) {
@@ -56,7 +56,7 @@ public class ChocoboSpawnEggItem extends Item {
 				chocobo.yHeadRot = chocobo.getYRot();
 				chocobo.yBodyRot = chocobo.getYRot();
 				chocobo.setChocoboColor(color);
-				chocobo.finalizeSpawn((ServerLevel) level, level.getCurrentDifficultyAt(chocobo.blockPosition()), MobSpawnType.SPAWN_EGG, (SpawnGroupData) null);
+				chocobo.finalizeSpawn(serverLevel, level.getCurrentDifficultyAt(chocobo.blockPosition()), EntitySpawnReason.SPAWN_ITEM_USE, (SpawnGroupData) null);
 				if (level.addFreshEntity(chocobo)) {
 					stack.shrink(1);
 					level.gameEvent(context.getPlayer(), GameEvent.ENTITY_PLACE, pos);

@@ -3,12 +3,9 @@ package net.chococraft.neoforge.datagen;
 import net.chococraft.Chococraft;
 import net.chococraft.common.world.worldgen.ModFeatures;
 import net.chococraft.neoforge.common.modifier.AddChocoboModifier;
-import net.chococraft.neoforge.datagen.client.ChocoBlockModels;
-import net.chococraft.neoforge.datagen.client.ChocoBlockstates;
-import net.chococraft.neoforge.datagen.client.ChocoItemModels;
 import net.chococraft.neoforge.datagen.client.ChocoLanguage;
+import net.chococraft.neoforge.datagen.client.ChocoModels;
 import net.chococraft.neoforge.datagen.client.ChocoSoundProvider;
-import net.chococraft.neoforge.datagen.client.patchouli.PatchouliProvider;
 import net.chococraft.neoforge.datagen.data.ChocoLoot;
 import net.chococraft.neoforge.datagen.data.ChocoRecipes;
 import net.minecraft.core.Cloner;
@@ -32,7 +29,6 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.Tags.Biomes;
 import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.common.world.BiomeModifier;
 import net.neoforged.neoforge.common.world.BiomeModifiers;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
@@ -44,28 +40,23 @@ import java.util.concurrent.CompletableFuture;
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
 public class ModDatagenerator {
 	@SubscribeEvent
-	public static void gatherData(GatherDataEvent event) {
+	public static void gatherData(GatherDataEvent.Client event) {
 		DataGenerator generator = event.getGenerator();
 		PackOutput packOutput = generator.getPackOutput();
-		ExistingFileHelper helper = event.getExistingFileHelper();
 		CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
-		if (event.includeServer()) {
-			generator.addProvider(event.includeServer(), new ChocoLoot(packOutput, lookupProvider));
-			generator.addProvider(event.includeServer(), new ChocoRecipes(packOutput, lookupProvider));
+		generator.addProvider(true, new ChocoLoot(packOutput, lookupProvider));
+		generator.addProvider(true, new ChocoRecipes.Runner(packOutput, lookupProvider));
 
-			generator.addProvider(event.includeServer(), new PatchouliProvider(packOutput, lookupProvider));
+//		generator.addProvider(true, new PatchouliProvider(packOutput, lookupProvider)); TODO: Re-enable when we have a patchouli provider build for 1.21.4
 
-			generator.addProvider(event.includeServer(), new DatapackBuiltinEntriesProvider(
-					packOutput, CompletableFuture.supplyAsync(ModDatagenerator::getProvider), Set.of(Chococraft.MOD_ID)));
-		}
-		if (event.includeClient()) {
-			generator.addProvider(event.includeClient(), new ChocoLanguage(packOutput));
-			generator.addProvider(event.includeClient(), new ChocoBlockModels(packOutput, helper));
-			generator.addProvider(event.includeClient(), new ChocoBlockstates(packOutput, helper));
-			generator.addProvider(event.includeClient(), new ChocoItemModels(packOutput, helper));
-			generator.addProvider(event.includeClient(), new ChocoSoundProvider(packOutput, helper));
-		}
+		generator.addProvider(true, new DatapackBuiltinEntriesProvider(
+				packOutput, CompletableFuture.supplyAsync(ModDatagenerator::getProvider), Set.of(Chococraft.MOD_ID)));
+
+
+		generator.addProvider(true, new ChocoLanguage(packOutput));
+		generator.addProvider(true, new ChocoModels(packOutput));
+		generator.addProvider(true, new ChocoSoundProvider(packOutput));
 	}
 
 	private static RegistrySetBuilder.PatchedRegistries getProvider() {

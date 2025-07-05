@@ -1,7 +1,5 @@
 package net.chococraft.client.models.armor;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -10,12 +8,12 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.decoration.ArmorStand;
-import net.minecraft.world.item.ArmorItem;
+import net.minecraft.client.renderer.entity.state.ArmorStandRenderState;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
+import net.minecraft.world.item.equipment.ArmorType;
 
-public class ChocoDisguiseModel extends HumanoidModel<LivingEntity> {
-	private final ArmorItem.Type armorType;
+public class ChocoDisguiseModel extends HumanoidModel<HumanoidRenderState> {
+	private final ArmorType armorType;
 
 	private final ModelPart chocobo_head;
 	private final ModelPart chocobo_body;
@@ -26,7 +24,7 @@ public class ChocoDisguiseModel extends HumanoidModel<LivingEntity> {
 	private final ModelPart chocobo_claw_right;
 	private final ModelPart chocobo_claw_left;
 
-	public ChocoDisguiseModel(ModelPart root, ArmorItem.Type type) {
+	public ChocoDisguiseModel(ModelPart root, ArmorType type) {
 		super(root);
 		this.armorType = type;
 
@@ -151,73 +149,47 @@ public class ChocoDisguiseModel extends HumanoidModel<LivingEntity> {
 	}
 
 	@Override
-	public void setupAnim(LivingEntity livingEntity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		if (livingEntity instanceof ArmorStand armorStand) {
-			this.chocobo_head.xRot = ((float) Math.PI / 180F) * armorStand.getHeadPose().getX();
-			this.chocobo_head.yRot = ((float) Math.PI / 180F) * armorStand.getHeadPose().getY();
-			this.chocobo_head.zRot = ((float) Math.PI / 180F) * armorStand.getHeadPose().getZ();
+	public void setupAnim(HumanoidRenderState renderState) {
+		if (renderState instanceof ArmorStandRenderState armorStand) {
+			super.setupAnim(renderState);
+			this.chocobo_head.xRot = ((float) Math.PI / 180F) * armorStand.headPose.getX();
+			this.chocobo_head.yRot = ((float) Math.PI / 180F) * armorStand.headPose.getY();
+			this.chocobo_head.zRot = ((float) Math.PI / 180F) * armorStand.headPose.getZ();
 			this.chocobo_head.setPos(0.0F, 1.0F, 0.0F);
-			this.chocobo_body.xRot = ((float) Math.PI / 180F) * armorStand.getBodyPose().getX();
-			this.chocobo_body.yRot = ((float) Math.PI / 180F) * armorStand.getBodyPose().getY();
-			this.chocobo_body.zRot = ((float) Math.PI / 180F) * armorStand.getBodyPose().getZ();
-			this.chocobo_left_arm.xRot = ((float) Math.PI / 180F) * armorStand.getLeftArmPose().getX();
-			this.chocobo_left_arm.yRot = ((float) Math.PI / 180F) * armorStand.getLeftArmPose().getY();
-			this.chocobo_left_arm.zRot = ((float) Math.PI / 180F) * armorStand.getLeftArmPose().getZ();
-			this.chocobo_right_arm.xRot = ((float) Math.PI / 180F) * armorStand.getRightArmPose().getX();
-			this.chocobo_right_arm.yRot = ((float) Math.PI / 180F) * armorStand.getRightArmPose().getY();
-			this.chocobo_right_arm.zRot = ((float) Math.PI / 180F) * armorStand.getRightArmPose().getZ();
-			this.chocobo_leg_left.xRot = ((float) Math.PI / 180F) * armorStand.getLeftLegPose().getX();
-			this.chocobo_leg_left.yRot = ((float) Math.PI / 180F) * armorStand.getLeftLegPose().getY();
-			this.chocobo_leg_left.zRot = ((float) Math.PI / 180F) * armorStand.getLeftLegPose().getZ();
+			this.chocobo_body.xRot = ((float) Math.PI / 180F) * armorStand.bodyPose.getX();
+			this.chocobo_body.yRot = ((float) Math.PI / 180F) * armorStand.bodyPose.getY();
+			this.chocobo_body.zRot = ((float) Math.PI / 180F) * armorStand.bodyPose.getZ();
+			this.chocobo_left_arm.xRot = ((float) Math.PI / 180F) * armorStand.leftArmPose.getX();
+			this.chocobo_left_arm.yRot = ((float) Math.PI / 180F) * armorStand.leftArmPose.getY();
+			this.chocobo_left_arm.zRot = ((float) Math.PI / 180F) * armorStand.leftArmPose.getZ();
+			this.chocobo_right_arm.xRot = ((float) Math.PI / 180F) * armorStand.rightArmPose.getX();
+			this.chocobo_right_arm.yRot = ((float) Math.PI / 180F) * armorStand.rightArmPose.getY();
+			this.chocobo_right_arm.zRot = ((float) Math.PI / 180F) * armorStand.rightArmPose.getZ();
+			this.chocobo_leg_left.xRot = ((float) Math.PI / 180F) * armorStand.leftLegPose.getX();
+			this.chocobo_leg_left.yRot = ((float) Math.PI / 180F) * armorStand.leftLegPose.getY();
+			this.chocobo_leg_left.zRot = ((float) Math.PI / 180F) * armorStand.leftLegPose.getZ();
 			this.chocobo_leg_left.setPos(1.9F, 11.0F, 0.0F);
-			this.chocobo_leg_right.xRot = ((float) Math.PI / 180F) * armorStand.getRightLegPose().getX();
-			this.chocobo_leg_right.yRot = ((float) Math.PI / 180F) * armorStand.getRightLegPose().getY();
-			this.chocobo_leg_right.zRot = ((float) Math.PI / 180F) * armorStand.getRightLegPose().getZ();
+			this.chocobo_leg_right.xRot = ((float) Math.PI / 180F) * armorStand.rightLegPose.getX();
+			this.chocobo_leg_right.yRot = ((float) Math.PI / 180F) * armorStand.rightLegPose.getY();
+			this.chocobo_leg_right.zRot = ((float) Math.PI / 180F) * armorStand.rightLegPose.getZ();
 			this.chocobo_leg_right.setPos(-1.9F, 11.0F, 0.0F);
 			this.hat.copyFrom(this.chocobo_head);
 		} else {
-			super.setupAnim(livingEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+			super.setupAnim(renderState);
+			this.setHeadRotation();
+			this.setChestRotation();
+			this.setLegsRotation();
+			this.setBootRotation();
+
+			chocobo_head.visible = armorType == ArmorType.HELMET;
+			chocobo_body.visible = armorType == ArmorType.CHESTPLATE;
+			chocobo_right_arm.visible = armorType == ArmorType.CHESTPLATE;
+			chocobo_left_arm.visible = armorType == ArmorType.CHESTPLATE;
+			chocobo_leg_right.visible = armorType == ArmorType.LEGGINGS;
+			chocobo_leg_left.visible = armorType == ArmorType.LEGGINGS;
+			chocobo_claw_right.visible = armorType == ArmorType.BOOTS;
+			chocobo_claw_left.visible = armorType == ArmorType.BOOTS;
 		}
-	}
-
-	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int color) {
-		poseStack.pushPose();
-
-		this.setHeadRotation();
-		this.setChestRotation();
-		this.setLegsRotation();
-		this.setBootRotation();
-
-		chocobo_head.visible = armorType == ArmorItem.Type.HELMET;
-		chocobo_body.visible = armorType == ArmorItem.Type.CHESTPLATE;
-		chocobo_right_arm.visible = armorType == ArmorItem.Type.CHESTPLATE;
-		chocobo_left_arm.visible = armorType == ArmorItem.Type.CHESTPLATE;
-		chocobo_leg_right.visible = armorType == ArmorItem.Type.LEGGINGS;
-		chocobo_leg_left.visible = armorType == ArmorItem.Type.LEGGINGS;
-		chocobo_claw_right.visible = armorType == ArmorItem.Type.BOOTS;
-		chocobo_claw_left.visible = armorType == ArmorItem.Type.BOOTS;
-		if (this.young) {
-			float f = 2.0F;
-			poseStack.scale(1.5F / f, 1.5F / f, 1.5F / f);
-			poseStack.translate(0.0F, 16.0F * 1, 0.0F);
-			chocobo_head.render(poseStack, buffer, packedLight, packedOverlay, color);
-			poseStack.popPose();
-			poseStack.pushPose();
-			poseStack.scale(1.0F / f, 1.0F / f, 1.0F / f);
-			poseStack.translate(0.0F, 24.0F * 1, 0.0F);
-			chocobo_body.render(poseStack, buffer, packedLight, packedOverlay, color);
-		} else {
-			chocobo_head.render(poseStack, buffer, packedLight, packedOverlay, color);
-			chocobo_body.render(poseStack, buffer, packedLight, packedOverlay, color);
-			chocobo_right_arm.render(poseStack, buffer, packedLight, packedOverlay, color);
-			chocobo_left_arm.render(poseStack, buffer, packedLight, packedOverlay, color);
-		}
-		chocobo_leg_right.render(poseStack, buffer, packedLight, packedOverlay, color);
-		chocobo_leg_left.render(poseStack, buffer, packedLight, packedOverlay, color);
-		chocobo_claw_right.render(poseStack, buffer, packedLight, packedOverlay, color);
-		chocobo_claw_left.render(poseStack, buffer, packedLight, packedOverlay, color);
-		poseStack.popPose();
 	}
 
 	public void setHeadRotation() {

@@ -9,6 +9,7 @@ import net.chococraft.client.models.entities.ChicoboModel;
 import net.chococraft.client.renderer.layers.LayerCollar;
 import net.chococraft.client.renderer.layers.LayerPlumage;
 import net.chococraft.client.renderer.layers.LayerSaddle;
+import net.chococraft.client.renderer.states.ChocoboRenderState;
 import net.chococraft.common.entity.AbstractChocobo;
 import net.chococraft.common.entity.properties.ChocoboColor;
 import net.minecraft.Util;
@@ -20,7 +21,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.Map;
 
-public class ChocoboRenderer extends MobRenderer<AbstractChocobo, EntityModel<AbstractChocobo>> {
+public class ChocoboRenderer extends MobRenderer<AbstractChocobo, ChocoboRenderState, EntityModel<ChocoboRenderState>> {
 	private static final Map<ChocoboColor, ResourceLocation> CHOCOBO_PER_COLOR = Util.make(Maps.newHashMap(), (map) -> {
 		map.put(ChocoboColor.YELLOW, ResourceLocation.fromNamespaceAndPath(Chococraft.MOD_ID, "textures/entities/chocobos/yellowchocobo.png"));
 		map.put(ChocoboColor.GREEN, ResourceLocation.fromNamespaceAndPath(Chococraft.MOD_ID, "textures/entities/chocobos/greenchocobo.png"));
@@ -46,8 +47,8 @@ public class ChocoboRenderer extends MobRenderer<AbstractChocobo, EntityModel<Ab
 		map.put(ChocoboColor.FLAME, ResourceLocation.fromNamespaceAndPath(Chococraft.MOD_ID, "textures/entities/chicobos/flamechocobo.png"));
 	});
 
-	private final EntityModel<AbstractChocobo> chicoboModel;
-	private final EntityModel<AbstractChocobo> chocoboModel = this.getModel();
+	private final EntityModel<ChocoboRenderState> chicoboModel;
+	private final EntityModel<ChocoboRenderState> chocoboModel = this.getModel();
 
 	public ChocoboRenderer(EntityRendererProvider.Context context) {
 		super(context, new AdultChocoboModel<>(context.bakeLayer(ChococraftClient.CHOCOBO)), 1.0f);
@@ -59,14 +60,32 @@ public class ChocoboRenderer extends MobRenderer<AbstractChocobo, EntityModel<Ab
 	}
 
 	@Override
-	public void render(AbstractChocobo chocobo, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
-		this.model = chocobo.isBaby() ? chicoboModel : chocoboModel;
-		super.render(chocobo, entityYaw, partialTicks, poseStack, bufferSource, packedLight);
+	public void render(ChocoboRenderState renderState, PoseStack poseStack, MultiBufferSource multiBufferSource, int i) {
+		this.model = renderState.isBaby ? chicoboModel : chocoboModel;
+		super.render(renderState, poseStack, multiBufferSource, i);
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(AbstractChocobo chocobo) {
-		ChocoboColor color = chocobo.getChocoboColor();
-		return chocobo.isBaby() ? CHICOBO_PER_COLOR.get(color) : CHOCOBO_PER_COLOR.get(color);
+	public ChocoboRenderState createRenderState() {
+		return new ChocoboRenderState();
+	}
+
+	@Override
+	public void extractRenderState(AbstractChocobo chocobo, ChocoboRenderState renderState, float f) {
+		super.extractRenderState(chocobo, renderState, f);
+		renderState.color = chocobo.getChocoboColor();
+		renderState.isBaby = chocobo.isBaby();
+		renderState.onGround = chocobo.onGround();
+		renderState.isTame = chocobo.isTame();
+		renderState.isMale = chocobo.isMale();
+		renderState.isSaddled = chocobo.isSaddled();
+		renderState.saddle = chocobo.getSaddle();
+		renderState.deltaMovement = chocobo.getDeltaMovement();
+	}
+
+	@Override
+	public ResourceLocation getTextureLocation(ChocoboRenderState renderState) {
+		ChocoboColor color = renderState.color;
+		return renderState.isBaby ? CHICOBO_PER_COLOR.get(color) : CHOCOBO_PER_COLOR.get(color);
 	}
 }

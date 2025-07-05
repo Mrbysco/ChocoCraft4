@@ -2,13 +2,16 @@ package net.chococraft.neoforge.datagen.data;
 
 import net.chococraft.registry.ModRegistry;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.neoforge.common.Tags;
@@ -16,62 +19,71 @@ import net.neoforged.neoforge.common.Tags;
 import java.util.concurrent.CompletableFuture;
 
 public class ChocoRecipes extends RecipeProvider {
-	public ChocoRecipes(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookupProvider) {
-		super(packOutput, lookupProvider);
+	public ChocoRecipes(HolderLookup.Provider provider, RecipeOutput output) {
+		super(provider, output);
 	}
 
 	@Override
-	protected void buildRecipes(RecipeOutput output) {
-		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModRegistry.CHOCO_DISGUISE_BOOTS.get())
+	protected void buildRecipes() {
+		shaped(RecipeCategory.MISC, ModRegistry.CHOCO_DISGUISE_BOOTS.get())
 				.pattern("F F").pattern("F F").define('F', ModRegistry.CHOCOBO_FEATHER.get())
 				.unlockedBy("has_chocobo_feather", has(ModRegistry.CHOCOBO_FEATHER.get())).save(output);
-		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModRegistry.CHOCO_DISGUISE_CHESTPLATE.get())
+		shaped(RecipeCategory.MISC, ModRegistry.CHOCO_DISGUISE_CHESTPLATE.get())
 				.pattern("F F").pattern("FFF").pattern("FFF").define('F', ModRegistry.CHOCOBO_FEATHER.get())
 				.unlockedBy("has_chocobo_feather", has(ModRegistry.CHOCOBO_FEATHER.get())).save(output);
-		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModRegistry.CHOCO_DISGUISE_HELMET.get())
+		shaped(RecipeCategory.MISC, ModRegistry.CHOCO_DISGUISE_HELMET.get())
 				.pattern("FFF").pattern("F F").define('F', ModRegistry.CHOCOBO_FEATHER.get())
 				.unlockedBy("has_chocobo_feather", has(ModRegistry.CHOCOBO_FEATHER.get())).save(output);
-		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModRegistry.CHOCO_DISGUISE_LEGGINGS.get())
-				.pattern("FFF").pattern("F F").pattern("F F").define('F', ModRegistry.CHOCOBO_FEATHER.get())
+		shaped(RecipeCategory.MISC, ModRegistry.CHOCO_DISGUISE_LEGGINGS.get())
+				.pattern("FFF").pattern("F F").pattern("F F")
+				.define('F', ModRegistry.CHOCOBO_FEATHER.get())
 				.unlockedBy("has_chocobo_feather", has(ModRegistry.CHOCOBO_FEATHER.get())).save(output);
 
-		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModRegistry.CHOCOBO_SADDLE_PACK.get())
+		shaped(RecipeCategory.MISC, ModRegistry.CHOCOBO_SADDLE_PACK.get())
 				.pattern("TFT").pattern("WSW").pattern("TLT")
-				.define('L', Ingredient.of(Tags.Items.LEATHERS)).define('T', Ingredient.of(Tags.Items.STRINGS))
-				.define('W', Items.WHITE_WOOL).define('F', ModRegistry.CHOCOBO_FEATHER.get()).define('S', ModRegistry.CHOCOBO_SADDLE_BAGS.get())
+				.define('L', Ingredient.of(tagSet(Tags.Items.LEATHERS)))
+				.define('T', Ingredient.of(tagSet(Tags.Items.STRINGS)))
+				.define('W', Items.WHITE_WOOL)
+				.define('F', ModRegistry.CHOCOBO_FEATHER.get())
+				.define('S', ModRegistry.CHOCOBO_SADDLE_BAGS.get())
 				.unlockedBy("has_chocobo_saddle_bags", has(ModRegistry.CHOCOBO_SADDLE_BAGS.get())).save(output);
 
-		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModRegistry.CHOCOBO_SADDLE.get())
+		shaped(RecipeCategory.MISC, ModRegistry.CHOCOBO_SADDLE.get())
 				.pattern("TLT").pattern(" F ").define('F', ModRegistry.CHOCOBO_FEATHER.get())
-				.define('L', Ingredient.of(Tags.Items.LEATHERS)).define('T', Ingredient.of(Tags.Items.STRINGS))
+				.define('L', Ingredient.of(tagSet(Tags.Items.LEATHERS)))
+				.define('T', Ingredient.of(tagSet(Tags.Items.STRINGS)))
 				.unlockedBy("has_chocobo_feather", has(ModRegistry.CHOCOBO_FEATHER.get())).save(output);
-		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModRegistry.CHOCOBO_SADDLE.get())
+		shapeless(RecipeCategory.MISC, ModRegistry.CHOCOBO_SADDLE.get())
 				.requires(Items.SADDLE).requires(ModRegistry.CHOCOBO_FEATHER.get())
 				.unlockedBy("has_chocobo_feather", has(ModRegistry.CHOCOBO_FEATHER.get()))
 				.save(output, "chococraft:chocobo_saddle_alt");
 
-		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModRegistry.CHOCOBO_SADDLE_BAGS.get())
-				.pattern(" F ").pattern("LSL").pattern(" L ").define('F', ModRegistry.CHOCOBO_FEATHER.get())
-				.define('L', Ingredient.of(Tags.Items.LEATHERS)).define('S', ModRegistry.CHOCOBO_SADDLE.get())
+		shaped(RecipeCategory.MISC, ModRegistry.CHOCOBO_SADDLE_BAGS.get())
+				.pattern(" F ").pattern("LSL").pattern(" L ")
+				.define('F', ModRegistry.CHOCOBO_FEATHER.get())
+				.define('L', Ingredient.of(tagSet(Tags.Items.LEATHERS)))
+				.define('S', ModRegistry.CHOCOBO_SADDLE.get())
 				.unlockedBy("has_chocobo_feather", has(ModRegistry.CHOCOBO_FEATHER.get())).save(output);
 
-		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModRegistry.CHOCOBO_WHISTLE.get())
-				.requires(Ingredient.of(Tags.Items.INGOTS_GOLD)).requires(ModRegistry.CHOCOBO_FEATHER.get())
+		shapeless(RecipeCategory.MISC, ModRegistry.CHOCOBO_WHISTLE.get())
+				.requires(Ingredient.of(tagSet(Tags.Items.INGOTS_GOLD))).requires(ModRegistry.CHOCOBO_FEATHER.get())
 				.unlockedBy("has_chocobo_feather", has(ModRegistry.CHOCOBO_FEATHER.get()))
 				.save(output);
 
-		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModRegistry.CHOCOPEDIA.get())
+		shapeless(RecipeCategory.MISC, ModRegistry.CHOCOPEDIA.get())
 				.requires(Items.BOOK).requires(ModRegistry.GYSAHL_GREEN_ITEM.get())
 				.unlockedBy("has_gysahl_green", has(ModRegistry.GYSAHL_GREEN_ITEM.get()))
 				.save(output);
 
-		ShapedRecipeBuilder.shaped(RecipeCategory.FOOD, ModRegistry.GYSAHL_CAKE.get())
+		shaped(RecipeCategory.FOOD, ModRegistry.GYSAHL_CAKE.get())
 				.pattern("BGB").pattern("SES").pattern("WGW")
 				.define('B', Items.MILK_BUCKET).define('G', ModRegistry.GYSAHL_GREEN_ITEM.get())
-				.define('S', Items.SUGAR).define('E', Ingredient.of(Tags.Items.EGGS)).define('W', Ingredient.of(Tags.Items.CROPS_WHEAT))
+				.define('S', Items.SUGAR)
+				.define('E', Ingredient.of(tagSet(Tags.Items.EGGS)))
+				.define('W', Ingredient.of(tagSet(Tags.Items.CROPS_WHEAT)))
 				.unlockedBy("has_gysahl_green", has(ModRegistry.GYSAHL_GREEN_ITEM.get())).save(output);
 
-		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModRegistry.GYSAHL_GREEN_SEEDS.get())
+		shapeless(RecipeCategory.MISC, ModRegistry.GYSAHL_GREEN_SEEDS.get())
 				.requires(ModRegistry.GYSAHL_GREEN_ITEM.get())
 				.unlockedBy("has_gysahl_green", has(ModRegistry.GYSAHL_GREEN_ITEM.get()))
 				.save(output, "chococraft:gysahl_green_to_seeds");
@@ -86,7 +98,7 @@ public class ChocoRecipes extends RecipeProvider {
 						ModRegistry.CHOCOBO_DRUMSTICK_COOKED.get(), 0.35F, 100).unlockedBy("has_raw_drumstick", has(ModRegistry.CHOCOBO_DRUMSTICK_RAW.get()))
 				.save(output, "chococraft:chocobo_drumstick_cooked_from_smoking");
 
-		ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModRegistry.PICKLED_GYSAHL_RAW.get(), 3)
+		shapeless(RecipeCategory.FOOD, ModRegistry.PICKLED_GYSAHL_RAW.get(), 3)
 				.requires(ModRegistry.GYSAHL_GREEN_ITEM.get()).requires(ModRegistry.GYSAHL_GREEN_ITEM.get())
 				.requires(ModRegistry.GYSAHL_GREEN_ITEM.get()).requires(Items.SUGAR).requires(Items.WATER_BUCKET)
 				.unlockedBy("has_gysahl_green", has(ModRegistry.GYSAHL_GREEN_ITEM.get()))
@@ -103,19 +115,39 @@ public class ChocoRecipes extends RecipeProvider {
 				.save(output, "chococraft:pickled_gysahl_cooked_from_smoking");
 
 
-		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModRegistry.STRAW.get())
+		shaped(RecipeCategory.MISC, ModRegistry.STRAW.get())
 				.pattern("WW").define('W', Items.WHEAT)
 				.unlockedBy("has_wheat", has(Items.WHEAT)).save(output);
 
 
-		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModRegistry.RED_GYSAHL.get())
-				.requires(ModRegistry.GYSAHL_GREEN_ITEM.get()).requires(Ingredient.of(Tags.Items.DYES_RED))
+		shapeless(RecipeCategory.MISC, ModRegistry.RED_GYSAHL.get())
+				.requires(ModRegistry.GYSAHL_GREEN_ITEM.get()).requires(Ingredient.of(tagSet(Tags.Items.DYES_RED)))
 				.unlockedBy("has_gysahl_green", has(ModRegistry.GYSAHL_GREEN_ITEM.get()))
 				.save(output);
 
-		ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModRegistry.PINK_GYSAHL.get())
-				.requires(ModRegistry.GYSAHL_GREEN_ITEM.get()).requires(Ingredient.of(Tags.Items.DYES_PINK))
+		shapeless(RecipeCategory.MISC, ModRegistry.PINK_GYSAHL.get())
+				.requires(ModRegistry.GYSAHL_GREEN_ITEM.get()).requires(Ingredient.of(tagSet(Tags.Items.DYES_PINK)))
 				.unlockedBy("has_gysahl_green", has(ModRegistry.GYSAHL_GREEN_ITEM.get()))
 				.save(output);
+	}
+
+	private HolderSet<Item> tagSet(TagKey<Item> tagKey) {
+		return this.registries.lookupOrThrow(Registries.ITEM).getOrThrow(tagKey);
+	}
+
+	public static class Runner extends RecipeProvider.Runner {
+		public Runner(PackOutput output, CompletableFuture<Provider> completableFuture) {
+			super(output, completableFuture);
+		}
+
+		@Override
+		protected RecipeProvider createRecipeProvider(HolderLookup.Provider provider, RecipeOutput recipeOutput) {
+			return new ChocoRecipes(provider, recipeOutput);
+		}
+
+		@Override
+		public String getName() {
+			return "Statues Recipes";
+		}
 	}
 }

@@ -244,7 +244,7 @@ public class ChocoLanguage extends LanguageProvider {
 	}
 
 	public void addSubtitle(SoundEvent sound, String name) {
-		String path = Chococraft.MOD_ID + ".subtitle." + sound.getLocation().getPath();
+		String path = Chococraft.MOD_ID + ".subtitle." + sound.location().getPath();
 		this.add(path, name);
 	}
 

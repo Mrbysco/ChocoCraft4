@@ -4,13 +4,12 @@ import net.chococraft.Chococraft;
 import net.chococraft.registry.ModSounds;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.common.data.SoundDefinitionsProvider;
 
 public class ChocoSoundProvider extends SoundDefinitionsProvider {
 
-	public ChocoSoundProvider(PackOutput packOutput, ExistingFileHelper existingFileHelper) {
-		super(packOutput, Chococraft.MOD_ID, existingFileHelper);
+	public ChocoSoundProvider(PackOutput packOutput) {
+		super(packOutput, Chococraft.MOD_ID);
 	}
 
 	@Override

@@ -48,6 +48,7 @@ public class ChococraftNeoForge {
 			eventBus.addListener(NeoForgeClientHandler::registerEntityRenders);
 			eventBus.addListener(NeoForgeClientHandler::registerMenuScreen);
 			eventBus.addListener(NeoForgeClientHandler::registerLayerDefinitions);
+			eventBus.addListener(NeoForgeClientHandler::registerClientExtension);
 		}
 	}
 

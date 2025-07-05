@@ -1,7 +1,6 @@
 package net.chococraft.client.models.entities;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.chococraft.client.renderer.states.ChocoboRenderState;
 import net.chococraft.common.entity.AbstractChocobo;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -16,7 +15,7 @@ import net.minecraft.util.Mth;
 /**
  * ChicoboModel - Kraeheart
  */
-public class ChicoboModel<T extends AbstractChocobo> extends EntityModel<AbstractChocobo> {
+public class ChicoboModel<T extends AbstractChocobo> extends EntityModel<ChocoboRenderState> {
 	private final ModelPart root;
 
 	private final ModelPart head;
@@ -24,6 +23,7 @@ public class ChicoboModel<T extends AbstractChocobo> extends EntityModel<Abstrac
 	private final ModelPart leg_right;
 
 	public ChicoboModel(ModelPart root) {
+		super(root);
 		this.root = root.getChild("root");
 
 		this.head = this.root.getChild("head");
@@ -111,15 +111,16 @@ public class ChicoboModel<T extends AbstractChocobo> extends EntityModel<Abstrac
 	}
 
 	@Override
-	public void setupAnim(AbstractChocobo entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(ChocoboRenderState renderState) {
+		super.setupAnim(renderState);
+		float headPitch = renderState.xRot;
+		float netHeadYaw = renderState.yRot;
+		float limbSwingAmount = renderState.walkAnimationSpeed;
+		float limbSwing = renderState.walkAnimationPos;
+
 		head.xRot = -(headPitch / 57.29578F);
 		head.yRot = netHeadYaw / 57.29578F;
 		leg_right.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
 		leg_left.yRot = Mth.cos(limbSwing * 0.6662F + 3.141593F) * 1.4F * limbSwingAmount;
-	}
-
-	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer consumer, int packedLightIn, int packedOverlayIn, int color) {
-		root.render(poseStack, consumer, packedLightIn, packedOverlayIn, color);
 	}
 }

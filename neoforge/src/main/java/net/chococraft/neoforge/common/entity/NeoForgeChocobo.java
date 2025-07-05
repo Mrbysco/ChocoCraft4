@@ -5,6 +5,7 @@ import net.chococraft.common.items.ChocoboSaddleItem;
 import net.chococraft.neoforge.common.inventory.NeoForgeSaddleBagMenu;
 import net.chococraft.neoforge.common.inventory.SaddleItemStackHandler;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
@@ -123,7 +124,7 @@ public class NeoForgeChocobo extends AbstractChocobo {
 		if (this.inventory != null && this.isSaddled()) {
 			for (int i = 0; i < this.inventory.getSlots(); i++) {
 				if (!this.inventory.getStackInSlot(i).isEmpty())
-					this.spawnAtLocation(this.inventory.getStackInSlot(i), 0.0f);
+					this.spawnAtLocation((ServerLevel) level(), this.inventory.getStackInSlot(i), 0.0f);
 			}
 		}
 	}

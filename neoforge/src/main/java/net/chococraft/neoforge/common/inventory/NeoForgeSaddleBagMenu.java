@@ -14,11 +14,11 @@ import java.util.List;
 import java.util.UUID;
 
 public class NeoForgeSaddleBagMenu extends SaddleBagMenu {
-	private final NeoForgeChocobo forgeChocobo;
+	private final NeoForgeChocobo neoforgeChocobo;
 
 	public NeoForgeSaddleBagMenu(int id, Inventory inventory, NeoForgeChocobo chocobo) {
 		super(id, inventory, chocobo);
-		this.forgeChocobo = chocobo;
+		this.neoforgeChocobo = chocobo;
 		this.refreshSlots(chocobo, inventory);
 	}
 
@@ -31,7 +31,7 @@ public class NeoForgeSaddleBagMenu extends SaddleBagMenu {
 	}
 
 	public NeoForgeChocobo getChocobo() {
-		return forgeChocobo;
+		return neoforgeChocobo;
 	}
 
 	public void refreshSlots(NeoForgeChocobo chocobo, Inventory inventory) {
@@ -91,7 +91,7 @@ public class NeoForgeSaddleBagMenu extends SaddleBagMenu {
 
 	@Override
 	public boolean stillValid(Player playerIn) {
-		return this.forgeChocobo.isAlive() && this.forgeChocobo.distanceTo(playerIn) < 8.0F;
+		return this.neoforgeChocobo.isAlive() && this.neoforgeChocobo.distanceTo(playerIn) < 8.0F;
 	}
 
 	public ItemStack quickMoveStack(Player player, int index) {
@@ -100,11 +100,11 @@ public class NeoForgeSaddleBagMenu extends SaddleBagMenu {
 		if (slot != null && slot.hasItem()) {
 			ItemStack itemstack1 = slot.getItem();
 			itemstack = itemstack1.copy();
-			if (index < this.forgeChocobo.inventory.getSlots()) {
-				if (!this.moveItemStackTo(itemstack1, this.forgeChocobo.inventory.getSlots(), this.slots.size(), true)) {
+			if (index < this.neoforgeChocobo.inventory.getSlots()) {
+				if (!this.moveItemStackTo(itemstack1, this.neoforgeChocobo.inventory.getSlots(), this.slots.size(), true)) {
 					return ItemStack.EMPTY;
 				}
-			} else if (!this.moveItemStackTo(itemstack1, 0, this.forgeChocobo.inventory.getSlots(), false)) {
+			} else if (!this.moveItemStackTo(itemstack1, 0, this.neoforgeChocobo.inventory.getSlots(), false)) {
 				return ItemStack.EMPTY;
 			}
 

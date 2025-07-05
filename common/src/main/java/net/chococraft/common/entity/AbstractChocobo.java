@@ -20,6 +20,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -36,11 +37,11 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.HasCustomInventoryScreen;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -62,8 +63,14 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.LootParams.Builder;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 public abstract class AbstractChocobo extends TamableAnimal implements HasCustomInventoryScreen {
 	private static final ResourceLocation STEP_HEIGHT_ID = ResourceLocation.fromNamespaceAndPath(Chococraft.MOD_ID, "step_height");
@@ -128,7 +135,7 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 	}
 
 	@Override
-	public SpawnGroupData finalizeSpawn(ServerLevelAccessor levelAccessor, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn) {
+	public SpawnGroupData finalizeSpawn(ServerLevelAccessor levelAccessor, DifficultyInstance difficultyIn, EntitySpawnReason reason, @Nullable SpawnGroupData spawnDataIn) {
 		if (levelAccessor.getBiome((new BlockPos(blockPosition().below()))).is(BiomeTags.IS_NETHER)) {
 			this.setChocoboColor(ChocoboColor.FLAME);
 		}
@@ -328,7 +335,7 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 				}
 
 				this.calculateEntityAnimation(false);
-				this.tryCheckInsideBlocks();
+//				this.tryCheckInsideBlocks(); TODO: Check if needed
 			} else {
 				super.travel(travelVector);
 			}
@@ -350,7 +357,7 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 	@Nullable
 	@Override
 	public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob partner) {
-		AbstractChocobo babyChocobo = ModEntities.CHOCOBO.get().create(level);
+		AbstractChocobo babyChocobo = ModEntities.CHOCOBO.get().create(level, EntitySpawnReason.BREEDING);
 		babyChocobo.setChocoboColor(BreedingHelper.getColor(this, (AbstractChocobo) partner));
 		this.finalizeChocobo(babyChocobo);
 		//Reset golden status
@@ -362,7 +369,8 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 	@Override
 	public void spawnChildFromBreeding(ServerLevel level, Animal partner) {
 		if (partner instanceof AbstractChocobo target && this.getChocoboColor() == ChocoboColor.PURPLE && target.getChocoboColor() == ChocoboColor.PURPLE) {
-			this.spawnAtLocation(new ItemStack(ModRegistry.PURPLE_CHOCOBO_SPAWN_EGG.get()), 0);
+			if (level() instanceof ServerLevel serverLevel)
+				this.spawnAtLocation(serverLevel, new ItemStack(ModRegistry.PURPLE_CHOCOBO_SPAWN_EGG.get()), 0);
 			this.setAge(6000);
 			target.setAge(6000);
 			this.resetLove();
@@ -380,11 +388,11 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 	}
 
 	public void dropFeather() {
-		if (this.getCommandSenderWorld().isClientSide) return;
+		if (this.level().isClientSide) return;
 
 		if (this.isBaby()) return;
 
-		this.spawnAtLocation(new ItemStack(ModRegistry.CHOCOBO_FEATHER.get(), 1), 0.0F);
+		this.spawnAtLocation((ServerLevel) level(), new ItemStack(ModRegistry.CHOCOBO_FEATHER.get(), 1), 0.0F);
 	}
 
 	@Override
@@ -416,7 +424,7 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 			}
 		}
 
-		if (this.getCommandSenderWorld().isClientSide) {
+		if (this.level().isClientSide) {
 			// Wing rotations, control packet, client side
 			// Client side
 			this.destPos += (float) ((double) (this.onGround() ? -1 : 4) * 0.3D);
@@ -475,7 +483,7 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 				if (fedCake) {
 					this.usePlayerItem(player, hand, heldItemStack);
 					this.setBaby(false);
-					return InteractionResult.sidedSuccess(this.level().isClientSide);
+					return InteractionResult.SUCCESS;
 				}
 			} else {
 				int i = this.getAge();
@@ -598,10 +606,9 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 	protected abstract void reconfigureInventory(ItemStack oldSaddle, ItemStack newSaddle);
 
 	@Override
-	protected void dropFromLootTable(DamageSource damageSourceIn, boolean attackedRecently) {
-		super.dropFromLootTable(damageSourceIn, attackedRecently);
-
+	protected boolean dropFromLootTable(ServerLevel serverLevel, ResourceKey<LootTable> resourceKey, Function<Builder, LootParams> function, BiConsumer<ServerLevel, ItemStack> biConsumer) {
 		dropInventory();
+		return super.dropFromLootTable(serverLevel, resourceKey, function, biConsumer);
 	}
 
 	protected abstract void dropInventory();
@@ -674,10 +681,10 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 	}
 
 	public static boolean checkChocoboSpawnRules(EntityType<? extends AbstractChocobo> entityType, LevelAccessor levelAccessor,
-	                                             MobSpawnType spawnType, BlockPos pos, RandomSource randomSource) {
+	                                             EntitySpawnReason spawnType, BlockPos pos, RandomSource randomSource) {
 		if (levelAccessor.getBiome(new BlockPos(pos)).is(BiomeTags.IS_NETHER)) {
 			BlockPos blockpos = pos.below();
-			return spawnType == MobSpawnType.SPAWNER || levelAccessor.getBlockState(blockpos).isValidSpawn(levelAccessor, blockpos, entityType);
+			return spawnType == EntitySpawnReason.SPAWNER || levelAccessor.getBlockState(blockpos).isValidSpawn(levelAccessor, blockpos, entityType);
 		}
 
 		return levelAccessor.getBlockState(pos.below()).is(BlockTags.ANIMALS_SPAWNABLE_ON) && isBrightEnoughToSpawn(levelAccessor, pos);

@@ -2,6 +2,7 @@ package net.chococraft.client.models.entities;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.chococraft.client.renderer.states.ChocoboRenderState;
 import net.chococraft.common.entity.AbstractChocobo;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -17,7 +18,7 @@ import net.minecraft.world.phys.Vec3;
 /**
  * AdultChocoboModel - Kraeheart
  */
-public class AdultChocoboModel<T extends AbstractChocobo> extends EntityModel<AbstractChocobo> {
+public class AdultChocoboModel<T extends AbstractChocobo> extends EntityModel<ChocoboRenderState> {
 	private final ModelPart root;
 	private final ModelPart wing_left;
 	private final ModelPart wing_right;
@@ -27,6 +28,7 @@ public class AdultChocoboModel<T extends AbstractChocobo> extends EntityModel<Ab
 	private final ModelPart leg_right;
 
 	public AdultChocoboModel(ModelPart root) {
+		super(root);
 		this.root = root.getChild("root");
 		ModelPart body = this.root.getChild("body");
 
@@ -180,11 +182,6 @@ public class AdultChocoboModel<T extends AbstractChocobo> extends EntityModel<Ab
 		return LayerDefinition.create(meshdefinition, 128, 64);
 	}
 
-	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer consumer, int packedLightIn, int packedOverlayIn, int color) {
-		this.root.render(poseStack, consumer, packedLightIn, packedOverlayIn, color);
-	}
-
 	/**
 	 * This is a helper function from Tabula to set the rotation of model parts
 	 */
@@ -195,7 +192,14 @@ public class AdultChocoboModel<T extends AbstractChocobo> extends EntityModel<Ab
 	}
 
 	@Override
-	public void setupAnim(AbstractChocobo entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(ChocoboRenderState renderState) {
+		super.setupAnim(renderState);
+
+		float headPitch = renderState.xRot;
+		float netHeadYaw = renderState.yRot;
+		float limbSwingAmount = renderState.walkAnimationSpeed;
+		float limbSwing = renderState.walkAnimationPos;
+
 		// ageInTicks = wing z movement (flutter)
 		// netHeadYaw = head y movement
 		// headPitch = head x movement
@@ -214,7 +218,7 @@ public class AdultChocoboModel<T extends AbstractChocobo> extends EntityModel<Ab
 		this.setLeftLegXRotation(Mth.cos(limbSwing * 0.6662F + pi) * 0.8F * limbSwingAmount);
 
 		// riding animation
-		Vec3 motion = entityIn.getDeltaMovement();
+		Vec3 motion = renderState.deltaMovement;
 //		if (Math.abs(motion.x) > 0.1F || Math.abs(motion.z) > 0.1F) {
 //			neck.xRot = -0.5F;
 //		} else {
@@ -222,7 +226,7 @@ public class AdultChocoboModel<T extends AbstractChocobo> extends EntityModel<Ab
 //		}
 
 		// flying animation
-		if (Math.abs(motion.y) > 0.1F || !entityIn.onGround()) {
+		if (Math.abs(motion.y) > 0.1F || !renderState.onGround) {
 			setRotateAngle(wing_right, (pi / 2F) - (pi / 12), -0.0174533F, -90 + Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount);
 			setRotateAngle(wing_left, (pi / 2F) - (pi / 12), 0.0174533F, 90 + Mth.cos(limbSwing * 0.6662F + pi) * 1.4F * limbSwingAmount);
 			this.setLeftLegXRotation(0.6F);

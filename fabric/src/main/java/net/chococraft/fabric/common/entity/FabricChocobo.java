@@ -6,6 +6,7 @@ import net.chococraft.common.items.ChocoboSaddleItem;
 import net.chococraft.fabric.common.inventory.FabricSaddleBagMenu;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerListener;
@@ -148,7 +149,7 @@ public class FabricChocobo extends AbstractChocobo implements ContainerListener 
 		if (this.inventory != null && this.isSaddled()) {
 			for (int i = 0; i < this.inventory.getContainerSize(); i++) {
 				if (!this.inventory.getItem(i).isEmpty())
-					this.spawnAtLocation(this.inventory.getItem(i), 0.0f);
+					this.spawnAtLocation((ServerLevel) level(), this.inventory.getItem(i), 0.0f);
 			}
 		}
 	}
