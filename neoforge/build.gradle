@@ -23,17 +23,19 @@ loom {
     accessWidenerPath = project(":common").loom.accessWidenerPath
 
     neoForge {
-    }
+        runs {
+            all {}
 
-    runs {
-        dataClient {
-            clientData()
-            programArgs("--all", "--mod", "chococraft")
-            programArgs "--output", generatedResources.absolutePath
-            programArgs "--existing", project(":common").file("src/main/resources").absolutePath
-            programArgs "--existing", file("src/main/resources").absolutePath
+            clientData {
+                clientData()
+                programArgs("--all", "--mod", "chococraft")
+                programArgs "--output", generatedResources.absolutePath
+                programArgs "--existing", project(":common").file("src/main/resources").absolutePath
+                programArgs "--existing", file("src/main/resources").absolutePath
+            }
         }
     }
+
 }
 
 configurations {
@@ -58,7 +60,7 @@ dependencies {
     modApi "dev.architectury:architectury-neoforge:${rootProject.architectury_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowBundle(project(path: ":common", configuration: "transformProductionNeoForge"))
+    shadowBundle(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive = false }
 
 //    modRuntimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
 
@@ -68,6 +70,10 @@ dependencies {
 }
 
 processResources {
+    from(project(":common").sourceSets["main"].resources) {
+        exclude "META-INF/services"
+    }
+
     inputs.property "version", project.version
 
     filesMatching('META-INF/neoforge.mods.toml') {
