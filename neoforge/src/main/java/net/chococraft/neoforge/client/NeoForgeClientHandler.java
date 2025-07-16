@@ -23,8 +23,9 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
+@SuppressWarnings("deprecation")
 public class NeoForgeClientHandler {
 	public static void registerEntityRenders(EntityRenderersEvent.RegisterRenderers event) {
 		event.registerEntityRenderer(ModEntities.CHOCOBO.get(), ChocoboRenderer::new);
@@ -50,14 +51,16 @@ public class NeoForgeClientHandler {
 						return new ChocoDisguiseModel(Minecraft.getInstance().getEntityModels().bakeLayer(ChococraftClient.CHOCO_DISGUISE), type);
 					}
 
-					@Nullable
 					@Override
-					public ResourceLocation getArmorTexture(ItemStack stack, LayerType type, Layer layer, ResourceLocation _default) {
+					public ResourceLocation getArmorTexture(@NotNull ItemStack stack, @NotNull LayerType type,
+					                                        @NotNull Layer layer, @NotNull ResourceLocation _default) {
 						return chocoDisguiseTexture;
 					}
 
+					@NotNull
 					@Override
-					public Model getHumanoidArmorModel(ItemStack itemStack, LayerType layerType, Model original) {
+					public Model getHumanoidArmorModel(@NotNull ItemStack itemStack, @NotNull LayerType layerType,
+					                                   @NotNull Model original) {
 						return model.get();
 					}
 				},
@@ -71,14 +74,16 @@ public class NeoForgeClientHandler {
 						return new ChocoDisguiseModel(Minecraft.getInstance().getEntityModels().bakeLayer(ChococraftClient.CHOCO_DISGUISE), type);
 					}
 
-					@Nullable
 					@Override
-					public ResourceLocation getArmorTexture(ItemStack stack, LayerType type, Layer layer, ResourceLocation _default) {
+					public ResourceLocation getArmorTexture(@NotNull ItemStack stack, @NotNull LayerType type,
+					                                        @NotNull Layer layer, @NotNull ResourceLocation _default) {
 						return chocoDisguiseTexture;
 					}
 
+					@NotNull
 					@Override
-					public Model getHumanoidArmorModel(ItemStack itemStack, LayerType layerType, Model original) {
+					public Model getHumanoidArmorModel(@NotNull ItemStack itemStack, @NotNull LayerType layerType,
+					                                   @NotNull Model original) {
 						return model.get();
 					}
 				},
@@ -92,14 +97,16 @@ public class NeoForgeClientHandler {
 						return new ChocoDisguiseModel(Minecraft.getInstance().getEntityModels().bakeLayer(ChococraftClient.CHOCO_DISGUISE), type);
 					}
 
-					@Nullable
 					@Override
-					public ResourceLocation getArmorTexture(ItemStack stack, LayerType type, Layer layer, ResourceLocation _default) {
+					public ResourceLocation getArmorTexture(@NotNull ItemStack stack, @NotNull LayerType type,
+					                                        @NotNull Layer layer, @NotNull ResourceLocation _default) {
 						return chocoDisguiseTexture;
 					}
 
+					@NotNull
 					@Override
-					public Model getHumanoidArmorModel(ItemStack itemStack, LayerType layerType, Model original) {
+					public Model getHumanoidArmorModel(@NotNull ItemStack itemStack, @NotNull LayerType layerType,
+					                                   @NotNull Model original) {
 						return model.get();
 					}
 				},
@@ -113,14 +120,16 @@ public class NeoForgeClientHandler {
 						return new ChocoDisguiseModel(Minecraft.getInstance().getEntityModels().bakeLayer(ChococraftClient.CHOCO_DISGUISE), type);
 					}
 
-					@Nullable
 					@Override
-					public ResourceLocation getArmorTexture(ItemStack stack, LayerType type, Layer layer, ResourceLocation _default) {
+					public ResourceLocation getArmorTexture(@NotNull ItemStack stack, @NotNull LayerType type,
+					                                        @NotNull Layer layer, @NotNull ResourceLocation _default) {
 						return chocoDisguiseTexture;
 					}
 
+					@NotNull
 					@Override
-					public Model getHumanoidArmorModel(ItemStack itemStack, LayerType layerType, Model original) {
+					public Model getHumanoidArmorModel(@NotNull ItemStack itemStack, @NotNull LayerType layerType,
+					                                   @NotNull Model original) {
 						return model.get();
 					}
 				},

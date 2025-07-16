@@ -37,6 +37,7 @@ public class BreedingConfig {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public static void loadConfig() {
 		if (INITIAL_FILE.exists()) {
 			breedingInfoHashmap.clear();
