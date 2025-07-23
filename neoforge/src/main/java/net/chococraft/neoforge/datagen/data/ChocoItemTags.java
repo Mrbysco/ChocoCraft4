@@ -9,7 +9,7 @@ import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.neoforge.common.Tags.Items;
+import net.neoforged.neoforge.common.Tags;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -27,10 +27,12 @@ public class ChocoItemTags extends ItemTagsProvider {
 		this.tag(ItemTags.LEG_ARMOR).add(ModRegistry.CHOCO_DISGUISE_LEGGINGS.getKey());
 		this.tag(ItemTags.FOOT_ARMOR).add(ModRegistry.CHOCO_DISGUISE_BOOTS.getKey());
 
+		this.tag(Tags.Items.SEEDS).add(ModRegistry.GYSAHL_GREEN_SEEDS.getKey());
+
 		// Food tags
-		this.tag(Items.FOODS_COOKED_MEAT).add(ModRegistry.CHOCOBO_DRUMSTICK_COOKED.get());
-		this.tag(Items.FOODS_RAW_MEAT).add(ModRegistry.CHOCOBO_DRUMSTICK_RAW.get());
-		this.tag(Items.FOODS_VEGETABLE).add(
+		this.tag(Tags.Items.FOODS_COOKED_MEAT).add(ModRegistry.CHOCOBO_DRUMSTICK_COOKED.get());
+		this.tag(Tags.Items.FOODS_RAW_MEAT).add(ModRegistry.CHOCOBO_DRUMSTICK_RAW.get());
+		this.tag(Tags.Items.FOODS_VEGETABLE).add(
 				ModRegistry.GYSAHL_GREEN_ITEM.get(),
 				ModRegistry.PICKLED_GYSAHL_RAW.get(),
 				ModRegistry.PICKLED_GYSAHL_COOKED.get()

@@ -23,6 +23,8 @@ public class ChocoItemTags extends FabricTagProvider.ItemTagProvider {
 		this.tag(ItemTags.LEG_ARMOR).add(ModRegistry.CHOCO_DISGUISE_LEGGINGS.getKey());
 		this.tag(ItemTags.FOOT_ARMOR).add(ModRegistry.CHOCO_DISGUISE_BOOTS.getKey());
 
+		this.tag(ConventionalItemTags.SEEDS).add(ModRegistry.GYSAHL_GREEN_SEEDS.getKey());
+
 		// Food tags
 		this.tag(ConventionalItemTags.COOKED_MEAT_FOODS).add(ModRegistry.CHOCOBO_DRUMSTICK_COOKED.getKey());
 		this.tag(ConventionalItemTags.RAW_MEAT_FOODS).add(ModRegistry.CHOCOBO_DRUMSTICK_RAW.getKey());
