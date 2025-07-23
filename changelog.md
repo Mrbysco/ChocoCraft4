@@ -1,2 +1,4 @@
-### Version 0.11.11
-* Fix a breeding config issue (Causing blue + blue = white instead of blue + green = white like stated in the chocopedia)
+### Version 0.12.0
+* Update to 1.21.4
+* Add edible items to matching food related item tags
+* Add seeds to the c:seeds tag
