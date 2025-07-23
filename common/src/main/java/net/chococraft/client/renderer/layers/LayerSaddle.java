@@ -13,9 +13,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public class LayerSaddle extends RenderLayer<ChocoboRenderState, EntityModel<ChocoboRenderState>> {
-	private final ResourceLocation SADDLE = ResourceLocation.fromNamespaceAndPath(Chococraft.MOD_ID, "textures/entities/chocobos/saddle.png");
-	private final ResourceLocation SADDLE_BAG = ResourceLocation.fromNamespaceAndPath(Chococraft.MOD_ID, "textures/entities/chocobos/saddle_bag.png");
-	private final ResourceLocation PACK_BAG = ResourceLocation.fromNamespaceAndPath(Chococraft.MOD_ID, "textures/entities/chocobos/pack_bag.png");
+	private final ResourceLocation SADDLE = Chococraft.modLoc("textures/entities/chocobos/saddle.png");
+	private final ResourceLocation SADDLE_BAG = Chococraft.modLoc("textures/entities/chocobos/saddle_bag.png");
+	private final ResourceLocation PACK_BAG = Chococraft.modLoc("textures/entities/chocobos/pack_bag.png");
 
 	public LayerSaddle(RenderLayerParent<ChocoboRenderState, EntityModel<ChocoboRenderState>> rendererIn) {
 		super(rendererIn);

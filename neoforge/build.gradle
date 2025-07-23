@@ -1,126 +1,106 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "8.1.1"
+    id 'java-library'
+    id 'eclipse'
+    id 'idea'
+    id 'maven-publish'
+    id 'net.neoforged.gradle.userdev' version '7.0.184'
     id 'net.darkhax.curseforgegradle'
     id 'com.modrinth.minotaur'
 }
 
-architectury {
-    platformSetupLoomIde()
-    neoForge()
+base {
+    archivesName = "${mod_name}-neoforge-${minecraft_version}"
 }
 
-def generatedResources = file("src/generated")
-sourceSets {
-    main {
-        resources {
-            srcDirs += project(":neoforge").file("src/generated").absolutePath
-            exclude '.cache'
-        }
+if (file('src/main/resources/META-INF/accesstransformer.cfg').exists()) {
+    minecraft.accessTransformers.file file('src/main/resources/META-INF/accesstransformer.cfg')
+}
+
+runs {
+    // applies to all the run configs below
+    configureEach {
+        // Recommended logging data for a userdev environment
+        systemProperty 'forge.logging.markers', 'REGISTRIES'
+
+        // Recommended logging level for the console
+        systemProperty 'forge.logging.console.level', 'debug'
+
+        //Limit ram usage for the dev environment to 4GB
+        jvmArgument '-Xmx4G'
+
+        systemProperty 'mixin.env.disableRefMap', 'true'
+
+        modSource project.sourceSets.main
+    }
+
+    client {
+        // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
+        systemProperty 'forge.enabledGameTestNamespaces', "${mod_id}"
+    }
+
+    server {
+        systemProperty 'forge.enabledGameTestNamespaces', "${mod_id}"
+        programArgument '--nogui'
+    }
+
+    clientData {
+        // example of overriding the workingDirectory set in configureEach above, uncomment if you want to use it
+        // workingDirectory project.file('run-data')
+
+        // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
+        arguments.addAll '--mod', "${mod_id}", '--all',
+                '--output', file('src/generated/resources/').getAbsolutePath(),
+                '--existing', file('src/main/resources/').getAbsolutePath(),
+                '--existing', project(":common").file("src/main/resources").getAbsolutePath()
     }
 }
 
-loom {
-    accessWidenerPath = project(":common").loom.accessWidenerPath
-
-    neoForge {
-        runs {
-            all {}
-
-            clientData {
-                clientData()
-                programArgs("--all", "--mod", "chococraft")
-                programArgs "--output", generatedResources.absolutePath
-                programArgs "--existing", project(":common").file("src/main/resources").absolutePath
-                programArgs "--existing", file("src/main/resources").absolutePath
-            }
-        }
-    }
-
-}
-
-configurations {
-    common {
-        canBeResolved = true
-        canBeConsumed = false
-    }
-    compileClasspath.extendsFrom common
-    runtimeClasspath.extendsFrom common
-    developmentNeoForge.extendsFrom common
-
-    shadowBundle {
-        canBeResolved = true
-        canBeConsumed = false
-    }
-}
+sourceSets.main.resources.srcDir 'src/generated/resources'
 
 dependencies {
-    neoForge "net.neoforged:neoforge:${rootProject.neoforge_version}"
+    implementation "net.neoforged:neoforge:${neo_version}"
+    compileOnly project(":common")
 
-    // Remove the next line if you don't want to depend on the API
-    modApi "dev.architectury:architectury-neoforge:${rootProject.architectury_version}"
+    implementation "dev.architectury:architectury-neoforge:${architectury_version}"
 
-    common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowBundle(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive = false }
+    compileOnly "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
+    testCompileOnly "mezz.jei:jei-${minecraft_version}-common:${jei_version}"
 
-//    modRuntimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
-
-//    modImplementation "vazkii.patchouli:Patchouli:${patchouli_version}-NEOFORGE"
-
-//    modImplementation "xyz.brassgoggledcoders:PatchouliProvider:${patchouli_provider_version}"
+//    implementation "vazkii.patchouli:Patchouli:${patchouli_version}-NEOFORGE"
+//
+//    implementation "xyz.brassgoggledcoders:PatchouliProvider:${patchouli_provider_version}"
 }
 
-processResources {
-    from(project(":common").sourceSets["main"].resources) {
-        exclude "META-INF/services"
-    }
-
-    inputs.property "version", project.version
-
-    filesMatching('META-INF/neoforge.mods.toml') {
-        expand version: project.version
-    }
+// NeoGradle compiles the game, but we don't want to add our common code to the game's code
+TaskCollection.metaClass.excludingNeoTasks = { ->
+    delegate.matching { !it.name.startsWith("neo") }
 }
 
-shadowJar {
-    exclude "fabric.mod.json"
-    exclude "architectury.common.json"
-
-    configurations = [project.configurations.shadowBundle]
-    archiveClassifier.set("dev-shadow")
+tasks.withType(JavaCompile).excludingNeoTasks().configureEach {
+    source(project(":common").sourceSets.main.allSource)
 }
 
-remapJar {
-    inputFile.set shadowJar.archiveFile
-    dependsOn shadowJar
-    archiveBaseName.set("${rootProject.archives_base_name}-${rootProject.minecraft_version}-${project.name}")
-    archiveClassifier.set(null)
-    atAccessWideners.add(loom.accessWidenerPath.get().asFile.name)
+tasks.withType(Javadoc).excludingNeoTasks().configureEach {
+    source(project(":common").sourceSets.main.allJava)
 }
 
-jar {
-    archiveClassifier.set("dev")
+tasks.named("sourcesJar", Jar) {
+    from(project(":common").sourceSets.main.allSource)
 }
 
-sourcesJar {
-    def commonSources = project(":common").sourcesJar
-    dependsOn commonSources
-    from commonSources.archiveFile.map { zipTree(it) }
-}
-
-components.java {
-    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
-        skip()
-    }
+tasks.withType(ProcessResources).excludingNeoTasks().configureEach {
+    from project(":common").sourceSets.main.resources
 }
 
 publishing {
     publications {
-        mavenForge(MavenPublication) {
-            artifactId = rootProject.archives_base_name + "-" + rootProject.minecraft_version + "-" + project.name
+        mavenJava(MavenPublication) {
+            groupId project.group
+            artifactId base.archivesName.get()
+            version project.version
             from components.java
         }
     }
-
     repositories {
         if (System.getenv().SAP_SECRET) {
             maven {
@@ -138,11 +118,12 @@ if (System.getenv().CURSEFORGE_KEY) {
     task curseforge(type: net.darkhax.curseforgegradle.TaskPublishCurseForge) {
         apiToken = System.getenv().CURSEFORGE_KEY
 
-        def mainFile = upload(project.curseforge_id, remapJar)
-        mainFile.releaseType = 'release'
+        def mainFile = upload(project.curseforge_id, jar)
+        mainFile.releaseType = 'beta'
         mainFile.addGameVersion "NeoForge"
         mainFile.addGameVersion "${minecraft_version}"
         mainFile.addGameVersion "Java 21"
+        mainFile.addGameVersion('Server', 'Client')
 
         mainFile.changelog = file("$project.rootDir/changelog.md")
         mainFile.changelogType = 'markdown'
@@ -157,10 +138,10 @@ if (System.getenv().MODRINTH_KEY) {
     modrinth {
         token = System.getenv().MODRINTH_KEY
         projectId = project.modrinth_id
-        versionType = "release"
-        versionName = "${archives_base_name} ${minecraft_version}"
+        versionType = "beta"
+        versionName = "${mod_name} ${minecraft_version}"
         versionNumber = project.version
-        uploadFile = remapJar
+        uploadFile = jar
         changelog = fileContents
         gameVersions = ["${minecraft_version}"]
         loaders = ["neoforge"]

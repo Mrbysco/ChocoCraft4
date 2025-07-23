@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "chococraft:item/yellow_chocobo_spawn_egg"
+  }
+}

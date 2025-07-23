@@ -1,7 +1,5 @@
 package net.chococraft.client.models.entities;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.chococraft.client.renderer.states.ChocoboRenderState;
 import net.chococraft.common.entity.AbstractChocobo;
 import net.minecraft.client.model.EntityModel;

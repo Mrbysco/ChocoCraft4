@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/crop",
+  "textures": {
+    "crop": "chococraft:block/gysahl_green_stage2"
+  }
+}

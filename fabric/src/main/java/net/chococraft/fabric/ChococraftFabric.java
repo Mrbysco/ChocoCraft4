@@ -26,7 +26,7 @@ import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.level.levelgen.Heightmap;
 
 public class ChococraftFabric implements ModInitializer {
-	public static final ResourceLocation OPEN_CHOCOBO_SCREEN = ResourceLocation.fromNamespaceAndPath(Chococraft.MOD_ID, "open_chocobo_screen");
+	public static final ResourceLocation OPEN_CHOCOBO_SCREEN = Chococraft.modLoc("open_chocobo_screen");
 
 	public static ConfigHolder<FabricChocoConfig> config;
 	public static ConfigHolder<FabricBreedingConfig> breedingConfig;

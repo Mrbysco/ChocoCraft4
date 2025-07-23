@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:saddle",
+    "chococraft:chocobo_feather"
+  ],
+  "result": {
+    "count": 1,
+    "id": "chococraft:chocobo_saddle"
+  }
+}

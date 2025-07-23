@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "chococraft:gysahl_green",
+    "#c:dyes/pink"
+  ],
+  "result": {
+    "count": 1,
+    "id": "chococraft:pink_gysahl"
+  }
+}

@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.internal.LinkedTreeMap;
 import net.chococraft.Chococraft;
-import net.chococraft.ChococraftExpectPlatform;
+import net.chococraft.platform.Services;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -17,7 +17,7 @@ public class BreedingConfig {
 	public static final LinkedTreeMap<String, LinkedTreeMap<String, List<LinkedTreeMap<String, String>>>> breedingInfoHashmap = new LinkedTreeMap<>();
 
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-	public static final File INITIAL_FILE = new File(ChococraftExpectPlatform.getConfigDirectory().toFile(), "chococraft-4-breeding.json");
+	public static final File INITIAL_FILE = new File(Services.PLATFORM.getConfigDirectory().toFile(), "chococraft-4-breeding.json");
 
 	public static void initializeConfig() {
 		if (!INITIAL_FILE.exists()) {

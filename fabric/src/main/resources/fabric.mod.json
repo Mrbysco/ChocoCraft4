@@ -22,6 +22,9 @@
   "icon": "icon.png",
   "environment": "*",
   "entrypoints": {
+    "fabric-datagen": [
+      "net.chococraft.fabric.datagen.ModDatagenerator"
+    ],
     "main": [
       "net.chococraft.fabric.ChococraftFabric"
     ],

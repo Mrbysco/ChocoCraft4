@@ -9,7 +9,6 @@ import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
@@ -29,8 +28,8 @@ public class ModFeatures {
 
 	public static final ResourceKey<ConfiguredFeature<?, ?>> PATCH_GYSAHL_GREEN = createConfiguredKey("patch_gysahl_green");
 
-	public static ResourceKey<ConfiguredFeature<?, ?>> createConfiguredKey(String pName) {
-		return ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(Chococraft.MOD_ID, pName));
+	public static ResourceKey<ConfiguredFeature<?, ?>> createConfiguredKey(String path) {
+		return ResourceKey.create(Registries.CONFIGURED_FEATURE, Chococraft.modLoc(path));
 	}
 
 	public static void configuredBootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
@@ -42,8 +41,8 @@ public class ModFeatures {
 
 	public static final ResourceKey<PlacedFeature> PLACED_PATCH_GYSAHL_GREEN = createPlacedFeature("patch_gysahl_green");
 
-	public static ResourceKey<PlacedFeature> createPlacedFeature(String pName) {
-		return ResourceKey.create(Registries.PLACED_FEATURE, ResourceLocation.fromNamespaceAndPath(Chococraft.MOD_ID, pName));
+	public static ResourceKey<PlacedFeature> createPlacedFeature(String path) {
+		return ResourceKey.create(Registries.PLACED_FEATURE, Chococraft.modLoc(path));
 	}
 
 	public static void placedBootstrap(BootstrapContext<PlacedFeature> context) {

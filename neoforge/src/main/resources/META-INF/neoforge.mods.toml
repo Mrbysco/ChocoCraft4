@@ -5,7 +5,7 @@ license="MIT"
 
 [[mods]]
 modId="chococraft"
-version = "${version}"
+version="${file.jarVersion}"
 displayName="Chococraft 4"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/chococraft"
 authors="Mrbysco, Xalcon, Slayer5934, balika011"

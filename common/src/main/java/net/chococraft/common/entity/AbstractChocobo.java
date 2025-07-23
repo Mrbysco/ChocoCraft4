@@ -1,7 +1,6 @@
 package net.chococraft.common.entity;
 
 import net.chococraft.Chococraft;
-import net.chococraft.ChococraftExpectPlatform;
 import net.chococraft.common.entity.breeding.BreedingHelper;
 import net.chococraft.common.entity.breeding.ChocoboAbilityInfo;
 import net.chococraft.common.entity.goal.ChocoboFollowOwnerGoal;
@@ -10,6 +9,7 @@ import net.chococraft.common.entity.properties.ChocoboColor;
 import net.chococraft.common.entity.properties.MovementType;
 import net.chococraft.common.items.ChocoboSaddleItem;
 import net.chococraft.common.items.armor.AbstractChocoDisguiseItem;
+import net.chococraft.platform.Services;
 import net.chococraft.registry.ModEntities;
 import net.chococraft.registry.ModRegistry;
 import net.chococraft.registry.ModSounds;
@@ -73,7 +73,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 public abstract class AbstractChocobo extends TamableAnimal implements HasCustomInventoryScreen {
-	private static final ResourceLocation STEP_HEIGHT_ID = ResourceLocation.fromNamespaceAndPath(Chococraft.MOD_ID, "step_height");
+	private static final ResourceLocation STEP_HEIGHT_ID = Chococraft.modLoc("step_height");
 
 	private static final String NBTKEY_CHOCOBO_COLOR = "Color";
 	private static final String NBTKEY_CHOCOBO_IS_MALE = "Male";
@@ -83,10 +83,10 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 	private static final String NBTKEY_CHOCOBO_GENERATION = "Generation";
 	private static final String NBTKEY_ALLOWED_FLIGHT = "AllowedFlight";
 
-	private static final EntityDataAccessor<ChocoboColor> PARAM_COLOR = SynchedEntityData.defineId(AbstractChocobo.class, ChococraftExpectPlatform.getColorSerializer());
+	private static final EntityDataAccessor<ChocoboColor> PARAM_COLOR = SynchedEntityData.defineId(AbstractChocobo.class, Services.PLATFORM.getColorSerializer());
 	private static final EntityDataAccessor<Boolean> PARAM_IS_MALE = SynchedEntityData.defineId(AbstractChocobo.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<Boolean> PARAM_FED_GOLD_GYSAHL = SynchedEntityData.defineId(AbstractChocobo.class, EntityDataSerializers.BOOLEAN);
-	private static final EntityDataAccessor<MovementType> PARAM_MOVEMENT_TYPE = SynchedEntityData.defineId(AbstractChocobo.class, ChococraftExpectPlatform.getMovementSerializer());
+	private static final EntityDataAccessor<MovementType> PARAM_MOVEMENT_TYPE = SynchedEntityData.defineId(AbstractChocobo.class, Services.PLATFORM.getMovementSerializer());
 	private static final EntityDataAccessor<ItemStack> PARAM_SADDLE_ITEM = SynchedEntityData.defineId(AbstractChocobo.class, EntityDataSerializers.ITEM_STACK);
 	private static final EntityDataAccessor<Boolean> ALLOWED_FLIGHT = SynchedEntityData.defineId(AbstractChocobo.class, EntityDataSerializers.BOOLEAN);
 
@@ -149,7 +149,7 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 		chocobo.setHealth(getMaxHealth());
 		chocobo.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(getChocoboColor().getAbilityInfo().getLandSpeed() / 100F);
 		chocobo.getAttribute(Attributes.FLYING_SPEED).setBaseValue(getChocoboColor().getAbilityInfo().getAirbornSpeed() / 100F);
-		chocobo.setAllowedFlight(ChococraftExpectPlatform.canChocobosFly());
+		chocobo.setAllowedFlight(Services.PLATFORM.canChocobosFly());
 		reassessTameGoals();
 	}
 
@@ -582,10 +582,10 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 				//Chance of taming Chocobo if right-clicked with Gysahl Green
 				if (heldItemStack.is(ModRegistry.GYSAHL_GREEN_ITEM.get())) {
 					this.usePlayerItem(player, hand, heldItemStack);
-					if ((float) Math.random() < ChococraftExpectPlatform.getTameChance()) {
+					if ((float) Math.random() < Services.PLATFORM.getTameChance()) {
 						this.setOwnerUUID(player.getUUID());
 						this.setTame(true, false);
-						if (ChococraftExpectPlatform.nameTamedChocobos()) {
+						if (Services.PLATFORM.nameTamedChocobos()) {
 							if (!hasCustomName()) {
 								setCustomName(DefaultNames.getRandomName(random, isMale()));
 							}
@@ -632,7 +632,7 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 
 	@Override
 	public int getAmbientSoundInterval() {
-		return (24 * (int) (Math.random() * ChococraftExpectPlatform.kwehIntervalLimit()));
+		return (24 * (int) (Math.random() * Services.PLATFORM.kwehIntervalLimit()));
 	}
 
 	@Override

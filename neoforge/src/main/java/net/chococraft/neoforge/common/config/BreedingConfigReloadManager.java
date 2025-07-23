@@ -6,7 +6,6 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.client.event.AddClientReloadListenersEvent;
 import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
 
 public class BreedingConfigReloadManager implements ResourceManagerReloadListener {

@@ -1,9 +1,9 @@
 package net.chococraft.client.gui;
 
 import net.chococraft.Chococraft;
-import net.chococraft.ChococraftExpectPlatform;
 import net.chococraft.common.entity.AbstractChocobo;
 import net.chococraft.common.inventory.SaddleBagMenu;
+import net.chococraft.platform.Services;
 import net.chococraft.registry.ModRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -17,9 +17,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public class ChocoboInventoryScreen extends AbstractContainerScreen<SaddleBagMenu> {
-	private static final ResourceLocation INV_TEXTURE_NULL = ResourceLocation.fromNamespaceAndPath(Chococraft.MOD_ID, "textures/gui/chocobo_inventory_null.png");
-	private static final ResourceLocation INV_TEXTURE_SMALL = ResourceLocation.fromNamespaceAndPath(Chococraft.MOD_ID, "textures/gui/chocobo_inventory_small.png");
-	private static final ResourceLocation INV_TEXTURE_LARGE = ResourceLocation.fromNamespaceAndPath(Chococraft.MOD_ID, "textures/gui/chocobo_inventory_large.png");
+	private static final ResourceLocation INV_TEXTURE_NULL = Chococraft.modLoc("textures/gui/chocobo_inventory_null.png");
+	private static final ResourceLocation INV_TEXTURE_SMALL = Chococraft.modLoc("textures/gui/chocobo_inventory_small.png");
+	private static final ResourceLocation INV_TEXTURE_LARGE = Chococraft.modLoc("textures/gui/chocobo_inventory_large.png");
 
 
 	public ChocoboInventoryScreen(SaddleBagMenu container, Inventory playerInventory, Component title) {
@@ -31,7 +31,7 @@ public class ChocoboInventoryScreen extends AbstractContainerScreen<SaddleBagMen
 
 	public static void openInventory(int windowId, AbstractChocobo chocobo) {
 		Player player = Minecraft.getInstance().player;
-		SaddleBagMenu saddleContainer = ChococraftExpectPlatform.constructMenu(windowId, player.getInventory(), chocobo);
+		SaddleBagMenu saddleContainer = Services.PLATFORM.constructMenu(windowId, player.getInventory(), chocobo);
 		player.containerMenu = saddleContainer;
 		Minecraft.getInstance().setScreen(new ChocoboInventoryScreen(saddleContainer, player.getInventory(), chocobo.getDisplayName()));
 	}

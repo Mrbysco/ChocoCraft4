@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "F": "chococraft:chocobo_feather"
+  },
+  "pattern": [
+    "F F",
+    "FFF",
+    "FFF"
+  ],
+  "result": {
+    "count": 1,
+    "id": "chococraft:choco_disguise_chestplate"
+  }
+}

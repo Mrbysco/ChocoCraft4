@@ -3,7 +3,6 @@ package net.chococraft.registry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.chococraft.Chococraft;
-import net.chococraft.ChococraftExpectPlatform;
 import net.chococraft.common.blocks.GysahlGreenBlock;
 import net.chococraft.common.blocks.StrawBlock;
 import net.chococraft.common.entity.properties.ChocoboColor;
@@ -12,6 +11,7 @@ import net.chococraft.common.items.ChocoboSpawnEggItem;
 import net.chococraft.common.items.ChocopediaItem;
 import net.chococraft.common.items.CustomBlockNamedItem;
 import net.chococraft.common.items.armor.ModArmorMaterial;
+import net.chococraft.platform.Services;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.BlockItem;
@@ -73,10 +73,10 @@ public class ModRegistry {
 	public static final RegistrySupplier<Item> CHOCOPEDIA = registerItem("chocopedia", ChocopediaItem::new, itemBuilder());
 	public static final RegistrySupplier<Item> GYSAHL_CAKE = registerItem("gysahl_cake", (properties) -> new Item(properties.stacksTo(8)), itemBuilder());
 
-	public static final RegistrySupplier<Item> CHOCO_DISGUISE_HELMET = registerItem("choco_disguise_helmet", (properties) -> ChococraftExpectPlatform.constructChocoDisguise(ModArmorMaterial.CHOCO_DISGUISE, ArmorType.HELMET, properties), itemBuilder());
-	public static final RegistrySupplier<Item> CHOCO_DISGUISE_CHESTPLATE = registerItem("choco_disguise_chestplate", (properties) -> ChococraftExpectPlatform.constructChocoDisguise(ModArmorMaterial.CHOCO_DISGUISE, ArmorType.CHESTPLATE, properties), itemBuilder());
-	public static final RegistrySupplier<Item> CHOCO_DISGUISE_LEGGINGS = registerItem("choco_disguise_leggings", (properties) -> ChococraftExpectPlatform.constructChocoDisguise(ModArmorMaterial.CHOCO_DISGUISE, ArmorType.LEGGINGS, properties), itemBuilder());
-	public static final RegistrySupplier<Item> CHOCO_DISGUISE_BOOTS = registerItem("choco_disguise_boots", (properties) -> ChococraftExpectPlatform.constructChocoDisguise(ModArmorMaterial.CHOCO_DISGUISE, ArmorType.BOOTS, properties), itemBuilder());
+	public static final RegistrySupplier<Item> CHOCO_DISGUISE_HELMET = registerItem("choco_disguise_helmet", (properties) -> Services.PLATFORM.constructChocoDisguise(ModArmorMaterial.CHOCO_DISGUISE, ArmorType.HELMET, properties), itemBuilder());
+	public static final RegistrySupplier<Item> CHOCO_DISGUISE_CHESTPLATE = registerItem("choco_disguise_chestplate", (properties) -> Services.PLATFORM.constructChocoDisguise(ModArmorMaterial.CHOCO_DISGUISE, ArmorType.CHESTPLATE, properties), itemBuilder());
+	public static final RegistrySupplier<Item> CHOCO_DISGUISE_LEGGINGS = registerItem("choco_disguise_leggings", (properties) -> Services.PLATFORM.constructChocoDisguise(ModArmorMaterial.CHOCO_DISGUISE, ArmorType.LEGGINGS, properties), itemBuilder());
+	public static final RegistrySupplier<Item> CHOCO_DISGUISE_BOOTS = registerItem("choco_disguise_boots", (properties) -> Services.PLATFORM.constructChocoDisguise(ModArmorMaterial.CHOCO_DISGUISE, ArmorType.BOOTS, properties), itemBuilder());
 
 	//Regular block items
 	public static final RegistrySupplier<Item> STRAW_ITEM = registerItem("straw", (properties) -> new BlockItem(STRAW.get(), properties), itemBuilder());

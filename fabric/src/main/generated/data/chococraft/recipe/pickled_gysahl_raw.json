@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "chococraft:gysahl_green",
+    "chococraft:gysahl_green",
+    "chococraft:gysahl_green",
+    "minecraft:sugar",
+    "minecraft:water_bucket"
+  ],
+  "result": {
+    "count": 3,
+    "id": "chococraft:pickled_gysahl_raw"
+  }
+}

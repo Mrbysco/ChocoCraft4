@@ -1,57 +1,56 @@
 plugins {
-    id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "1.7-SNAPSHOT" apply false
+    // Required for NeoGradle
+    id "org.jetbrains.gradle.plugin.idea-ext" version "1.1.7"
     id "net.darkhax.curseforgegradle" version "1.1.26" apply(false)
-    id "com.modrinth.minotaur" version "2.+" apply false
-}
-
-architectury {
-    minecraft = rootProject.minecraft_version
+    id "com.modrinth.minotaur" version "2.+" apply(false)
 }
 
 subprojects {
-    apply plugin: "dev.architectury.loom"
+    apply plugin: 'java'
 
-    loom {
-        silentMojangMappingsLicense()
+    java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+    java.withSourcesJar()
+
+    jar {
+        from(rootProject.file("LICENSE")) {
+            rename { "${it}_${mod_name}" }
+        }
+        manifest {
+            attributes([
+                    'Specification-Title'     : mod_name,
+                    'Specification-Vendor'    : mod_author,
+                    'Specification-Version'   : project.jar.archiveVersion,
+                    'Implementation-Title'    : project.name,
+                    'Implementation-Version'  : project.jar.archiveVersion,
+                    'Implementation-Vendor'   : mod_author,
+                    'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                    'Timestamp'               : System.currentTimeMillis(),
+                    'Built-On-Java'           : "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
+                    'Built-On-Minecraft'      : minecraft_version
+            ])
+        }
     }
 
-    dependencies {
-        minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
-        // The following line declares the mojmap mappings, you may use other mappings as well
-        mappings loom.officialMojangMappings()
-        // The following line declares the yarn mappings you may select this one as well.
-        // mappings "net.fabricmc:yarn:1.19.4+build.2:v2"
+    sourcesJar {
+        from(rootProject.file("LICENSE")) {
+            rename { "${it}_${mod_name}" }
+        }
     }
-}
-
-allprojects {
-    apply plugin: "java"
-    apply plugin: "architectury-plugin"
-    apply plugin: "maven-publish"
-
-    base {
-        archivesName = "${archives_base_name}-${minecraft_version}"
-    }
-    version = rootProject.mod_version
-    group = rootProject.maven_group
 
     repositories {
+        mavenCentral()
         maven {
-            url "https://maven.neoforged.net/releases/"
+            name = 'Sponge / Mixin'
+            url = 'https://repo.spongepowered.org/repository/maven-public/'
         }
         maven {
-            name = 'Patchouli maven'
-            url = 'https://maven.blamejared.com'
+            // location of the maven that hosts JEI files since January 2023
+            name = "Jared's maven"
+            url = "https://maven.blamejared.com/"
         }
         maven {
-            url "https://maven.shedaniel.me/"
-        }
-        maven {
-            url "https://maven.terraformersmc.com/"
-            content {
-                includeGroup "com.terraformersmc"
-            }
+            name = 'Roughly Enough Items'
+            url = "https://maven.shedaniel.me"
         }
     }
 
@@ -60,7 +59,24 @@ allprojects {
         it.options.getRelease().set(21)
     }
 
-    java {
-        withSourcesJar()
+    processResources {
+        filesMatching(['pack.mcmeta', 'fabric.mod.json', 'neoforge.mods.toml', '*.mixins.json']) {
+            expand project.properties
+        }
+    }
+
+    // Disables Gradle's custom module metadata from being published to maven. The
+    // metadata includes mapped dependencies which are not reasonably consumable by
+    // other mod developers.
+    tasks.withType(GenerateModuleMetadata).configureEach {
+        enabled = false
+    }
+}
+
+// IDEA no longer automatically downloads sources/javadoc jars for dependencies, so we need to explicitly enable the behavior.
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
     }
 }

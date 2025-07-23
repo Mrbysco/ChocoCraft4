@@ -2,9 +2,9 @@ package net.chococraft.common.entity.breeding;
 
 import com.google.gson.internal.LinkedTreeMap;
 import net.chococraft.Chococraft;
-import net.chococraft.ChococraftExpectPlatform;
 import net.chococraft.common.entity.AbstractChocobo;
 import net.chococraft.common.entity.properties.ChocoboColor;
+import net.chococraft.platform.Services;
 
 import java.util.List;
 import java.util.Map;
@@ -18,7 +18,7 @@ public class BreedingHelper {
 		int randColor = firstParent.getRandom().nextInt(100);
 		boolean bothParentsFedGold = firstParent.isFedGoldGysahl() && secondParent.isFedGoldGysahl();
 
-		LinkedTreeMap<String, LinkedTreeMap<String, List<LinkedTreeMap<String, String>>>> breedingInfoHashmap = ChococraftExpectPlatform.getBreedingInfoMap();
+		LinkedTreeMap<String, LinkedTreeMap<String, List<LinkedTreeMap<String, String>>>> breedingInfoHashmap = Services.PLATFORM.getBreedingInfoMap();
 		if (breedingInfoHashmap.isEmpty()) {
 			Chococraft.LOGGER.error("BreedingInfoHashmap is empty!, make sure you have a valid breeding config file!");
 		}

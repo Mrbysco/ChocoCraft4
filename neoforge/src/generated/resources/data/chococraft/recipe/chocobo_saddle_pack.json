@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "F": "chococraft:chocobo_feather",
+    "L": "#c:leathers",
+    "S": "chococraft:chocobo_saddle_bags",
+    "T": "#c:strings",
+    "W": "minecraft:white_wool"
+  },
+  "pattern": [
+    "TFT",
+    "WSW",
+    "TLT"
+  ],
+  "result": {
+    "count": 1,
+    "id": "chococraft:chocobo_saddle_pack"
+  }
+}

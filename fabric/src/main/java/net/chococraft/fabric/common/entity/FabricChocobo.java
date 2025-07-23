@@ -20,7 +20,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public class FabricChocobo extends AbstractChocobo implements ContainerListener {
-	private ItemStack saddleItemStack = ItemStack.EMPTY;
 	protected SimpleContainer inventory;
 
 	public FabricChocobo(EntityType<? extends AbstractChocobo> type, Level world) {

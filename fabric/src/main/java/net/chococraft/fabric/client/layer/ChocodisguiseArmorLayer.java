@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ChocodisguiseArmorLayer<T extends HumanoidRenderState, M extends HumanoidModel<T>> extends RenderLayer<T, M> {
-	private static final ResourceLocation ARMOR_LOCATION = ResourceLocation.fromNamespaceAndPath(Chococraft.MOD_ID, "textures/models/armor/chocodisguise.png");
+	private static final ResourceLocation ARMOR_LOCATION = Chococraft.modLoc("textures/models/armor/chocodisguise.png");
 	private final Map<ArmorType, ChocoDisguiseModel> chocoDisguiseMap = new HashMap<>();
 
 	public ChocodisguiseArmorLayer(RenderLayerParent<T, M> renderLayerParent, EntityModelSet modelSet) {
@@ -44,6 +44,7 @@ public class ChocodisguiseArmorLayer<T extends HumanoidRenderState, M extends Hu
 		this.renderArmorPiece(poseStack, multiBufferSource, renderState, EquipmentSlot.HEAD, i, this.getArmorModel(ArmorType.HELMET));
 	}
 
+	@SuppressWarnings("rawtypes")
 	private void renderArmorPiece(PoseStack poseStack, MultiBufferSource multiBufferSource, T renderState, EquipmentSlot slot, int i, ChocoDisguiseModel humanoidModel) {
 		if (humanoidModel == null) return;
 		ItemStack itemStack = switch(slot) {

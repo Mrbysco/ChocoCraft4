@@ -1,35 +1,47 @@
-architectury {
-    common(rootProject.enabled_platforms.split(","))
+plugins {
+    id 'idea'
+    id 'java'
+    id 'maven-publish'
+    id 'org.spongepowered.gradle.vanilla' version '0.2.1-SNAPSHOT'
 }
 
-loom {
-    accessWidenerPath = file("src/main/resources/chococraft.accesswidener")
+base {
+    archivesName = "${mod_name}-common-${minecraft_version}"
 }
 
-sourceSets {
-    main {
-        resources.srcDir project(':common').file('src/main/generated')
+minecraft {
+    version(minecraft_version)
+    if (file("src/main/resources/${mod_id}.accesswidener").exists()) {
+        accessWideners(file("src/main/resources/${mod_id}.accesswidener"))
+    }
+}
+
+repositories {
+    maven {
+        url = "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
     }
 }
 
 dependencies {
-    // We depend on fabric loader here to use the fabric @Environment annotations and get the mixin dependencies
-    // Do NOT use other classes from fabric loader
-    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-    // Remove the next line if you don't want to depend on the API
-    modApi "dev.architectury:architectury:${rootProject.architectury_version}"
+    compileOnly group: 'org.spongepowered', name: 'mixin', version: '0.8.5'
+    implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
+//    compileOnly "dev.architectury:architectury-neoforge:${architectury_version}"
 
-//    modImplementation("vazkii.patchouli:Patchouli-xplat:${patchouli_version}")
+    compileOnly "curse.maven:architectury-419699:6206631"//home: https://www.curseforge.com/minecraft/mc-mods/architectury-api
 }
 
 publishing {
     publications {
-        mavenCommon(MavenPublication) {
-            artifactId = rootProject.archives_base_name + "-" + rootProject.minecraft_version + "-" + project.name
+        mavenJava(MavenPublication) {
+            groupId project.group
+            artifactId base.archivesName.get()
+            version project.version
             from components.java
         }
     }
-
     repositories {
         if (System.getenv().SAP_SECRET) {
             maven {

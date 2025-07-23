@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "chococraft:gysahl_green"
+  ],
+  "result": {
+    "count": 1,
+    "id": "chococraft:gysahl_green_seeds"
+  }
+}

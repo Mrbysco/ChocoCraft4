@@ -258,11 +258,8 @@ public class ChocoLanguage extends LanguageProvider {
 	 */
 	private void addConfig(String path, @Nullable String category, String name, @Nullable String description) {
 		this.add(Chococraft.MOD_ID + ".configuration." + path, name);
-		String categoryString = category == null ? "" : category + ".";
-		this.add("text.autoconfig." + Chococraft.MOD_ID + ".option." + categoryString + path, name);
 		if (description != null && !description.isEmpty()) {
 			this.add(Chococraft.MOD_ID + ".configuration." + path + ".tooltip", description);
-			this.add("text.autoconfig." + Chococraft.MOD_ID + ".option." + categoryString + path + ".@Tooltip", description);
 		}
 	}
 }
