@@ -4,7 +4,9 @@ import net.chococraft.common.world.worldgen.ModFeatures;
 import net.chococraft.fabric.datagen.client.ChocoLanguage;
 import net.chococraft.fabric.datagen.client.ChocoModels;
 import net.chococraft.fabric.datagen.client.ChocoSoundProvider;
+import net.chococraft.fabric.datagen.data.ChocoBlockTags;
 import net.chococraft.fabric.datagen.data.ChocoDatapack;
+import net.chococraft.fabric.datagen.data.ChocoItemTags;
 import net.chococraft.fabric.datagen.data.ChocoLoot;
 import net.chococraft.fabric.datagen.data.ChocoRecipes;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
@@ -22,6 +24,9 @@ public class ModDatagenerator implements DataGeneratorEntrypoint {
 		pack.addProvider(ChocoLoot.ChocoEntityLoot::new);
 		pack.addProvider(ChocoRecipes::new);
 		pack.addProvider(ChocoDatapack::new);
+
+		ChocoBlockTags blockTags = pack.addProvider(ChocoBlockTags::new);
+		pack.addProvider((output, wrapperLookup) -> new ChocoItemTags(output, wrapperLookup, blockTags));
 
 		pack.addProvider(ChocoLanguage::new);
 		pack.addProvider(ChocoModels::new);
