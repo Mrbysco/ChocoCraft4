@@ -14,7 +14,7 @@ import net.chococraft.registry.ModRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.Model;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.client.resources.model.EquipmentClientInfo.Layer;
 import net.minecraft.client.resources.model.EquipmentClientInfo.LayerType;
 import net.minecraft.resources.ResourceLocation;
@@ -31,7 +31,7 @@ import org.jetbrains.annotations.NotNull;
 @SuppressWarnings("deprecation")
 public class NeoForgeClientHandler {
 	public static void onClientSetup(final FMLClientSetupEvent event) {
-		RenderTypeRegistry.register(RenderType.cutout(), ModRegistry.GYSAHL_GREEN.get());
+		RenderTypeRegistry.register(ChunkSectionLayer.CUTOUT, ModRegistry.GYSAHL_GREEN.get());
 	}
 
 	public static void registerEntityRenders(EntityRenderersEvent.RegisterRenderers event) {

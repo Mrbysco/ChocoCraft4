@@ -4,8 +4,6 @@ import dev.architectury.registry.menu.MenuRegistry;
 import net.chococraft.common.entity.AbstractChocobo;
 import net.chococraft.common.items.ChocoboSaddleItem;
 import net.chococraft.fabric.common.inventory.FabricSaddleBagMenu;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
@@ -18,6 +16,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 public class FabricChocobo extends AbstractChocobo implements ContainerListener {
 	protected SimpleContainer inventory;
@@ -81,19 +81,17 @@ public class FabricChocobo extends AbstractChocobo implements ContainerListener 
 	}
 
 	@Override
-	public void addAdditionalSaveData(CompoundTag compound) {
-		super.addAdditionalSaveData(compound);
+	public void addAdditionalSaveData(ValueOutput output) {
+		super.addAdditionalSaveData(output);
 
-		compound.put("Items", this.inventory.createTag(this.registryAccess()));
+		this.inventory.storeAsItemList(output.list("Items", ItemStack.OPTIONAL_CODEC));
 	}
 
 	@Override
-	public void readAdditionalSaveData(CompoundTag compound) {
-		super.readAdditionalSaveData(compound);
+	public void readAdditionalSaveData(ValueInput input) {
+		super.readAdditionalSaveData(input);
 
-		ListTag listTag = compound.getListOrEmpty("Items");
-		this.inventory.fromTag(listTag, this.registryAccess());
-
+		this.inventory.fromItemList(input.listOrEmpty("Items", ItemStack.OPTIONAL_CODEC));
 		setSaddleType(this.inventory.getItem(0));
 	}
 
@@ -123,14 +121,14 @@ public class FabricChocobo extends AbstractChocobo implements ContainerListener 
 
 	@Override
 	protected void reconfigureInventory(ItemStack oldSaddle, ItemStack newSaddle) {
-		if (!this.getCommandSenderWorld().isClientSide) {
+		if (!this.level().isClientSide) {
 			// TODO: Handle resizing. ItemStackHandler#setSize() clears the internal inventory!
 			for (int i = 0; i < this.inventory.getContainerSize(); i++) {
 				if (i > 0) {
 					if (this.isAlive()) {
 						ItemStack stack = this.inventory.removeItem(i, Integer.MAX_VALUE);
 						this.inventory.setChanged();
-						Containers.dropItemStack(this.getCommandSenderWorld(), this.getX(), this.getY() + .5, this.getZ(), stack);
+						Containers.dropItemStack(this.level(), this.getX(), this.getY() + .5, this.getZ(), stack);
 					}
 				}
 			}

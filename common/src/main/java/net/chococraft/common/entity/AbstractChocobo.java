@@ -65,6 +65,8 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootParams.Builder;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -157,36 +159,32 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 	}
 
 	@Override
-	public void readAdditionalSaveData(CompoundTag compound) {
-		super.readAdditionalSaveData(compound);
-		this.setChocoboColor(ChocoboColor.values()[compound.getByteOr(NBTKEY_CHOCOBO_COLOR, (byte) 0)]);
-		this.setMale(compound.getBooleanOr(NBTKEY_CHOCOBO_IS_MALE, false));
-		this.setMovementType(MovementType.values()[compound.getByteOr(NBTKEY_MOVEMENTTYPE, (byte) 0)]);
+	protected void readAdditionalSaveData(ValueInput input) {
+		super.readAdditionalSaveData(input);
+		this.setChocoboColor(ChocoboColor.values()[input.getByteOr(NBTKEY_CHOCOBO_COLOR, (byte) 0)]);
+		this.setMale(input.getBooleanOr(NBTKEY_CHOCOBO_IS_MALE, false));
+		this.setMovementType(MovementType.values()[input.getByteOr(NBTKEY_MOVEMENTTYPE, (byte) 0)]);
 
-		this.setGeneration(compound.getIntOr(NBTKEY_CHOCOBO_GENERATION, 0));
+		this.setGeneration(input.getIntOr(NBTKEY_CHOCOBO_GENERATION, 0));
 
-		Optional<CompoundTag> saddleCompound = compound.getCompound("wornSaddle");
-		if (saddleCompound.isPresent()) {
-			Optional<ItemStack> wornSaddle = ItemStack.parse(this.registryAccess(), saddleCompound.get());
-			wornSaddle.ifPresent(this::setSaddleType);
-		}
+		Optional<ItemStack> wornSaddle = input.read("wornSaddle", ItemStack.OPTIONAL_CODEC);
+		wornSaddle.ifPresent(this::setSaddleType);
 
-		this.setAllowedFlight(compound.getBooleanOr(NBTKEY_ALLOWED_FLIGHT, false));
+		this.setAllowedFlight(input.getBooleanOr(NBTKEY_ALLOWED_FLIGHT, false));
 		this.reassessTameGoals();
 	}
 
 	@Override
-	public void addAdditionalSaveData(CompoundTag compound) {
-		super.addAdditionalSaveData(compound);
-		compound.putByte(NBTKEY_CHOCOBO_COLOR, (byte) this.getChocoboColor().ordinal());
-		compound.putBoolean(NBTKEY_CHOCOBO_IS_MALE, this.isMale());
-		compound.putByte(NBTKEY_MOVEMENTTYPE, (byte) this.getMovementType().ordinal());
+	public void addAdditionalSaveData(ValueOutput output) {
+		super.addAdditionalSaveData(output);
+		output.putByte(NBTKEY_CHOCOBO_COLOR, (byte) this.getChocoboColor().ordinal());
+		output.putBoolean(NBTKEY_CHOCOBO_IS_MALE, this.isMale());
+		output.putByte(NBTKEY_MOVEMENTTYPE, (byte) this.getMovementType().ordinal());
 
-		compound.putInt(NBTKEY_CHOCOBO_GENERATION, this.getGeneration());
-		if (!getSaddle().isEmpty())
-			compound.put("wornSaddle", getSaddle().save(this.registryAccess(), new CompoundTag()));
+		output.putInt(NBTKEY_CHOCOBO_GENERATION, this.getGeneration());
+		output.store("wornSaddle", ItemStack.OPTIONAL_CODEC, getSaddle());
 
-		compound.putBoolean(NBTKEY_ALLOWED_FLIGHT, this.allowedFlight());
+		output.putBoolean(NBTKEY_ALLOWED_FLIGHT, this.allowedFlight());
 	}
 
 	public ChocoboColor getChocoboColor() {

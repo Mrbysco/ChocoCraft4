@@ -8,7 +8,7 @@ import net.chococraft.registry.ModRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -62,8 +62,8 @@ public class ChocoboInventoryScreen extends AbstractContainerScreen<SaddleBagMen
 
 		int i = (this.width - this.imageWidth) / 2;
 		int j = (this.height - this.imageHeight) / 2;
-		guiGraphics.blit(RenderType::guiTextured, texture, i, j, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
-		guiGraphics.blit(RenderType::guiTextured, texture, i - 24, j + 10, 0, 204, 27, 33, 256, 256);
+		guiGraphics.blit(RenderPipelines.GUI_TEXTURED, texture, i, j, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
+		guiGraphics.blit(RenderPipelines.GUI_TEXTURED, texture, i - 24, j + 10, 0, 204, 27, 33, 256, 256);
 	}
 
 	@Override

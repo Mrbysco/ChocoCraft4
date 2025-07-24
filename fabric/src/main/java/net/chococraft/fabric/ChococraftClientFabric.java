@@ -18,7 +18,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 
@@ -44,6 +44,6 @@ public class ChococraftClientFabric implements ClientModInitializer {
 		ClientLifecycleEvents.CLIENT_STARTED.register(client ->
 				MenuRegistry.registerScreenFactory(ModMenus.CHOCOBO.get(), ChocoboInventoryScreen::new));
 
-		RenderTypeRegistry.register(RenderType.cutout(), ModRegistry.GYSAHL_GREEN.get());
+		RenderTypeRegistry.register(ChunkSectionLayer.CUTOUT, ModRegistry.GYSAHL_GREEN.get());
 	}
 }

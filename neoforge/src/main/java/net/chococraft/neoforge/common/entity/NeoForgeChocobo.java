@@ -14,6 +14,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
@@ -68,11 +70,28 @@ public class NeoForgeChocobo extends AbstractChocobo {
 	}
 
 	@Override
-	public void addAdditionalSaveData(CompoundTag compound) {
-		super.addAdditionalSaveData(compound);
-		compound.put(NBTKEY_SADDLE_ITEM, this.saddleItemStackHandler.serializeNBT(this.registryAccess()));
-		compound.put(NBTKEY_INVENTORY, this.inventory.serializeNBT(this.registryAccess()));
+	public void addAdditionalSaveData(ValueOutput output) {
+		super.addAdditionalSaveData(output);
+
+		ValueOutput saddleOutput = output.child(NBTKEY_SADDLE_ITEM);
+		this.saddleItemStackHandler.serialize(saddleOutput);
+
+		ValueOutput inventoryOutput = output.child(NBTKEY_INVENTORY);
+		this.inventory.serialize(inventoryOutput);
 	}
+
+	@Override
+	public void readAdditionalSaveData(ValueInput input) {
+		super.readAdditionalSaveData(input);
+
+		ValueInput saddleInput = input.childOrEmpty(NBTKEY_SADDLE_ITEM);
+		this.saddleItemStackHandler.deserialize(saddleInput);
+		setSaddleType(this.saddleItemStackHandler.getStackInSlot(0));
+
+		ValueInput inventoryInput = input.childOrEmpty(NBTKEY_INVENTORY);
+		this.inventory.deserialize(inventoryInput);
+	}
+
 
 	@Override
 	protected void setSaddled(Player player, InteractionHand hand, ItemStack heldItemStack) {
@@ -102,12 +121,12 @@ public class NeoForgeChocobo extends AbstractChocobo {
 
 	@Override
 	protected void reconfigureInventory(ItemStack oldSaddle, ItemStack newSaddle) {
-		if (!this.getCommandSenderWorld().isClientSide) {
+		if (!this.level().isClientSide) {
 			// TODO: Handle resizing. ItemStackHandler#setSize() clears the internal inventory!
 			for (int i = 0; i < this.inventory.getSlots(); i++) {
 				if (this.isAlive()) {
 					ItemStack stack = this.inventory.extractItem(i, Integer.MAX_VALUE, false);
-					Containers.dropItemStack(this.getCommandSenderWorld(), this.getX(), this.getY() + .5, this.getZ(), stack);
+					Containers.dropItemStack(this.level(), this.getX(), this.getY() + .5, this.getZ(), stack);
 				}
 			}
 		}
@@ -128,16 +147,6 @@ public class NeoForgeChocobo extends AbstractChocobo {
 			}
 		}
 	}
-
-	@Override
-	public void readAdditionalSaveData(CompoundTag compound) {
-		super.readAdditionalSaveData(compound);
-
-		this.saddleItemStackHandler.deserializeNBT(this.registryAccess(), compound.getCompoundOrEmpty(NBTKEY_SADDLE_ITEM));
-		setSaddleType(this.saddleItemStackHandler.getStackInSlot(0));
-		this.inventory.deserializeNBT(this.registryAccess(), compound.getCompoundOrEmpty(NBTKEY_INVENTORY));
-	}
-
 	public IItemHandler getInventory() {
 		return this.inventory;
 	}

@@ -17,6 +17,6 @@ public class ChocoBlockTags extends BlockTagsProvider {
 
 	@Override
 	protected void addTags(Provider provider) {
-		this.tag(BlockTags.CROPS).add(ModRegistry.GYSAHL_GREEN.getKey());
+		this.tag(BlockTags.CROPS).add(ModRegistry.GYSAHL_GREEN.get());
 	}
 }

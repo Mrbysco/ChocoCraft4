@@ -19,7 +19,7 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber
 public class ModDatagenerator {
 	@SubscribeEvent
 	public static void gatherData(GatherDataEvent.Client event) {
@@ -29,9 +29,8 @@ public class ModDatagenerator {
 
 		generator.addProvider(true, new ChocoLoot(packOutput, lookupProvider));
 		generator.addProvider(true, new ChocoRecipes.Runner(packOutput, lookupProvider));
-		ChocoBlockTags blockTags = new ChocoBlockTags(packOutput, lookupProvider);
-		generator.addProvider(true, blockTags);
-		generator.addProvider(true, new ChocoItemTags(packOutput, lookupProvider, blockTags));
+		generator.addProvider(true, new ChocoBlockTags(packOutput, lookupProvider));
+		generator.addProvider(true, new ChocoItemTags(packOutput, lookupProvider));
 
 //		generator.addProvider(true, new PatchouliProvider(packOutput, lookupProvider)); TODO: Re-enable when we have a patchouli provider build for 1.21.4
 
