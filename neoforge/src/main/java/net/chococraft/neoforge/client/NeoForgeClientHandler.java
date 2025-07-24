@@ -1,5 +1,6 @@
 package net.chococraft.neoforge.client;
 
+import dev.architectury.registry.client.rendering.RenderTypeRegistry;
 import net.chococraft.Chococraft;
 import net.chococraft.ChococraftClient;
 import net.chococraft.client.gui.ChocoboInventoryScreen;
@@ -13,12 +14,14 @@ import net.chococraft.registry.ModRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.Model;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.model.EquipmentClientInfo.Layer;
 import net.minecraft.client.resources.model.EquipmentClientInfo.LayerType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.LazyLoadedValue;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.equipment.ArmorType;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
@@ -27,6 +30,10 @@ import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("deprecation")
 public class NeoForgeClientHandler {
+	public static void onClientSetup(final FMLClientSetupEvent event) {
+		RenderTypeRegistry.register(RenderType.cutout(), ModRegistry.GYSAHL_GREEN.get());
+	}
+
 	public static void registerEntityRenders(EntityRenderersEvent.RegisterRenderers event) {
 		event.registerEntityRenderer(ModEntities.CHOCOBO.get(), ChocoboRenderer::new);
 	}
