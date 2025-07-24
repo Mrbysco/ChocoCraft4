@@ -45,6 +45,7 @@ public class ChococraftNeoForge {
 
 		if (dist.isClient()) {
 			container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
+			eventBus.addListener(NeoForgeClientHandler::onClientSetup);
 			eventBus.addListener(NeoForgeClientHandler::registerEntityRenders);
 			eventBus.addListener(NeoForgeClientHandler::registerMenuScreen);
 			eventBus.addListener(NeoForgeClientHandler::registerLayerDefinitions);

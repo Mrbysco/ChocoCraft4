@@ -39,6 +39,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.HasCustomInventoryScreen;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -69,6 +71,7 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -156,15 +159,19 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 	@Override
 	public void readAdditionalSaveData(CompoundTag compound) {
 		super.readAdditionalSaveData(compound);
-		this.setChocoboColor(ChocoboColor.values()[compound.getByte(NBTKEY_CHOCOBO_COLOR)]);
-		this.setMale(compound.getBoolean(NBTKEY_CHOCOBO_IS_MALE));
-		this.setMovementType(MovementType.values()[compound.getByte(NBTKEY_MOVEMENTTYPE)]);
+		this.setChocoboColor(ChocoboColor.values()[compound.getByteOr(NBTKEY_CHOCOBO_COLOR, (byte) 0)]);
+		this.setMale(compound.getBooleanOr(NBTKEY_CHOCOBO_IS_MALE, false));
+		this.setMovementType(MovementType.values()[compound.getByteOr(NBTKEY_MOVEMENTTYPE, (byte) 0)]);
 
-		this.setGeneration(compound.getInt(NBTKEY_CHOCOBO_GENERATION));
-		if (compound.contains("wornSaddle", 10))
-			this.setSaddleType(ItemStack.parseOptional(this.registryAccess(), compound.getCompound("wornSaddle")));
+		this.setGeneration(compound.getIntOr(NBTKEY_CHOCOBO_GENERATION, 0));
 
-		this.setAllowedFlight(compound.getBoolean(NBTKEY_ALLOWED_FLIGHT));
+		Optional<CompoundTag> saddleCompound = compound.getCompound("wornSaddle");
+		if (saddleCompound.isPresent()) {
+			Optional<ItemStack> wornSaddle = ItemStack.parse(this.registryAccess(), saddleCompound.get());
+			wornSaddle.ifPresent(this::setSaddleType);
+		}
+
+		this.setAllowedFlight(compound.getBooleanOr(NBTKEY_ALLOWED_FLIGHT, false));
 		this.reassessTameGoals();
 	}
 
@@ -323,7 +330,7 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 					}
 				}
 
-				if (this.isControlledByLocalInstance()) {
+				if (this.isLocalInstanceAuthoritative()) {
 					this.setSpeed((float) this.getAttributeValue(Attributes.MOVEMENT_SPEED));
 					super.travel(new Vec3((double) strafe, travelVector.y, (double) forward));
 				} else if (livingentity instanceof Player) {
@@ -583,7 +590,7 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 				if (heldItemStack.is(ModRegistry.GYSAHL_GREEN_ITEM.get())) {
 					this.usePlayerItem(player, hand, heldItemStack);
 					if ((float) Math.random() < Services.PLATFORM.getTameChance()) {
-						this.setOwnerUUID(player.getUUID());
+						this.setOwner(player);
 						this.setTame(true, false);
 						if (Services.PLATFORM.nameTamedChocobos()) {
 							if (!hasCustomName()) {
@@ -655,10 +662,12 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 				// Avoid Entity Targeting predicate
 				if (livingEntity instanceof Player player) {
 					int chance = 0;
-					for (ItemStack stack : player.getArmorSlots()) {
-						if (stack != null && !stack.isEmpty() &&
-								stack.getItem() instanceof AbstractChocoDisguiseItem) {
-							chance += 25;
+					for (EquipmentSlot equipmentSlot : EquipmentSlotGroup.ARMOR) {
+						if (equipmentSlot.getType() == EquipmentSlot.Type.HUMANOID_ARMOR) {
+							ItemStack stack = player.getItemBySlot(equipmentSlot);
+							if (!stack.isEmpty() && stack.getItem() instanceof AbstractChocoDisguiseItem) {
+								chance += 25;
+							}
 						}
 					}
 					return !RandomHelper.getChanceResult(getRandom(), chance);

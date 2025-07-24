@@ -21,10 +21,9 @@ public record AddChocoboModifier(HolderSet<Biome> biomes) implements BiomeModifi
 
 			MobSpawnSettings.SpawnerData spawner = new SpawnerData(ModEntities.CHOCOBO.get(),
 					NeoForgeChocoConfig.COMMON.chocoboSpawnWeight.get(),
-					NeoForgeChocoConfig.COMMON.chocoboPackSizeMin.get(),
-					NeoForgeChocoConfig.COMMON.chocoboPackSizeMax.get());
-			EntityType<?> type = spawner.type;
-			spawns.addSpawn(type.getCategory(), spawner);
+					NeoForgeChocoConfig.COMMON.chocoboPackSizeMin.get());
+			EntityType<?> type = spawner.type();
+			spawns.addSpawn(type.getCategory(), NeoForgeChocoConfig.COMMON.chocoboPackSizeMax.get(), spawner);
 		}
 	}
 

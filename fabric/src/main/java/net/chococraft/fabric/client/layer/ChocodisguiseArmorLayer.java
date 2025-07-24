@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.chococraft.Chococraft;
 import net.chococraft.ChococraftClient;
 import net.chococraft.client.models.armor.ChocoDisguiseModel;
+import net.chococraft.common.items.armor.AbstractChocoDisguiseItem;
 import net.chococraft.fabric.common.items.FabricChocoDisguiseItem;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.EntityModelSet;
@@ -17,7 +18,6 @@ import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.equipment.ArmorType;
 
@@ -95,8 +95,8 @@ public class ChocodisguiseArmorLayer<T extends HumanoidRenderState, M extends Hu
 
 	}
 
-	private void renderModel(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, ArmorItem armorItem, boolean bl, ChocoDisguiseModel humanoidModel,
-							 int color) {
+	private void renderModel(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, AbstractChocoDisguiseItem armorItem, boolean bl, ChocoDisguiseModel humanoidModel,
+	                         int color) {
 		VertexConsumer vertexConsumer = ItemRenderer.getArmorFoilBuffer(multiBufferSource, RenderType.armorCutoutNoCull(this.getArmorLocation()), bl);
 		humanoidModel.renderToBuffer(poseStack, vertexConsumer, i, OverlayTexture.NO_OVERLAY, color);
 	}

@@ -133,9 +133,9 @@ public class NeoForgeChocobo extends AbstractChocobo {
 	public void readAdditionalSaveData(CompoundTag compound) {
 		super.readAdditionalSaveData(compound);
 
-		this.saddleItemStackHandler.deserializeNBT(this.registryAccess(), compound.getCompound(NBTKEY_SADDLE_ITEM));
+		this.saddleItemStackHandler.deserializeNBT(this.registryAccess(), compound.getCompoundOrEmpty(NBTKEY_SADDLE_ITEM));
 		setSaddleType(this.saddleItemStackHandler.getStackInSlot(0));
-		this.inventory.deserializeNBT(this.registryAccess(), compound.getCompound(NBTKEY_INVENTORY));
+		this.inventory.deserializeNBT(this.registryAccess(), compound.getCompoundOrEmpty(NBTKEY_INVENTORY));
 	}
 
 	public IItemHandler getInventory() {

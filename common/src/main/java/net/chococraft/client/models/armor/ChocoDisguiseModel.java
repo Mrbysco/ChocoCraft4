@@ -152,26 +152,26 @@ public class ChocoDisguiseModel extends HumanoidModel<HumanoidRenderState> {
 	public void setupAnim(HumanoidRenderState renderState) {
 		if (renderState instanceof ArmorStandRenderState armorStand) {
 			super.setupAnim(renderState);
-			this.chocobo_head.xRot = ((float) Math.PI / 180F) * armorStand.headPose.getX();
-			this.chocobo_head.yRot = ((float) Math.PI / 180F) * armorStand.headPose.getY();
-			this.chocobo_head.zRot = ((float) Math.PI / 180F) * armorStand.headPose.getZ();
+			this.chocobo_head.xRot = ((float) Math.PI / 180F) * armorStand.headPose.x();
+			this.chocobo_head.yRot = ((float) Math.PI / 180F) * armorStand.headPose.y();
+			this.chocobo_head.zRot = ((float) Math.PI / 180F) * armorStand.headPose.z();
 			this.chocobo_head.setPos(0.0F, 1.0F, 0.0F);
-			this.chocobo_body.xRot = ((float) Math.PI / 180F) * armorStand.bodyPose.getX();
-			this.chocobo_body.yRot = ((float) Math.PI / 180F) * armorStand.bodyPose.getY();
-			this.chocobo_body.zRot = ((float) Math.PI / 180F) * armorStand.bodyPose.getZ();
-			this.chocobo_left_arm.xRot = ((float) Math.PI / 180F) * armorStand.leftArmPose.getX();
-			this.chocobo_left_arm.yRot = ((float) Math.PI / 180F) * armorStand.leftArmPose.getY();
-			this.chocobo_left_arm.zRot = ((float) Math.PI / 180F) * armorStand.leftArmPose.getZ();
-			this.chocobo_right_arm.xRot = ((float) Math.PI / 180F) * armorStand.rightArmPose.getX();
-			this.chocobo_right_arm.yRot = ((float) Math.PI / 180F) * armorStand.rightArmPose.getY();
-			this.chocobo_right_arm.zRot = ((float) Math.PI / 180F) * armorStand.rightArmPose.getZ();
-			this.chocobo_leg_left.xRot = ((float) Math.PI / 180F) * armorStand.leftLegPose.getX();
-			this.chocobo_leg_left.yRot = ((float) Math.PI / 180F) * armorStand.leftLegPose.getY();
-			this.chocobo_leg_left.zRot = ((float) Math.PI / 180F) * armorStand.leftLegPose.getZ();
+			this.chocobo_body.xRot = ((float) Math.PI / 180F) * armorStand.bodyPose.x();
+			this.chocobo_body.yRot = ((float) Math.PI / 180F) * armorStand.bodyPose.y();
+			this.chocobo_body.zRot = ((float) Math.PI / 180F) * armorStand.bodyPose.z();
+			this.chocobo_left_arm.xRot = ((float) Math.PI / 180F) * armorStand.leftArmPose.x();
+			this.chocobo_left_arm.yRot = ((float) Math.PI / 180F) * armorStand.leftArmPose.y();
+			this.chocobo_left_arm.zRot = ((float) Math.PI / 180F) * armorStand.leftArmPose.z();
+			this.chocobo_right_arm.xRot = ((float) Math.PI / 180F) * armorStand.rightArmPose.x();
+			this.chocobo_right_arm.yRot = ((float) Math.PI / 180F) * armorStand.rightArmPose.y();
+			this.chocobo_right_arm.zRot = ((float) Math.PI / 180F) * armorStand.rightArmPose.z();
+			this.chocobo_leg_left.xRot = ((float) Math.PI / 180F) * armorStand.leftLegPose.x();
+			this.chocobo_leg_left.yRot = ((float) Math.PI / 180F) * armorStand.leftLegPose.y();
+			this.chocobo_leg_left.zRot = ((float) Math.PI / 180F) * armorStand.leftLegPose.z();
 			this.chocobo_leg_left.setPos(1.9F, 11.0F, 0.0F);
-			this.chocobo_leg_right.xRot = ((float) Math.PI / 180F) * armorStand.rightLegPose.getX();
-			this.chocobo_leg_right.yRot = ((float) Math.PI / 180F) * armorStand.rightLegPose.getY();
-			this.chocobo_leg_right.zRot = ((float) Math.PI / 180F) * armorStand.rightLegPose.getZ();
+			this.chocobo_leg_right.xRot = ((float) Math.PI / 180F) * armorStand.rightLegPose.x();
+			this.chocobo_leg_right.yRot = ((float) Math.PI / 180F) * armorStand.rightLegPose.y();
+			this.chocobo_leg_right.zRot = ((float) Math.PI / 180F) * armorStand.rightLegPose.z();
 			this.chocobo_leg_right.setPos(-1.9F, 11.0F, 0.0F);
 			this.hat.copyFrom(this.chocobo_head);
 		} else {

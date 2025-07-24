@@ -7,9 +7,7 @@ import net.chococraft.registry.ModRegistry;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
-import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
-import net.minecraft.client.data.models.blockstates.Variant;
-import net.minecraft.client.data.models.blockstates.VariantProperties;
+import net.minecraft.client.data.models.MultiVariant;
 import net.minecraft.client.data.models.model.ModelLocationUtils;
 import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TexturedModel;
@@ -44,10 +42,9 @@ public class ChocoModels extends ModelProvider {
 	protected void buildStraw(BlockModelGenerators generators, Block block) {
 		ResourceLocation resourcelocation = TexturedModel.CARPET.create(block, generators.modelOutput);
 
-		generators.blockStateOutput
-				.accept(
-						MultiVariantGenerator.multiVariant(block, Variant.variant()
-								.with(VariantProperties.MODEL, resourcelocation))
-				);
+		MultiVariant multivariant = BlockModelGenerators.plainVariant(resourcelocation);
+		generators.blockStateOutput.accept(
+				BlockModelGenerators.createSimpleBlock(block, multivariant)
+		);
 	}
 }

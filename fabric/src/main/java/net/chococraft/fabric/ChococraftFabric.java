@@ -18,6 +18,7 @@ import net.chococraft.registry.ModEntities;
 import net.chococraft.registry.ModRegistry;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricTrackedDataRegistry;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
@@ -36,8 +37,8 @@ public class ChococraftFabric implements ModInitializer {
 		config = AutoConfig.register(FabricChocoConfig.class, Toml4jConfigSerializer::new);
 		breedingConfig = AutoConfig.register(FabricBreedingConfig.class, GsonConfigSerializer::new);
 
-		EntityDataSerializers.registerSerializer(ModDataSerializers.CHOCOBO_COLOR);
-		EntityDataSerializers.registerSerializer(ModDataSerializers.MOVEMENT_TYPE);
+		FabricTrackedDataRegistry.register(Chococraft.modLoc("chocobo_color"), ModDataSerializers.CHOCOBO_COLOR);
+		FabricTrackedDataRegistry.register(Chococraft.modLoc("movement_type"), ModDataSerializers.MOVEMENT_TYPE);
 
 		PayloadTypeRegistry.playS2C().register(OpenChocoboScreenPayload.ID, OpenChocoboScreenPayload.CODEC);
 

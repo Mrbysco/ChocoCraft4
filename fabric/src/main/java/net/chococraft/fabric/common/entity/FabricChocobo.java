@@ -91,7 +91,7 @@ public class FabricChocobo extends AbstractChocobo implements ContainerListener 
 	public void readAdditionalSaveData(CompoundTag compound) {
 		super.readAdditionalSaveData(compound);
 
-		ListTag listTag = compound.getList("Items", 10);
+		ListTag listTag = compound.getListOrEmpty("Items");
 		this.inventory.fromTag(listTag, this.registryAccess());
 
 		setSaddleType(this.inventory.getItem(0));
