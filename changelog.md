@@ -1,4 +1,2 @@
-### Version 0.12.0
-* Update to 1.21.4
-* Add edible items to matching food related item tags
-* Add seeds to the c:seeds tag
+### Version 0.12.1
+* Actually generate the seeds tag (NeoForge)
