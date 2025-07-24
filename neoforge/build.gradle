@@ -119,7 +119,7 @@ if (System.getenv().CURSEFORGE_KEY) {
         apiToken = System.getenv().CURSEFORGE_KEY
 
         def mainFile = upload(project.curseforge_id, jar)
-        mainFile.releaseType = 'beta'
+        mainFile.releaseType = 'release'
         mainFile.addGameVersion "NeoForge"
         mainFile.addGameVersion "${minecraft_version}"
         mainFile.addGameVersion "Java 21"
@@ -129,7 +129,7 @@ if (System.getenv().CURSEFORGE_KEY) {
         mainFile.changelogType = 'markdown'
 
         mainFile.addRequirement("architectury-api")
-        mainFile.addOptional("patchouli")
+//        mainFile.addOptional("patchouli")
     }
 }
 
@@ -138,7 +138,7 @@ if (System.getenv().MODRINTH_KEY) {
     modrinth {
         token = System.getenv().MODRINTH_KEY
         projectId = project.modrinth_id
-        versionType = "beta"
+        versionType = "release"
         versionName = "${mod_name} ${minecraft_version}"
         versionNumber = project.version
         uploadFile = jar
@@ -148,7 +148,7 @@ if (System.getenv().MODRINTH_KEY) {
 
         dependencies {
             required.project "architectury-api"
-            optional.project "patchouli"
+//            optional.project "patchouli"
         }
     }
 }
