@@ -1,2 +1,2 @@
-### Version 0.14.0
-* Update to 1.21.8
+### Version 0.14.1
+* Fix fabric access widener being absent
