@@ -5,12 +5,12 @@ import net.chococraft.common.entity.breeding.ChocoboAbilityInfo;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.ByIdMap;
+import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 
 import java.util.Locale;
-import java.util.Random;
 import java.util.function.IntFunction;
 
 public enum ChocoboColor implements StringRepresentable {
@@ -41,7 +41,7 @@ public enum ChocoboColor implements StringRepresentable {
 		return id;
 	}
 
-	public static ChocoboColor getRandomColor(Random random) {
+	public static ChocoboColor getRandomColor(RandomSource random) {
 		return values()[random.nextInt(values().length)];
 	}
 
