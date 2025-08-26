@@ -32,15 +32,15 @@ public class NeoForgeChocoConfig {
 
 			chocoboSpawnWeight = builder
 					.comment("Controls Chocobo Spawn Weight [Default: 10]")
-					.defineInRange("chocoboSpawnWeight", 10, 0, Integer.MAX_VALUE);
+					.defineInRange("chocoboSpawnWeight", 10, 1, Integer.MAX_VALUE);
 
 			chocoboPackSizeMin = builder
 					.comment("Controls Chocobo Pack Size Min [Default: 1]")
-					.defineInRange("chocoboPackSizeMin", 1, 0, Integer.MAX_VALUE);
+					.defineInRange("chocoboPackSizeMin", 1, 1, Integer.MAX_VALUE);
 
 			chocoboPackSizeMax = builder
 					.comment("Controls Chocobo Pack Size Max [Default: 3]")
-					.defineInRange("chocoboPackSizeMax", 3, 0, Integer.MAX_VALUE);
+					.defineInRange("chocoboPackSizeMax", 3, 1, Integer.MAX_VALUE);
 
 			builder.pop();
 
