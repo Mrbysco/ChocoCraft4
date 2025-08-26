@@ -1,2 +1,2 @@
-### Version 0.13.0
-* Update to 1.21.5
+### Version 0.13.1
+* Fix bug causing Chocobo to use the wrong spawn weight (NeoForge)
