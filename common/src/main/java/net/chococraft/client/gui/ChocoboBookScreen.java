@@ -12,6 +12,7 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ARGB;
 
 
 public class ChocoboBookScreen extends Screen {
@@ -64,12 +65,12 @@ public class ChocoboBookScreen extends Screen {
 
 
 		if (this.currentPage == 0) {
-			guiGraphics.drawString(font, bookTitle, guiLeft + (this.xSize / 2) - (this.font.width(bookTitle) / 2), guiTop + 24, 0, false);
-			guiGraphics.drawString(font, bookAuthor, guiLeft + (this.xSize / 2) - (this.font.width(bookAuthor) / 2), guiTop + 44, 0, false);
+			guiGraphics.drawString(font, bookTitle, guiLeft + (this.xSize / 2) - (this.font.width(bookTitle) / 2), guiTop + 24, ARGB.opaque(0), false);
+			guiGraphics.drawString(font, bookAuthor, guiLeft + (this.xSize / 2) - (this.font.width(bookAuthor) / 2), guiTop + 44, ARGB.opaque(0), false);
 		} else {
 			if (currentPage > 1) {
 				this.pageMsg = Component.translatable("book.pageIndicator", currentPage - 1, Math.max(pageCount - 1, 1));
-				guiGraphics.drawString(font, this.pageMsg, guiLeft + ((this.xSize / 2) - (this.font.width(bookAuthor) / 2) - 6), guiTop + 14, 0, false);
+				guiGraphics.drawString(font, this.pageMsg, guiLeft + ((this.xSize / 2) - (this.font.width(bookAuthor) / 2) - 6), guiTop + 14, ARGB.opaque(0), false);
 			}
 
 			this.renderPage(guiGraphics);
@@ -84,7 +85,7 @@ public class ChocoboBookScreen extends Screen {
 
 	private void renderPage(GuiGraphics guiGraphics) {
 		int i = (this.width - this.xSize) / 2;
-		guiGraphics.drawWordWrap(font, Component.translatable("gui.chocobook.page" + (currentPage)), i + 34, this.guiTop + 26, 120, 0, false);
+		guiGraphics.drawWordWrap(font, Component.translatable("gui.chocobook.page" + (currentPage)), i + 34, this.guiTop + 26, 120, ARGB.opaque(0), false);
 	}
 
 }

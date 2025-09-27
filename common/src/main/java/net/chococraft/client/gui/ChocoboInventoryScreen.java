@@ -11,6 +11,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -68,7 +69,7 @@ public class ChocoboInventoryScreen extends AbstractContainerScreen<SaddleBagMen
 
 	@Override
 	protected void renderLabels(GuiGraphics guiGraphics, int x, int y) {
-		guiGraphics.drawString(font, title, 8, 6, 0x888888, false);
-		guiGraphics.drawString(font, this.playerInventoryTitle, 8, this.imageHeight - 96 + 2, 0x888888, false);
+		guiGraphics.drawString(font, title, 8, 6, ARGB.opaque(0x888888), false);
+		guiGraphics.drawString(font, this.playerInventoryTitle, 8, this.imageHeight - 96 + 2, ARGB.opaque(0x888888), false);
 	}
 }
