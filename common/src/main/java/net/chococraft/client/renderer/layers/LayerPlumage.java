@@ -5,6 +5,7 @@ import net.chococraft.Chococraft;
 import net.chococraft.client.renderer.states.ChocoboRenderState;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
@@ -18,9 +19,10 @@ public class LayerPlumage extends RenderLayer<ChocoboRenderState, EntityModel<Ch
 	}
 
 	@Override
-	public void render(PoseStack poseStack, MultiBufferSource bufferSource, int i, ChocoboRenderState renderState, float f, float g) {
+	public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, ChocoboRenderState renderState, float v, float v1) {
 		if (!renderState.isInvisible && renderState.isMale && !renderState.isBaby) {
-			renderColoredCutoutModel(this.getParentModel(), PLUMAGE, poseStack, bufferSource, i, renderState, -1);
+			coloredCutoutModelCopyLayerRender(this.getParentModel(), PLUMAGE,
+					poseStack, submitNodeCollector, packedLight, renderState, -1, renderState.outlineColor);
 		}
 	}
 }

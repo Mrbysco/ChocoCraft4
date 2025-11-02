@@ -1,17 +1,14 @@
 package net.chococraft.fabric.client.layer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.chococraft.Chococraft;
 import net.chococraft.ChococraftClient;
 import net.chococraft.client.models.armor.ChocoDisguiseModel;
-import net.chococraft.common.items.armor.AbstractChocoDisguiseItem;
 import net.chococraft.fabric.common.items.FabricChocoDisguiseItem;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.EntityModelSet;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
@@ -20,6 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.equipment.ArmorType;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,27 +35,38 @@ public class ChocodisguiseArmorLayer<T extends HumanoidRenderState, M extends Hu
 	}
 
 	@Override
-	public void render(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, T renderState, float f, float g) {
-		this.renderArmorPiece(poseStack, multiBufferSource, renderState, EquipmentSlot.CHEST, i, this.getArmorModel(ArmorType.CHESTPLATE));
-		this.renderArmorPiece(poseStack, multiBufferSource, renderState, EquipmentSlot.LEGS, i, this.getArmorModel(ArmorType.LEGGINGS));
-		this.renderArmorPiece(poseStack, multiBufferSource, renderState, EquipmentSlot.FEET, i, this.getArmorModel(ArmorType.BOOTS));
-		this.renderArmorPiece(poseStack, multiBufferSource, renderState, EquipmentSlot.HEAD, i, this.getArmorModel(ArmorType.HELMET));
+	public void submit(@NotNull PoseStack poseStack, @NotNull SubmitNodeCollector submitNodeCollector, int packedLight,
+	                   @NotNull T renderState, float f, float g) {
+		this.renderArmorPiece(poseStack, submitNodeCollector, renderState, EquipmentSlot.CHEST, packedLight, this.getArmorModel(ArmorType.CHESTPLATE));
+		this.renderArmorPiece(poseStack, submitNodeCollector, renderState, EquipmentSlot.LEGS, packedLight, this.getArmorModel(ArmorType.LEGGINGS));
+		this.renderArmorPiece(poseStack, submitNodeCollector, renderState, EquipmentSlot.FEET, packedLight, this.getArmorModel(ArmorType.BOOTS));
+		this.renderArmorPiece(poseStack, submitNodeCollector, renderState, EquipmentSlot.HEAD, packedLight, this.getArmorModel(ArmorType.HELMET));
 	}
 
-	@SuppressWarnings("rawtypes")
-	private void renderArmorPiece(PoseStack poseStack, MultiBufferSource multiBufferSource, T renderState, EquipmentSlot slot, int i, ChocoDisguiseModel humanoidModel) {
+	private void renderArmorPiece(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, T renderState,
+	                              EquipmentSlot slot, int packedLight, ChocoDisguiseModel humanoidModel) {
 		if (humanoidModel == null) return;
-		ItemStack itemStack = switch(slot) {
+		ItemStack itemStack = switch (slot) {
 			case HEAD -> renderState.headEquipment;
 			case CHEST -> renderState.chestEquipment;
 			case LEGS -> renderState.legsEquipment;
 			default -> renderState.feetEquipment;
 		};
-		if (itemStack.getItem() instanceof FabricChocoDisguiseItem armorItem) {
-			((HumanoidModel) this.getParentModel()).copyPropertiesTo(humanoidModel);
+		if (itemStack.getItem() instanceof FabricChocoDisguiseItem) {
+			humanoidModel.setupAnim(renderState);
+			humanoidModel.head.yScale = 1.1F;
+
 			this.setPartVisibility(humanoidModel, convertSlot(slot));
-			boolean bl2 = itemStack.hasFoil();
-			this.renderModel(poseStack, multiBufferSource, i, armorItem, bl2, humanoidModel, -1);
+			submitNodeCollector.submitModel(
+					humanoidModel,
+					renderState,
+					poseStack,
+					RenderType.armorCutoutNoCull(this.getArmorLocation()),
+					packedLight,
+					OverlayTexture.NO_OVERLAY,
+					renderState.outlineColor,
+					null);
+
 		}
 	}
 
@@ -93,12 +102,6 @@ public class ChocodisguiseArmorLayer<T extends HumanoidRenderState, M extends Hu
 			}
 		}
 
-	}
-
-	private void renderModel(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, AbstractChocoDisguiseItem armorItem, boolean bl, ChocoDisguiseModel humanoidModel,
-	                         int color) {
-		VertexConsumer vertexConsumer = ItemRenderer.getArmorFoilBuffer(multiBufferSource, RenderType.armorCutoutNoCull(this.getArmorLocation()), bl);
-		humanoidModel.renderToBuffer(poseStack, vertexConsumer, i, OverlayTexture.NO_OVERLAY, color);
 	}
 
 	private ChocoDisguiseModel getArmorModel(ArmorType equipmentSlot) {

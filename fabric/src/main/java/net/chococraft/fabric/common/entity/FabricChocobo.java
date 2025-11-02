@@ -97,7 +97,7 @@ public class FabricChocobo extends AbstractChocobo implements ContainerListener 
 
 	@Override
 	protected void setSaddled(Player player, InteractionHand hand, ItemStack heldItemStack) {
-		if (!this.level().isClientSide) {
+		if (!this.level().isClientSide()) {
 			this.inventory.setItem(0, heldItemStack.getItem().getDefaultInstance());
 			this.setSaddleType(heldItemStack);
 			this.usePlayerItem(player, hand, heldItemStack);
@@ -106,7 +106,7 @@ public class FabricChocobo extends AbstractChocobo implements ContainerListener 
 
 	@Override
 	public void openCustomInventoryScreen(Player player) {
-		if (!this.level().isClientSide && (!this.isVehicle() || this.hasPassenger(player)) && this.isTame()) {
+		if (!this.level().isClientSide() && (!this.isVehicle() || this.hasPassenger(player)) && this.isTame()) {
 			ServerPlayer serverPlayer = (ServerPlayer) player;
 			if (serverPlayer.containerMenu != serverPlayer.inventoryMenu) {
 				serverPlayer.closeContainer();
@@ -121,7 +121,7 @@ public class FabricChocobo extends AbstractChocobo implements ContainerListener 
 
 	@Override
 	protected void reconfigureInventory(ItemStack oldSaddle, ItemStack newSaddle) {
-		if (!this.level().isClientSide) {
+		if (!this.level().isClientSide()) {
 			// TODO: Handle resizing. ItemStackHandler#setSize() clears the internal inventory!
 			for (int i = 0; i < this.inventory.getContainerSize(); i++) {
 				if (i > 0) {

@@ -18,12 +18,12 @@ public class EntityMixin {
 	@Nullable
 	private Entity vehicle;
 
-	@Inject(method = "startRiding(Lnet/minecraft/world/entity/Entity;Z)Z", at = @At(
+	@Inject(method = "startRiding(Lnet/minecraft/world/entity/Entity;ZZ)Z", at = @At(
 			value = "INVOKE",
 			target = "Lnet/minecraft/world/entity/Entity;canAddPassenger(Lnet/minecraft/world/entity/Entity;)Z",
 			shift = At.Shift.BEFORE,
 			ordinal = 0), cancellable = true)
-	public void chococraft_startRiding(Entity entity, boolean bl, CallbackInfoReturnable<Boolean> cir) {
+	public void chococraft_startRiding(Entity entity, boolean bl, boolean bl2, CallbackInfoReturnable<Boolean> cir) {
 		//CanMount - Mounting: true
 		Entity mountingEntity = (Entity) (Object) this;
 		InteractionResult result = MountEvent.MOUNTING.invoker().onMount(mountingEntity, entity, mountingEntity.level(), true);

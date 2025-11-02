@@ -28,7 +28,6 @@ import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("deprecation")
 public class NeoForgeClientHandler {
 	public static void onClientSetup(final FMLClientSetupEvent event) {
 		RenderTypeRegistry.register(ChunkSectionLayer.CUTOUT, ModRegistry.GYSAHL_GREEN.get());
@@ -48,6 +47,7 @@ public class NeoForgeClientHandler {
 		event.registerLayerDefinition(ChococraftClient.CHOCO_DISGUISE, ChocoDisguiseModel::createArmorDefinition);
 	}
 
+	@SuppressWarnings("deprecation")
 	public static void registerClientExtension(RegisterClientExtensionsEvent event) {
 		ResourceLocation chocoDisguiseTexture = Chococraft.modLoc("textures/models/armor/chocodisguise.png");
 		event.registerItem(
@@ -66,7 +66,7 @@ public class NeoForgeClientHandler {
 
 					@NotNull
 					@Override
-					public Model getHumanoidArmorModel(@NotNull ItemStack itemStack, @NotNull LayerType layerType,
+					public Model<?> getHumanoidArmorModel(@NotNull ItemStack itemStack, @NotNull LayerType layerType,
 					                                   @NotNull Model original) {
 						return model.get();
 					}
@@ -89,7 +89,7 @@ public class NeoForgeClientHandler {
 
 					@NotNull
 					@Override
-					public Model getHumanoidArmorModel(@NotNull ItemStack itemStack, @NotNull LayerType layerType,
+					public Model<?> getHumanoidArmorModel(@NotNull ItemStack itemStack, @NotNull LayerType layerType,
 					                                   @NotNull Model original) {
 						return model.get();
 					}
@@ -112,7 +112,7 @@ public class NeoForgeClientHandler {
 
 					@NotNull
 					@Override
-					public Model getHumanoidArmorModel(@NotNull ItemStack itemStack, @NotNull LayerType layerType,
+					public Model<?> getHumanoidArmorModel(@NotNull ItemStack itemStack, @NotNull LayerType layerType,
 					                                   @NotNull Model original) {
 						return model.get();
 					}
@@ -135,7 +135,7 @@ public class NeoForgeClientHandler {
 
 					@NotNull
 					@Override
-					public Model getHumanoidArmorModel(@NotNull ItemStack itemStack, @NotNull LayerType layerType,
+					public Model<?> getHumanoidArmorModel(@NotNull ItemStack itemStack, @NotNull LayerType layerType,
 					                                   @NotNull Model original) {
 						return model.get();
 					}

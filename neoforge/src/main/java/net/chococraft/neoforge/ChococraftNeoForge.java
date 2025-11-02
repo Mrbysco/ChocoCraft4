@@ -63,6 +63,6 @@ public class ChococraftNeoForge {
 	}
 
 	private void registerCapabilities(RegisterCapabilitiesEvent event) {
-		event.registerEntity(Capabilities.ItemHandler.ENTITY, ModEntities.CHOCOBO.get(), (entity, ctx) -> ((NeoForgeChocobo) entity).getInventory());
+		event.registerEntity(Capabilities.Item.ENTITY, ModEntities.CHOCOBO.get(), (entity, ctx) -> ((NeoForgeChocobo) entity).getInventory());
 	}
 }

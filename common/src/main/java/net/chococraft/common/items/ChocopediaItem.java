@@ -14,7 +14,7 @@ public class ChocopediaItem extends Item {
 
 	@Override
 	public InteractionResult use(Level level, Player player, InteractionHand interactionHand) {
-		if (level.isClientSide) {
+		if (level.isClientSide()) {
 //			if (Services.PLATFORM.isModLoaded("patchouli")) {
 //				vazkii.patchouli.api.PatchouliAPI.get().openBookGUI(Chococraft.modLoc("chocopedia"));
 //			} else {

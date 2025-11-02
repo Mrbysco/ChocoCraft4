@@ -4,7 +4,6 @@ import net.chococraft.common.entity.AbstractChocobo;
 import net.chococraft.common.items.ChocoboSaddleItem;
 import net.chococraft.neoforge.common.inventory.NeoForgeSaddleBagMenu;
 import net.chococraft.neoforge.common.inventory.SaddleItemStackHandler;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Containers;
@@ -16,52 +15,53 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.jetbrains.annotations.NotNull;
 
 public class NeoForgeChocobo extends AbstractChocobo {
 
-	public final ItemStackHandler inventory = new ItemStackHandler(45) {
+	public final ItemStacksResourceHandler inventory = new ItemStacksResourceHandler(45) {
+
 		@Override
-		public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+		public boolean isValid(int index, ItemResource resource) {
 			if (getSaddle().isEmpty()) {
 				return false;
 			}
 			if (getSaddle().getItem() instanceof ChocoboSaddleItem saddleItem) {
 				switch (saddleItem.getInventorySize()) {
 					case 18 -> {
-						return ((slot > 10 && slot < 16) || (slot > 19 && slot < 25) || (slot > 28 && slot < 34)) && super.isItemValid(slot, stack);
+						return ((index > 10 && index < 16) || (index > 19 && index < 25) || (index > 28 && index < 34)) && super.isValid(index, resource);
 					}
 					case 45 -> {
-						return super.isItemValid(slot, stack);
+						return super.isValid(index, resource);
 					}
 					default -> {
 						return false;
 					}
 				}
 			}
-
-
-			return super.isItemValid(slot, stack);
+			return super.isValid(index, resource);
 		}
 	};
 	public final SaddleItemStackHandler saddleItemStackHandler = new SaddleItemStackHandler() {
 		@Override
-		public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-			return stack.isEmpty() || stack.getItem() instanceof ChocoboSaddleItem;
+		public boolean isValid(int index, @NotNull ItemResource resource) {
+			return resource.isEmpty() || resource.getItem() instanceof ChocoboSaddleItem;
 		}
 
 		@Override
-		public void setStackInSlot(int slot, @NotNull ItemStack stack) {
-			NeoForgeChocobo.this.setSaddleType(stack);
-			super.setStackInSlot(slot, stack);
+		public void set(int index, ItemResource resource, int amount) {
+			NeoForgeChocobo.this.setSaddleType(resource.toStack());
+			super.set(index, resource, amount);
 		}
 
 		@Override
-		protected void onContentsChanged(int slot) {
-			NeoForgeChocobo.this.setSaddleType(getStackInSlot(slot));
-			super.onContentsChanged(slot);
+		protected void onContentsChanged(int index, ItemStack previousContents) {
+			NeoForgeChocobo.this.setSaddleType(getResource(index).toStack());
+			super.onContentsChanged(index, previousContents);
 		}
 	};
 
@@ -86,7 +86,7 @@ public class NeoForgeChocobo extends AbstractChocobo {
 
 		ValueInput saddleInput = input.childOrEmpty(NBTKEY_SADDLE_ITEM);
 		this.saddleItemStackHandler.deserialize(saddleInput);
-		setSaddleType(this.saddleItemStackHandler.getStackInSlot(0));
+		setSaddleType(this.saddleItemStackHandler.getResource(0).toStack());
 
 		ValueInput inventoryInput = input.childOrEmpty(NBTKEY_INVENTORY);
 		this.inventory.deserialize(inventoryInput);
@@ -95,8 +95,14 @@ public class NeoForgeChocobo extends AbstractChocobo {
 
 	@Override
 	protected void setSaddled(Player player, InteractionHand hand, ItemStack heldItemStack) {
-		if (!this.level().isClientSide) {
-			this.saddleItemStackHandler.setStackInSlot(0, heldItemStack.getItem().getDefaultInstance());
+		if (!this.level().isClientSide()) {
+			try (Transaction tx = Transaction.openRoot()) {
+				if (this.saddleItemStackHandler.insert(0, ItemResource.of(heldItemStack.getItem()), 1, tx) != 1) {
+					return;
+				}
+				tx.commit();
+			}
+
 			this.setSaddleType(heldItemStack);
 			this.usePlayerItem(player, hand, heldItemStack);
 		}
@@ -104,7 +110,7 @@ public class NeoForgeChocobo extends AbstractChocobo {
 
 	@Override
 	public void openCustomInventoryScreen(Player player) {
-		if (!this.level().isClientSide && (!this.isVehicle() || this.hasPassenger(player)) && this.isTame()) {
+		if (!this.level().isClientSide() && (!this.isVehicle() || this.hasPassenger(player)) && this.isTame()) {
 			ServerPlayer serverPlayer = (ServerPlayer) player;
 			if (player.containerMenu != player.inventoryMenu) {
 				player.closeContainer();
@@ -121,13 +127,17 @@ public class NeoForgeChocobo extends AbstractChocobo {
 
 	@Override
 	protected void reconfigureInventory(ItemStack oldSaddle, ItemStack newSaddle) {
-		if (!this.level().isClientSide) {
+		if (!this.level().isClientSide()) {
 			// TODO: Handle resizing. ItemStackHandler#setSize() clears the internal inventory!
-			for (int i = 0; i < this.inventory.getSlots(); i++) {
-				if (this.isAlive()) {
-					ItemStack stack = this.inventory.extractItem(i, Integer.MAX_VALUE, false);
-					Containers.dropItemStack(this.level(), this.getX(), this.getY() + .5, this.getZ(), stack);
+			try (Transaction tx = Transaction.openRoot()) {
+				for (int i = 0; i < this.inventory.size(); i++) {
+					if (this.isAlive()) {
+						Containers.dropItemStack(this.level(), this.getX(), this.getY() + .5, this.getZ(),
+								this.inventory.getResource(i).toStack(this.inventory.getAmountAsInt(i))
+						);
+					}
 				}
+				tx.commit();
 			}
 		}
 
@@ -141,13 +151,18 @@ public class NeoForgeChocobo extends AbstractChocobo {
 	@Override
 	protected void dropInventory() {
 		if (this.inventory != null && this.isSaddled()) {
-			for (int i = 0; i < this.inventory.getSlots(); i++) {
-				if (!this.inventory.getStackInSlot(i).isEmpty())
-					this.spawnAtLocation((ServerLevel) level(), this.inventory.getStackInSlot(i), 0.0f);
+			try (Transaction tx = Transaction.openRoot()) {
+				for (int i = 0; i < this.inventory.size(); i++) {
+					if (this.isAlive()) {
+						this.spawnAtLocation((ServerLevel) level(),
+								this.inventory.getResource(i).toStack(this.inventory.getAmountAsInt(i)), 0.0f);
+					}
+				}
 			}
 		}
 	}
-	public IItemHandler getInventory() {
+
+	public ResourceHandler<ItemResource> getInventory() {
 		return this.inventory;
 	}
 }

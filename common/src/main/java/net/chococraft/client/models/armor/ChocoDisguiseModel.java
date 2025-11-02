@@ -150,6 +150,7 @@ public class ChocoDisguiseModel extends HumanoidModel<HumanoidRenderState> {
 
 	@Override
 	public void setupAnim(HumanoidRenderState renderState) {
+		super.setupAnim(renderState);
 		if (renderState instanceof ArmorStandRenderState armorStand) {
 			super.setupAnim(renderState);
 			this.chocobo_head.xRot = ((float) Math.PI / 180F) * armorStand.headPose.x();
@@ -173,7 +174,6 @@ public class ChocoDisguiseModel extends HumanoidModel<HumanoidRenderState> {
 			this.chocobo_leg_right.yRot = ((float) Math.PI / 180F) * armorStand.rightLegPose.y();
 			this.chocobo_leg_right.zRot = ((float) Math.PI / 180F) * armorStand.rightLegPose.z();
 			this.chocobo_leg_right.setPos(-1.9F, 11.0F, 0.0F);
-			this.hat.copyFrom(this.chocobo_head);
 		} else {
 			super.setupAnim(renderState);
 			this.setHeadRotation();

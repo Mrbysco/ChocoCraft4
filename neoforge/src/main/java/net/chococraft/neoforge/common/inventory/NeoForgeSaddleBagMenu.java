@@ -8,7 +8,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.SlotItemHandler;
+import net.neoforged.neoforge.transfer.item.ResourceHandlerSlot;
 
 import java.util.List;
 import java.util.UUID;
@@ -38,12 +38,12 @@ public class NeoForgeSaddleBagMenu extends SaddleBagMenu {
 		this.slots.clear();
 
 		// Saddle slot
-		this.addSlot(new SlotChocoboSaddle(chocobo.saddleItemStackHandler, 0, -16, 18));
+		this.addSlot(new SlotChocoboSaddle(chocobo.saddleItemStackHandler, chocobo.saddleItemStackHandler::set, 0, -16, 18));
 
 		//Chocobo inventory
 		for (int row = 0; row < 5; row++) {
 			for (int col = 0; col < 9; col++) {
-				this.addSlot(new SlotItemHandler(chocobo.inventory, row * 9 + col, 8 + col * 18, 18 + row * 18) {
+				this.addSlot(new ResourceHandlerSlot(chocobo.inventory, chocobo.inventory::set, row * 9 + col, 8 + col * 18, 18 + row * 18) {
 					@Override
 					public boolean isActive() {
 						ItemStack saddleStack = chocobo.getSaddle();
@@ -100,11 +100,11 @@ public class NeoForgeSaddleBagMenu extends SaddleBagMenu {
 		if (slot != null && slot.hasItem()) {
 			ItemStack itemstack1 = slot.getItem();
 			itemstack = itemstack1.copy();
-			if (index < this.neoforgeChocobo.inventory.getSlots()) {
-				if (!this.moveItemStackTo(itemstack1, this.neoforgeChocobo.inventory.getSlots(), this.slots.size(), true)) {
+			if (index < this.neoforgeChocobo.inventory.size()) {
+				if (!this.moveItemStackTo(itemstack1, this.neoforgeChocobo.inventory.size(), this.slots.size(), true)) {
 					return ItemStack.EMPTY;
 				}
-			} else if (!this.moveItemStackTo(itemstack1, 0, this.neoforgeChocobo.inventory.getSlots(), false)) {
+			} else if (!this.moveItemStackTo(itemstack1, 0, this.neoforgeChocobo.inventory.size(), false)) {
 				return ItemStack.EMPTY;
 			}
 

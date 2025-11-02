@@ -34,7 +34,7 @@ public class ModRegistry {
 			= DeferredRegister.create(Chococraft.MOD_ID, Registries.CREATIVE_MODE_TAB);
 
 	public static final RegistrySupplier<Block> GYSAHL_GREEN = registerBlock("gysahl_green", (properties) ->
-			new GysahlGreenBlock(properties.mapColor(MapColor.GRASS).noCollission().randomTicks().instabreak().sound(SoundType.CROP)), blockBuilder());
+			new GysahlGreenBlock(properties.mapColor(MapColor.GRASS).noCollision().randomTicks().instabreak().sound(SoundType.CROP)), blockBuilder());
 
 	public static final RegistrySupplier<Block> STRAW = registerBlock("straw", (properties) ->
 			new StrawBlock(properties.mapColor(MapColor.COLOR_YELLOW).sound(SoundType.GRASS)), blockBuilder());

@@ -1,26 +1,29 @@
 package net.chococraft.neoforge.common.inventory;
 
-import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
 
-import org.jetbrains.annotations.NotNull;
-
-public class SaddleItemStackHandler extends ItemStackHandler {
+public class SaddleItemStackHandler extends ItemStacksResourceHandler {
 	public SaddleItemStackHandler() {
 		super(1);
 	}
 
 	@Override
-	public void setStackInSlot(int slot, @NotNull ItemStack stack) {
-		this.validateSlotIndex(slot);
-		if (!ItemStack.isSameItem(stacks.get(slot), stack)) {
-			this.stacks.set(slot, stack);
-			this.onContentsChanged(slot);
-		}
+	public void set(int index, ItemResource resource, int amount) {
+		super.set(index, resource, amount);
 	}
 
+//	@Override
+//	public void setStackInSlot(int slot, @NotNull ItemStack stack) {
+//		this.validateSlotIndex(slot);
+//		if (!ItemStack.isSameItem(stacks.get(slot), stack)) {
+//			this.stacks.set(slot, stack);
+//			this.onContentsChanged(slot);
+//		}
+//	}
+
 	@Override
-	public int getSlotLimit(int slot) {
+	protected int getCapacity(int index, ItemResource resource) {
 		return 1;
 	}
 }

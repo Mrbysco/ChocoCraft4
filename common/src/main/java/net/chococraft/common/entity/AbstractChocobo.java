@@ -393,7 +393,7 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 	}
 
 	public void dropFeather() {
-		if (this.level().isClientSide) return;
+		if (this.level().isClientSide()) return;
 
 		if (this.isBaby()) return;
 
@@ -423,13 +423,13 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 			this.timeSinceFeatherChance++;
 		}
 
-		if (!this.level().isClientSide) {
+		if (!this.level().isClientSide()) {
 			if (isPassenger() && isVehicle()) {
 				stopRiding();
 			}
 		}
 
-		if (this.level().isClientSide) {
+		if (this.level().isClientSide()) {
 			// Wing rotations, control packet, client side
 			// Client side
 			this.destPos += (float) ((double) (this.onGround() ? -1 : 4) * 0.3D);
@@ -492,7 +492,7 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 				}
 			} else {
 				int i = this.getAge();
-				if (!this.level().isClientSide && i == 0 && this.canFallInLove() && !fedCake) {
+				if (!this.level().isClientSide() && i == 0 && this.canFallInLove() && !fedCake) {
 					if (heldItemStack.getItem() == ModRegistry.GOLD_GYSAHL.get()) {
 						//If fed a Gold Gysahl set the "fedGoldGysahl" flag to true
 						this.setFedGoldGysahl(true);
@@ -503,12 +503,12 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 				}
 			}
 
-			if (this.level().isClientSide) {
+			if (this.level().isClientSide()) {
 				return InteractionResult.CONSUME;
 			}
 		}
 
-		if (this.level().isClientSide) {
+		if (this.level().isClientSide()) {
 			return InteractionResult.PASS;
 		} else {
 			if (this.isTame()) {

@@ -14,9 +14,10 @@ import net.chococraft.common.entity.AbstractChocobo;
 import net.chococraft.common.entity.properties.ChocoboColor;
 import net.minecraft.Util;
 import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.Map;
@@ -60,9 +61,9 @@ public class ChocoboRenderer extends MobRenderer<AbstractChocobo, ChocoboRenderS
 	}
 
 	@Override
-	public void render(ChocoboRenderState renderState, PoseStack poseStack, MultiBufferSource multiBufferSource, int i) {
+	public void submit(ChocoboRenderState renderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState) {
 		this.model = renderState.isBaby ? chicoboModel : chocoboModel;
-		super.render(renderState, poseStack, multiBufferSource, i);
+		super.submit(renderState, poseStack, submitNodeCollector, cameraRenderState);
 	}
 
 	@Override

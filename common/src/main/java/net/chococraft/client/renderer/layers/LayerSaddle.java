@@ -5,7 +5,7 @@ import net.chococraft.Chococraft;
 import net.chococraft.client.renderer.states.ChocoboRenderState;
 import net.chococraft.registry.ModRegistry;
 import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
@@ -22,7 +22,7 @@ public class LayerSaddle extends RenderLayer<ChocoboRenderState, EntityModel<Cho
 	}
 
 	@Override
-	public void render(PoseStack poseStack, MultiBufferSource bufferSource, int i, ChocoboRenderState renderState, float f, float g) {
+	public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, ChocoboRenderState renderState, float v, float v1) {
 		if (!renderState.isInvisible && renderState.isSaddled && !renderState.isBaby) {
 			ResourceLocation saddleTexture = null;
 
@@ -38,7 +38,8 @@ public class LayerSaddle extends RenderLayer<ChocoboRenderState, EntityModel<Cho
 				}
 			}
 
-			renderColoredCutoutModel(this.getParentModel(), saddleTexture, poseStack, bufferSource, i, renderState, -1);
+			coloredCutoutModelCopyLayerRender(this.getParentModel(), saddleTexture,
+					poseStack, submitNodeCollector, packedLight, renderState, -1, renderState.outlineColor);
 		}
 	}
 }
