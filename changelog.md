@@ -1,2 +1,2 @@
-### Version 0.12.1
-* Actually generate the seeds tag (NeoForge)
+### Version 0.12.2
+* Fix fabric access widener being absent
