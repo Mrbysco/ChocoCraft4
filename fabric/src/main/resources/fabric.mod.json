@@ -45,5 +45,6 @@
     "fabric-api": "*",
     "cloth-config": ">=17",
     "architectury": ">=15.0.3"
-  }
+  },
+  "accessWidener": "chococraft.accesswidener"
 }
