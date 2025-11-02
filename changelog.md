@@ -1,2 +1,2 @@
-### Version 0.14.3
-* Fix Chocopedia rendering blank
+### Version 0.15.0
+* Initial update to 1.21.10
