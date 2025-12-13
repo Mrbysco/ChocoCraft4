@@ -1,7 +1,6 @@
 package net.chococraft.fabric;
 
 import dev.architectury.registry.client.rendering.RenderTypeRegistry;
-import dev.architectury.registry.menu.MenuRegistry;
 import net.chococraft.ChococraftClient;
 import net.chococraft.client.gui.ChocoboInventoryScreen;
 import net.chococraft.client.models.armor.ChocoDisguiseModel;
@@ -17,9 +16,9 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 
@@ -31,7 +30,7 @@ public class ChococraftClientFabric implements ClientModInitializer {
 		EntityModelLayerRegistry.registerModelLayer(ChococraftClient.CHICOBO, ChicoboModel::createBodyLayer);
 		EntityModelLayerRegistry.registerModelLayer(ChococraftClient.CHOCO_DISGUISE, ChocoDisguiseModel::createArmorDefinition);
 
-		EntityRendererRegistry.register(ModEntities.CHOCOBO.get(), ChocoboRenderer::new);
+		EntityRenderers.register(ModEntities.CHOCOBO.get(), ChocoboRenderer::new);
 
 		ChococraftClient.init();
 
