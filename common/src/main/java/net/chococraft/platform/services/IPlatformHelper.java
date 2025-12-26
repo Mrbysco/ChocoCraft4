@@ -20,32 +20,32 @@ import java.util.List;
 public interface IPlatformHelper {
 
 	Path getConfigDirectory();
-	
+
 	boolean isModLoaded(String modID);
 
 	EntityType.Builder<? extends AbstractChocobo> constructChocoboEntityType();
-	
+
 	SaddleBagMenu constructMenu(int i, Inventory inventory, FriendlyByteBuf friendlyByteBuf);
 
 	SaddleBagMenu constructMenu(int i, Inventory inventory, AbstractChocobo abstractChocobo);
-	
+
 	AbstractChocoDisguiseItem constructChocoDisguise(ArmorMaterial material, ArmorType type, Item.Properties properties);
-	
+
 	LinkedTreeMap<String, LinkedTreeMap<String, List<LinkedTreeMap<String, String>>>> getBreedingInfoMap();
 
 	float getTameChance();
 
 	boolean canChocobosFly();
-	
+
 	boolean nameTamedChocobos();
-	
+
 	List<? extends String> getConfiguredMaleNames();
-	
+
 	List<? extends String> getConfiguredFemaleNames();
 
 	int kwehIntervalLimit();
-	
+
 	EntityDataSerializer<ChocoboColor> getColorSerializer();
-	
+
 	EntityDataSerializer<MovementType> getMovementSerializer();
 }

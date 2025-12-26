@@ -19,8 +19,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -77,7 +77,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 public abstract class AbstractChocobo extends TamableAnimal implements HasCustomInventoryScreen {
-	private static final ResourceLocation STEP_HEIGHT_ID = Chococraft.modLoc("step_height");
+	private static final Identifier STEP_HEIGHT_ID = Chococraft.modLoc("step_height");
 
 	private static final String NBTKEY_CHOCOBO_COLOR = "Color";
 	private static final String NBTKEY_CHOCOBO_IS_MALE = "Male";
@@ -305,7 +305,7 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 				if (livingentity.jumping && (this.getAbilityInfo().getCanFly() && allowedFlight())) {
 					setJumping(true);
 					this.jumpFromGround();
-					this.hasImpulse = true;
+					this.needsSync = true;
 					this.moveRelative(getChocoboColor().getAbilityInfo().getAirbornSpeed() / 100, travelVector);
 				} else if (livingentity.jumping && !this.jumping) {
 					if (isInWater()) {

@@ -12,7 +12,7 @@ import net.minecraft.client.data.models.model.ModelLocationUtils;
 import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TexturedModel;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.NotNull;
@@ -25,8 +25,8 @@ public class ChocoModels extends ModelProvider {
 	@Override
 	protected void registerModels(@NotNull BlockModelGenerators blockModels, @NotNull ItemModelGenerators itemModels) {
 		buildStraw(blockModels, ModRegistry.STRAW.get());
-		ResourceLocation resourcelocation = ModelLocationUtils.getModelLocation(ModRegistry.STRAW.get());
-		blockModels.registerSimpleItemModel(ModRegistry.STRAW.get(), resourcelocation);
+		Identifier identifier = ModelLocationUtils.getModelLocation(ModRegistry.STRAW.get());
+		blockModels.registerSimpleItemModel(ModRegistry.STRAW.get(), identifier);
 
 		blockModels.createCropBlock(ModRegistry.GYSAHL_GREEN.get(), GysahlGreenBlock.AGE,
 				0, 1, 2, 3, 4);
@@ -40,9 +40,9 @@ public class ChocoModels extends ModelProvider {
 	}
 
 	protected void buildStraw(BlockModelGenerators generators, Block block) {
-		ResourceLocation resourcelocation = TexturedModel.CARPET.create(block, generators.modelOutput);
+		Identifier identifier = TexturedModel.CARPET.create(block, generators.modelOutput);
 
-		MultiVariant multivariant = BlockModelGenerators.plainVariant(resourcelocation);
+		MultiVariant multivariant = BlockModelGenerators.plainVariant(identifier);
 		generators.blockStateOutput.accept(
 				BlockModelGenerators.createSimpleBlock(block, multivariant)
 		);

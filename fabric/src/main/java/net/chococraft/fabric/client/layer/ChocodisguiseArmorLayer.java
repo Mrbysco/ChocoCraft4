@@ -7,13 +7,13 @@ import net.chococraft.client.models.armor.ChocoDisguiseModel;
 import net.chococraft.fabric.common.items.FabricChocoDisguiseItem;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.EntityModelSet;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.equipment.ArmorType;
@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ChocodisguiseArmorLayer<T extends HumanoidRenderState, M extends HumanoidModel<T>> extends RenderLayer<T, M> {
-	private static final ResourceLocation ARMOR_LOCATION = Chococraft.modLoc("textures/models/armor/chocodisguise.png");
+	private static final Identifier ARMOR_LOCATION = Chococraft.modLoc("textures/models/armor/chocodisguise.png");
 	private final Map<ArmorType, ChocoDisguiseModel> chocoDisguiseMap = new HashMap<>();
 
 	public ChocodisguiseArmorLayer(RenderLayerParent<T, M> renderLayerParent, EntityModelSet modelSet) {
@@ -61,7 +61,7 @@ public class ChocodisguiseArmorLayer<T extends HumanoidRenderState, M extends Hu
 					humanoidModel,
 					renderState,
 					poseStack,
-					RenderType.armorCutoutNoCull(this.getArmorLocation()),
+					RenderTypes.armorCutoutNoCull(this.getArmorLocation()),
 					packedLight,
 					OverlayTexture.NO_OVERLAY,
 					renderState.outlineColor,
@@ -108,7 +108,7 @@ public class ChocodisguiseArmorLayer<T extends HumanoidRenderState, M extends Hu
 		return this.chocoDisguiseMap.getOrDefault(equipmentSlot, null);
 	}
 
-	private ResourceLocation getArmorLocation() {
+	private Identifier getArmorLocation() {
 		return ARMOR_LOCATION;
 	}
 }

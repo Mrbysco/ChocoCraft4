@@ -12,18 +12,18 @@ import net.chococraft.client.renderer.layers.LayerSaddle;
 import net.chococraft.client.renderer.states.ChocoboRenderState;
 import net.chococraft.common.entity.AbstractChocobo;
 import net.chococraft.common.entity.properties.ChocoboColor;
-import net.minecraft.Util;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.state.CameraRenderState;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.util.Util;
 
 import java.util.Map;
 
 public class ChocoboRenderer extends MobRenderer<AbstractChocobo, ChocoboRenderState, EntityModel<ChocoboRenderState>> {
-	private static final Map<ChocoboColor, ResourceLocation> CHOCOBO_PER_COLOR = Util.make(Maps.newHashMap(), (map) -> {
+	private static final Map<ChocoboColor, Identifier> CHOCOBO_PER_COLOR = Util.make(Maps.newHashMap(), (map) -> {
 		map.put(ChocoboColor.YELLOW, Chococraft.modLoc("textures/entities/chocobos/yellowchocobo.png"));
 		map.put(ChocoboColor.GREEN, Chococraft.modLoc("textures/entities/chocobos/greenchocobo.png"));
 		map.put(ChocoboColor.BLUE, Chococraft.modLoc("textures/entities/chocobos/bluechocobo.png"));
@@ -35,7 +35,7 @@ public class ChocoboRenderer extends MobRenderer<AbstractChocobo, ChocoboRenderS
 		map.put(ChocoboColor.PURPLE, Chococraft.modLoc("textures/entities/chocobos/purplechocobo.png"));
 		map.put(ChocoboColor.FLAME, Chococraft.modLoc("textures/entities/chocobos/flamechocobo.png"));
 	});
-	private static final Map<ChocoboColor, ResourceLocation> CHICOBO_PER_COLOR = Util.make(Maps.newHashMap(), (map) -> {
+	private static final Map<ChocoboColor, Identifier> CHICOBO_PER_COLOR = Util.make(Maps.newHashMap(), (map) -> {
 		map.put(ChocoboColor.YELLOW, Chococraft.modLoc("textures/entities/chicobos/yellowchocobo.png"));
 		map.put(ChocoboColor.GREEN, Chococraft.modLoc("textures/entities/chicobos/greenchocobo.png"));
 		map.put(ChocoboColor.BLUE, Chococraft.modLoc("textures/entities/chicobos/bluechocobo.png"));
@@ -85,7 +85,7 @@ public class ChocoboRenderer extends MobRenderer<AbstractChocobo, ChocoboRenderS
 	}
 
 	@Override
-	public ResourceLocation getTextureLocation(ChocoboRenderState renderState) {
+	public Identifier getTextureLocation(ChocoboRenderState renderState) {
 		ChocoboColor color = renderState.color;
 		return renderState.isBaby ? CHICOBO_PER_COLOR.get(color) : CHOCOBO_PER_COLOR.get(color);
 	}

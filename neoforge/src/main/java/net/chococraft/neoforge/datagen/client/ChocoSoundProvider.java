@@ -3,7 +3,7 @@ package net.chococraft.neoforge.datagen.client;
 import net.chococraft.Chococraft;
 import net.chococraft.registry.ModSounds;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.common.data.SoundDefinitionsProvider;
 
 public class ChocoSoundProvider extends SoundDefinitionsProvider {
@@ -29,11 +29,11 @@ public class ChocoSoundProvider extends SoundDefinitionsProvider {
 	}
 
 
-	public String modSubtitle(ResourceLocation id) {
+	public String modSubtitle(Identifier id) {
 		return Chococraft.MOD_ID + ".subtitle." + id.getPath();
 	}
 
-	public ResourceLocation modLoc(String name) {
+	public Identifier modLoc(String name) {
 		return Chococraft.modLoc(name);
 	}
 }

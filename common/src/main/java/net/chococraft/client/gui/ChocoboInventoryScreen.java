@@ -10,7 +10,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -18,9 +18,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public class ChocoboInventoryScreen extends AbstractContainerScreen<SaddleBagMenu> {
-	private static final ResourceLocation INV_TEXTURE_NULL = Chococraft.modLoc("textures/gui/chocobo_inventory_null.png");
-	private static final ResourceLocation INV_TEXTURE_SMALL = Chococraft.modLoc("textures/gui/chocobo_inventory_small.png");
-	private static final ResourceLocation INV_TEXTURE_LARGE = Chococraft.modLoc("textures/gui/chocobo_inventory_large.png");
+	private static final Identifier INV_TEXTURE_NULL = Chococraft.modLoc("textures/gui/chocobo_inventory_null.png");
+	private static final Identifier INV_TEXTURE_SMALL = Chococraft.modLoc("textures/gui/chocobo_inventory_small.png");
+	private static final Identifier INV_TEXTURE_LARGE = Chococraft.modLoc("textures/gui/chocobo_inventory_large.png");
 
 
 	public ChocoboInventoryScreen(SaddleBagMenu container, Inventory playerInventory, Component title) {
@@ -46,7 +46,7 @@ public class ChocoboInventoryScreen extends AbstractContainerScreen<SaddleBagMen
 
 	@Override
 	protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int x, int y) {
-		ResourceLocation texture = INV_TEXTURE_NULL;
+		Identifier texture = INV_TEXTURE_NULL;
 		ItemStack saddleStack = menu.getSlot(0).getItem();
 		if (!saddleStack.isEmpty()) {
 			Item item = saddleStack.getItem();

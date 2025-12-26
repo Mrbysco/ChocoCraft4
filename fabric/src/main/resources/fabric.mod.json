@@ -39,12 +39,12 @@
     "chococraft.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.17.2",
-    "minecraft": "~1.21.10",
+    "fabricloader": ">=0.18.2",
+    "minecraft": "~1.21.11",
     "java": ">=21",
     "fabric-api": "*",
-    "cloth-config": ">=20",
-    "architectury": ">=18.0.6"
+    "cloth-config": ">=21",
+    "architectury": ">=19.0.1"
   },
   "accessWidener": "chococraft.accesswidener"
 }

@@ -56,7 +56,7 @@ public class ChocoboSpawnEggItem extends Item {
 				chocobo.yHeadRot = chocobo.getYRot();
 				chocobo.yBodyRot = chocobo.getYRot();
 				chocobo.setChocoboColor(color);
-				chocobo.finalizeSpawn(serverLevel, level.getCurrentDifficultyAt(chocobo.blockPosition()), EntitySpawnReason.SPAWN_ITEM_USE, (SpawnGroupData) null);
+				chocobo.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(chocobo.blockPosition()), EntitySpawnReason.SPAWN_ITEM_USE, (SpawnGroupData) null);
 				if (level.addFreshEntity(chocobo)) {
 					stack.shrink(1);
 					level.gameEvent(context.getPlayer(), GameEvent.ENTITY_PLACE, pos);

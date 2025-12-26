@@ -11,12 +11,11 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
 
-
 public class ChocoboBookScreen extends Screen {
-	private final static ResourceLocation TEXTURE = Chococraft.modLoc("textures/gui/chocobo_book.png");
+	private final static Identifier TEXTURE = Chococraft.modLoc("textures/gui/chocobo_book.png");
 	private final Component bookTitle = Component.literal("The Chocopedia").withStyle(ChatFormatting.GOLD);
 	private final Component bookAuthor = Component.literal("by Clienthax");
 

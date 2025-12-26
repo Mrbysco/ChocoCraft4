@@ -8,23 +8,24 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public class LayerSaddle extends RenderLayer<ChocoboRenderState, EntityModel<ChocoboRenderState>> {
-	private final ResourceLocation SADDLE = Chococraft.modLoc("textures/entities/chocobos/saddle.png");
-	private final ResourceLocation SADDLE_BAG = Chococraft.modLoc("textures/entities/chocobos/saddle_bag.png");
-	private final ResourceLocation PACK_BAG = Chococraft.modLoc("textures/entities/chocobos/pack_bag.png");
+	private final Identifier SADDLE = Chococraft.modLoc("textures/entities/chocobos/saddle.png");
+	private final Identifier SADDLE_BAG = Chococraft.modLoc("textures/entities/chocobos/saddle_bag.png");
+	private final Identifier PACK_BAG = Chococraft.modLoc("textures/entities/chocobos/pack_bag.png");
 
 	public LayerSaddle(RenderLayerParent<ChocoboRenderState, EntityModel<ChocoboRenderState>> rendererIn) {
 		super(rendererIn);
 	}
 
 	@Override
-	public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, ChocoboRenderState renderState, float v, float v1) {
-		if (!renderState.isInvisible && renderState.isSaddled && !renderState.isBaby) {
-			ResourceLocation saddleTexture = null;
+	public void submit(PoseStack poseStack, SubmitNodeCollector nodeCollector, int packedLight,
+	                   ChocoboRenderState renderState, float yRot, float xRot) {
+		if (renderState.isSaddled && !renderState.isBaby) {
+			Identifier saddleTexture = null;
 
 			ItemStack saddleStack = renderState.saddle;
 			if (!saddleStack.isEmpty()) {
@@ -37,9 +38,16 @@ public class LayerSaddle extends RenderLayer<ChocoboRenderState, EntityModel<Cho
 					saddleTexture = PACK_BAG;
 				}
 			}
+			if (saddleTexture == null) {
+				return;
+			}
 
+			poseStack.pushPose();
+			poseStack.scale(1.001F, 1.001F, 1.001F);
 			coloredCutoutModelCopyLayerRender(this.getParentModel(), saddleTexture,
-					poseStack, submitNodeCollector, packedLight, renderState, -1, renderState.outlineColor);
+					poseStack, nodeCollector, packedLight, renderState, -1, renderState.outlineColor);
+
+			poseStack.popPose();
 		}
 	}
 }

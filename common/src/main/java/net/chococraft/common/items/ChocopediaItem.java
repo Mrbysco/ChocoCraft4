@@ -18,7 +18,7 @@ public class ChocopediaItem extends Item {
 //			if (Services.PLATFORM.isModLoaded("patchouli")) {
 //				vazkii.patchouli.api.PatchouliAPI.get().openBookGUI(Chococraft.modLoc("chocopedia"));
 //			} else {
-				net.chococraft.client.gui.ChocoboBookScreen.openScreen();
+			net.chococraft.client.gui.ChocoboBookScreen.openScreen();
 //			}
 		}
 		return super.use(level, player, interactionHand);

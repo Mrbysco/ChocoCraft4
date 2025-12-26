@@ -3,7 +3,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.neoforged.gradle.userdev' version '7.0.192'
+    id "net.neoforged.moddev" version "2.0.134"
     id 'net.darkhax.curseforgegradle'
     id 'com.modrinth.minotaur'
 }
@@ -12,46 +12,60 @@ base {
     archivesName = "${mod_name}-${minecraft_version}-neoforge"
 }
 
-if (file('src/main/resources/META-INF/accesstransformer.cfg').exists()) {
-    minecraft.accessTransformers.file file('src/main/resources/META-INF/accesstransformer.cfg')
-}
+neoForge {
+    version = "${neo_version}"
 
-runs {
-    // applies to all the run configs below
-    configureEach {
-        // Recommended logging data for a userdev environment
-        systemProperty 'forge.logging.markers', 'REGISTRIES'
-
-        // Recommended logging level for the console
-        systemProperty 'forge.logging.console.level', 'debug'
-
-        //Limit ram usage for the dev environment to 4GB
-        jvmArgument '-Xmx4G'
-
-        systemProperty 'mixin.env.disableRefMap', 'true'
-
-        modSource project.sourceSets.main
+    parchment {
+        minecraftVersion = "${parchment_minecraft_version}"
+        mappingsVersion = "${parchment_mapping_version}"
     }
 
-    client {
-        // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
-        systemProperty 'forge.enabledGameTestNamespaces', "${mod_id}"
+    // Automatically enable neoforge AccessTransformers if the file exists
+    def at = project(':common').file('src/main/resources/META-INF/accesstransformer.cfg')
+    if (at.exists()) {
+        accessTransformers.from(at.absolutePath)
+    }
+    def commonResources = project(':common').file("src/main/resources")
+
+    runs {
+        configureEach { model ->
+            systemProperty 'forge.logging.console.level', 'debug'
+            systemProperty 'fml.earlyprogresswindow', 'false'
+
+            //Limit ram usage for the dev environment to 4GB
+            jvmArguments.add('-Xmx4G')
+
+            if (model.project.javaToolchains.launcherFor(java.toolchain).map { it.metadata.vendor }.getOrElse("").contains("JetBrains")) {
+                jvmArguments.add("-XX:+AllowEnhancedClassRedefinition")
+            }
+        }
+
+        client {
+            client()
+        }
+        server {
+            server()
+            programArgument '--nogui'
+        }
+
+        data {
+            clientData()
+
+            programArguments.addAll(
+                    '--mod', "${mod_id}",
+                    '--all',
+                    '--output', file('src/generated/resources/').getAbsolutePath(),
+                    '--existing', file('src/main/resources/').getAbsolutePath(),
+                    '--existing', commonResources.getAbsolutePath()
+            )
+        }
     }
 
-    server {
-        systemProperty 'forge.enabledGameTestNamespaces', "${mod_id}"
-        programArgument '--nogui'
-    }
-
-    clientData {
-        // example of overriding the workingDirectory set in configureEach above, uncomment if you want to use it
-        // workingDirectory project.file('run-data')
-
-        // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-        arguments.addAll '--mod', "${mod_id}", '--all',
-                '--output', file('src/generated/resources/').getAbsolutePath(),
-                '--existing', file('src/main/resources/').getAbsolutePath(),
-                '--existing', project(":common").file("src/main/resources").getAbsolutePath()
+    mods {
+        "${mod_id}" {
+            sourceSet sourceSets.main
+            sourceSet sourceSets.test
+        }
     }
 }
 
@@ -71,24 +85,15 @@ dependencies {
 //    implementation "xyz.brassgoggledcoders:PatchouliProvider:${patchouli_provider_version}"
 }
 
-// NeoGradle compiles the game, but we don't want to add our common code to the game's code
-TaskCollection.metaClass.excludingNeoTasks = { ->
-    delegate.matching { !it.name.startsWith("neo") }
-}
-
-tasks.withType(JavaCompile).excludingNeoTasks().configureEach {
+compileJava {
     source(project(":common").sourceSets.main.allSource)
 }
 
-tasks.withType(Javadoc).excludingNeoTasks().configureEach {
-    source(project(":common").sourceSets.main.allJava)
+sourcesJar {
+    from project(":common").sourceSets.main.allJava
 }
 
-tasks.named("sourcesJar", Jar) {
-    from(project(":common").sourceSets.main.allSource)
-}
-
-tasks.withType(ProcessResources).excludingNeoTasks().configureEach {
+processResources {
     from project(":common").sourceSets.main.resources
 }
 
