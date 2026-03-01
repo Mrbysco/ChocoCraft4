@@ -207,9 +207,9 @@
   "text.autoconfig.chococraft.option.naming.nameTamedChocobos.@Tooltip": "If taming a chocobo will provide them with a name (unless already named) [Default: true]",
   "text.autoconfig.chococraft.option.spawning": "Spawning",
   "text.autoconfig.chococraft.option.spawning.@Tooltip": "Spawning Settings",
-  "text.autoconfig.chococraft.option.spawning.chocoboPackSizeMax": "Chocobo Pack Min Size",
+  "text.autoconfig.chococraft.option.spawning.chocoboPackSizeMax": "Chocobo Pack Max Size",
   "text.autoconfig.chococraft.option.spawning.chocoboPackSizeMax.@Tooltip": "Controls Chocobo Pack Size Max [Default: 3]",
-  "text.autoconfig.chococraft.option.spawning.chocoboPackSizeMin": "Chocobo Pack Max Size",
+  "text.autoconfig.chococraft.option.spawning.chocoboPackSizeMin": "Chocobo Pack Min Size",
   "text.autoconfig.chococraft.option.spawning.chocoboPackSizeMin.@Tooltip": "Controls Chocobo Pack Size Min [Default: 1]",
   "text.autoconfig.chococraft.option.spawning.chocoboSpawnWeight": "Chocobo Spawn Weight",
   "text.autoconfig.chococraft.option.spawning.chocoboSpawnWeight.@Tooltip": "Controls Chocobo Spawn Weight [Default: 10]"
