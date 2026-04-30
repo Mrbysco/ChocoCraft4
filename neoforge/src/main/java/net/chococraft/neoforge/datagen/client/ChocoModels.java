@@ -1,6 +1,6 @@
 package net.chococraft.neoforge.datagen.client;
 
-import dev.architectury.registry.registries.RegistrySupplier;
+import dev.chococraft.registration.RegistryObject;
 import net.chococraft.Chococraft;
 import net.chococraft.common.blocks.GysahlGreenBlock;
 import net.chococraft.registry.ModRegistry;
@@ -31,8 +31,8 @@ public class ChocoModels extends ModelProvider {
 		blockModels.createCropBlock(ModRegistry.GYSAHL_GREEN.get(), GysahlGreenBlock.AGE,
 				0, 1, 2, 3, 4);
 
-		for (RegistrySupplier<Item> item : ModRegistry.ITEMS) {
-			if (item.is(ModRegistry.STRAW_ITEM.getKey()) || item.is(ModRegistry.GYSAHL_GREEN_SEEDS.getKey())) {
+		for (RegistryObject<Item, ? extends Item> item : ModRegistry.ITEMS.getEntries()) {
+			if (item.asHolder().is(ModRegistry.STRAW_ITEM.getResourceKey()) || item.asHolder().is(ModRegistry.GYSAHL_GREEN_SEEDS.getResourceKey())) {
 				continue;
 			}
 			itemModels.generateFlatItem(item.get(), ModelTemplates.FLAT_ITEM);

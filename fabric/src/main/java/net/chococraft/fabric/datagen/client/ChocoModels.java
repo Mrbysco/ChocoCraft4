@@ -1,10 +1,10 @@
 package net.chococraft.fabric.datagen.client;
 
-import dev.architectury.registry.registries.RegistrySupplier;
+import dev.chococraft.registration.RegistryObject;
 import net.chococraft.common.blocks.GysahlGreenBlock;
 import net.chococraft.registry.ModRegistry;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.MultiVariant;
@@ -16,7 +16,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
 public class ChocoModels extends FabricModelProvider {
-	public ChocoModels(FabricDataOutput packOutput) {
+	public ChocoModels(FabricPackOutput packOutput) {
 		super(packOutput);
 	}
 
@@ -32,8 +32,8 @@ public class ChocoModels extends FabricModelProvider {
 
 	@Override
 	public void generateItemModels(ItemModelGenerators itemModels) {
-		for (RegistrySupplier<Item> item : ModRegistry.ITEMS) {
-			if (item.is(ModRegistry.STRAW_ITEM.getKey()) || item.is(ModRegistry.GYSAHL_GREEN_SEEDS.getKey())) {
+		for (RegistryObject<Item, ? extends Item> item : ModRegistry.ITEMS.getEntries()) {
+			if (item.asHolder().is(ModRegistry.STRAW_ITEM.getResourceKey()) || item.asHolder().is(ModRegistry.GYSAHL_GREEN_SEEDS.getResourceKey())) {
 				continue;
 			}
 			itemModels.generateFlatItem(item.get(), ModelTemplates.FLAT_ITEM);

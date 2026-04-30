@@ -4,7 +4,7 @@ package net.chococraft.client.gui;
 import net.chococraft.Chococraft;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.PageButton;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -59,32 +59,31 @@ public class ChocoboBookScreen extends Screen {
 	}
 
 	@Override
-	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-		super.render(guiGraphics, mouseX, mouseY, partialTicks);
-
+	public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
+		super.extractRenderState(graphics, mouseX, mouseY, a);
 
 		if (this.currentPage == 0) {
-			guiGraphics.drawString(font, bookTitle, guiLeft + (this.xSize / 2) - (this.font.width(bookTitle) / 2), guiTop + 24, ARGB.opaque(0), false);
-			guiGraphics.drawString(font, bookAuthor, guiLeft + (this.xSize / 2) - (this.font.width(bookAuthor) / 2), guiTop + 44, ARGB.opaque(0), false);
+			graphics.text(font, bookTitle, guiLeft + (this.xSize / 2) - (this.font.width(bookTitle) / 2), guiTop + 24, ARGB.opaque(0), false);
+			graphics.text(font, bookAuthor, guiLeft + (this.xSize / 2) - (this.font.width(bookAuthor) / 2), guiTop + 44, ARGB.opaque(0), false);
 		} else {
 			if (currentPage > 1) {
 				this.pageMsg = Component.translatable("book.pageIndicator", currentPage - 1, Math.max(pageCount - 1, 1));
-				guiGraphics.drawString(font, this.pageMsg, guiLeft + ((this.xSize / 2) - (this.font.width(bookAuthor) / 2) - 6), guiTop + 14, ARGB.opaque(0), false);
+				graphics.text(font, this.pageMsg, guiLeft + ((this.xSize / 2) - (this.font.width(bookAuthor) / 2) - 6), guiTop + 14, ARGB.opaque(0), false);
 			}
 
-			this.renderPage(guiGraphics);
+			this.extractPage(graphics);
 		}
 	}
 
 	@Override
-	public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-		this.renderTransparentBackground(guiGraphics);
-		guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, guiLeft, guiTop, 0, 0, 192, 192, 256, 256);
+	public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
+		super.extractBackground(graphics, mouseX, mouseY, a);
+		graphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, guiLeft, guiTop, 0, 0, 192, 192, 256, 256);
 	}
 
-	private void renderPage(GuiGraphics guiGraphics) {
+	private void extractPage(GuiGraphicsExtractor graphics) {
 		int i = (this.width - this.xSize) / 2;
-		guiGraphics.drawWordWrap(font, Component.translatable("gui.chocobook.page" + (currentPage)), i + 34, this.guiTop + 26, 120, ARGB.opaque(0), false);
+		graphics.textWithWordWrap(font, Component.translatable("gui.chocobook.page" + (currentPage)), i + 34, this.guiTop + 26, 120, ARGB.opaque(0), false);
 	}
 
 }

@@ -3,7 +3,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id "net.neoforged.moddev" version "2.0.134"
+    id "net.neoforged.moddev" version "2.0.141"
     id 'net.darkhax.curseforgegradle'
     id 'com.modrinth.minotaur'
 }
@@ -14,11 +14,6 @@ base {
 
 neoForge {
     version = "${neo_version}"
-
-    parchment {
-        minecraftVersion = "${parchment_minecraft_version}"
-        mappingsVersion = "${parchment_mapping_version}"
-    }
 
     // Automatically enable neoforge AccessTransformers if the file exists
     def at = project(':common').file('src/main/resources/META-INF/accesstransformer.cfg')
@@ -71,18 +66,28 @@ neoForge {
 
 sourceSets.main.resources.srcDir 'src/generated/resources'
 
+// Sets up a dependency configuration called 'localRuntime'.
+// This configuration should be used instead of 'runtimeOnly' to declare
+// a dependency that will be present for runtime testing but that is
+// "optional", meaning it will not be pulled by dependents of this mod.
+configurations {
+    runtimeClasspath.extendsFrom localRuntime
+}
+
 dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
     compileOnly project(":common")
 
-    implementation "dev.architectury:architectury-neoforge:${architectury_version}"
+//    implementation "dev.architectury:architectury-neoforge:${architectury_version}"
 
     compileOnly "mezz.jei:jei-${jei_minecraft}-neoforge:${jei_version}"
     testCompileOnly "mezz.jei:jei-${jei_minecraft}-common:${jei_version}"
 
-//    implementation "vazkii.patchouli:Patchouli:${patchouli_version}-NEOFORGE"
-//
-//    implementation "xyz.brassgoggledcoders:PatchouliProvider:${patchouli_provider_version}"
+    compileOnly "vazkii.patchouli:patchouli-neoforge:${patchouli_version}"
+    localRuntime "vazkii.patchouli:patchouli-neoforge:${patchouli_version}"
+
+    compileOnly "xyz.brassgoggledcoders:PatchouliProvider:${patchouli_provider_version}"
+    localRuntime "xyz.brassgoggledcoders:PatchouliProvider:${patchouli_provider_version}"
 }
 
 compileJava {
@@ -127,7 +132,7 @@ if (System.getenv().CURSEFORGE_KEY) {
         mainFile.releaseType = 'beta'
         mainFile.addGameVersion "NeoForge"
         mainFile.addGameVersion "${minecraft_version}"
-        mainFile.addGameVersion "Java 21"
+        mainFile.addGameVersion "Java 25"
         mainFile.addGameVersion('Server', 'Client')
 
         mainFile.changelog = file("$project.rootDir/changelog.md")

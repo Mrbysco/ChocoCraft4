@@ -1,4 +1,4 @@
-package net.chococraft.neoforge.common.config;
+package net.chococraft.common.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

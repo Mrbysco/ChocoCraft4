@@ -14,7 +14,7 @@ public class StrawBlock extends Block {
 		super(properties);
 	}
 
-	public VoxelShape getShape(BlockState p_49341_, BlockGetter p_49342_, BlockPos p_49343_, CollisionContext p_49344_) {
+	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext collisionContext) {
 		return AABB;
 	}
 }

@@ -6,9 +6,9 @@ import net.minecraft.world.level.block.Block;
 import java.util.function.Supplier;
 
 public class CustomBlockNamedItem extends BlockItem {
-	private final Supplier<Block> blockSupplier;
+	private final Supplier<? extends Block> blockSupplier;
 
-	public CustomBlockNamedItem(Supplier<Block> blockSupplier, Properties properties) {
+	public CustomBlockNamedItem(Supplier<? extends Block> blockSupplier, Properties properties) {
 		super(null, properties);
 		this.blockSupplier = blockSupplier;
 	}

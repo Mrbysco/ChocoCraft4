@@ -6,7 +6,7 @@ import net.chococraft.common.inventory.SaddleBagMenu;
 import net.chococraft.platform.Services;
 import net.chococraft.registry.ModRegistry;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
@@ -24,10 +24,7 @@ public class ChocoboInventoryScreen extends AbstractContainerScreen<SaddleBagMen
 
 
 	public ChocoboInventoryScreen(SaddleBagMenu container, Inventory playerInventory, Component title) {
-		super(container, playerInventory, title);
-
-		this.imageWidth = 176;
-		this.imageHeight = 204;
+		super(container, playerInventory, title, 176, 204);
 	}
 
 	public static void openInventory(int windowId, AbstractChocobo chocobo) {
@@ -38,14 +35,14 @@ public class ChocoboInventoryScreen extends AbstractContainerScreen<SaddleBagMen
 	}
 
 	@Override
-	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-		renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
-		super.render(guiGraphics, mouseX, mouseY, partialTicks);
-		renderTooltip(guiGraphics, mouseX, mouseY);
+	public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
+		extractBackground(graphics, mouseX, mouseY, a);
+		super.extractRenderState(graphics, mouseX, mouseY, a);
+		extractTooltip(graphics, mouseX, mouseY);
 	}
 
 	@Override
-	protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int x, int y) {
+	public void extractBackground(GuiGraphicsExtractor graphics, int x, int y, float partialTicks) {
 		Identifier texture = INV_TEXTURE_NULL;
 		ItemStack saddleStack = menu.getSlot(0).getItem();
 		if (!saddleStack.isEmpty()) {
@@ -63,13 +60,13 @@ public class ChocoboInventoryScreen extends AbstractContainerScreen<SaddleBagMen
 
 		int i = (this.width - this.imageWidth) / 2;
 		int j = (this.height - this.imageHeight) / 2;
-		guiGraphics.blit(RenderPipelines.GUI_TEXTURED, texture, i, j, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
-		guiGraphics.blit(RenderPipelines.GUI_TEXTURED, texture, i - 24, j + 10, 0, 204, 27, 33, 256, 256);
+		graphics.blit(RenderPipelines.GUI_TEXTURED, texture, i, j, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
+		graphics.blit(RenderPipelines.GUI_TEXTURED, texture, i - 24, j + 10, 0, 204, 27, 33, 256, 256);
 	}
 
 	@Override
-	protected void renderLabels(GuiGraphics guiGraphics, int x, int y) {
-		guiGraphics.drawString(font, title, 8, 6, ARGB.opaque(0x888888), false);
-		guiGraphics.drawString(font, this.playerInventoryTitle, 8, this.imageHeight - 96 + 2, ARGB.opaque(0x888888), false);
+	protected void extractLabels(GuiGraphicsExtractor graphics, int xm, int ym) {
+		graphics.text(font, title, 8, 6, ARGB.opaque(0x888888), false);
+		graphics.text(font, this.playerInventoryTitle, 8, this.imageHeight - 96 + 2, ARGB.opaque(0x888888), false);
 	}
 }

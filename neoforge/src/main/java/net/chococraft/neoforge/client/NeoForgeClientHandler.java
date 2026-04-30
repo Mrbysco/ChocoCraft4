@@ -1,6 +1,5 @@
 package net.chococraft.neoforge.client;
 
-import dev.architectury.registry.client.rendering.RenderTypeRegistry;
 import net.chococraft.Chococraft;
 import net.chococraft.ChococraftClient;
 import net.chococraft.client.gui.ChocoboInventoryScreen;
@@ -14,13 +13,14 @@ import net.chococraft.registry.ModRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.Model;
-import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.client.resources.model.EquipmentClientInfo.Layer;
 import net.minecraft.client.resources.model.EquipmentClientInfo.LayerType;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.equipment.ArmorType;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
@@ -28,19 +28,20 @@ import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsE
 import net.neoforged.neoforge.common.util.Lazy;
 import org.jetbrains.annotations.NotNull;
 
+@EventBusSubscriber(Dist.CLIENT)
 public class NeoForgeClientHandler {
-	public static void onClientSetup(final FMLClientSetupEvent event) {
-		RenderTypeRegistry.register(ChunkSectionLayer.CUTOUT, ModRegistry.GYSAHL_GREEN.get());
-	}
 
+	@SubscribeEvent
 	public static void registerEntityRenders(EntityRenderersEvent.RegisterRenderers event) {
 		event.registerEntityRenderer(ModEntities.CHOCOBO.get(), ChocoboRenderer::new);
 	}
 
+	@SubscribeEvent
 	public static void registerMenuScreen(RegisterMenuScreensEvent event) {
 		event.register(ModMenus.CHOCOBO.get(), ChocoboInventoryScreen::new);
 	}
 
+	@SubscribeEvent
 	public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
 		event.registerLayerDefinition(ChococraftClient.CHOCOBO, AdultChocoboModel::createBodyLayer);
 		event.registerLayerDefinition(ChococraftClient.CHICOBO, ChicoboModel::createBodyLayer);
@@ -48,6 +49,7 @@ public class NeoForgeClientHandler {
 	}
 
 	@SuppressWarnings("deprecation")
+	@SubscribeEvent
 	public static void registerClientExtension(RegisterClientExtensionsEvent event) {
 		Identifier chocoDisguiseTexture = Chococraft.modLoc("textures/models/armor/chocodisguise.png");
 		event.registerItem(

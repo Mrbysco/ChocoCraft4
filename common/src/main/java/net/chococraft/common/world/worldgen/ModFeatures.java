@@ -33,10 +33,8 @@ public class ModFeatures {
 	}
 
 	public static void configuredBootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
-		FeatureUtils.register(context, PATCH_GYSAHL_GREEN,
-				Feature.RANDOM_PATCH, FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK,
-						new SimpleBlockConfiguration(BlockStateProvider.simple(GYSAHL_GREEN)))
-		);
+		FeatureUtils.register(context, PATCH_GYSAHL_GREEN, Feature.SIMPLE_BLOCK,
+				new SimpleBlockConfiguration(BlockStateProvider.simple(GYSAHL_GREEN)));
 	}
 
 	public static final ResourceKey<PlacedFeature> PLACED_PATCH_GYSAHL_GREEN = createPlacedFeature("patch_gysahl_green");

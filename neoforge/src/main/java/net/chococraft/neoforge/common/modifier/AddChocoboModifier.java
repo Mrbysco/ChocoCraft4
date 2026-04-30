@@ -1,7 +1,7 @@
 package net.chococraft.neoforge.common.modifier;
 
 import com.mojang.serialization.MapCodec;
-import net.chococraft.neoforge.common.config.NeoForgeChocoConfig;
+import net.chococraft.common.config.ChocoConfig;
 import net.chococraft.registry.ModEntities;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
@@ -20,10 +20,10 @@ public record AddChocoboModifier(HolderSet<Biome> biomes) implements BiomeModifi
 			MobSpawnSettingsBuilder spawns = builder.getMobSpawnSettings();
 
 			MobSpawnSettings.SpawnerData spawner = new SpawnerData(ModEntities.CHOCOBO.get(),
-					NeoForgeChocoConfig.COMMON.chocoboPackSizeMin.get(),
-					NeoForgeChocoConfig.COMMON.chocoboPackSizeMax.get());
+					ChocoConfig.COMMON.chocoboPackSizeMin.get(),
+					ChocoConfig.COMMON.chocoboPackSizeMax.get());
 			EntityType<?> type = spawner.type();
-			spawns.addSpawn(type.getCategory(), NeoForgeChocoConfig.COMMON.chocoboSpawnWeight.get(), spawner);
+			spawns.addSpawn(type.getCategory(), ChocoConfig.COMMON.chocoboSpawnWeight.get(), spawner);
 		}
 	}
 

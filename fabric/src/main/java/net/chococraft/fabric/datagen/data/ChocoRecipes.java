@@ -1,7 +1,7 @@
 package net.chococraft.fabric.datagen.data;
 
 import net.chococraft.registry.ModRegistry;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.core.HolderLookup;
@@ -14,12 +14,13 @@ import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.CookingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.concurrent.CompletableFuture;
 
 public class ChocoRecipes extends FabricRecipeProvider {
-	public ChocoRecipes(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+	public ChocoRecipes(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
 		super(output, registriesFuture);
 	}
 
@@ -103,7 +104,7 @@ public class ChocoRecipes extends FabricRecipeProvider {
 					.unlockedBy("has_gysahl_green", has(ModRegistry.GYSAHL_GREEN_ITEM.get()))
 					.save(output, "chococraft:gysahl_green_to_seeds");
 
-			SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModRegistry.CHOCOBO_DRUMSTICK_RAW.get()), RecipeCategory.FOOD,
+			SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModRegistry.CHOCOBO_DRUMSTICK_RAW.get()), RecipeCategory.FOOD, CookingBookCategory.FOOD,
 							ModRegistry.CHOCOBO_DRUMSTICK_COOKED.get(), 0.35F, 200).unlockedBy("has_raw_drumstick", has(ModRegistry.CHOCOBO_DRUMSTICK_RAW.get()))
 					.save(output);
 			SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(ModRegistry.CHOCOBO_DRUMSTICK_RAW.get()), RecipeCategory.FOOD,
@@ -119,7 +120,7 @@ public class ChocoRecipes extends FabricRecipeProvider {
 					.unlockedBy("has_gysahl_green", has(ModRegistry.GYSAHL_GREEN_ITEM.get()))
 					.save(output);
 
-			SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModRegistry.PICKLED_GYSAHL_RAW.get()), RecipeCategory.FOOD,
+			SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModRegistry.PICKLED_GYSAHL_RAW.get()), RecipeCategory.FOOD, CookingBookCategory.FOOD,
 							ModRegistry.PICKLED_GYSAHL_COOKED.get(), 0.35F, 200).unlockedBy("has_raw_drumstick", has(ModRegistry.PICKLED_GYSAHL_RAW.get()))
 					.save(output);
 			SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(ModRegistry.PICKLED_GYSAHL_RAW.get()), RecipeCategory.FOOD,

@@ -14,16 +14,16 @@ public class ChocoSoundProvider extends SoundDefinitionsProvider {
 
 	@Override
 	public void registerSounds() {
-		this.add(ModSounds.AMBIENT_SOUND, definition()
+		this.add(ModSounds.AMBIENT_SOUND.getId(), definition()
 				.subtitle(modSubtitle(ModSounds.AMBIENT_SOUND.getId()))
 				.with(sound(modLoc("entity/chocobo/kweh"))));
-		this.add(ModSounds.WHISTLE_SOUND_FOLLOW, definition()
+		this.add(ModSounds.WHISTLE_SOUND_FOLLOW.getId(), definition()
 				.subtitle(modSubtitle(ModSounds.WHISTLE_SOUND_FOLLOW.getId()))
 				.with(sound(modLoc("entity/chocobo/kwehwhistlefollow"))));
-		this.add(ModSounds.WHISTLE_SOUND_STAY, definition()
+		this.add(ModSounds.WHISTLE_SOUND_STAY.getId(), definition()
 				.subtitle(modSubtitle(ModSounds.WHISTLE_SOUND_STAY.getId()))
 				.with(sound(modLoc("entity/chocobo/kwehwhistlestay"))));
-		this.add(ModSounds.WHISTLE_SOUND_WANDER, definition()
+		this.add(ModSounds.WHISTLE_SOUND_WANDER.getId(), definition()
 				.subtitle(modSubtitle(ModSounds.WHISTLE_SOUND_WANDER.getId()))
 				.with(sound(modLoc("entity/chocobo/kwehwhistlewander"))));
 	}

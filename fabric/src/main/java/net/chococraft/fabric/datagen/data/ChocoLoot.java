@@ -3,9 +3,9 @@ package net.chococraft.fabric.datagen.data;
 import net.chococraft.common.blocks.GysahlGreenBlock;
 import net.chococraft.registry.ModEntities;
 import net.chococraft.registry.ModRegistry;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricEntityLootTableProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootSubProvider;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricEntityLootSubProvider;
 import net.minecraft.advancements.criterion.StatePropertiesPredicate;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
@@ -28,9 +28,9 @@ import java.util.concurrent.CompletableFuture;
 
 public class ChocoLoot {
 
-	public static class ChocoBlockLoot extends FabricBlockLootTableProvider {
+	public static class ChocoBlockLoot extends FabricBlockLootSubProvider {
 
-		public ChocoBlockLoot(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
+		public ChocoBlockLoot(FabricPackOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
 			super(dataOutput, registryLookup);
 		}
 
@@ -50,8 +50,8 @@ public class ChocoLoot {
 		}
 	}
 
-	public static class ChocoEntityLoot extends FabricEntityLootTableProvider {
-		public ChocoEntityLoot(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
+	public static class ChocoEntityLoot extends FabricEntityLootSubProvider {
+		public ChocoEntityLoot(FabricPackOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
 			super(dataOutput, registryLookup);
 		}
 

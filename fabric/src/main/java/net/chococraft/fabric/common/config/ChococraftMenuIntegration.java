@@ -2,11 +2,13 @@ package net.chococraft.fabric.common.config;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import me.shedaniel.autoconfig.AutoConfigClient;
+import net.chococraft.Chococraft;
+import net.minecraft.client.gui.screens.Screen;
+import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 
 public class ChococraftMenuIntegration implements ModMenuApi {
 	@Override
 	public ConfigScreenFactory<?> getModConfigScreenFactory() {
-		return parent -> AutoConfigClient.getConfigScreen(FabricChocoConfig.class, parent).get();
+		return (Screen screen) -> new ConfigurationScreen(Chococraft.MOD_ID, screen);
 	}
 }

@@ -3,7 +3,9 @@ package net.chococraft.fabric.common.inventory;
 import net.chococraft.common.inventory.SaddleBagMenu;
 import net.chococraft.common.items.ChocoboSaddleItem;
 import net.chococraft.fabric.common.entity.FabricChocobo;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.core.UUIDUtil;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
@@ -21,12 +23,11 @@ public class FabricSaddleBagMenu extends SaddleBagMenu {
 		this.refreshSlots(chocobo, inventory);
 	}
 
-	public static FabricSaddleBagMenu create(final int windowId, final Inventory inventory, final FriendlyByteBuf buffer) {
-		UUID uuid = buffer.readUUID();
+	public FabricSaddleBagMenu(int containerId, Inventory inventory, SaddleSyncData extraData) {
 		List<FabricChocobo> chocobos = inventory.player.level().getEntitiesOfClass(FabricChocobo.class, inventory.player.getBoundingBox().inflate(16.0D),
-				(test) -> test.getUUID().equals(uuid));
+				(test) -> test.getUUID().equals(extraData.uuid));
 		FabricChocobo chocobo = chocobos.isEmpty() ? null : chocobos.getFirst();
-		return new FabricSaddleBagMenu(windowId, inventory, chocobo);
+		this(containerId, inventory, chocobo);
 	}
 
 	public FabricChocobo getChocobo() {
@@ -126,5 +127,10 @@ public class FabricSaddleBagMenu extends SaddleBagMenu {
 		}
 
 		return itemstack;
+	}
+
+	public record SaddleSyncData(UUID uuid) {
+		public static final StreamCodec<RegistryFriendlyByteBuf, SaddleSyncData> CODEC =
+				StreamCodec.composite(UUIDUtil.STREAM_CODEC, SaddleSyncData::uuid, SaddleSyncData::new);
 	}
 }

@@ -10,6 +10,8 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.item.equipment.ArmorType;
@@ -25,7 +27,7 @@ public interface IPlatformHelper {
 
 	EntityType.Builder<? extends AbstractChocobo> constructChocoboEntityType();
 
-	SaddleBagMenu constructMenu(int i, Inventory inventory, FriendlyByteBuf friendlyByteBuf);
+	MenuType<SaddleBagMenu> createMenuType();
 
 	SaddleBagMenu constructMenu(int i, Inventory inventory, AbstractChocobo abstractChocobo);
 
@@ -48,4 +50,12 @@ public interface IPlatformHelper {
 	EntityDataSerializer<ChocoboColor> getColorSerializer();
 
 	EntityDataSerializer<MovementType> getMovementSerializer();
+
+	/**
+	 * Build the creative tab for the mod.
+	 *
+	 * @return the creative tab
+	 */
+	CreativeModeTab buildCreativeTab();
+
 }

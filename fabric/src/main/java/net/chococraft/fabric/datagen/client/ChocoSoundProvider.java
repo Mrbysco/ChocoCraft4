@@ -3,7 +3,7 @@ package net.chococraft.fabric.datagen.client;
 import com.google.gson.JsonObject;
 import net.chococraft.Chococraft;
 import net.chococraft.registry.ModSounds;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
@@ -19,9 +19,9 @@ import java.util.function.Supplier;
 public class ChocoSoundProvider implements DataProvider {
 	private final Map<String, SoundDefinition> sounds = new LinkedHashMap<>();
 
-	protected final FabricDataOutput dataOutput;
+	protected final FabricPackOutput dataOutput;
 
-	public ChocoSoundProvider(FabricDataOutput dataOutput) {
+	public ChocoSoundProvider(FabricPackOutput dataOutput) {
 		this.dataOutput = dataOutput;
 	}
 

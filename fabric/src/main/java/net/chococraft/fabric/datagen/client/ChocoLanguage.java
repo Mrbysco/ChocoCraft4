@@ -4,7 +4,7 @@ import net.chococraft.Chococraft;
 import net.chococraft.registry.ModEntities;
 import net.chococraft.registry.ModRegistry;
 import net.chococraft.registry.ModSounds;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.HolderLookup.Provider;
@@ -14,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.concurrent.CompletableFuture;
 
 public class ChocoLanguage extends FabricLanguageProvider {
-	public ChocoLanguage(FabricDataOutput dataOutput, CompletableFuture<Provider> completableFuture) {
+	public ChocoLanguage(FabricPackOutput dataOutput, CompletableFuture<Provider> completableFuture) {
 		super(dataOutput, completableFuture);
 	}
 

@@ -275,11 +275,6 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 	}
 
 	@Override
-	protected boolean updateInWaterStateAndDoFluidPushing() {
-		return super.updateInWaterStateAndDoFluidPushing();
-	}
-
-	@Override
 	public boolean canStandOnFluid(FluidState fluidState) {
 		boolean flag = this.getControllingPassenger() != null && this.getControllingPassenger().jumping;
 		return fluidState.is(FluidTags.WATER) && this.getAbilityInfo().canWalkOnWater() && !flag;
@@ -529,20 +524,20 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 							this.setNoAi(false);
 							this.goalSelector.addGoal(0, this.follow);
 							this.setMovementType(MovementType.FOLLOW_OWNER);
-							player.displayClientMessage(Component.translatable(Chococraft.MOD_ID + ".entity_chocobo.chocobo_followcmd"), true);
+							player.sendOverlayMessage(Component.translatable(Chococraft.MOD_ID + ".entity_chocobo.chocobo_followcmd"));
 						} else if (this.getMovementType() == MovementType.FOLLOW_OWNER) {
 							this.playSound(ModSounds.WHISTLE_SOUND_WANDER.get(), 1.0F, 1.0F);
 							this.goalSelector.removeGoal(this.follow);
 							this.setMovementType(MovementType.WANDER);
-							player.displayClientMessage(Component.translatable(Chococraft.MOD_ID + ".entity_chocobo.chocobo_wandercmd"), true);
+							player.sendOverlayMessage(Component.translatable(Chococraft.MOD_ID + ".entity_chocobo.chocobo_wandercmd"));
 						} else if (this.getMovementType() == MovementType.WANDER) {
 							this.playSound(ModSounds.WHISTLE_SOUND_STAY.get(), 1.0F, 1.0F);
 							this.setNoAi(true);
 							this.setMovementType(MovementType.STANDSTILL);
-							player.displayClientMessage(Component.translatable(Chococraft.MOD_ID + ".entity_chocobo.chocobo_staycmd"), true);
+							player.sendOverlayMessage(Component.translatable(Chococraft.MOD_ID + ".entity_chocobo.chocobo_staycmd"));
 						}
 					} else {
-						player.displayClientMessage(Component.translatable(Chococraft.MOD_ID + ".entity_chocobo.not_owner"), true);
+						player.sendOverlayMessage(Component.translatable(Chococraft.MOD_ID + ".entity_chocobo.not_owner"));
 					}
 					return InteractionResult.SUCCESS;
 				}
@@ -556,7 +551,7 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 						this.gameEvent(GameEvent.EAT, this);
 						return InteractionResult.SUCCESS;
 					} else {
-						player.displayClientMessage(Component.translatable(Chococraft.MOD_ID + ".entity_chocobo.heal_fail"), true);
+						player.sendOverlayMessage(Component.translatable(Chococraft.MOD_ID + ".entity_chocobo.heal_fail"));
 						return InteractionResult.PASS;
 					}
 				}
@@ -594,9 +589,9 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 								setCustomName(DefaultNames.getRandomName(random, isMale()));
 							}
 						}
-						player.displayClientMessage(Component.translatable(Chococraft.MOD_ID + ".entity_chocobo.tame_success"), true);
+						player.sendOverlayMessage(Component.translatable(Chococraft.MOD_ID + ".entity_chocobo.tame_success"));
 					} else {
-						player.displayClientMessage(Component.translatable(Chococraft.MOD_ID + ".entity_chocobo.tame_fail"), true);
+						player.sendOverlayMessage(Component.translatable(Chococraft.MOD_ID + ".entity_chocobo.tame_fail"));
 					}
 					return InteractionResult.SUCCESS;
 				}

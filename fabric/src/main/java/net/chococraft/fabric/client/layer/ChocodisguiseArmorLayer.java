@@ -80,7 +80,7 @@ public class ChocodisguiseArmorLayer<T extends HumanoidRenderState, M extends Hu
 	}
 
 	protected void setPartVisibility(ChocoDisguiseModel humanoidModel, ArmorType equipmentSlot) {
-		humanoidModel.setAllVisible(false);
+//		humanoidModel.setAllVisible(false);
 		switch (equipmentSlot) {
 			case HELMET -> {
 				humanoidModel.head.visible = true;

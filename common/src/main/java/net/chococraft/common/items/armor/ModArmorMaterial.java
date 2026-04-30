@@ -23,7 +23,7 @@ public class ModArmorMaterial {
 			10,
 			SoundEvents.ARMOR_EQUIP_LEATHER,
 			0.0F,
-			0.0F, ItemTags.REPAIRS_LEATHER_ARMOR,
+			0.0F, ItemTags.REPAIRS_LEATHER_ARMOR, //TODO: Make own tag using the chocobo feather
 			createAsset("choco_disguise"));
 
 	private static ResourceKey<EquipmentAsset> createAsset(String name) {

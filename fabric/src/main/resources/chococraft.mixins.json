@@ -2,9 +2,10 @@
   "required": true,
   "minVersion": "0.8.4",
   "package": "net.chococraft.fabric.mixins",
-  "compatibilityLevel": "JAVA_21",
+  "compatibilityLevel": "JAVA_25",
   "mixins": [
-    "EntityMixin"
+    "EntityMixin",
+    "PlayerListMixin"
   ],
   "client": [
     "HumanoidArmorLayerMixin",

@@ -1,9 +1,0 @@
-// 1.21.11	-999999999-01-01T00:00:00	Chococraft 4/Tags for minecraft:item
-6c2601ba4032cecbd5ade54d82b2e1b6497f9255 data/c/tags/item/foods/cooked_meat.json
-5525aa3b2d8f4ef7405a57e015c4a5d4f524174c data/c/tags/item/foods/raw_meat.json
-995ad6b17846d67e0563b7c98966ba08a61e42bb data/c/tags/item/foods/vegetable.json
-67812c0ad0963407f58fa73cb9449a2c68eb4435 data/c/tags/item/seeds.json
-b995310bb7fdb2cdccff85b97de797a1bd5754e7 data/minecraft/tags/item/chest_armor.json
-11619d6efe8a9de233c61975b8eaaf93db0dcf0b data/minecraft/tags/item/foot_armor.json
-1c29398c39f1c0841ce74846629b9103b305b3a5 data/minecraft/tags/item/head_armor.json
-1a317843310872195f59220ec580e2413b186f9f data/minecraft/tags/item/leg_armor.json

@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'idea'
     id 'maven-publish'
-    id 'fabric-loom' version '1.14-SNAPSHOT'
+    id "net.fabricmc.fabric-loom" version '1.15-SNAPSHOT'
     id 'net.darkhax.curseforgegradle'
     id 'com.modrinth.minotaur'
 }
@@ -25,25 +25,24 @@ repositories {
 
 dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"
-    mappings loom.officialMojangMappings()
-    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
+    implementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
     implementation project(":common")
 
-    modApi("dev.architectury:architectury-fabric:${architectury_version}")
+//    modApi("dev.architectury:architectury-fabric:${architectury_version}")
 
-    modApi("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}") {
-        exclude(group: "net.fabricmc.fabric-api")
+    api("fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${forge_config_api_version}")
+    implementation("com.terraformersmc:modmenu:${mod_menu_version}"){
+        exclude(group: "eu.pb4")
     }
-    modImplementation "com.terraformersmc:modmenu:${mod_menu_version}"
+
+    compileOnly "vazkii.patchouli:patchouli-fabric:${patchouli_version}"
+    runtimeOnly "vazkii.patchouli:patchouli-fabric:${patchouli_version}"
 }
 
 loom {
     if (file("src/main/resources/${mod_id}.accesswidener").exists()) {
         accessWidenerPath.set(file("src/main/resources/${mod_id}.accesswidener"))
-    }
-    mixin {
-        defaultRefmapName.set("${mod_id}.refmap.json")
     }
     runs {
         client {
@@ -122,17 +121,17 @@ if (System.getenv().CURSEFORGE_KEY) {
     task curseforge(type: net.darkhax.curseforgegradle.TaskPublishCurseForge) {
         apiToken = System.getenv().CURSEFORGE_KEY
 
-        def mainFile = upload(project.curseforge_id, remapJar)
+        def mainFile = upload(project.curseforge_id, jar)
         mainFile.releaseType = 'alpha'
         mainFile.addGameVersion "Fabric"
         mainFile.addGameVersion "${minecraft_version}"
-        mainFile.addGameVersion "Java 21"
+        mainFile.addGameVersion "Java 25"
         mainFile.addGameVersion('Server', 'Client')
 
         mainFile.changelog = file("$project.rootDir/changelog.md")
         mainFile.changelogType = 'markdown'
 
-        mainFile.addOptional("architectury-api", "fabric-api", "cloth-config") //"patchouli-fabric"
+        mainFile.addRequirement("fabric-api", "forge-config-api-port") //"patchouli-fabric"
     }
 }
 
@@ -145,15 +144,14 @@ if (System.getenv().MODRINTH_KEY) {
         versionType = "alpha"
         versionName = "${mod_name} ${minecraft_version}"
         versionNumber = project.version
-        uploadFile = remapJar
+        uploadFile = jar
         changelog = fileContents
         gameVersions = ["${minecraft_version}"]
         loaders = ["fabric"]
 
         dependencies {
-            required.project "architectury-api"
             required.project "fabric-api"
-            required.project "cloth-config"
+            required.project "forge-config-api-port"
 //            optional.project "patchouli"
         }
     }

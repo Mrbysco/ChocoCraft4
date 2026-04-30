@@ -1,19 +1,19 @@
 package net.chococraft.fabric.common.entity;
 
-import dev.architectury.registry.menu.MenuRegistry;
 import net.chococraft.common.entity.AbstractChocobo;
 import net.chococraft.common.items.ChocoboSaddleItem;
 import net.chococraft.fabric.common.inventory.FabricSaddleBagMenu;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.Container;
-import net.minecraft.world.ContainerListener;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerListener;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
@@ -62,7 +62,6 @@ public class FabricChocobo extends AbstractChocobo implements ContainerListener 
 			}
 		};
 		if (simpleContainer != null) {
-			simpleContainer.removeListener(this);
 			int i = Math.min(simpleContainer.getContainerSize(), this.inventory.getContainerSize());
 
 			for (int j = 0; j < i; ++j) {
@@ -73,7 +72,6 @@ public class FabricChocobo extends AbstractChocobo implements ContainerListener 
 			}
 		}
 
-		this.inventory.addListener(this);
 	}
 
 	public SimpleContainer getInventory() {
@@ -112,10 +110,9 @@ public class FabricChocobo extends AbstractChocobo implements ContainerListener 
 				serverPlayer.closeContainer();
 			}
 
-			serverPlayer.nextContainerCounter();
-
-			MenuRegistry.openExtendedMenu(serverPlayer, new SimpleMenuProvider((ix, playerInventory, playerEntityx) ->
-					new FabricSaddleBagMenu(ix, playerInventory, this), this.getDisplayName()), buf -> buf.writeUUID(getUUID()));
+			MenuProvider provider = new SimpleMenuProvider((ix, playerInventory, playerEntity) ->
+					new FabricSaddleBagMenu(ix, playerInventory, this), this.getDisplayName());
+			serverPlayer.openMenu(provider);
 		}
 	}
 
@@ -152,7 +149,12 @@ public class FabricChocobo extends AbstractChocobo implements ContainerListener 
 	}
 
 	@Override
-	public void containerChanged(Container container) {
-		FabricChocobo.this.setSaddleType(container.getItem(0));
+	public void slotChanged(AbstractContainerMenu container, int slotIndex, ItemStack itemStack) {
+		FabricChocobo.this.setSaddleType(container.getSlot(0).getItem());
+	}
+
+	@Override
+	public void dataChanged(AbstractContainerMenu container, int id, int value) {
+
 	}
 }

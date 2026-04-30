@@ -18,20 +18,13 @@ Chocobos in Minecraft
 [[dependencies.chococraft]]
 modId = "neoforge"
 type = "required"
-versionRange = "[21.11.0-beta,)"
+versionRange = "[26.1.1,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.chococraft]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21.11,1.22)"
+versionRange = "[26.1.1.0-beta,)"
 ordering = "NONE"
-side = "BOTH"
-
-[[dependencies.chococraft]]
-modId = "architectury"
-type = "required"
-versionRange = "[19.0.1,)"
-ordering = "AFTER"
 side = "BOTH"
