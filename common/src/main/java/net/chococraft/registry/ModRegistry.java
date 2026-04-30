@@ -1,6 +1,7 @@
 package net.chococraft.registry;
 
 import dev.chococraft.registration.RegistrationProvider;
+import dev.chococraft.registration.RegistryObject;
 import dev.chococraft.registration.specialised.BlockRegistrationProvider;
 import dev.chococraft.registration.specialised.BlockRegistryObject;
 import dev.chococraft.registration.specialised.ItemRegistrationProvider;
@@ -27,18 +28,16 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 
-import java.util.function.Supplier;
-
 public class ModRegistry {
 	public static final BlockRegistrationProvider BLOCKS = BlockRegistrationProvider.get(Chococraft.MOD_ID);
 	public static final ItemRegistrationProvider ITEMS = ItemRegistrationProvider.get(Chococraft.MOD_ID);
 	public static final RegistrationProvider<CreativeModeTab> CREATIVE_MODE_TABS = RegistrationProvider.get(BuiltInRegistries.CREATIVE_MODE_TAB, Chococraft.MOD_ID);
 
-	public static final BlockRegistryObject<GysahlGreenBlock> GYSAHL_GREEN = BLOCKS.register("gysahl_green", blockBuilder("gysahl_green"), (properties) ->
-			new GysahlGreenBlock(properties.mapColor(MapColor.GRASS).noCollision().randomTicks().instabreak().sound(SoundType.CROP)));
+	public static final BlockRegistryObject<GysahlGreenBlock> GYSAHL_GREEN = BLOCKS.register("gysahl_green",
+			blockBuilder("gysahl_green").mapColor(MapColor.GRASS).noCollision().randomTicks().instabreak().sound(SoundType.CROP), GysahlGreenBlock::new);
 
-	public static final BlockRegistryObject<StrawBlock> STRAW = BLOCKS.register("straw", blockBuilder("straw"), (properties) ->
-			new StrawBlock(properties.mapColor(MapColor.COLOR_YELLOW).sound(SoundType.GRASS)));
+	public static final BlockRegistryObject<StrawBlock> STRAW = BLOCKS.register("straw",
+			blockBuilder("straw").mapColor(MapColor.COLOR_YELLOW).sound(SoundType.GRASS), StrawBlock::new);
 
 	public static final ItemRegistryObject<ChocoboSaddleItem> CHOCOBO_SADDLE = ITEMS.register("chocobo_saddle", itemBuilder("chocobo_saddle"), (properties) -> new ChocoboSaddleItem(properties, 0));
 	public static final ItemRegistryObject<ChocoboSaddleItem> CHOCOBO_SADDLE_BAGS = ITEMS.register("chocobo_saddle_bags", itemBuilder("chocobo_saddle_bags"), (properties) -> new ChocoboSaddleItem(properties, 18));
@@ -82,7 +81,7 @@ public class ModRegistry {
 	//Regular block items
 	public static final ItemRegistryObject<BlockItem> STRAW_ITEM = ITEMS.registerBlockItem(STRAW, itemBuilder("straw"));
 
-	public static final Supplier<CreativeModeTab> CREATIVE_TAB = CREATIVE_MODE_TABS.register("tab", Services.PLATFORM::buildCreativeTab);
+	public static final RegistryObject<CreativeModeTab, CreativeModeTab> CREATIVE_TAB = CREATIVE_MODE_TABS.register("tab", Services.PLATFORM::buildCreativeTab);
 
 
 	private static Item.Properties itemBuilder(String name) {

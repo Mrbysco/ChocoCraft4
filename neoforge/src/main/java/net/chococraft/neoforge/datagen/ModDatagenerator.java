@@ -4,6 +4,7 @@ import net.chococraft.Chococraft;
 import net.chococraft.neoforge.datagen.client.ChocoLanguage;
 import net.chococraft.neoforge.datagen.client.ChocoModels;
 import net.chococraft.neoforge.datagen.client.ChocoSoundProvider;
+import net.chococraft.neoforge.datagen.client.patchouli.PatchouliProvider;
 import net.chococraft.neoforge.datagen.data.ChocoBlockTags;
 import net.chococraft.neoforge.datagen.data.ChocoDatapack;
 import net.chococraft.neoforge.datagen.data.ChocoItemTags;
@@ -32,7 +33,7 @@ public class ModDatagenerator {
 		generator.addProvider(true, new ChocoBlockTags(packOutput, lookupProvider));
 		generator.addProvider(true, new ChocoItemTags(packOutput, lookupProvider));
 
-//		generator.addProvider(true, new PatchouliProvider(packOutput, lookupProvider)); TODO: Re-enable when we have a patchouli provider build for 1.21.4
+		generator.addProvider(true, new PatchouliProvider(packOutput, lookupProvider));
 
 		generator.addProvider(true, new ChocoDatapack(
 				packOutput, lookupProvider, Set.of(Chococraft.MOD_ID)));

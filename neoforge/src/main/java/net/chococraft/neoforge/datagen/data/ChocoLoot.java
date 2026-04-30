@@ -1,5 +1,6 @@
 package net.chococraft.neoforge.datagen.data;
 
+import dev.chococraft.registration.RegistryObject;
 import net.chococraft.Chococraft;
 import net.chococraft.common.blocks.GysahlGreenBlock;
 import net.chococraft.registry.ModEntities;
@@ -34,14 +35,15 @@ import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ChocoLoot extends LootTableProvider {
 	public ChocoLoot(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookupProvider) {
 		super(packOutput, Set.of(), List.of(
-				new SubProviderEntry(ChocoBlockLoot::new, LootContextParamSets.BLOCK),
-				new SubProviderEntry(ChocoEntityLoot::new, LootContextParamSets.ENTITY))
-		, lookupProvider);
+						new SubProviderEntry(ChocoBlockLoot::new, LootContextParamSets.BLOCK),
+						new SubProviderEntry(ChocoEntityLoot::new, LootContextParamSets.ENTITY))
+				, lookupProvider);
 	}
 
 	private static class ChocoBlockLoot extends BlockLootSubProvider {
@@ -67,8 +69,9 @@ public class ChocoLoot extends LootTableProvider {
 
 		@Override
 		protected Iterable<Block> getKnownBlocks() {
-			return BuiltInRegistries.BLOCK.stream()
-					.filter(entry -> BuiltInRegistries.BLOCK.getKey(entry).getNamespace().equals(Chococraft.MOD_ID))::iterator;
+			return ModRegistry.BLOCKS.getEntries().stream()
+					.map(e -> e.asHolder().value())
+					.toList();
 		}
 	}
 
@@ -97,8 +100,7 @@ public class ChocoLoot extends LootTableProvider {
 
 		@Override
 		protected Stream<EntityType<?>> getKnownEntityTypes() {
-			return BuiltInRegistries.ENTITY_TYPE.stream()
-					.filter(entry -> BuiltInRegistries.ENTITY_TYPE.getKey(entry).getNamespace().equals(Chococraft.MOD_ID));
+			return ModEntities.ENTITY_TYPES.getEntries().stream().map(RegistryObject::get);
 		}
 	}
 }

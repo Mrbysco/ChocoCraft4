@@ -36,8 +36,8 @@ dependencies {
         exclude(group: "eu.pb4")
     }
 
-    compileOnly "vazkii.patchouli:patchouli-fabric:${patchouli_version}"
-    runtimeOnly "vazkii.patchouli:patchouli-fabric:${patchouli_version}"
+    api "vazkii.patchouli:patchouli-fabric:${patchouli_version}"
+    implementation "vazkii.patchouli:patchouli-fabric:${patchouli_version}"
 }
 
 loom {

@@ -28,6 +28,8 @@ public class ChococraftFabric implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		Chococraft.init();
+
 		ConfigRegistry.INSTANCE.register(Chococraft.MOD_ID, ModConfig.Type.COMMON, ChocoConfig.commonSpec);
 
 //		breedingConfig = AutoConfig.register(FabricBreedingConfig.class, GsonConfigSerializer::new);
@@ -36,7 +38,6 @@ public class ChococraftFabric implements ModInitializer {
 		FabricEntityDataRegistry.register(Chococraft.modLoc("movement_type"), ModDataSerializers.MOVEMENT_TYPE);
 
 		PayloadTypeRegistry.clientboundPlay().register(OpenChocoboScreenPayload.ID, OpenChocoboScreenPayload.CODEC);
-		Chococraft.init();
 
 		FeatureInjector.init();
 
