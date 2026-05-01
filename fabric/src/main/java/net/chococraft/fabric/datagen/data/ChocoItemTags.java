@@ -1,5 +1,6 @@
 package net.chococraft.fabric.datagen.data;
 
+import net.chococraft.Chococraft;
 import net.chococraft.registry.ModRegistry;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
@@ -18,6 +19,7 @@ public class ChocoItemTags extends FabricTagsProvider.ItemTagsProvider {
 
 	@Override
 	protected void addTags(Provider provider) {
+		this.builder(Chococraft.REPAIRS_CHOCO_DISGUISE).add(ModRegistry.CHOCOBO_FEATHER.getResourceKey());
 		this.builder(ItemTags.HEAD_ARMOR).add(ModRegistry.CHOCO_DISGUISE_HELMET.getResourceKey());
 		this.builder(ItemTags.CHEST_ARMOR).add(ModRegistry.CHOCO_DISGUISE_CHESTPLATE.getResourceKey());
 		this.builder(ItemTags.LEG_ARMOR).add(ModRegistry.CHOCO_DISGUISE_LEGGINGS.getResourceKey());

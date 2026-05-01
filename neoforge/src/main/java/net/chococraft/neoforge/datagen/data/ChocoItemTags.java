@@ -19,6 +19,7 @@ public class ChocoItemTags extends ItemTagsProvider {
 
 	@Override
 	protected void addTags(Provider provider) {
+		this.tag(Chococraft.REPAIRS_CHOCO_DISGUISE).add(ModRegistry.CHOCOBO_FEATHER.get());
 		this.tag(ItemTags.HEAD_ARMOR).add(ModRegistry.CHOCO_DISGUISE_HELMET.get());
 		this.tag(ItemTags.CHEST_ARMOR).add(ModRegistry.CHOCO_DISGUISE_CHESTPLATE.get());
 		this.tag(ItemTags.LEG_ARMOR).add(ModRegistry.CHOCO_DISGUISE_LEGGINGS.get());

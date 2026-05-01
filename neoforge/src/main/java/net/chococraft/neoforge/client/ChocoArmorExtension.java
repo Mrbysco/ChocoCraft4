@@ -16,10 +16,10 @@ import org.jspecify.annotations.Nullable;
 
 public class ChocoArmorExtension implements IClientItemExtensions {
 	private static final Identifier TEXTURE = Chococraft.modLoc("textures/models/armor/chocodisguise.png");
-	private static final ChocoDisguiseModel HEAD_MODEL = new ChocoDisguiseModel(ChocoDisguiseModel.createArmorDefinition().bakeRoot(), ArmorType.HELMET);
-	private static final ChocoDisguiseModel CHEST_MODEL = new ChocoDisguiseModel(ChocoDisguiseModel.createArmorDefinition().bakeRoot(), ArmorType.CHESTPLATE);
-	private static final ChocoDisguiseModel LEGGINGS_MODEL = new ChocoDisguiseModel(ChocoDisguiseModel.createArmorDefinition().bakeRoot(), ArmorType.LEGGINGS);
-	private static final ChocoDisguiseModel FEET_MODEL = new ChocoDisguiseModel(ChocoDisguiseModel.createArmorDefinition().bakeRoot(), ArmorType.BOOTS);
+	private static final ChocoDisguiseModel HEAD_MODEL = new ChocoDisguiseModel(ChocoDisguiseModel.createBodyLayer().bakeRoot(), ArmorType.HELMET);
+	private static final ChocoDisguiseModel CHEST_MODEL = new ChocoDisguiseModel(ChocoDisguiseModel.createBodyLayer().bakeRoot(), ArmorType.CHESTPLATE);
+	private static final ChocoDisguiseModel LEGGINGS_MODEL = new ChocoDisguiseModel(ChocoDisguiseModel.createBodyLayer().bakeRoot(), ArmorType.LEGGINGS);
+	private static final ChocoDisguiseModel FEET_MODEL = new ChocoDisguiseModel(ChocoDisguiseModel.createBodyLayer().bakeRoot(), ArmorType.BOOTS);
 
 	@Override
 	public @Nullable Identifier getArmorTexture(@NonNull ItemStack stack, EquipmentClientInfo.@NonNull LayerType type,

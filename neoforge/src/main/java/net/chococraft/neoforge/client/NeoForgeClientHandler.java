@@ -33,7 +33,7 @@ public class NeoForgeClientHandler {
 	public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
 		event.registerLayerDefinition(ChococraftClient.CHOCOBO, AdultChocoboModel::createBodyLayer);
 		event.registerLayerDefinition(ChococraftClient.CHICOBO, ChicoboModel::createBodyLayer);
-		event.registerLayerDefinition(ChococraftClient.CHOCO_DISGUISE, ChocoDisguiseModel::createArmorDefinition);
+		event.registerLayerDefinition(ChococraftClient.CHOCO_DISGUISE, ChocoDisguiseModel::createBodyLayer);
 	}
 
 	@SubscribeEvent

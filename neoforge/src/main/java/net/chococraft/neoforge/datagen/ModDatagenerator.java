@@ -3,6 +3,7 @@ package net.chococraft.neoforge.datagen;
 import net.chococraft.Chococraft;
 import net.chococraft.common.world.worldgen.ModFeatures;
 import net.chococraft.neoforge.common.modifier.AddChocoboModifier;
+import net.chococraft.neoforge.datagen.client.ChocoEquipmentAssetProvider;
 import net.chococraft.neoforge.datagen.client.ChocoLanguage;
 import net.chococraft.neoforge.datagen.client.ChocoModels;
 import net.chococraft.neoforge.datagen.client.ChocoSoundProvider;
@@ -50,6 +51,7 @@ public class ModDatagenerator {
 
 		generator.addProvider(true, new PatchouliProvider(packOutput, lookupProvider));
 
+		generator.addProvider(true, new ChocoEquipmentAssetProvider(packOutput));
 		generator.addProvider(true, new ChocoLanguage(packOutput));
 		generator.addProvider(true, new ChocoModels(packOutput));
 		generator.addProvider(true, new ChocoSoundProvider(packOutput));

@@ -5,13 +5,19 @@ import net.chococraft.registry.ModEntities;
 import net.chococraft.registry.ModMenus;
 import net.chococraft.registry.ModRegistry;
 import net.chococraft.registry.ModSounds;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.ComposterBlock;
 import org.slf4j.Logger;
 
 public class Chococraft {
 	public static final String MOD_ID = "chococraft";
 	public static final Logger LOGGER = LogUtils.getLogger();
+
+	public static final TagKey<Item> REPAIRS_CHOCO_DISGUISE = TagKey.create(Registries.ITEM, modLoc("repairs_choco_disguise"));
 
 	public static void init() {
 		ModEntities.load();
