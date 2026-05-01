@@ -5,7 +5,6 @@
   "experience": 0.35,
   "ingredient": "chococraft:chocobo_drumstick_raw",
   "result": {
-    "count": 1,
     "id": "chococraft:chocobo_drumstick_cooked"
   }
 }

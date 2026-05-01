@@ -1,0 +1,107 @@
+{
+  "category": "chococraft:legacy",
+  "icon": "chococraft:chocopedia",
+  "name": "info.chococraft.book.legacy.entry.name",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "info.chococraft.book.legacy.page1"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "info.chococraft.book.legacy.page2"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "info.chococraft.book.legacy.page3"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "info.chococraft.book.legacy.page4"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "info.chococraft.book.legacy.page5"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "info.chococraft.book.legacy.page6"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "info.chococraft.book.legacy.page7"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "info.chococraft.book.legacy.page8"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "info.chococraft.book.legacy.page9"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "info.chococraft.book.legacy.page10"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "info.chococraft.book.legacy.page11"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "info.chococraft.book.legacy.page12"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "info.chococraft.book.legacy.page13"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "info.chococraft.book.legacy.page14"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "info.chococraft.book.legacy.page15"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "info.chococraft.book.legacy.page16"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "info.chococraft.book.legacy.page17"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "info.chococraft.book.legacy.page18"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "info.chococraft.book.legacy.page19"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "info.chococraft.book.legacy.page20"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "info.chococraft.book.legacy.page21"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "info.chococraft.book.legacy.page22"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "info.chococraft.book.legacy.page23"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "info.chococraft.book.legacy.page24"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "info.chococraft.book.legacy.page25"
+    }
+  ]
+}

@@ -1,7 +1,7 @@
-// 1.21.11	2025-12-27T00:04:49.1530729	Registries
+// 26.1.2	2026-05-01T17:35:09.3117329	Registries
 66da374e453f3dab2a03e62e19bf559512025683 data/chococraft/neoforge/biome_modifier/add_gysahl_green.json
 9d90899f0b724e63d17f4fa31195252b46ebf1e4 data/chococraft/neoforge/biome_modifier/add_mountain_chocobos.json
 33ec29b1894d9d06d37e0f8f3f34c32d80577594 data/chococraft/neoforge/biome_modifier/add_nether_chocobos.json
 67e465037df8980456dbb83f4beab7649b921148 data/chococraft/neoforge/biome_modifier/add_plains_chocobos.json
-21c644012a3fb5b8715dad0019fb598936fc1e44 data/chococraft/worldgen/configured_feature/patch_gysahl_green.json
+e423be06af23ef42aa2ab531ba9283c7ffdbe477 data/chococraft/worldgen/configured_feature/patch_gysahl_green.json
 c64ac17f8519ff2db5fbd563f6049d9038507d43 data/chococraft/worldgen/placed_feature/patch_gysahl_green.json
