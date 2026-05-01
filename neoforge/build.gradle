@@ -138,8 +138,7 @@ if (System.getenv().CURSEFORGE_KEY) {
         mainFile.changelog = file("$project.rootDir/changelog.md")
         mainFile.changelogType = 'markdown'
 
-        mainFile.addRequirement("architectury-api")
-//        mainFile.addOptional("patchouli")
+        mainFile.addOptional("patchouli")
     }
 }
 
@@ -157,8 +156,7 @@ if (System.getenv().MODRINTH_KEY) {
         loaders = ["neoforge"]
 
         dependencies {
-            required.project "architectury-api"
-//            optional.project "patchouli"
+            optional.project "patchouli"
         }
     }
 }

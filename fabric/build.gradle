@@ -32,7 +32,7 @@ dependencies {
 //    modApi("dev.architectury:architectury-fabric:${architectury_version}")
 
     api("fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${forge_config_api_version}")
-    implementation("com.terraformersmc:modmenu:${mod_menu_version}"){
+    implementation("com.terraformersmc:modmenu:${mod_menu_version}") {
         exclude(group: "eu.pb4")
     }
 
@@ -131,7 +131,9 @@ if (System.getenv().CURSEFORGE_KEY) {
         mainFile.changelog = file("$project.rootDir/changelog.md")
         mainFile.changelogType = 'markdown'
 
-        mainFile.addRequirement("fabric-api", "forge-config-api-port") //"patchouli-fabric"
+        mainFile.addRequirement("fabric-api")
+        mainFile.addRequirement("forge-config-api-port")
+        mainFile.addRequirement("patchouli-fabric")
     }
 }
 
@@ -152,7 +154,7 @@ if (System.getenv().MODRINTH_KEY) {
         dependencies {
             required.project "fabric-api"
             required.project "forge-config-api-port"
-//            optional.project "patchouli"
+            optional.project "patchouli"
         }
     }
 }
