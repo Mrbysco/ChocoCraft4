@@ -40,7 +40,7 @@ public class GysahlGreenBlock extends CropBlock {
 
 	@Override
 	protected boolean mayPlaceOn(BlockState state, BlockGetter level, BlockPos pos) {
-		return super.mayPlaceOn(state, level, pos) || state.is(BlockTags.DIRT);
+		return super.mayPlaceOn(state, level, pos) || state.is(BlockTags.SUPPORTS_VEGETATION);
 	}
 
 	@Override
