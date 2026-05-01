@@ -1,6 +1,5 @@
 package net.chococraft.neoforge.client;
 
-import net.chococraft.Chococraft;
 import net.chococraft.ChococraftClient;
 import net.chococraft.client.gui.ChocoboInventoryScreen;
 import net.chococraft.client.models.armor.ChocoDisguiseModel;
@@ -10,23 +9,12 @@ import net.chococraft.client.renderer.entities.ChocoboRenderer;
 import net.chococraft.registry.ModEntities;
 import net.chococraft.registry.ModMenus;
 import net.chococraft.registry.ModRegistry;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.model.Model;
-import net.minecraft.client.resources.model.EquipmentClientInfo.Layer;
-import net.minecraft.client.resources.model.EquipmentClientInfo.LayerType;
-import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.equipment.ArmorType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
-import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
-import net.neoforged.neoforge.common.util.Lazy;
-import org.jetbrains.annotations.NotNull;
 
 @EventBusSubscriber(Dist.CLIENT)
 public class NeoForgeClientHandler {
@@ -48,100 +36,13 @@ public class NeoForgeClientHandler {
 		event.registerLayerDefinition(ChococraftClient.CHOCO_DISGUISE, ChocoDisguiseModel::createArmorDefinition);
 	}
 
-	@SuppressWarnings("deprecation")
 	@SubscribeEvent
 	public static void registerClientExtension(RegisterClientExtensionsEvent event) {
-		Identifier chocoDisguiseTexture = Chococraft.modLoc("textures/models/armor/chocodisguise.png");
 		event.registerItem(
-				new IClientItemExtensions() {
-					private final Lazy<HumanoidModel<?>> model = Lazy.of(() -> this.provideArmorModelForSlot(ArmorType.HELMET));
-
-					public HumanoidModel<?> provideArmorModelForSlot(ArmorType type) {
-						return new ChocoDisguiseModel(Minecraft.getInstance().getEntityModels().bakeLayer(ChococraftClient.CHOCO_DISGUISE), type);
-					}
-
-					@Override
-					public Identifier getArmorTexture(@NotNull ItemStack stack, @NotNull LayerType type,
-					                                  @NotNull Layer layer, @NotNull Identifier _default) {
-						return chocoDisguiseTexture;
-					}
-
-					@NotNull
-					@Override
-					public Model<?> getHumanoidArmorModel(@NotNull ItemStack itemStack, @NotNull LayerType layerType,
-					                                      @NotNull Model original) {
-						return model.get();
-					}
-				},
-				ModRegistry.CHOCO_DISGUISE_HELMET.get()
-		);
-		event.registerItem(
-				new IClientItemExtensions() {
-					private final Lazy<HumanoidModel<?>> model = Lazy.of(() -> this.provideArmorModelForSlot(ArmorType.CHESTPLATE));
-
-					public HumanoidModel<?> provideArmorModelForSlot(ArmorType type) {
-						return new ChocoDisguiseModel(Minecraft.getInstance().getEntityModels().bakeLayer(ChococraftClient.CHOCO_DISGUISE), type);
-					}
-
-					@Override
-					public Identifier getArmorTexture(@NotNull ItemStack stack, @NotNull LayerType type,
-					                                  @NotNull Layer layer, @NotNull Identifier _default) {
-						return chocoDisguiseTexture;
-					}
-
-					@NotNull
-					@Override
-					public Model<?> getHumanoidArmorModel(@NotNull ItemStack itemStack, @NotNull LayerType layerType,
-					                                      @NotNull Model original) {
-						return model.get();
-					}
-				},
-				ModRegistry.CHOCO_DISGUISE_CHESTPLATE.get()
-		);
-		event.registerItem(
-				new IClientItemExtensions() {
-					private final Lazy<HumanoidModel<?>> model = Lazy.of(() -> this.provideArmorModelForSlot(ArmorType.LEGGINGS));
-
-					public HumanoidModel<?> provideArmorModelForSlot(ArmorType type) {
-						return new ChocoDisguiseModel(Minecraft.getInstance().getEntityModels().bakeLayer(ChococraftClient.CHOCO_DISGUISE), type);
-					}
-
-					@Override
-					public Identifier getArmorTexture(@NotNull ItemStack stack, @NotNull LayerType type,
-					                                  @NotNull Layer layer, @NotNull Identifier _default) {
-						return chocoDisguiseTexture;
-					}
-
-					@NotNull
-					@Override
-					public Model<?> getHumanoidArmorModel(@NotNull ItemStack itemStack, @NotNull LayerType layerType,
-					                                      @NotNull Model original) {
-						return model.get();
-					}
-				},
-				ModRegistry.CHOCO_DISGUISE_LEGGINGS.get()
-		);
-		event.registerItem(
-				new IClientItemExtensions() {
-					private final Lazy<HumanoidModel<?>> model = Lazy.of(() -> this.provideArmorModelForSlot(ArmorType.BOOTS));
-
-					public HumanoidModel<?> provideArmorModelForSlot(ArmorType type) {
-						return new ChocoDisguiseModel(Minecraft.getInstance().getEntityModels().bakeLayer(ChococraftClient.CHOCO_DISGUISE), type);
-					}
-
-					@Override
-					public Identifier getArmorTexture(@NotNull ItemStack stack, @NotNull LayerType type,
-					                                  @NotNull Layer layer, @NotNull Identifier _default) {
-						return chocoDisguiseTexture;
-					}
-
-					@NotNull
-					@Override
-					public Model<?> getHumanoidArmorModel(@NotNull ItemStack itemStack, @NotNull LayerType layerType,
-					                                      @NotNull Model original) {
-						return model.get();
-					}
-				},
+				new ChocoArmorExtension(),
+				ModRegistry.CHOCO_DISGUISE_HELMET.get(),
+				ModRegistry.CHOCO_DISGUISE_CHESTPLATE.get(),
+				ModRegistry.CHOCO_DISGUISE_LEGGINGS.get(),
 				ModRegistry.CHOCO_DISGUISE_BOOTS.get()
 		);
 	}

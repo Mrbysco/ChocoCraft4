@@ -103,7 +103,7 @@ public abstract class AbstractChocobo extends TamableAnimal implements HasCustom
 	private float destPos;
 	private float wingRotDelta;
 
-	public int timeSinceFeatherChance = 0;
+	public int timeSinceFeatherChance;
 
 	public AbstractChocobo(EntityType<? extends AbstractChocobo> type, Level world) {
 		super(type, world);
