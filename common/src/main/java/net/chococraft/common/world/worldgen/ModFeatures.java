@@ -11,14 +11,17 @@ import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.placement.BiomeFilter;
+import net.minecraft.world.level.levelgen.placement.BlockPredicateFilter;
 import net.minecraft.world.level.levelgen.placement.CountPlacement;
 import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraft.world.level.levelgen.placement.RandomOffsetPlacement;
 import net.minecraft.world.level.levelgen.placement.RarityFilter;
 
 import java.util.List;
@@ -48,8 +51,14 @@ public class ModFeatures {
 
 		PlacementUtils.register(context, PLACED_PATCH_GYSAHL_GREEN, holdergetter.getOrThrow(PATCH_GYSAHL_GREEN),
 				List.of(
-						CountPlacement.of(UniformInt.of(0, 5)),
-						RarityFilter.onAverageOnceEvery(32),
-						InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BiomeFilter.biome()));
+						InSquarePlacement.spread(),
+						PlacementUtils.HEIGHTMAP,
+						BiomeFilter.biome(),
+						CountPlacement.of(64),
+						RandomOffsetPlacement.ofTriangle(6, 2),
+						BlockPredicateFilter.forPredicate(BlockPredicate.ONLY_IN_AIR_PREDICATE),
+						RarityFilter.onAverageOnceEvery(32)
+				)
+		);
 	}
 }
