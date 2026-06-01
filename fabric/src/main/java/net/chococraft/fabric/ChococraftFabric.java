@@ -2,6 +2,8 @@ package net.chococraft.fabric;
 
 import fuzs.forgeconfigapiport.fabric.api.v5.ConfigRegistry;
 import net.chococraft.Chococraft;
+import net.chococraft.common.config.BreedingConfig;
+import net.chococraft.common.config.BreedingConfigReloadManager;
 import net.chococraft.common.config.ChocoConfig;
 import net.chococraft.common.entity.AbstractChocobo;
 import net.chococraft.fabric.common.entity.FabricChocobo;
@@ -12,9 +14,12 @@ import net.chococraft.fabric.event.PlayerQuitEvent;
 import net.chococraft.fabric.registry.ModDataSerializers;
 import net.chococraft.registry.ModEntities;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.CommonLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityDataRegistry;
+import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.SpawnPlacementTypes;
@@ -40,6 +45,11 @@ public class ChococraftFabric implements ModInitializer {
 		PayloadTypeRegistry.clientboundPlay().register(OpenChocoboScreenPayload.ID, OpenChocoboScreenPayload.CODEC);
 
 		FeatureInjector.init();
+
+		CommonLifecycleEvents.TAGS_LOADED.register((access, client) -> {
+			BreedingConfig.initializeConfig();
+		});
+		ResourceLoader.get(PackType.SERVER_DATA).registerReloadListener(BreedingConfigReloadManager.ID, BreedingConfigReloadManager.INSTANCE);
 
 		SpawnPlacements.register(ModEntities.CHOCOBO.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, FabricChocobo::checkChocoboSpawnRules);
 

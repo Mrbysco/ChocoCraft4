@@ -6,6 +6,7 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 
 public class BreedingConfigReloadManager implements ResourceManagerReloadListener {
+	public static final BreedingConfigReloadManager INSTANCE = new BreedingConfigReloadManager();
 	public static final Identifier ID = Chococraft.modLoc("breeding_config");
 
 	@Override

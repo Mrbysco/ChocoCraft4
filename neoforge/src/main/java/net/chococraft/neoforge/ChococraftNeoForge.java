@@ -41,6 +41,6 @@ public class ChococraftNeoForge {
 	}
 
 	private void onAddReloadListeners(AddServerReloadListenersEvent event) {
-		event.addListener(BreedingConfigReloadManager.ID, new BreedingConfigReloadManager());
+		event.addListener(BreedingConfigReloadManager.ID, BreedingConfigReloadManager.INSTANCE);
 	}
 }
