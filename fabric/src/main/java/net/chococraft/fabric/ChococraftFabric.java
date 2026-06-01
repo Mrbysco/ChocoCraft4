@@ -16,6 +16,7 @@ import net.chococraft.registry.ModEntities;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.CommonLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityDataRegistry;
 import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
 import net.minecraft.resources.Identifier;
@@ -77,5 +78,7 @@ public class ChococraftFabric implements ModInitializer {
 		});
 
 		Chococraft.registerCompostables();
+
+		FabricDefaultAttributeRegistry.register(ModEntities.CHOCOBO.get(), FabricChocobo.createAttributes());
 	}
 }
